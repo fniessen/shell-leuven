@@ -1,0 +1,85 @@
+
+## .inputrc --- my Readline Init File
+
+# Copyright (C) 2005-2013 Fabrice Niessen
+
+# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
+# Keywords: readline, dotfile, config
+
+#    _                   _
+#   (_)_ __  _ __  _   _| |_ _ __ ___
+#   | | '_ \| '_ \| | | | __| '__/ __|
+#  _| | | | | |_) | |_| | |_| | | (__
+# (_)_|_| |_| .__/ \__,_|\__|_|  \___|
+#           |_|
+
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of
+# the License, or (at your option) any later version.
+
+# This file is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied
+# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE.  See the GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public
+# License along with this file; if not, write to the Free
+# Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+# MA 02111-1307, USA.
+
+#* Code:
+
+# modify to taste
+
+# first, include any system-wide bindings and variable assignments
+$include /etc/inputrc
+
+# behave like Emacs when editing
+set editing-mode emacs
+    # Ctrl-a        Start of line
+    # Ctrl-e        End of line
+    # Ctrl-f        Forward one character
+    # Ctrl-b        Backward one character
+    # Ctrl-d        Delete one character
+    # Ctrl-k        Kill line
+    # Ctrl-p        Previous command in history
+    # Ctrl-n        Next command in history
+    # Ctrl-r        Search for command in history
+    # Ctrl-i/TAB    File name completion
+
+# some defaults / modifications for the Emacs mode
+$if mode=emacs
+
+# mappings for "Alt-arrow keys" for Cygwin on Windows
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+$endif
+
+# ignore case while completing
+set completion-ignore-case on
+
+# # will display all alternatives for completion after one tab keypress
+# set show-all-if-ambiguous on
+
+# #* get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+
+# # allow iso-latin1 characters to be inserted rather than converted to
+# # prefix-meta sequences
+# set convert-meta off
+
+# # don't strip characters to 7 bits when reading
+# set input-meta on
+# # (synonym of 'meta-flag')
+
+# # display characters with the eighth bit set directly rather than as
+# # meta-prefixed characters
+# set output-meta on
+
+
+# This is for the sake of Emacs.
+# Local Variables:
+# End:
+
+## .inputrc ends here

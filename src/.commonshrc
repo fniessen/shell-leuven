@@ -1,0 +1,408 @@
+
+## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
+
+# Copyright (C) 2009-2013 Fabrice Niessen
+
+# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
+# Keywords: bash, zsh, dotfile, config
+
+# set the user's preferred text editor
+for editor in emacsclientw emacsclient emacs vi; do
+    # find a suitable editor
+    if $(which $editor >& /dev/null); then
+        case $editor in
+            # emacsclient*)
+            #     # # doesn't bother waiting for a response
+            #     # export EDITOR="$editor --no-wait"
+            #     export EDITOR="$editor -t"
+            #     ;;
+            *)
+                export EDITOR="$editor"
+                ;;
+        esac
+        alias e="$EDITOR"
+        alias edit="$EDITOR"
+        break
+    fi
+done
+
+# FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
+# example) when this .bashrc is deployed onto the remote SSH server.
+# [ -z "$EDITOR" ] && echo "No suitable editor found."
+# [ -z "$EDITOR" ] || showvalue EDITOR
+
+# use `$EDITOR' for programs wanting an editor
+export VISUAL="$EDITOR" # for crontab
+export CVSEDITOR="$EDITOR"
+export SVN_EDITOR="$EDITOR"
+export EDIT="$EDITOR"
+export ERROR_EDITOR="$EDITOR"
+export FCEDIT="$EDITOR" # for the fc (fix command) builtin command
+
+#* Aliasing
+
+LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+
+# enable color support of ls
+if [ "$TERM" != "dumb" ]; then
+
+    # # add my coloration scheme to directory listings
+    # if [ -f $HOME/.dircolors ]; then
+    #     eval "$(dircolors -b $HOME/.dircolors)"
+    # else
+    #     eval "$(dircolors -b)"
+    # fi
+
+    alias ls='ls --color=auto'
+    alias ll="ls --color=yes --all --group-directories-first -l --human-readable --no-group"
+            # long listing and hidden files
+fi
+
+alias -- ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+alias s=sudo
+alias w=which
+alias q='clear && exit' # `x' is left for X Server...
+
+# print PATH with each directory on a new line
+alias path='echo $PATH | sed -e "s/:/\n/g"'
+
+alias apts='aptitude search'
+alias apti='sudo aptitude install --with-recommends'
+alias aptrm='sudo aptitude remove'
+
+alias em=emacs-minimal
+
+# alias update-org='( cd ~/Public/Repositories/org-mode; git pull && make autoloads && echo DONT make clean && echo DONT make && echo DONT make doc && make info && make install-info && echo DONT make install; org-test )'
+
+update-org () {
+    (cd $HOME/Public/Repositories/org-mode;
+        git pull --rebase && make autoloads && make info && make install-info;
+        # on Linux, it should be sudo make install and sudo make install-info?
+        org-test)
+}
+
+alias org-run-all-tests='emacs -Q --batch -l ~/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-all-tests'
+alias org-test-martyn='emacs -Q --batch -l ert.el -l ert-x.el -l $HOME/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
+alias org-test='emacs -Q --batch -l ert.el -l ert-x.el -L ~/Public/Repositories/org-mode/testing/ -l org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
+
+export GREP_COLORS="mt=01;33"
+
+# grep through the running processes
+alias pgrep='pgrep -fl'
+
+PAGER="less"
+
+# tailoring `less'
+LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+
+# GraphicsMagick
+alias GIF="gm convert -verbose -interlace LINE"
+alias thumb="gm convert -geometry 100x100 -interlace LINE -verbose"
+alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
+alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
+alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
+
+gmresize ()
+{
+    FILES="$@"
+    SCALE="1024x768"
+  # for i in *.(gif|jpeg|jpg|png);
+    for i in $FILES
+    do
+        echo "Processing image $i ..."
+        gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
+        # obscure but useful string operations
+        # (see http://www.arachnoid.com/linux/shell_programming.html)
+    done
+}
+
+# find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
+
+alias sp=sendpatch
+
+# # dirty (?) hack
+# alias killspell='kill `pidof hunspell`'
+# # use `pkill' (which is pgrep + kill in a single command)
+
+# use `htop' instead of `top'
+# XXX sudo aptitude install htop
+if $(which htop >& /dev/null); then
+    alias top=htop
+fi
+
+# show only my processes
+alias mytop='top -u $USERNAME'
+alias mytop='htop -u $USERNAME'
+
+# grep through the aliases
+alias agrep='alias | grep -i'
+
+# directory history
+alias dh='dirs -v'
+
+# play safe!
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+
+# display the matched pattern in color
+alias grep='grep --color'
+
+# list all files modified in the last 24 hours (last full day)
+alias oneday='find . -mtime -1 -print'
+
+# XXX my traceroute
+if $(which mtr >& /dev/null); then
+    alias ping=mtr
+fi
+
+# hping[2] (run as root!)
+alias myping="hping2 -c 100 -2 -p 7 $1"
+alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
+
+# 030925 compare /proc with ps (against rootkits)
+alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
+
+# get gpg-key from keyserver
+alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
+
+# 040210 grep
+alias g='find . -type f -print0 | xargs -0 grep'
+
+# search through files, ignoring .svn directories
+alias svn_find="find . -not \( -name .svn -prune \)"
+
+# function for grep'ing a string in every SVN revision of a file
+# Usage: svn-grep-all-rev PATTERN FILE
+svn-grep-all-rev() {
+    svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
+        while read revision; do
+            printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
+            svn cat -r $revision $2 | grep $1
+            printf "\n"
+        done
+    )
+}
+
+# 040319 send files via netcat
+# on sending side:
+#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
+#  send dir* $HOST
+# Info:
+#  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
+#  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
+alias receive='nc -vlp 51330 | tar xzvp'
+
+
+# If I want to find out which lines in a file are duplicated and want to print
+# them, the following awk script helps:
+# awk 'seen[$0]++ == 1' <filename>
+
+
+# honor embedded linefeeds when displaying packets
+alias ngrep='ngrep -W byline'
+
+# echo my current external IP address
+alias whatismyip='curl -s http://whatismyip.org'
+
+# shortcut to making executable
+alias exe='chmod +x'
+
+# chown current dir and subdirs
+alias own='sudo chown -R $USER'
+
+
+# Web radio stations
+alias europe1='mplayer http://vipicecast.yacast.net/europe1'
+alias europe2='mplayer mms://vipmms9.yacast.fr/encodereurope2'
+alias nrj='mplayer mms://vipnrj.yacast.fr/encodernrj'
+alias rtl='mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'
+alias rtl2='mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'
+
+
+alias off='sudo shutdown -h now'
+
+
+case $(uname -s) in
+    Linux*)
+        alias vpnup='sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &'  # --daemon'
+        alias vpndown='sudo kill -INT `cat /tmp/openvpn.pid`'
+        ;;
+
+    CYGWIN*)
+        alias vpnup='cd $HOME/.hide/OpenVPN-config; openvpn --config mcbe.ovpn --writepid c:/cygwin/tmp/openvpn.pid &'  # --daemon'
+        alias vpndown='killall openvpn'
+        ;;
+esac
+
+# make `du' human readable
+alias du='du -h'
+alias du1='du -h --max-depth=1'
+alias dus='du -ms * | sort -rn'  # ordered by size
+
+# make `df' human readable
+alias df='df -h'
+
+
+# `unp' is for archive extract
+
+# dir
+alias back="cd -"
+alias home="cd $HOME"
+
+
+export GS_OPTIONS="-sPAPERSIZE=a4"
+alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin
+alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
+# for Win32, choose gswin32c
+
+#* Functions
+
+# list all files modified today only (since start of day only, i.e. 00:00)
+today ()
+{
+    touch -t `date +%m%d0000` /tmp/$$
+    find . -type f -newer /tmp/$$
+    rm -f /tmp/$$
+}
+
+# ff PATTERN - find file named PATTERN
+ff ()
+{
+    find . -name $1 -print
+}
+
+# files PATH - list files in PATH
+files ()
+{
+    find $1 -type f -print
+}
+
+# line N FILE - show line N of FILE
+line ()
+{
+    sed -n "$1 p" $2
+}
+
+# ec FILE - open FILE in a running Emacs
+ec ()
+{
+    emacsclient --no-wait "$1"
+}
+
+# clean [-r] - remove useless files (recursively)
+clean ()
+{
+    if [ "$1" = "-r" ]; then
+        find . \( -name "#*" -o -name "*~" -o -name ".*~" -o \
+            -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" -o \
+            -name "*.~BASE~" -o -name ".*.~BASE~" \) -ok rm "{}" ";"
+    else
+        rm -i \#* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
+    fi
+}
+
+# swap FILE1 FILE2 - swap FILE1 and FILE2
+# Useful when you want to try a config file obtained from elsewhere, and also
+# keep the old version.
+swap ()
+{
+    if [ $# != 2 ]; then
+        return 1
+    fi
+    tmpfile=/tmp/.swapper.$$.$RANDOM
+    mv -f $1 $tmpfile
+    mv -f $2 $1
+    mv -f $tmpfile $2
+    return 0
+}
+
+
+#** Networking toolbox
+
+# localnet - find the local network in CIDR notation
+localnet ()
+{
+    IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
+    # we could use `nm-tool' from `network-manager'
+
+    NETMASK=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*Mask:\([0-9.]*\).*/\1/")
+
+    # calculate network value
+    echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
+}
+
+
+# whoisonline [TARGET] - list hosts that are online
+whoisonline ()
+{
+    local net
+    if [ -n "$1" ]; then
+        net="$1"
+    else
+        net=$(localnet)
+    fi
+    echo "Discovering online hosts in $net..."
+    sudo nmap -sP $net | awk '/Host / && / up/ { print $0; }'
+}
+
+
+# localps [TARGET] - list open ports on hosts that are online
+localps ()
+{
+    local hostip
+    local t1
+    local t2
+    local t3
+
+    local net
+    if [ -n "$1" ]; then
+        net="$1"
+    else
+        net=$(localnet)
+    fi
+
+    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2);
+    do
+        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4) ;
+        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5) ;
+        t3=$(sudo nmap -sS $hostip | grep " open ") ;
+        echo -e $t1 " " $t2 "ms\n" $t3 "\n";
+    done
+}
+
+
+# watchport HOST PORT - watch TCP port PORT on machine HOST
+watchport ()
+{
+    while true; do clear; nmap $1 -PN -p $2; sleep 5; done
+}
+
+
+# rdns [TARGET] - perform reverse DNS lookups
+rdns ()
+{
+    local net
+    if [ -n "$1" ]; then
+      net="$1"
+    else
+      net=$(localnet)
+    fi
+    echo "Performing reverse DNS lookups in $net..."
+    nmap -R -sL $net |\
+    awk '{if ($3 != "not") print "Host " $3 " is " $2}' | grep '('
+    # You could add "--dns-servers x.x.x.x" after the "-sL" if you need the
+    # lookups to be performed on a specific DNS server.
+}
+
+# This is for the sake of Emacs.
+# Local Variables:
+# ispell-local-dictionary: "en_US"
+# End:
+
+# .commonshrc ends here
