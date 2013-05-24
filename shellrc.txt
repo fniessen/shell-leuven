@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-05-22 Wed 16:35>
+#+Time-stamp: <2013-05-23 Thu 10:31>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1106,7 +1106,7 @@ color_err () {
     emulate -LR zsh
     while sysread
     do
-	syswrite -o 2 "${STDERRRED}${REPLY}$terminfo[sgr0]"
+        syswrite -o 2 "${STDERRRED}${REPLY}$terminfo[sgr0]"
     done
 }
 
