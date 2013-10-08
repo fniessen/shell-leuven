@@ -1,11 +1,12 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-05-23 Thu 10:31>
+#+Time-stamp: <2013-10-08 Tue 15:49>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
 
+#+PROPERTY:  eval no
 #+SETUPFILE: ~/src/org-style/bigblow-local-abs.setup
 
 * Tasks
@@ -1032,13 +1033,20 @@ fi
 ** Line Editor
 
 Useful keybindings:
-- M-q :: type another command in the middle of a long command (look at man,
-         etc.)
-- M-. :: recall the last argument of the previous command, and so on
-- C-r :: do an interactive search across all of the history
+
+- =M-q= ::
+     Type another command in the middle of a long command (look at man, etc.).
+
+- =M-.= ::
+     Recall the last argument of the previous command, and so on.
+
+- =C-r= ::
+     Do an interactive search across all of the history.
 
 Useful commands:
-- vared VAR :: interactively edit variable VAR
+
+- =vared VAR= ::
+     Interactively edit variable VAR.
 
 #+begin_src sh
 #** 18 (info "(zsh)Zsh Line Editor")
@@ -1162,6 +1170,9 @@ Everything in common between Bash and Z shell will come here.
 
 Be sure one of these *editors* is *in your search path*!
 
+Note -- Right now, I have instead hard-coded the path to Emacs in the
+[[file:~/bin/emacsclient]] script.
+
 #+begin_src sh
 # set the user's preferred text editor
 for editor in emacsclientw emacsclient emacs vi; do
@@ -1182,6 +1193,10 @@ for editor in emacsclientw emacsclient emacs vi; do
         break
     fi
 done
+
+  alias e=emacsclient -a emacs -n
+  # -n is essential part
+
 
 # FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
 # example) when this .bashrc is deployed onto the remote SSH server.
@@ -1761,9 +1776,9 @@ set completion-ignore-case on
 
 Symlink the files.
 
-#+begin_src sh :results silent :padline no :shebang #!/bin/bash
-ln -f -s $(pwd)/../src/.bashrc ~/.bashrc
+#+begin_src sh :results silent :shebang #!/bin/bash
+ln -f -s $(pwd)/../src/.bashrc     ~/.bashrc
 ln -f -s $(pwd)/../src/.commonshrc ~/.commonshrc
-ln -f -s $(pwd)/../src/.inputrc ~/.inputrc
-ln -f -s $(pwd)/../src/.zshrc ~/.zshrc
+ln -f -s $(pwd)/../src/.inputrc    ~/.inputrc
+ln -f -s $(pwd)/../src/.zshrc      ~/.zshrc
 #+end_src

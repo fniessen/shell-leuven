@@ -1,4 +1,3 @@
-
 ## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
 
 # Copyright (C) 2003-2013 Fabrice Niessen

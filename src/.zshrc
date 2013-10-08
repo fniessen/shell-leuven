@@ -1,4 +1,3 @@
-
 ## .zshrc --- Z Shell configuration file (for interactive shells)
 
 # Copyright (C) 2009-2013 Fabrice Niessen
