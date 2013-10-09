@@ -1,3 +1,4 @@
+# Hey Emacs, this is a -*- sh -*- file
 ## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
 
 # Copyright (C) 2009-2013 Fabrice Niessen

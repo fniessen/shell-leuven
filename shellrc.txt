@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-10-08 Tue 15:49>
+#+Time-stamp: <2013-10-09 Wed 16:36>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1158,6 +1158,7 @@ Everything in common between Bash and Z shell will come here.
 ** Preamble
 
 #+begin_src sh
+# Hey Emacs, this is a -*- sh -*- file
 ## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
 
 # Copyright (C) 2009-2013 Fabrice Niessen
