@@ -1,39 +1,13 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-11-08 Fri 10:31>
+#+Time-stamp: <2013-11-08 Fri 10:34>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
 
 #+PROPERTY:  eval no
 #+SETUPFILE: ~/src/org-style/bigblow-local-abs.setup
-
-* Tasks
-
-** TODO Look at the Cygwin skeletons
-
-- [[file:c:/cygwin/etc/skel/.bashrc]]
-- [[file:c:/cygwin/etc/skel/.bash_profile]]
-- [[file:c:/cygwin/etc/skel/.inputrc]]
-- [[file:c:/cygwin/etc/skel/.profile]]
-
-** TODO Remove Bashisms
-
-See https://wiki.ubuntu.com/DashAsBinSh.
-
-** TODO Use printf instead of echo -e
-
-See http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html.
-
-** TODO Integrate goodies
-
-See [[file:bin/bash-goodies][file:~/bin/bash-goodies]]
-
-** TODO Look at color Bash prompt
-
-https://wiki.archlinux.org/index.php/Color_Bash_Prompt
-Very interesting settings!
 
 * Documentation
 

@@ -7,7 +7,7 @@
   <meta name="generator" content=
   "HTML Tidy for Cygwin (vers 1st September 2004), see www.w3.org" />
 
-  <title>Shell configuration files</title><!-- 2013-11-08 Fri 10:31 -->
+  <title>Shell configuration files</title><!-- 2013-11-08 Fri 10:34 -->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Org-mode" />
   <meta name="author" content="Fabrice Niessen" />
@@ -32,238 +32,148 @@ type="text/javascript">
 
       <div id="text-table-of-contents">
         <ul>
+          <li><a href="#sec-1">Documentation</a></li>
+
           <li>
-            <a href="#sec-1">Tasks</a>
+            <a href="#sec-2">Startup files</a>
 
             <ul>
-              <li><a href="#sec-1-1"><span class="todo TODO">TODO</span> Look
-              at the Cygwin skeletons</a></li>
-
-              <li><a href="#sec-1-2"><span class="todo TODO">TODO</span> Remove
-              Bashisms</a></li>
-
-              <li><a href="#sec-1-3"><span class="todo TODO">TODO</span> Use
-              printf instead of echo -e</a></li>
-
-              <li><a href="#sec-1-4"><span class="todo TODO">TODO</span>
-              Integrate goodies</a></li>
-
-              <li><a href="#sec-1-5"><span class="todo TODO">TODO</span> Look
-              at color Bash prompt</a></li>
+              <li><a href="#sec-2-1">Note</a></li>
             </ul>
           </li>
 
-          <li><a href="#sec-2">Documentation</a></li>
+          <li><a href="#sec-3">Terminals</a></li>
 
           <li>
-            <a href="#sec-3">Startup files</a>
+            <a href="#sec-4">Bash specific</a>
 
             <ul>
-              <li><a href="#sec-3-1">Note</a></li>
-            </ul>
-          </li>
-
-          <li><a href="#sec-4">Terminals</a></li>
-
-          <li>
-            <a href="#sec-5">Bash specific</a>
-
-            <ul>
-              <li><a href="#sec-5-1">Preamble</a></li>
+              <li><a href="#sec-4-1">Preamble</a></li>
 
               <li>
-                <a href="#sec-5-2">Variables</a>
+                <a href="#sec-4-2">Variables</a>
 
                 <ul>
-                  <li><a href="#sec-5-2-1">Search path</a></li>
+                  <li><a href="#sec-4-2-1">Search path</a></li>
 
-                  <li><a href="#sec-5-2-2">Prompt</a></li>
+                  <li><a href="#sec-4-2-2">Prompt</a></li>
 
-                  <li><a href="#sec-5-2-3">Command history</a></li>
+                  <li><a href="#sec-4-2-3">Command history</a></li>
 
-                  <li><a href="#sec-5-2-4">Term</a></li>
+                  <li><a href="#sec-4-2-4">Term</a></li>
 
-                  <li><a href="#sec-5-2-5">Display</a></li>
+                  <li><a href="#sec-4-2-5">Display</a></li>
                 </ul>
               </li>
 
-              <li><a href="#sec-5-3">Code</a></li>
+              <li><a href="#sec-4-3">Code</a></li>
 
-              <li><a href="#sec-5-4">Next</a></li>
+              <li><a href="#sec-4-4">Next</a></li>
 
-              <li><a href="#sec-5-5">Source common files</a></li>
+              <li><a href="#sec-4-5">Source common files</a></li>
 
-              <li><a href="#sec-5-6">Next</a></li>
+              <li><a href="#sec-4-6">Next</a></li>
 
-              <li><a href="#sec-5-7">Postamble</a></li>
+              <li><a href="#sec-4-7">Postamble</a></li>
             </ul>
           </li>
 
           <li>
-            <a href="#sec-6">Zsh specific</a>
+            <a href="#sec-5">Zsh specific</a>
 
             <ul>
-              <li><a href="#sec-6-1">Examples</a></li>
+              <li><a href="#sec-5-1">Examples</a></li>
 
-              <li><a href="#sec-6-2">Preamble</a></li>
+              <li><a href="#sec-5-2">Preamble</a></li>
 
               <li>
-                <a href="#sec-6-3">Variables</a>
+                <a href="#sec-5-3">Variables</a>
 
                 <ul>
-                  <li><a href="#sec-6-3-1">Search path</a></li>
+                  <li><a href="#sec-5-3-1">Search path</a></li>
 
-                  <li><a href="#sec-6-3-2">Prompt</a></li>
+                  <li><a href="#sec-5-3-2">Prompt</a></li>
 
-                  <li><a href="#sec-6-3-3">Command history</a></li>
+                  <li><a href="#sec-5-3-3">Command history</a></li>
 
-                  <li><a href="#sec-6-3-4">Term</a></li>
+                  <li><a href="#sec-5-3-4">Term</a></li>
 
-                  <li><a href="#sec-6-3-5">Display</a></li>
+                  <li><a href="#sec-5-3-5">Display</a></li>
                 </ul>
               </li>
 
-              <li><a href="#sec-6-4">Aliasing</a></li>
+              <li><a href="#sec-5-4">Aliasing</a></li>
 
-              <li><a href="#sec-6-5">Ledger</a></li>
+              <li><a href="#sec-5-5">Ledger</a></li>
 
-              <li><a href="#sec-6-6">Functions</a></li>
+              <li><a href="#sec-5-6">Functions</a></li>
 
-              <li><a href="#sec-6-7">Source common files</a></li>
+              <li><a href="#sec-5-7">Source common files</a></li>
 
-              <li><a href="#sec-6-8">Line Editor</a></li>
+              <li><a href="#sec-5-8">Line Editor</a></li>
 
-              <li><a href="#sec-6-9">Completion Widgets</a></li>
+              <li><a href="#sec-5-9">Completion Widgets</a></li>
 
-              <li><a href="#sec-6-10">Completion System</a></li>
+              <li><a href="#sec-5-10">Completion System</a></li>
 
-              <li><a href="#sec-6-11">Zsh Modules</a></li>
+              <li><a href="#sec-5-11">Zsh Modules</a></li>
 
-              <li><a href="#sec-6-12">Others</a></li>
+              <li><a href="#sec-5-12">Others</a></li>
             </ul>
           </li>
 
           <li>
-            <a href="#sec-7">Common</a>
+            <a href="#sec-6">Common</a>
 
             <ul>
-              <li><a href="#sec-7-1">Preamble</a></li>
+              <li><a href="#sec-6-1">Preamble</a></li>
 
-              <li><a href="#sec-7-2">Default editor</a></li>
+              <li><a href="#sec-6-2">Default editor</a></li>
 
-              <li><a href="#sec-7-3">Aliases</a></li>
+              <li><a href="#sec-6-3">Aliases</a></li>
 
-              <li><a href="#sec-7-4">Emacs / Org</a></li>
+              <li><a href="#sec-6-4">Emacs / Org</a></li>
 
-              <li><a href="#sec-7-5">Grep</a></li>
+              <li><a href="#sec-6-5">Grep</a></li>
 
-              <li><a href="#sec-7-6">Pager</a></li>
+              <li><a href="#sec-6-6">Pager</a></li>
 
-              <li><a href="#sec-7-7">GraphicsMagick</a></li>
+              <li><a href="#sec-6-7">GraphicsMagick</a></li>
 
-              <li><a href="#sec-7-8">MCit tools</a></li>
+              <li><a href="#sec-6-8">MCit tools</a></li>
 
-              <li><a href="#sec-7-9">Next</a></li>
+              <li><a href="#sec-6-9">Next</a></li>
 
-              <li><a href="#sec-7-10">Functions</a></li>
+              <li><a href="#sec-6-10">Functions</a></li>
 
-              <li><a href="#sec-7-11">Emacsclient</a></li>
+              <li><a href="#sec-6-11">Emacsclient</a></li>
 
-              <li><a href="#sec-7-12">Other</a></li>
+              <li><a href="#sec-6-12">Other</a></li>
 
-              <li><a href="#sec-7-13">Postamble</a></li>
+              <li><a href="#sec-6-13">Postamble</a></li>
             </ul>
           </li>
 
-          <li><a href="#sec-8">InputRC</a></li>
+          <li><a href="#sec-7">InputRC</a></li>
 
-          <li><a href="#sec-9">Install environment</a></li>
+          <li><a href="#sec-8">Install environment</a></li>
         </ul>
       </div>
     </div>
 
     <div id="outline-container-sec-1" class="outline-2">
-      <h2 id="sec-1"><span class="section-number-2">1</span> Tasks</h2>
+      <h2 id="sec-1"><span class="section-number-2">1</span> Documentation</h2>
 
-      <div class="outline-text-2" id="text-1"></div>
-
-      <div id="outline-container-sec-1-1" class="outline-3">
-        <h3 id="sec-1-1"><span class="section-number-3">1.1</span> <span class=
-        "todo TODO">TODO</span> Look at the Cygwin skeletons</h3>
-
-        <div class="outline-text-3" id="text-1-1">
-          <ul class="org-ul">
-            <li><a href=
-            "file://c:/cygwin/etc/skel/.bashrc">file://c:/cygwin/etc/skel/.bashrc</a></li>
-
-            <li><a href=
-            "file://c:/cygwin/etc/skel/.bash_profile">file://c:/cygwin/etc/skel/.bash_profile</a></li>
-
-            <li><a href=
-            "file://c:/cygwin/etc/skel/.inputrc">file://c:/cygwin/etc/skel/.inputrc</a></li>
-
-            <li><a href=
-            "file://c:/cygwin/etc/skel/.profile">file://c:/cygwin/etc/skel/.profile</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="outline-container-sec-1-2" class="outline-3">
-        <h3 id="sec-1-2"><span class="section-number-3">1.2</span> <span class=
-        "todo TODO">TODO</span> Remove Bashisms</h3>
-
-        <div class="outline-text-3" id="text-1-2">
-          <p>See <a href=
-          "https://wiki.ubuntu.com/DashAsBinSh">https://wiki.ubuntu.com/DashAsBinSh</a>.</p>
-        </div>
-      </div>
-
-      <div id="outline-container-sec-1-3" class="outline-3">
-        <h3 id="sec-1-3"><span class="section-number-3">1.3</span> <span class=
-        "todo TODO">TODO</span> Use printf instead of echo -e</h3>
-
-        <div class="outline-text-3" id="text-1-3">
-          <p>See <a href=
-          "http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html">
-          http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html</a>.</p>
-        </div>
-      </div>
-
-      <div id="outline-container-sec-1-4" class="outline-3">
-        <h3 id="sec-1-4"><span class="section-number-3">1.4</span> <span class=
-        "todo TODO">TODO</span> Integrate goodies</h3>
-
-        <div class="outline-text-3" id="text-1-4">
-          <p>See <a href="bin/bash-goodies"></a><a href=
-          "file://d:/Users/fni/bin/bash-goodies">file://d:/Users/fni/bin/bash-goodies</a></p>
-        </div>
-      </div>
-
-      <div id="outline-container-sec-1-5" class="outline-3">
-        <h3 id="sec-1-5"><span class="section-number-3">1.5</span> <span class=
-        "todo TODO">TODO</span> Look at color Bash prompt</h3>
-
-        <div class="outline-text-3" id="text-1-5">
-          <p><a href=
-          "https://wiki.archlinux.org/index.php/Color_Bash_Prompt">https://wiki.archlinux.org/index.php/Color_Bash_Prompt</a>
-          Very interesting settings!</p>
-        </div>
-      </div>
-    </div>
-
-    <div id="outline-container-sec-2" class="outline-2">
-      <h2 id="sec-2"><span class="section-number-2">2</span> Documentation</h2>
-
-      <div class="outline-text-2" id="text-2">
+      <div class="outline-text-2" id="text-1">
         <p><a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">Zsh
         Reference Card</a></p>
       </div>
     </div>
 
-    <div id="outline-container-sec-3" class="outline-2">
-      <h2 id="sec-3"><span class="section-number-2">3</span> Startup files</h2>
+    <div id="outline-container-sec-2" class="outline-2">
+      <h2 id="sec-2"><span class="section-number-2">2</span> Startup files</h2>
 
-      <div class="outline-text-2" id="text-3">
+      <div class="outline-text-2" id="text-2">
         <p>There are three <b>sorts of shells</b>:</p>
 
         <ul class="org-ul">
@@ -304,10 +214,10 @@ type="text/javascript">
         format when creating text files.</p>
       </div>
 
-      <div id="outline-container-sec-3-1" class="outline-3">
-        <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Note</h3>
+      <div id="outline-container-sec-2-1" class="outline-3">
+        <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Note</h3>
 
-        <div class="outline-text-3" id="text-3-1">
+        <div class="outline-text-3" id="text-2-1">
           <p>In <code>c:/cygwin/etc/profile</code>,</p>
 
           <ul class="org-ul">
@@ -321,10 +231,10 @@ type="text/javascript">
       </div>
     </div>
 
-    <div id="outline-container-sec-4" class="outline-2">
-      <h2 id="sec-4"><span class="section-number-2">4</span> Terminals</h2>
+    <div id="outline-container-sec-3" class="outline-2">
+      <h2 id="sec-3"><span class="section-number-2">3</span> Terminals</h2>
 
-      <div class="outline-text-2" id="text-4">
+      <div class="outline-text-2" id="text-3">
         <ul class="org-ul">
           <li><code>dumb</code></li>
 
@@ -344,10 +254,10 @@ type="text/javascript">
       </div>
     </div>
 
-    <div id="outline-container-sec-5" class="outline-2">
-      <h2 id="sec-5"><span class="section-number-2">5</span> Bash specific</h2>
+    <div id="outline-container-sec-4" class="outline-2">
+      <h2 id="sec-4"><span class="section-number-2">4</span> Bash specific</h2>
 
-      <div class="outline-text-2" id="text-5">
+      <div class="outline-text-2" id="text-4">
         <p>Le <code>!</code> en shell permet plein de trucs sympa.</p>
 
         <ul class="org-ul">
@@ -381,11 +291,11 @@ $ gm convert !*
         </div>
       </div>
 
-      <div id="outline-container-sec-5-1" class="outline-3">
-        <h3 id="sec-5-1"><span class="section-number-3">5.1</span>
+      <div id="outline-container-sec-4-1" class="outline-3">
+        <h3 id="sec-4-1"><span class="section-number-3">4.1</span>
         Preamble</h3>
 
-        <div class="outline-text-3" id="text-5-1">
+        <div class="outline-text-3" id="text-4-1">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">## </span><span style=
@@ -460,17 +370,17 @@ $ gm convert !*
         </div>
       </div>
 
-      <div id="outline-container-sec-5-2" class="outline-3">
-        <h3 id="sec-5-2"><span class="section-number-3">5.2</span>
+      <div id="outline-container-sec-4-2" class="outline-3">
+        <h3 id="sec-4-2"><span class="section-number-3">4.2</span>
         Variables</h3>
 
-        <div class="outline-text-3" id="text-5-2"></div>
+        <div class="outline-text-3" id="text-4-2"></div>
 
-        <div id="outline-container-sec-5-2-1" class="outline-4">
-          <h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> Search
+        <div id="outline-container-sec-4-2-1" class="outline-4">
+          <h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> Search
           path</h4>
 
-          <div class="outline-text-4" id="text-5-2-1">
+          <div class="outline-text-4" id="text-4-2-1">
             <p>Where to look for executable files.</p>
 
             <p>The global search PATH is defined in the file
@@ -515,11 +425,11 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-5-2-2" class="outline-4">
-          <h4 id="sec-5-2-2"><span class="section-number-4">5.2.2</span>
+        <div id="outline-container-sec-4-2-2" class="outline-4">
+          <h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span>
           Prompt</h4>
 
-          <div class="outline-text-4" id="text-5-2-2">
+          <div class="outline-text-4" id="text-4-2-2">
             <p>Appearance of the prompt.</p>
 
             <p>Note <code>\[...\]</code> used by the shell to count proper
@@ -700,11 +610,11 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-5-2-3" class="outline-4">
-          <h4 id="sec-5-2-3"><span class="section-number-4">5.2.3</span>
+        <div id="outline-container-sec-4-2-3" class="outline-4">
+          <h4 id="sec-4-2-3"><span class="section-number-4">4.2.3</span>
           Command history</h4>
 
-          <div class="outline-text-4" id="text-5-2-3">
+          <div class="outline-text-4" id="text-4-2-3">
             <p>Access and modify commands that you had previously typed at the
             command line.</p>
 
@@ -726,21 +636,21 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-5-2-4" class="outline-4">
-          <h4 id="sec-5-2-4"><span class="section-number-4">5.2.4</span>
+        <div id="outline-container-sec-4-2-4" class="outline-4">
+          <h4 id="sec-4-2-4"><span class="section-number-4">4.2.4</span>
           Term</h4>
         </div>
 
-        <div id="outline-container-sec-5-2-5" class="outline-4">
-          <h4 id="sec-5-2-5"><span class="section-number-4">5.2.5</span>
+        <div id="outline-container-sec-4-2-5" class="outline-4">
+          <h4 id="sec-4-2-5"><span class="section-number-4">4.2.5</span>
           Display</h4>
         </div>
       </div>
 
-      <div id="outline-container-sec-5-3" class="outline-3">
-        <h3 id="sec-5-3"><span class="section-number-3">5.3</span> Code</h3>
+      <div id="outline-container-sec-4-3" class="outline-3">
+        <h3 id="sec-4-3"><span class="section-number-3">4.3</span> Code</h3>
 
-        <div class="outline-text-3" id="text-5-3">
+        <div class="outline-text-3" id="text-4-3">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -795,10 +705,10 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-5-4" class="outline-3">
-        <h3 id="sec-5-4"><span class="section-number-3">5.4</span> Next</h3>
+      <div id="outline-container-sec-4-4" class="outline-3">
+        <h3 id="sec-4-4"><span class="section-number-3">4.4</span> Next</h3>
 
-        <div class="outline-text-3" id="text-5-4">
+        <div class="outline-text-3" id="text-4-4">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -926,11 +836,11 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-5-5" class="outline-3">
-        <h3 id="sec-5-5"><span class="section-number-3">5.5</span> Source
+      <div id="outline-container-sec-4-5" class="outline-3">
+        <h3 id="sec-4-5"><span class="section-number-3">4.5</span> Source
         common files</h3>
 
-        <div class="outline-text-3" id="text-5-5">
+        <div class="outline-text-3" id="text-4-5">
           <p><code>.commonshrc</code> contains miscellaneous definitions common
           to Bash and Zsh.</p>
 
@@ -951,10 +861,10 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-5-6" class="outline-3">
-        <h3 id="sec-5-6"><span class="section-number-3">5.6</span> Next</h3>
+      <div id="outline-container-sec-4-6" class="outline-3">
+        <h3 id="sec-4-6"><span class="section-number-3">4.6</span> Next</h3>
 
-        <div class="outline-text-3" id="text-5-6">
+        <div class="outline-text-3" id="text-4-6">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -1533,11 +1443,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-5-7" class="outline-3">
-        <h3 id="sec-5-7"><span class="section-number-3">5.7</span>
+      <div id="outline-container-sec-4-7" class="outline-3">
+        <h3 id="sec-4-7"><span class="section-number-3">4.7</span>
         Postamble</h3>
 
-        <div class="outline-text-3" id="text-5-7">
+        <div class="outline-text-3" id="text-4-7">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -1564,16 +1474,16 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
       </div>
     </div>
 
-    <div id="outline-container-sec-6" class="outline-2">
-      <h2 id="sec-6"><span class="section-number-2">6</span> Zsh specific</h2>
+    <div id="outline-container-sec-5" class="outline-2">
+      <h2 id="sec-5"><span class="section-number-2">5</span> Zsh specific</h2>
 
-      <div class="outline-text-2" id="text-6"></div>
+      <div class="outline-text-2" id="text-5"></div>
 
-      <div id="outline-container-sec-6-1" class="outline-3">
-        <h3 id="sec-6-1"><span class="section-number-3">6.1</span>
+      <div id="outline-container-sec-5-1" class="outline-3">
+        <h3 id="sec-5-1"><span class="section-number-3">5.1</span>
         Examples</h3>
 
-        <div class="outline-text-3" id="text-6-1">
+        <div class="outline-text-3" id="text-5-1">
           <ul class="org-ul">
             <li><a href="http://aperiodic.net/phil/prompt/">Phil!’s ZSH
             Prompt</a></li>
@@ -1585,11 +1495,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-2" class="outline-3">
-        <h3 id="sec-6-2"><span class="section-number-3">6.2</span>
+      <div id="outline-container-sec-5-2" class="outline-3">
+        <h3 id="sec-5-2"><span class="section-number-3">5.2</span>
         Preamble</h3>
 
-        <div class="outline-text-3" id="text-6-2">
+        <div class="outline-text-3" id="text-5-2">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">## </span><span style=
@@ -1616,17 +1526,17 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-3" class="outline-3">
-        <h3 id="sec-6-3"><span class="section-number-3">6.3</span>
+      <div id="outline-container-sec-5-3" class="outline-3">
+        <h3 id="sec-5-3"><span class="section-number-3">5.3</span>
         Variables</h3>
 
-        <div class="outline-text-3" id="text-6-3"></div>
+        <div class="outline-text-3" id="text-5-3"></div>
 
-        <div id="outline-container-sec-6-3-1" class="outline-4">
-          <h4 id="sec-6-3-1"><span class="section-number-4">6.3.1</span> Search
+        <div id="outline-container-sec-5-3-1" class="outline-4">
+          <h4 id="sec-5-3-1"><span class="section-number-4">5.3.1</span> Search
           path</h4>
 
-          <div class="outline-text-4" id="text-6-3-1">
+          <div class="outline-text-4" id="text-5-3-1">
             <div class="org-src-container">
               <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -1674,11 +1584,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
           </div>
         </div>
 
-        <div id="outline-container-sec-6-3-2" class="outline-4">
-          <h4 id="sec-6-3-2"><span class="section-number-4">6.3.2</span>
+        <div id="outline-container-sec-5-3-2" class="outline-4">
+          <h4 id="sec-5-3-2"><span class="section-number-4">5.3.2</span>
           Prompt</h4>
 
-          <div class="outline-text-4" id="text-6-3-2">
+          <div class="outline-text-4" id="text-5-3-2">
             <p>Zsh expects that every character in <code>PS1</code> will
             advance the cursor one space. Wrap any non-printing escape
             sequences in <code>%{...%}</code>, and it should work. So use
@@ -1759,11 +1669,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
           </div>
         </div>
 
-        <div id="outline-container-sec-6-3-3" class="outline-4">
-          <h4 id="sec-6-3-3"><span class="section-number-4">6.3.3</span>
+        <div id="outline-container-sec-5-3-3" class="outline-4">
+          <h4 id="sec-5-3-3"><span class="section-number-4">5.3.3</span>
           Command history</h4>
 
-          <div class="outline-text-4" id="text-6-3-3">
+          <div class="outline-text-4" id="text-5-3-3">
             <div class="org-src-container">
               <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -1791,11 +1701,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
           </div>
         </div>
 
-        <div id="outline-container-sec-6-3-4" class="outline-4">
-          <h4 id="sec-6-3-4"><span class="section-number-4">6.3.4</span>
+        <div id="outline-container-sec-5-3-4" class="outline-4">
+          <h4 id="sec-5-3-4"><span class="section-number-4">5.3.4</span>
           Term</h4>
 
-          <div class="outline-text-4" id="text-6-3-4">
+          <div class="outline-text-4" id="text-5-3-4">
             <p>Sett the terminal type explicitly:</p>
 
             <div class="org-src-container">
@@ -1807,17 +1717,17 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
           </div>
         </div>
 
-        <div id="outline-container-sec-6-3-5" class="outline-4">
-          <h4 id="sec-6-3-5"><span class="section-number-4">6.3.5</span>
+        <div id="outline-container-sec-5-3-5" class="outline-4">
+          <h4 id="sec-5-3-5"><span class="section-number-4">5.3.5</span>
           Display</h4>
         </div>
       </div>
 
-      <div id="outline-container-sec-6-4" class="outline-3">
-        <h3 id="sec-6-4"><span class="section-number-3">6.4</span>
+      <div id="outline-container-sec-5-4" class="outline-3">
+        <h3 id="sec-5-4"><span class="section-number-3">5.4</span>
         Aliasing</h3>
 
-        <div class="outline-text-3" id="text-6-4">
+        <div class="outline-text-3" id="text-5-4">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -1928,10 +1838,10 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-5" class="outline-3">
-        <h3 id="sec-6-5"><span class="section-number-3">6.5</span> Ledger</h3>
+      <div id="outline-container-sec-5-5" class="outline-3">
+        <h3 id="sec-5-5"><span class="section-number-3">5.5</span> Ledger</h3>
 
-        <div class="outline-text-3" id="text-6-5">
+        <div class="outline-text-3" id="text-5-5">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #006FE0;">export</span> <span style=
@@ -2067,11 +1977,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-6" class="outline-3">
-        <h3 id="sec-6-6"><span class="section-number-3">6.6</span>
+      <div id="outline-container-sec-5-6" class="outline-3">
+        <h3 id="sec-5-6"><span class="section-number-3">5.6</span>
         Functions</h3>
 
-        <div class="outline-text-3" id="text-6-6">
+        <div class="outline-text-3" id="text-5-6">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -2106,11 +2016,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-7" class="outline-3">
-        <h3 id="sec-6-7"><span class="section-number-3">6.7</span> Source
+      <div id="outline-container-sec-5-7" class="outline-3">
+        <h3 id="sec-5-7"><span class="section-number-3">5.7</span> Source
         common files</h3>
 
-        <div class="outline-text-3" id="text-6-7">
+        <div class="outline-text-3" id="text-5-7">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -2128,11 +2038,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-6-8" class="outline-3">
-        <h3 id="sec-6-8"><span class="section-number-3">6.8</span> Line
+      <div id="outline-container-sec-5-8" class="outline-3">
+        <h3 id="sec-5-8"><span class="section-number-3">5.8</span> Line
         Editor</h3>
 
-        <div class="outline-text-3" id="text-6-8">
+        <div class="outline-text-3" id="text-5-8">
           <p>Useful keybindings:</p>
 
           <dl class="org-dl">
@@ -2199,11 +2109,11 @@ zle -N backward-delete-char-beep
         </div>
       </div>
 
-      <div id="outline-container-sec-6-9" class="outline-3">
-        <h3 id="sec-6-9"><span class="section-number-3">6.9</span> Completion
+      <div id="outline-container-sec-5-9" class="outline-3">
+        <h3 id="sec-5-9"><span class="section-number-3">5.9</span> Completion
         Widgets</h3>
 
-        <div class="outline-text-3" id="text-6-9">
+        <div class="outline-text-3" id="text-5-9">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -2224,11 +2134,11 @@ zle -N backward-delete-char-beep
         </div>
       </div>
 
-      <div id="outline-container-sec-6-10" class="outline-3">
-        <h3 id="sec-6-10"><span class="section-number-3">6.10</span> Completion
+      <div id="outline-container-sec-5-10" class="outline-3">
+        <h3 id="sec-5-10"><span class="section-number-3">5.10</span> Completion
         System</h3>
 
-        <div class="outline-text-3" id="text-6-10">
+        <div class="outline-text-3" id="text-5-10">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -2257,11 +2167,11 @@ zstyle <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-6-11" class="outline-3">
-        <h3 id="sec-6-11"><span class="section-number-3">6.11</span> Zsh
+      <div id="outline-container-sec-5-11" class="outline-3">
+        <h3 id="sec-5-11"><span class="section-number-3">5.11</span> Zsh
         Modules</h3>
 
-        <div class="outline-text-3" id="text-6-11">
+        <div class="outline-text-3" id="text-5-11">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">## </span><span style=
@@ -2286,11 +2196,11 @@ zmodload zsh/system
         </div>
       </div>
 
-      <div id="outline-container-sec-6-12" class="outline-3">
-        <h3 id="sec-6-12"><span class="section-number-3">6.12</span>
+      <div id="outline-container-sec-5-12" class="outline-3">
+        <h3 id="sec-5-12"><span class="section-number-3">5.12</span>
         Others</h3>
 
-        <div class="outline-text-3" id="text-6-12">
+        <div class="outline-text-3" id="text-5-12">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -2333,18 +2243,18 @@ zmodload zsh/system
       </div>
     </div>
 
-    <div id="outline-container-sec-7" class="outline-2">
-      <h2 id="sec-7"><span class="section-number-2">7</span> Common</h2>
+    <div id="outline-container-sec-6" class="outline-2">
+      <h2 id="sec-6"><span class="section-number-2">6</span> Common</h2>
 
-      <div class="outline-text-2" id="text-7">
+      <div class="outline-text-2" id="text-6">
         <p>Everything in common between Bash and Z shell will come here.</p>
       </div>
 
-      <div id="outline-container-sec-7-1" class="outline-3">
-        <h3 id="sec-7-1"><span class="section-number-3">7.1</span>
+      <div id="outline-container-sec-6-1" class="outline-3">
+        <h3 id="sec-6-1"><span class="section-number-3">6.1</span>
         Preamble</h3>
 
-        <div class="outline-text-3" id="text-7-1">
+        <div class="outline-text-3" id="text-6-1">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -2364,11 +2274,11 @@ zmodload zsh/system
         </div>
       </div>
 
-      <div id="outline-container-sec-7-2" class="outline-3">
-        <h3 id="sec-7-2"><span class="section-number-3">7.2</span> Default
+      <div id="outline-container-sec-6-2" class="outline-3">
+        <h3 id="sec-6-2"><span class="section-number-3">6.2</span> Default
         editor</h3>
 
-        <div class="outline-text-3" id="text-7-2">
+        <div class="outline-text-3" id="text-6-2">
           <p>Be sure one of these <b>editors</b> is <b>in your search
           path</b>!</p>
 
@@ -2458,10 +2368,10 @@ zmodload zsh/system
         </div>
       </div>
 
-      <div id="outline-container-sec-7-3" class="outline-3">
-        <h3 id="sec-7-3"><span class="section-number-3">7.3</span> Aliases</h3>
+      <div id="outline-container-sec-6-3" class="outline-3">
+        <h3 id="sec-6-3"><span class="section-number-3">6.3</span> Aliases</h3>
 
-        <div class="outline-text-3" id="text-7-3">
+        <div class="outline-text-3" id="text-6-3">
           <p>Aliases are abbreviations or alternative names (usually mnemonics)
           for commands. They are commonly used to specify a few options to
           commands, and then include the rest of the command line.</p>
@@ -2553,11 +2463,11 @@ zmodload zsh/system
         </div>
       </div>
 
-      <div id="outline-container-sec-7-4" class="outline-3">
-        <h3 id="sec-7-4"><span class="section-number-3">7.4</span> Emacs /
+      <div id="outline-container-sec-6-4" class="outline-3">
+        <h3 id="sec-6-4"><span class="section-number-3">6.4</span> Emacs /
         Org</h3>
 
-        <div class="outline-text-3" id="text-7-4">
+        <div class="outline-text-3" id="text-6-4">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #006FE0;">alias</span> <span style=
@@ -2631,10 +2541,10 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-5" class="outline-3">
-        <h3 id="sec-7-5"><span class="section-number-3">7.5</span> Grep</h3>
+      <div id="outline-container-sec-6-5" class="outline-3">
+        <h3 id="sec-6-5"><span class="section-number-3">6.5</span> Grep</h3>
 
-        <div class="outline-text-3" id="text-7-5">
+        <div class="outline-text-3" id="text-6-5">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #006FE0;">export</span> <span style=
@@ -2650,10 +2560,10 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-6" class="outline-3">
-        <h3 id="sec-7-6"><span class="section-number-3">7.6</span> Pager</h3>
+      <div id="outline-container-sec-6-6" class="outline-3">
+        <h3 id="sec-6-6"><span class="section-number-3">6.6</span> Pager</h3>
 
-        <div class="outline-text-3" id="text-7-6">
+        <div class="outline-text-3" id="text-6-6">
           <p>Set the user’s preferred text pager (<code>cat</code>,
           <code>more</code> or <code>less</code>) that will be used by programs
           such as <code>man</code> or <code>git diff</code> to display
@@ -2688,11 +2598,11 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-7" class="outline-3">
-        <h3 id="sec-7-7"><span class="section-number-3">7.7</span>
+      <div id="outline-container-sec-6-7" class="outline-3">
+        <h3 id="sec-6-7"><span class="section-number-3">6.7</span>
         GraphicsMagick</h3>
 
-        <div class="outline-text-3" id="text-7-7">
+        <div class="outline-text-3" id="text-6-7">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -2746,11 +2656,11 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-8" class="outline-3">
-        <h3 id="sec-7-8"><span class="section-number-3">7.8</span> MCit
+      <div id="outline-container-sec-6-8" class="outline-3">
+        <h3 id="sec-6-8"><span class="section-number-3">6.8</span> MCit
         tools</h3>
 
-        <div class="outline-text-3" id="text-7-8">
+        <div class="outline-text-3" id="text-6-8">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #006FE0;">alias</span> <span style=
@@ -2760,10 +2670,10 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-9" class="outline-3">
-        <h3 id="sec-7-9"><span class="section-number-3">7.9</span> Next</h3>
+      <div id="outline-container-sec-6-9" class="outline-3">
+        <h3 id="sec-6-9"><span class="section-number-3">6.9</span> Next</h3>
 
-        <div class="outline-text-3" id="text-7-9">
+        <div class="outline-text-3" id="text-6-9">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -3029,11 +2939,11 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-10" class="outline-3">
-        <h3 id="sec-7-10"><span class="section-number-3">7.10</span>
+      <div id="outline-container-sec-6-10" class="outline-3">
+        <h3 id="sec-6-10"><span class="section-number-3">6.10</span>
         Functions</h3>
 
-        <div class="outline-text-3" id="text-7-10">
+        <div class="outline-text-3" id="text-6-10">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;">#</span><span style=
@@ -3076,11 +2986,11 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-11" class="outline-3">
-        <h3 id="sec-7-11"><span class="section-number-3">7.11</span>
+      <div id="outline-container-sec-6-11" class="outline-3">
+        <h3 id="sec-6-11"><span class="section-number-3">6.11</span>
         Emacsclient</h3>
 
-        <div class="outline-text-3" id="text-7-11">
+        <div class="outline-text-3" id="text-6-11">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -3100,10 +3010,10 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-12" class="outline-3">
-        <h3 id="sec-7-12"><span class="section-number-3">7.12</span> Other</h3>
+      <div id="outline-container-sec-6-12" class="outline-3">
+        <h3 id="sec-6-12"><span class="section-number-3">6.12</span> Other</h3>
 
-        <div class="outline-text-3" id="text-7-12">
+        <div class="outline-text-3" id="text-6-12">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -3286,11 +3196,11 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
         </div>
       </div>
 
-      <div id="outline-container-sec-7-13" class="outline-3">
-        <h3 id="sec-7-13"><span class="section-number-3">7.13</span>
+      <div id="outline-container-sec-6-13" class="outline-3">
+        <h3 id="sec-6-13"><span class="section-number-3">6.13</span>
         Postamble</h3>
 
-        <div class="outline-text-3" id="text-7-13">
+        <div class="outline-text-3" id="text-6-13">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #008200;"># </span><span style=
@@ -3310,10 +3220,10 @@ emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval <span style=
       </div>
     </div>
 
-    <div id="outline-container-sec-8" class="outline-2">
-      <h2 id="sec-8"><span class="section-number-2">8</span> InputRC</h2>
+    <div id="outline-container-sec-7" class="outline-2">
+      <h2 id="sec-7"><span class="section-number-2">7</span> InputRC</h2>
 
-      <div class="outline-text-2" id="text-8">
+      <div class="outline-text-2" id="text-7">
         <p>This file controls the behavior of line input editing for programs
         that use the Gnu Readline library. Existing programs include FTP, Bash,
         and Gdb.</p>
@@ -3465,11 +3375,11 @@ $<span style="color: #BA36A5;">endif</span>
       </div>
     </div>
 
-    <div id="outline-container-sec-9" class="outline-2">
-      <h2 id="sec-9"><span class="section-number-2">9</span> Install
+    <div id="outline-container-sec-8" class="outline-2">
+      <h2 id="sec-8"><span class="section-number-2">8</span> Install
       environment</h2>
 
-      <div class="outline-text-2" id="text-9">
+      <div class="outline-text-2" id="text-8">
         <p>Symlink the files.</p>
 
         <div class="org-src-container">
