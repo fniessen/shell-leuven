@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-10-09 Wed 16:36>
+#+Time-stamp: <2013-11-08 Fri 10:31>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -35,6 +35,10 @@ See [[file:bin/bash-goodies][file:~/bin/bash-goodies]]
 https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 Very interesting settings!
 
+* Documentation
+
+[[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]]
+
 * Startup files
 
 There are three *sorts of shells*:
@@ -61,6 +65,15 @@ To recover the default bash configuration files, get their copy from
 If you get a couple of "command not found" errors and a corrupt prompt at
 startup, then your =.bashrc= is probably in Windows text format (line endings).
 Make sure your editor is in Unix format when creating text files.
+
+** Note
+
+In ~c:/cygwin/etc/profile~,
+
+- =/usr/local/bin= is appended to the PATH!!
+
+- =TZ= (time zone) is set... which gives wrong times (1 hour difference) in Emacs
+  when called from ~c:/cygwin/Cygwin.bat~!!
 
 * Terminals
 
@@ -1273,7 +1286,10 @@ alias em=emacs-minimal
 
 update-org () {
     (cd $HOME/Public/Repositories/org-mode;
-        git pull --rebase && make autoloads && make info && make install-info;
+        git pull --rebase origin master \
+            && make autoloads \
+            && make info \
+            && make install-info;
         # on Linux, it should be sudo make install and sudo make install-info?
         org-test)
 }

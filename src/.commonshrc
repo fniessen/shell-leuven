@@ -84,7 +84,10 @@ alias em=emacs-minimal
 
 update-org () {
     (cd $HOME/Public/Repositories/org-mode;
-        git pull --rebase && make autoloads && make info && make install-info;
+        git pull --rebase origin master \
+            && make autoloads \
+            && make info \
+            && make install-info;
         # on Linux, it should be sudo make install and sudo make install-info?
         org-test)
 }
