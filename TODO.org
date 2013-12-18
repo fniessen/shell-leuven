@@ -1,7 +1,7 @@
 #+TITLE:     TODO.org
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-11-08 Fri 10:33>
+#+Time-stamp: <2013-12-18 Wed 22:04>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -19,7 +19,8 @@
 
 ** TODO Remove Bashisms
 
-See https://wiki.ubuntu.com/DashAsBinSh.
+- https://wiki.ubuntu.com/DashAsBinSh
+- http://mywiki.wooledge.org/Bashism
 
 ** TODO Use printf instead of echo -e
 
