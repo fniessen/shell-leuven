@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-11-08 Fri 10:34>
+#+Time-stamp: <2014-02-04 Tue 14:42>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -44,7 +44,10 @@ Make sure your editor is in Unix format when creating text files.
 
 In ~c:/cygwin/etc/profile~,
 
-- =/usr/local/bin= is appended to the PATH!!
+- ~/usr/local/bin~ is appended to the =PATH=!!
+
+  And, except when root, it is almost always wrong to have ~/usr/local/bin~ after
+  any system path.
 
 - =TZ= (time zone) is set... which gives wrong times (1 hour difference) in Emacs
   when called from ~c:/cygwin/Cygwin.bat~!!
@@ -377,7 +380,14 @@ showvalue () { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
 
 ** Source common files
 
-=.commonshrc= contains miscellaneous definitions common to Bash and Zsh.
+~.commonshrc~ contains miscellaneous definitions common to Bash and Zsh.
+
+An *alias* is a simple string substitution.
+
+By default, it is *not expanded in non-interactive shells* (scripts, and even
+functions called in an interactive shell!).
+
+In general, it should not do more than *change the default options of a command*.
 
 #+begin_src sh
 #** 4.2 or 6.6 Aliases
@@ -1255,44 +1265,36 @@ alias aptrm='sudo aptitude remove'
 alias em=emacs-minimal
 #+end_src
 
-#+begin_src sh
-# alias update-org='( cd ~/Public/Repositories/org-mode; git pull && make autoloads && echo DONT make clean && echo DONT make && echo DONT make doc && make info && make install-info && echo DONT make install; org-test )'
+XXX Git tags aren't fetched anymore when a new Org mode version is made!??
 
+For branches for which we want to make some development, and keep in track with
+=master=:
+
+#+begin_src sh
 update-org () {
-    (cd $HOME/Public/Repositories/org-mode;
-        git pull --rebase origin master \
+    (   # Directory changes made in a subshell do not carry over to the parent shell.
+        cd $HOME/Public/Repositories/org-mode;
+        git fetch --all --verbose \
+            && git rebase origin master \
             && make autoloads \
+            && echo DON\'T make clean \
+            && echo DON\'T make \
+            && echo DON\'T sudo make install \
+            && echo DON\'T make doc \
             && make info \
-            && make install-info;
-        # on Linux, it should be sudo make install and sudo make install-info?
-        org-test)
+            && sudo make install-info;
+        org-test
+    )
 }
 #+end_src
 
 #+begin_src sh
-alias org-run-all-tests='emacs -Q --batch -l ~/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-all-tests'
-alias org-test-martyn='emacs -Q --batch -l ert.el -l ert-x.el -l $HOME/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
-alias org-test='emacs -Q --batch -l ert.el -l ert-x.el -L ~/Public/Repositories/org-mode/testing/ -l org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
-#+end_src
-
-La version de Eric Schulte:
-
-#+begin_src sh :tangle no
-emacs -Q --batch -l $HOME/.emacs.d/src/org/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests
-#+end_src
-
-La version de Achim:
-
-#+begin_src sh :tangle no
-emacs --batch -u myself -L lisp/ -l testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests
-#+end_src
-
-#+begin_src sh :tangle no
-TMPDIR=/tmp/tmp-orgtest /usr/local/bin/emacs -batch -Q \
--L lisp/ -L testing/ -L contrib/lisp \
---eval '(defconst org-release "7.8.03-Test")' -l testing/org-test.el \
---eval '(require '"'"'org-element)' --eval '(require '"'"'org-export)' \
---eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+org-test () {
+    (
+        cd $HOME/Public/Repositories/org-mode;
+        TMPDIR=/tmp/org-test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+    )
+}
 #+end_src
 
 ** Grep

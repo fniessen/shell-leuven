@@ -80,21 +80,28 @@ alias aptrm='sudo aptitude remove'
 
 alias em=emacs-minimal
 
-# alias update-org='( cd ~/Public/Repositories/org-mode; git pull && make autoloads && echo DONT make clean && echo DONT make && echo DONT make doc && make info && make install-info && echo DONT make install; org-test )'
-
 update-org () {
-    (cd $HOME/Public/Repositories/org-mode;
-        git pull --rebase origin master \
+    (   # Directory changes made in a subshell do not carry over to the parent shell.
+        cd $HOME/Public/Repositories/org-mode;
+        git fetch --all --verbose \
+            && git rebase origin master \
             && make autoloads \
+            && echo DON\'T make clean \
+            && echo DON\'T make \
+            && echo DON\'T sudo make install \
+            && echo DON\'T make doc \
             && make info \
-            && make install-info;
-        # on Linux, it should be sudo make install and sudo make install-info?
-        org-test)
+            && sudo make install-info;
+        org-test
+    )
 }
 
-alias org-run-all-tests='emacs -Q --batch -l ~/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-all-tests'
-alias org-test-martyn='emacs -Q --batch -l ert.el -l ert-x.el -l $HOME/Public/Repositories/org-mode/testing/org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
-alias org-test='emacs -Q --batch -l ert.el -l ert-x.el -L ~/Public/Repositories/org-mode/testing/ -l org-test.el --eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
+org-test () {
+    (
+        cd $HOME/Public/Repositories/org-mode;
+        TMPDIR=/tmp/org-test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+    )
+}
 
 export GREP_COLORS="mt=01;33"
 
