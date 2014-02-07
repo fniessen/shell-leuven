@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-02-04 Tue 14:42>
+#+Time-stamp: <2014-02-07 Fri 10:27>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1283,7 +1283,8 @@ update-org () {
             && echo DON\'T make doc \
             && make info \
             && sudo make install-info;
-        org-test
+        printf "Running org-test, please wait (this can take a while)...\n"
+        org-test 2>&1 >/dev/null | tail -n 3
     )
 }
 #+end_src

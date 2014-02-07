@@ -7,7 +7,7 @@
   <meta name="generator" content=
   "HTML Tidy for Cygwin (vers 1st September 2004), see www.w3.org" />
 
-  <title>Shell configuration files</title><!-- 2014-02-04 Tue 14:42 -->
+  <title>Shell configuration files</title><!-- 2014-02-07 Fri 10:27 -->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Org-mode" />
   <meta name="author" content="Fabrice Niessen" />
@@ -2505,7 +2505,9 @@ zmodload zsh/system
 "color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T make doc <span style="color: #036A07;">\</span>
             &amp;&amp; make info <span style="color: #036A07;">\</span>
             &amp;&amp; sudo make install-info;
-        org-test
+        printf <span style=
+"color: #036A07;">"Running org-test, please wait (this can take a while)...\n"</span>
+        org-test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
     )
 }
 </pre>
