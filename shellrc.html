@@ -1,13 +1,13 @@
 <!-- <xml version="1.0"> -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <meta name="generator" content=
   "HTML Tidy for Cygwin (vers 1st September 2004), see www.w3.org" />
 
-  <title>Shell configuration files</title><!-- 2014-02-07 Fri 10:27 -->
+  <title>Shell configuration files</title><!-- 2014-02-19 Wed 10:46 -->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Org-mode" />
   <meta name="author" content="Fabrice Niessen" />
@@ -1564,10 +1564,15 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 </pre>
             </div>
 
-            <div class="inlinetask">
-              <b><span class="todo TODO">TODO</span> Put the CWD
-              (<code>.</code>) in PATH</b>
-            </div>
+            <table class="inlinetask" width="100%">
+              <tr>
+                <td valign="top"><b><span class=
+                "todo TODO">TODO</span></b></td>
+
+                <td width="100%"><b>Put the CWD (<code>.</code>) in
+                PATH</b><br /></td>
+              </tr>
+            </table>
 
             <p>If you add the CWD to your PATH, just do it:</p>
 
@@ -2478,9 +2483,6 @@ zmodload zsh/system
 </pre>
           </div>
 
-          <p>XXX Git tags aren’t fetched anymore when a new Org mode version is
-          made!??</p>
-
           <p>For branches for which we want to make some development, and keep
           in track with <code>master</code>:</p>
 
@@ -2492,8 +2494,7 @@ zmodload zsh/system
         <span style="color: #006FE0;">cd</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-mode;
         git fetch --all --verbose <span style="color: #036A07;">\</span>
-            &amp;&amp; git rebase origin master <span style=
-"color: #036A07;">\</span>
+            &amp;&amp; git rebase origin <span style="color: #036A07;">\</span>
             &amp;&amp; make autoloads <span style="color: #036A07;">\</span>
             &amp;&amp; <span style=
 "color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T make clean <span style="color: #036A07;">\</span>

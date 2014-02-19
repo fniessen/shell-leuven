@@ -84,7 +84,7 @@ update-org () {
     (   # Directory changes made in a subshell do not carry over to the parent shell.
         cd $HOME/Public/Repositories/org-mode;
         git fetch --all --verbose \
-            && git rebase origin master \
+            && git rebase origin \
             && make autoloads \
             && echo DON\'T make clean \
             && echo DON\'T make \
