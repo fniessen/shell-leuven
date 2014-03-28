@@ -7,7 +7,7 @@
   <meta name="generator" content=
   "HTML Tidy for Cygwin (vers 1st September 2004), see www.w3.org" />
 
-  <title>Shell configuration files</title><!-- 2014-02-19 Wed 10:46 -->
+  <title>Shell configuration files</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="generator" content="Org-mode" />
   <meta name="author" content="Fabrice Niessen" />
@@ -167,11 +167,10 @@
         <p>There are three <b>sorts of shells</b>:</p>
 
         <ul class="org-ul">
-          <li>(interactive) <b>login</b> (for which <code>.profile</code> and
-          <code>.bashrc</code> are read)</li>
+          <li>(interactive) <b>login</b> (for which =.profile= and =.bashrc=
+          are read)</li>
 
-          <li><b>interactive</b> (non-login) (for which <code>.bashrc</code> is
-          read)</li>
+          <li><b>interactive</b> (non-login) (for which =.bashrc= is read)</li>
 
           <li>normal shell, i.e. one that’s running a <b>script</b> (bash does
           not execute any initialization file in this case!)
@@ -180,8 +179,8 @@
           </li>
         </ul>
 
-        <p>We just let <code>.profile</code> also read <code>.bashrc</code> and
-        put everything in <code>.bashrc</code>.</p>
+        <p>We just let =.profile= also read =.bashrc= and put everything in
+        =.bashrc=.</p>
 
         <p><b>Read</b> <a href=
         "http://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/">
@@ -199,9 +198,9 @@
         <code>/etc/skel</code>.</p>
 
         <p>If you get a couple of “command not found” errors and a corrupt
-        prompt at startup, then your <code>.bashrc</code> is probably in
-        Windows text format (line endings). Make sure your editor is in Unix
-        format when creating text files.</p>
+        prompt at startup, then your =.bashrc= is probably in Windows text
+        format (line endings). Make sure your editor is in Unix format when
+        creating text files.</p>
       </div>
 
       <div id="outline-container-sec-2-1" class="outline-3">
@@ -254,25 +253,24 @@
       <h2 id="sec-4"><span class="section-number-2">4</span> Bash specific</h2>
 
       <div class="outline-text-2" id="text-4">
-        <p>Le <code>!</code> en shell permet plein de trucs sympa.</p>
+        <p>Le =!= en shell permet plein de trucs sympa.</p>
 
         <ul class="org-ul">
-          <li><code>!!</code> refait la dernière commande</li>
+          <li>=!!= refait la dernière commande</li>
 
-          <li><code>!cmd</code> refait la dernière commande commençant par
+          <li>=!cmd= refait la dernière commande commençant par
           <code>cmd</code></li>
 
-          <li><code>!cmd:p</code> permet de visualiser sans éxecuter la
-          dernière commande commençant par <code>cmd</code></li>
+          <li>=!cmd:p= permet de visualiser sans éxecuter la dernière commande
+          commençant par <code>cmd</code></li>
 
-          <li><code>!$</code> est le dernier mot du ligne de commande
-          précédent</li>
+          <li>=!$= est le dernier mot du ligne de commande précédent</li>
 
-          <li><code>!cmd:$</code> est le dernier mot du dernier ligne de
-          commande commençant par <code>cmd</code></li>
+          <li>=!cmd:$= est le dernier mot du dernier ligne de commande
+          commençant par <code>cmd</code></li>
 
-          <li><code>!*</code> est l’ensemble de la dernière ligne de commande à
-          part le premier mot</li>
+          <li>=!*= est l’ensemble de la dernière ligne de commande à part le
+          premier mot</li>
         </ul>
 
         <p>Pourquoi ce dernier est-il utile ? Pense à ceci :</p>
@@ -837,8 +835,8 @@ shopt -s cdspell
         common files</h3>
 
         <div class="outline-text-3" id="text-4-5">
-          <p><code>.commonshrc</code> contains miscellaneous definitions common
-          to Bash and Zsh.</p>
+          <p>~.commonshrc~ contains miscellaneous definitions common to Bash
+          and Zsh.</p>
 
           <p>An <b>alias</b> is a simple string substitution.</p>
 
@@ -1569,8 +1567,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
                 <td valign="top"><b><span class=
                 "todo TODO">TODO</span></b></td>
 
-                <td width="100%"><b>Put the CWD (<code>.</code>) in
-                PATH</b><br /></td>
+                <td width="100%"><b>Put the CWD (=.=) in PATH</b><br /></td>
               </tr>
             </table>
 
@@ -1653,9 +1650,9 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
             <p>The tricky part was getting the syntax for testing the exit
             code. The syntax is <code>%(x.true-string.false-string)</code>,
             where <code>x</code> is some arbitrary testing condition, in this
-            case, <code>?</code> for exit codes. After the first dot, if the
-            test passes, show true-string; if it fails, show false-string after
-            the second dot.</p>
+            case, =?= for exit codes. After the first dot, if the test passes,
+            show true-string; if it fails, show false-string after the second
+            dot.</p>
 
             <p><a href=
             "https://github.com/olivierverdier/zsh-git-prompt">https://github.com/olivierverdier/zsh-git-prompt</a></p>
@@ -2526,6 +2523,21 @@ zmodload zsh/system
 }
 </pre>
           </div>
+
+          <div class="org-src-container">
+            <pre class="src src-sh">
+<span style="color: #0000FF;">if</span> [ -d <span style=
+"color: #036A07;">"$HOME/Public/Repositories/org-bash-utils"</span> ]
+<span style="color: #0000FF;">then</span>
+    <span style="color: #BA36A5;">PATH</span>=<span style=
+"color: #036A07;">"$HOME/Public/Repositories/org-bash-utils:$PATH"</span>
+    <span style="color: #006FE0;">source</span> $<span style=
+"color: #BA36A5;">HOME</span>/Public/Repositories/org-bash-utils/org-alias
+    <span style="color: #006FE0;">source</span> $<span style=
+"color: #BA36A5;">HOME</span>/Public/Repositories/org-bash-utils/awk-alias
+<span style="color: #0000FF;">fi</span>
+</pre>
+          </div>
         </div>
       </div>
 
@@ -2568,10 +2580,9 @@ zmodload zsh/system
 </pre>
           </div>
 
-          <p>Without <code>--raw-control-chars</code>, <code>less</code>
-          outputs the colors as raw escape codes, that is it does not
-          <b>interpret colors</b>. With it, <code>git diff</code> finally shows
-          colors…</p>
+          <p>Without =–raw-control-chars=, <code>less</code> outputs the colors
+          as raw escape codes, that is it does not <b>interpret colors</b>.
+          With it, <code>git diff</code> finally shows colors…</p>
 
           <div class="org-src-container">
             <pre class="src src-sh">
@@ -3382,13 +3393,28 @@ ln -f -s $(<span style=
 "color: #006FE0;">pwd</span>)/../src/.zshrc      ~/.zshrc
 </pre>
         </div>
+
+        <p>Or something like…</p>
+
+        <div class="org-src-container">
+          <pre class="src src-sh">
+<span style="color: #0000FF;">if</span> [ -d <span style=
+"color: #036A07;">"$HOME/src/shellrc/src"</span> ]
+<span style="color: #0000FF;">then</span>
+    <span style="color: #BA36A5;">PATH</span>=<span style=
+"color: #036A07;">"$HOME/src/shellrc/src:$PATH"</span>
+<span style="color: #0000FF;">fi</span>
+</pre>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="postamble" class="status">
-    <div id="copyright">
-      © Fabrice Niessen
+    <div id="footer">
+      <div id="copyright">
+        Copyright © Fabrice Niessen
+      </div>
     </div>
   </div>
 </body>

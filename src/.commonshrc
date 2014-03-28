@@ -104,6 +104,13 @@ org-test () {
     )
 }
 
+if [ -d "$HOME/Public/Repositories/org-bash-utils" ]
+then
+    PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
+    source $HOME/Public/Repositories/org-bash-utils/org-alias
+    source $HOME/Public/Repositories/org-bash-utils/awk-alias
+fi
+
 export GREP_COLORS="mt=01;33"
 
 # grep through the running processes

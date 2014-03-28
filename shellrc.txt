@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-02-19 Wed 10:45>
+#+Time-stamp: <2014-03-28 Fri 16:32>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1296,6 +1296,15 @@ org-test () {
 }
 #+end_src
 
+#+begin_src sh
+if [ -d "$HOME/Public/Repositories/org-bash-utils" ]
+then
+    PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
+    source $HOME/Public/Repositories/org-bash-utils/org-alias
+    source $HOME/Public/Repositories/org-bash-utils/awk-alias
+fi
+#+end_src
+
 ** Grep
 
 #+begin_src sh
@@ -1773,4 +1782,13 @@ ln -f -s $(pwd)/../src/.bashrc     ~/.bashrc
 ln -f -s $(pwd)/../src/.commonshrc ~/.commonshrc
 ln -f -s $(pwd)/../src/.inputrc    ~/.inputrc
 ln -f -s $(pwd)/../src/.zshrc      ~/.zshrc
+#+end_src
+
+Or something like...
+
+#+begin_src sh :results silent :shebang #!/bin/bash :tangle no
+if [ -d "$HOME/src/shellrc/src" ]
+then
+    PATH="$HOME/src/shellrc/src:$PATH"
+fi
 #+end_src
