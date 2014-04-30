@@ -1,6 +1,6 @@
 ## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
 
-# Copyright (C) 2003-2013 Fabrice Niessen
+# Copyright (C) 2003-2014 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config

@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
 
-# Copyright (C) 2009-2013 Fabrice Niessen
+# Copyright (C) 2009-2014 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -25,10 +25,6 @@ for editor in emacsclientw emacsclient emacs vi; do
         break
     fi
 done
-
-  alias e=emacsclient -a emacs -n
-  # -n is essential part
-
 
 # FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
 # example) when this .bashrc is deployed onto the remote SSH server.

@@ -1,6 +1,6 @@
 ## .zshrc --- Z Shell configuration file (for interactive shells)
 
-# Copyright (C) 2009-2013 Fabrice Niessen
+# Copyright (C) 2009-2014 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
@@ -246,7 +246,7 @@ else
 fi
 
 ## coloring stderr
-STDERRRED=$'\e[101m'
+STDERRRED=$'\e[031m'
 zmodload zsh/system
 color_err () {
     ## sysread & syswrite are part of `zsh/system'

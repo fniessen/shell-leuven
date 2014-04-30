@@ -167,10 +167,11 @@
         <p>There are three <b>sorts of shells</b>:</p>
 
         <ul class="org-ul">
-          <li>(interactive) <b>login</b> (for which =.profile= and =.bashrc=
-          are read)</li>
+          <li>(interactive) <b>login</b> (for which <code>.profile</code> and
+          <code>.bashrc</code> are read)</li>
 
-          <li><b>interactive</b> (non-login) (for which =.bashrc= is read)</li>
+          <li><b>interactive</b> (non-login) (for which <code>.bashrc</code> is
+          read)</li>
 
           <li>normal shell, i.e. one that’s running a <b>script</b> (bash does
           not execute any initialization file in this case!)
@@ -179,8 +180,8 @@
           </li>
         </ul>
 
-        <p>We just let =.profile= also read =.bashrc= and put everything in
-        =.bashrc=.</p>
+        <p>We just let <code>.profile</code> also read <code>.bashrc</code> and
+        put everything in <code>.bashrc</code>.</p>
 
         <p><b>Read</b> <a href=
         "http://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/">
@@ -198,9 +199,9 @@
         <code>/etc/skel</code>.</p>
 
         <p>If you get a couple of “command not found” errors and a corrupt
-        prompt at startup, then your =.bashrc= is probably in Windows text
-        format (line endings). Make sure your editor is in Unix format when
-        creating text files.</p>
+        prompt at startup, then your <code>.bashrc</code> is probably in
+        Windows text format (line endings). Make sure your editor is in Unix
+        format when creating text files.</p>
       </div>
 
       <div id="outline-container-sec-2-1" class="outline-3">
@@ -253,24 +254,25 @@
       <h2 id="sec-4"><span class="section-number-2">4</span> Bash specific</h2>
 
       <div class="outline-text-2" id="text-4">
-        <p>Le =!= en shell permet plein de trucs sympa.</p>
+        <p>Le <code>!</code> en shell permet plein de trucs sympa.</p>
 
         <ul class="org-ul">
-          <li>=!!= refait la dernière commande</li>
+          <li><code>!!</code> refait la dernière commande</li>
 
-          <li>=!cmd= refait la dernière commande commençant par
+          <li><code>!cmd</code> refait la dernière commande commençant par
           <code>cmd</code></li>
 
-          <li>=!cmd:p= permet de visualiser sans éxecuter la dernière commande
-          commençant par <code>cmd</code></li>
+          <li><code>!cmd:p</code> permet de visualiser sans éxecuter la
+          dernière commande commençant par <code>cmd</code></li>
 
-          <li>=!$= est le dernier mot du ligne de commande précédent</li>
+          <li><code>!$</code> est le dernier mot du ligne de commande
+          précédent</li>
 
-          <li>=!cmd:$= est le dernier mot du dernier ligne de commande
-          commençant par <code>cmd</code></li>
+          <li><code>!cmd:$</code> est le dernier mot du dernier ligne de
+          commande commençant par <code>cmd</code></li>
 
-          <li>=!*= est l’ensemble de la dernière ligne de commande à part le
-          premier mot</li>
+          <li><code>!*</code> est l’ensemble de la dernière ligne de commande à
+          part le premier mot</li>
         </ul>
 
         <p>Pourquoi ce dernier est-il utile ? Pense à ceci :</p>
@@ -291,12 +293,18 @@ $ gm convert !*
 
         <div class="outline-text-3" id="text-4-1">
           <div class="org-src-container">
+            <pre class="src src-emacs-lisp" id="current-year">
+(format-time-string <span style="color: #036A07;">"%Y"</span>)
+</pre>
+          </div>
+
+          <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #8D8D84;">## </span><span style=
 "color: #8D8D84; font-style: italic;">.bashrc --- Bourne Again Shell configuration file (for interactive shells)</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">Copyright (C) 2003-2013 Fabrice Niessen</span>
+"color: #8D8D84; font-style: italic;">Copyright (C) 2003-2014 Fabrice Niessen</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
@@ -835,8 +843,8 @@ shopt -s cdspell
         common files</h3>
 
         <div class="outline-text-3" id="text-4-5">
-          <p>~.commonshrc~ contains miscellaneous definitions common to Bash
-          and Zsh.</p>
+          <p><code>.commonshrc</code> contains miscellaneous definitions common
+          to Bash and Zsh.</p>
 
           <p>An <b>alias</b> is a simple string substitution.</p>
 
@@ -1508,7 +1516,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">.zshrc --- Z Shell configuration file (for interactive shells)</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">Copyright (C) 2009-2013 Fabrice Niessen</span>
+"color: #8D8D84; font-style: italic;">Copyright (C) 2009-2014 Fabrice Niessen</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
@@ -1567,7 +1575,8 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
                 <td valign="top"><b><span class=
                 "todo TODO">TODO</span></b></td>
 
-                <td width="100%"><b>Put the CWD (=.=) in PATH</b><br /></td>
+                <td width="100%"><b>Put the CWD (<code>.</code>) in
+                PATH</b><br /></td>
               </tr>
             </table>
 
@@ -1650,9 +1659,9 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
             <p>The tricky part was getting the syntax for testing the exit
             code. The syntax is <code>%(x.true-string.false-string)</code>,
             where <code>x</code> is some arbitrary testing condition, in this
-            case, =?= for exit codes. After the first dot, if the test passes,
-            show true-string; if it fails, show false-string after the second
-            dot.</p>
+            case, <code>?</code> for exit codes. After the first dot, if the
+            test passes, show true-string; if it fails, show false-string after
+            the second dot.</p>
 
             <p><a href=
             "https://github.com/olivierverdier/zsh-git-prompt">https://github.com/olivierverdier/zsh-git-prompt</a></p>
@@ -2182,7 +2191,7 @@ zstyle <span style=
 <span style="color: #8D8D84;">## </span><span style=
 "color: #8D8D84; font-style: italic;">coloring stderr</span>
 <span style="color: #BA36A5;">STDERRRED</span>=$<span style=
-"color: #036A07;">'\e[101m'</span>
+"color: #036A07;">'\e[031m'</span>
 zmodload zsh/system
 <span style="color: #006699;">color_err</span> () {
     <span style="color: #8D8D84;">## </span><span style=
@@ -2268,7 +2277,7 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">.commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">Copyright (C) 2009-2013 Fabrice Niessen</span>
+"color: #8D8D84; font-style: italic;">Copyright (C) 2009-2014 Fabrice Niessen</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
@@ -2330,12 +2339,6 @@ zmodload zsh/system
     <span style="color: #0000FF;">fi</span>
 <span style="color: #0000FF;">done</span>
 
-  <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">e</span>=emacsclient -a emacs -n
-  <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">-n is essential part</span>
-
-
 <span style="color: #8D8D84;"># </span><span style=
 "color: #CC0000; background-color: #FFFF88; font-style: italic;">FIXME</span><span style="color: #8D8D84; font-style: italic;"> 2010-11-04 This causes problems when scp'ing .bash_profile (for</span>
 <span style="color: #8D8D84;"># </span><span style=
@@ -2368,6 +2371,16 @@ zmodload zsh/system
 "color: #036A07;">"$EDITOR"</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for the fc (fix command) builtin command</span>
+</pre>
+          </div>
+
+          <div class="org-src-container">
+            <pre class="src src-sh">
+<span style="color: #006FE0;">alias</span> <span style=
+"color: #BA36A5;">e</span>=<span style=
+"color: #036A07;">"emacsclient -a emacs -n"</span>       <span style=
+"color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">-n is essential part</span>
 </pre>
           </div>
         </div>
@@ -2580,9 +2593,10 @@ zmodload zsh/system
 </pre>
           </div>
 
-          <p>Without =–raw-control-chars=, <code>less</code> outputs the colors
-          as raw escape codes, that is it does not <b>interpret colors</b>.
-          With it, <code>git diff</code> finally shows colors…</p>
+          <p>Without <code>--raw-control-chars</code>, <code>less</code>
+          outputs the colors as raw escape codes, that is it does not
+          <b>interpret colors</b>. With it, <code>git diff</code> finally shows
+          colors…</p>
 
           <div class="org-src-container">
             <pre class="src src-sh">
@@ -3233,7 +3247,7 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">.inputrc --- my Readline Init File</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">Copyright (C) 2005-2013 Fabrice Niessen</span>
+"color: #8D8D84; font-style: italic;">Copyright (C) 2005-2014 Fabrice Niessen</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
@@ -3287,7 +3301,10 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">modify to taste</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">first, include any system-wide bindings and variable assignments</span>
+"color: #8D8D84; font-style: italic;">first, include any system-wide settings (ignored if one has his own</span>
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">`.inputrc')</span>
+$<span style="color: #BA36A5;">include</span> /etc/skel/.inputrc
 $<span style="color: #BA36A5;">include</span> /etc/inputrc
 
 <span style="color: #8D8D84;"># </span><span style=

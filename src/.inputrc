@@ -1,6 +1,6 @@
 ## .inputrc --- my Readline Init File
 
-# Copyright (C) 2005-2013 Fabrice Niessen
+# Copyright (C) 2005-2014 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
@@ -31,7 +31,9 @@
 
 # modify to taste
 
-# first, include any system-wide bindings and variable assignments
+# first, include any system-wide settings (ignored if one has his own
+# `.inputrc')
+$include /etc/skel/.inputrc
 $include /etc/inputrc
 
 # behave like Emacs when editing

@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-03-28 Fri 16:32>
+#+Time-stamp: <2014-04-30 Wed 11:32>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -87,10 +87,15 @@ $ gm convert !*
 
 ** Preamble
 
-#+begin_src sh
+#+name: current-year
+#+begin_src emacs-lisp :eval yes :results silent :tangle no
+(format-time-string "%Y")
+#+end_src
+
+#+begin_src sh :noweb yes
 ## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
 
-# Copyright (C) 2003-2013 Fabrice Niessen
+# Copyright (C) 2003-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config
@@ -762,10 +767,10 @@ texlist ()
 
 ** Preamble
 
-#+begin_src sh
+#+begin_src sh :noweb yes
 ## .zshrc --- Z Shell configuration file (for interactive shells)
 
-# Copyright (C) 2009-2013 Fabrice Niessen
+# Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
@@ -1104,7 +1109,7 @@ fi
 
 #+begin_src sh
 ## coloring stderr
-STDERRRED=$'\e[101m'
+STDERRRED=$'\e[031m'
 zmodload zsh/system
 color_err () {
     ## sysread & syswrite are part of `zsh/system'
@@ -1154,11 +1159,11 @@ Everything in common between Bash and Z shell will come here.
 
 ** Preamble
 
-#+begin_src sh
+#+begin_src sh :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
 ## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
 
-# Copyright (C) 2009-2013 Fabrice Niessen
+# Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -1192,10 +1197,6 @@ for editor in emacsclientw emacsclient emacs vi; do
     fi
 done
 
-  alias e=emacsclient -a emacs -n
-  # -n is essential part
-
-
 # FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
 # example) when this .bashrc is deployed onto the remote SSH server.
 # [ -z "$EDITOR" ] && echo "No suitable editor found."
@@ -1208,6 +1209,10 @@ export SVN_EDITOR="$EDITOR"
 export EDIT="$EDITOR"
 export ERROR_EDITOR="$EDITOR"
 export FCEDIT="$EDITOR" # for the fc (fix command) builtin command
+#+end_src
+
+#+begin_src sh :tangle no
+alias e="emacsclient -a emacs -n"       # -n is essential part
 #+end_src
 
 ** Aliases
@@ -1683,10 +1688,10 @@ rdns ()
 This file controls the behavior of line input editing for programs that use
 the Gnu Readline library. Existing programs include FTP, Bash, and Gdb.
 
-#+begin_src sh
+#+begin_src sh :noweb yes
 ## .inputrc --- my Readline Init File
 
-# Copyright (C) 2005-2013 Fabrice Niessen
+# Copyright (C) 2005-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
@@ -1717,7 +1722,9 @@ the Gnu Readline library. Existing programs include FTP, Bash, and Gdb.
 
 # modify to taste
 
-# first, include any system-wide bindings and variable assignments
+# first, include any system-wide settings (ignored if one has his own
+# `.inputrc')
+$include /etc/skel/.inputrc
 $include /etc/inputrc
 
 # behave like Emacs when editing
