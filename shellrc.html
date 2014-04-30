@@ -38,33 +38,35 @@
             <a href="#sec-4">4. Bash specific</a>
 
             <ul>
-              <li><a href="#sec-4-1">4.1. Preamble</a></li>
+              <li><a href="#sec-4-1">4.1. Profile</a></li>
+
+              <li><a href="#sec-4-2">4.2. Preamble</a></li>
 
               <li>
-                <a href="#sec-4-2">4.2. Variables</a>
+                <a href="#sec-4-3">4.3. Variables</a>
 
                 <ul>
-                  <li><a href="#sec-4-2-1">4.2.1. Search path</a></li>
+                  <li><a href="#sec-4-3-1">4.3.1. Search path</a></li>
 
-                  <li><a href="#sec-4-2-2">4.2.2. Prompt</a></li>
+                  <li><a href="#sec-4-3-2">4.3.2. Prompt</a></li>
 
-                  <li><a href="#sec-4-2-3">4.2.3. Command history</a></li>
+                  <li><a href="#sec-4-3-3">4.3.3. Command history</a></li>
 
-                  <li><a href="#sec-4-2-4">4.2.4. Term</a></li>
+                  <li><a href="#sec-4-3-4">4.3.4. Term</a></li>
 
-                  <li><a href="#sec-4-2-5">4.2.5. Display</a></li>
+                  <li><a href="#sec-4-3-5">4.3.5. Display</a></li>
                 </ul>
               </li>
 
-              <li><a href="#sec-4-3">4.3. Code</a></li>
+              <li><a href="#sec-4-4">4.4. Code</a></li>
 
-              <li><a href="#sec-4-4">4.4. Next</a></li>
+              <li><a href="#sec-4-5">4.5. Next</a></li>
 
-              <li><a href="#sec-4-5">4.5. Source common files</a></li>
+              <li><a href="#sec-4-6">4.6. Source common files</a></li>
 
-              <li><a href="#sec-4-6">4.6. Next</a></li>
+              <li><a href="#sec-4-7">4.7. Next</a></li>
 
-              <li><a href="#sec-4-7">4.7. Postamble</a></li>
+              <li><a href="#sec-4-8">4.8. Postamble</a></li>
             </ul>
           </li>
 
@@ -288,10 +290,32 @@ $ gm convert !*
       </div>
 
       <div id="outline-container-sec-4-1" class="outline-3">
-        <h3 id="sec-4-1"><span class="section-number-3">4.1</span>
-        Preamble</h3>
+        <h3 id="sec-4-1"><span class="section-number-3">4.1</span> Profile</h3>
 
         <div class="outline-text-3" id="text-4-1">
+          <div class="org-src-container">
+            <pre class="src src-sh">
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">User dependent .bash_profile file</span>
+
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">source the users bashrc if it exists</span>
+<span style="color: #0000FF;">if</span> [ -f <span style=
+"color: #036A07;">"${HOME}/.bashrc"</span> ] ; <span style=
+"color: #0000FF;">then</span>
+  <span style="color: #006FE0;">source</span> <span style=
+"color: #036A07;">"${HOME}/.bashrc"</span>
+<span style="color: #0000FF;">fi</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="outline-container-sec-4-2" class="outline-3">
+        <h3 id="sec-4-2"><span class="section-number-3">4.2</span>
+        Preamble</h3>
+
+        <div class="outline-text-3" id="text-4-2">
           <div class="org-src-container">
             <pre class="src src-emacs-lisp" id="current-year">
 (format-time-string <span style="color: #036A07;">"%Y"</span>)
@@ -372,17 +396,17 @@ $ gm convert !*
         </div>
       </div>
 
-      <div id="outline-container-sec-4-2" class="outline-3">
-        <h3 id="sec-4-2"><span class="section-number-3">4.2</span>
+      <div id="outline-container-sec-4-3" class="outline-3">
+        <h3 id="sec-4-3"><span class="section-number-3">4.3</span>
         Variables</h3>
 
-        <div class="outline-text-3" id="text-4-2"></div>
+        <div class="outline-text-3" id="text-4-3"></div>
 
-        <div id="outline-container-sec-4-2-1" class="outline-4">
-          <h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> Search
+        <div id="outline-container-sec-4-3-1" class="outline-4">
+          <h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Search
           path</h4>
 
-          <div class="outline-text-4" id="text-4-2-1">
+          <div class="outline-text-4" id="text-4-3-1">
             <p>Where to look for executable files.</p>
 
             <p>The global search PATH is defined in the file
@@ -427,11 +451,11 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-4-2-2" class="outline-4">
-          <h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span>
+        <div id="outline-container-sec-4-3-2" class="outline-4">
+          <h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span>
           Prompt</h4>
 
-          <div class="outline-text-4" id="text-4-2-2">
+          <div class="outline-text-4" id="text-4-3-2">
             <p>Appearance of the prompt.</p>
 
             <p>Note <code>\[...\]</code> used by the shell to count proper
@@ -612,11 +636,11 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-4-2-3" class="outline-4">
-          <h4 id="sec-4-2-3"><span class="section-number-4">4.2.3</span>
+        <div id="outline-container-sec-4-3-3" class="outline-4">
+          <h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span>
           Command history</h4>
 
-          <div class="outline-text-4" id="text-4-2-3">
+          <div class="outline-text-4" id="text-4-3-3">
             <p>Access and modify commands that you had previously typed at the
             command line.</p>
 
@@ -638,21 +662,21 @@ $ gm convert !*
           </div>
         </div>
 
-        <div id="outline-container-sec-4-2-4" class="outline-4">
-          <h4 id="sec-4-2-4"><span class="section-number-4">4.2.4</span>
+        <div id="outline-container-sec-4-3-4" class="outline-4">
+          <h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span>
           Term</h4>
         </div>
 
-        <div id="outline-container-sec-4-2-5" class="outline-4">
-          <h4 id="sec-4-2-5"><span class="section-number-4">4.2.5</span>
+        <div id="outline-container-sec-4-3-5" class="outline-4">
+          <h4 id="sec-4-3-5"><span class="section-number-4">4.3.5</span>
           Display</h4>
         </div>
       </div>
 
-      <div id="outline-container-sec-4-3" class="outline-3">
-        <h3 id="sec-4-3"><span class="section-number-3">4.3</span> Code</h3>
+      <div id="outline-container-sec-4-4" class="outline-3">
+        <h3 id="sec-4-4"><span class="section-number-3">4.4</span> Code</h3>
 
-        <div class="outline-text-3" id="text-4-3">
+        <div class="outline-text-3" id="text-4-4">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #8D8D84;">#</span><span style=
@@ -707,10 +731,10 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-4-4" class="outline-3">
-        <h3 id="sec-4-4"><span class="section-number-3">4.4</span> Next</h3>
+      <div id="outline-container-sec-4-5" class="outline-3">
+        <h3 id="sec-4-5"><span class="section-number-3">4.5</span> Next</h3>
 
-        <div class="outline-text-3" id="text-4-4">
+        <div class="outline-text-3" id="text-4-5">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #8D8D84;">#</span><span style=
@@ -838,11 +862,11 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-4-5" class="outline-3">
-        <h3 id="sec-4-5"><span class="section-number-3">4.5</span> Source
+      <div id="outline-container-sec-4-6" class="outline-3">
+        <h3 id="sec-4-6"><span class="section-number-3">4.6</span> Source
         common files</h3>
 
-        <div class="outline-text-3" id="text-4-5">
+        <div class="outline-text-3" id="text-4-6">
           <p><code>.commonshrc</code> contains miscellaneous definitions common
           to Bash and Zsh.</p>
 
@@ -871,10 +895,10 @@ shopt -s cdspell
         </div>
       </div>
 
-      <div id="outline-container-sec-4-6" class="outline-3">
-        <h3 id="sec-4-6"><span class="section-number-3">4.6</span> Next</h3>
+      <div id="outline-container-sec-4-7" class="outline-3">
+        <h3 id="sec-4-7"><span class="section-number-3">4.7</span> Next</h3>
 
-        <div class="outline-text-3" id="text-4-6">
+        <div class="outline-text-3" id="text-4-7">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #8D8D84;"># </span><span style=
@@ -1453,11 +1477,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         </div>
       </div>
 
-      <div id="outline-container-sec-4-7" class="outline-3">
-        <h3 id="sec-4-7"><span class="section-number-3">4.7</span>
+      <div id="outline-container-sec-4-8" class="outline-3">
+        <h3 id="sec-4-8"><span class="section-number-3">4.8</span>
         Postamble</h3>
 
-        <div class="outline-text-3" id="text-4-7">
+        <div class="outline-text-3" id="text-4-8">
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #8D8D84;">#</span><span style=

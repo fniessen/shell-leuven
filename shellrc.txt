@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-04-30 Wed 11:32>
+#+Time-stamp: <2014-04-30 Wed 15:12>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -83,6 +83,17 @@ Pourquoi ce dernier est-il utile ?  Pense à ceci :
 $ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
 bash: convret: command not found
 $ gm convert !*
+#+end_src
+
+** Profile
+
+#+begin_src sh :tangle ./src/.bash_profile
+# User dependent .bash_profile file
+
+# source the user's .bashrc if it exists
+if [ -f "${HOME}/.bashrc" ] ; then
+  source "${HOME}/.bashrc"
+fi
 #+end_src
 
 ** Preamble
@@ -1785,10 +1796,11 @@ set completion-ignore-case on
 Symlink the files.
 
 #+begin_src sh :results silent :shebang #!/bin/bash
-ln -f -s $(pwd)/../src/.bashrc     ~/.bashrc
-ln -f -s $(pwd)/../src/.commonshrc ~/.commonshrc
-ln -f -s $(pwd)/../src/.inputrc    ~/.inputrc
-ln -f -s $(pwd)/../src/.zshrc      ~/.zshrc
+ln -f -s $(pwd)/../src/.bashrc        ~/.bashrc
+ln -f -s $(pwd)/../src/.bash_profile  ~/.bash_profile
+ln -f -s $(pwd)/../src/.commonshrc    ~/.commonshrc
+ln -f -s $(pwd)/../src/.inputrc       ~/.inputrc
+ln -f -s $(pwd)/../src/.zshrc         ~/.zshrc
 #+end_src
 
 Or something like...
