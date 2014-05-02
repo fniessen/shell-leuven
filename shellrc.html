@@ -225,6 +225,11 @@
             hour difference) in Emacs when called from
             <code>c:/cygwin/Cygwin.bat</code>!!</li>
           </ul>
+
+          <p>Note – Launching Cygwin Terminal does not load
+          <code>.bashrc</code>, it only loads <code>.bash_profile</code>.
+          Hence, the need to have a <code>.bash_profile</code> sourcing
+          <code>.bashrc</code>…</p>
         </div>
       </div>
     </div>
@@ -299,7 +304,7 @@ $ gm convert !*
 "color: #8D8D84; font-style: italic;">User dependent .bash_profile file</span>
 
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">source the users bashrc if it exists</span>
+"color: #8D8D84; font-style: italic;">source the user's .bashrc if it exists</span>
 <span style="color: #0000FF;">if</span> [ -f <span style=
 "color: #036A07;">"${HOME}/.bashrc"</span> ] ; <span style=
 "color: #0000FF;">then</span>
@@ -3425,13 +3430,15 @@ $<span style="color: #BA36A5;">endif</span>
         <div class="org-src-container">
           <pre class="src src-sh">
 ln -f -s $(<span style=
-"color: #006FE0;">pwd</span>)/../src/.bashrc     ~/.bashrc
+"color: #006FE0;">pwd</span>)/../src/.bashrc        ~/.bashrc
 ln -f -s $(<span style=
-"color: #006FE0;">pwd</span>)/../src/.commonshrc ~/.commonshrc
+"color: #006FE0;">pwd</span>)/../src/.bash_profile  ~/.bash_profile
 ln -f -s $(<span style=
-"color: #006FE0;">pwd</span>)/../src/.inputrc    ~/.inputrc
+"color: #006FE0;">pwd</span>)/../src/.commonshrc    ~/.commonshrc
 ln -f -s $(<span style=
-"color: #006FE0;">pwd</span>)/../src/.zshrc      ~/.zshrc
+"color: #006FE0;">pwd</span>)/../src/.inputrc       ~/.inputrc
+ln -f -s $(<span style=
+"color: #006FE0;">pwd</span>)/../src/.zshrc         ~/.zshrc
 </pre>
         </div>
 

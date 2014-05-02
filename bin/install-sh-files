@@ -1,5 +1,6 @@
 #!/bin/bash
-ln -f -s $(pwd)/../src/.bashrc     ~/.bashrc
-ln -f -s $(pwd)/../src/.commonshrc ~/.commonshrc
-ln -f -s $(pwd)/../src/.inputrc    ~/.inputrc
-ln -f -s $(pwd)/../src/.zshrc      ~/.zshrc
+ln -f -s $(pwd)/../src/.bashrc        ~/.bashrc
+ln -f -s $(pwd)/../src/.bash_profile  ~/.bash_profile
+ln -f -s $(pwd)/../src/.commonshrc    ~/.commonshrc
+ln -f -s $(pwd)/../src/.inputrc       ~/.inputrc
+ln -f -s $(pwd)/../src/.zshrc         ~/.zshrc

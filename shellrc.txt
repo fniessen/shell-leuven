@@ -1,10 +1,11 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-04-30 Wed 15:12>
+#+Time-stamp: <2014-04-30 Wed 15:38>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
+#+OPTIONS:   ^:{}
 
 #+PROPERTY:  eval no
 #+SETUPFILE: ~/src/org-style/bigblow-local-abs.setup
@@ -51,6 +52,9 @@ In ~c:/cygwin/etc/profile~,
 
 - =TZ= (time zone) is set... which gives wrong times (1 hour difference) in Emacs
   when called from ~c:/cygwin/Cygwin.bat~!!
+
+Note -- Launching Cygwin Terminal does not load ~.bashrc~, it only loads
+~.bash_profile~. Hence, the need to have a ~.bash_profile~ sourcing ~.bashrc~...
 
 * Terminals
 
