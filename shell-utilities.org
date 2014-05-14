@@ -1,13 +1,18 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-14 Wed 11:37>
+#+Time-stamp: <2014-05-14 Wed 11:49>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
 
 #+PROPERTY:  eval no
 #+SETUPFILE: bigblow-pirilampo.setup
+
+#+name: current-time
+#+begin_src emacs-lisp :eval yes :results silent :tangle no
+(format-time-string "%Y%m%d.%H%M")
+#+end_src
 
 * Context
 
@@ -81,11 +86,6 @@ echo "Message" | mail -s "Subject" recipient@example.com
 #+end_src
 
 *** Options
-
-#+name: current-time
-#+begin_src emacs-lisp :eval yes :results silent :tangle no
-(format-time-string "%Y%m%d.%H%M")
-#+end_src
 
 #+begin_src sh :noweb yes
 Help ()
