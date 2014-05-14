@@ -1,14 +1,20 @@
 #+TITLE:     TODO.org
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2013-12-18 Wed 22:04>
+#+Time-stamp: <2014-05-14 Wed 20:50>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
 
-#+SETUPFILE: ~/src/org-style/bigblow-local-abs.setup
+#+SETUPFILE: ~/src/org-style/setup/bigblow-local-abs.setup
 
 * Tasks
+
+** TODO Follow coding conventions
+
+http://wiki.bash-hackers.org/scripting/style
+
+** TODO Rename this project on GitHub as Shellutils
 
 ** TODO Look at the Cygwin skeletons
 
