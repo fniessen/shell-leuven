@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-14 Wed 11:38>
+#+Time-stamp: <2014-05-14 Wed 12:45>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1289,7 +1289,7 @@ For branches for which we want to make some development, and keep in track with
 =master=:
 
 #+begin_src sh
-update-org () {
+update_org () {
     (   # Directory changes made in a subshell do not carry over to the parent shell.
         cd $HOME/Public/Repositories/org-mode;
         git fetch --all --verbose \
@@ -1301,17 +1301,17 @@ update-org () {
             && echo DON\'T make doc \
             && make info \
             && sudo make install-info;
-        printf "Running org-test, please wait (this can take a while)...\n"
-        org-test 2>&1 >/dev/null | tail -n 3
+        printf "Running org_test, please wait (this can take a while)...\n"
+        org_test 2>&1 >/dev/null | tail -n 3
     )
 }
 #+end_src
 
 #+begin_src sh
-org-test () {
+org_test () {
     (
         cd $HOME/Public/Repositories/org-mode;
-        TMPDIR=/tmp/org-test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        TMPDIR=/tmp/org_test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
     )
 }
 #+end_src
@@ -1444,8 +1444,8 @@ alias g='find . -type f -print0 | xargs -0 grep'
 alias svn_find="find . -not \( -name .svn -prune \)"
 
 # function for grep'ing a string in every SVN revision of a file
-# Usage: svn-grep-all-rev PATTERN FILE
-svn-grep-all-rev() {
+# Usage: svn_grep_all_rev PATTERN FILE
+svn_grep_all_rev() {
     svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
         while read revision; do
             printf "\e[0;33m%s\e[0m\n" "Revision $revision:"

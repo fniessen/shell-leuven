@@ -2551,7 +2551,7 @@ zmodload zsh/system
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">update-org</span> () {
+<span style="color: #006699;">update_org</span> () {
     (   <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Directory changes made in a subshell do not carry over to the parent shell.</span>
         <span style="color: #006FE0;">cd</span> $<span style=
@@ -2570,8 +2570,8 @@ zmodload zsh/system
             &amp;&amp; make info <span style="color: #036A07;">\</span>
             &amp;&amp; sudo make install-info;
         printf <span style=
-"color: #036A07;">"Running org-test, please wait (this can take a while)...\n"</span>
-        org-test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
+"color: #036A07;">"Running org_test, please wait (this can take a while)...\n"</span>
+        org_test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
     )
 }
 </pre>
@@ -2579,12 +2579,12 @@ zmodload zsh/system
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">org-test</span> () {
+<span style="color: #006699;">org_test</span> () {
     (
         <span style="color: #006FE0;">cd</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-mode;
         <span style=
-"color: #BA36A5;">TMPDIR</span>=/tmp/org-test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #036A07;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
+"color: #BA36A5;">TMPDIR</span>=/tmp/org_test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #036A07;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
     )
 }
 </pre>
@@ -2846,8 +2846,8 @@ zmodload zsh/system
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">function for grep'ing a string in every SVN revision of a file</span>
 <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">Usage: svn-grep-all-rev PATTERN FILE</span>
-<span style="color: #006699;">svn-grep-all-rev</span>() {
+"color: #8D8D84; font-style: italic;">Usage: svn_grep_all_rev PATTERN FILE</span>
+<span style="color: #006699;">svn_grep_all_rev</span>() {
     svn log $<span style="color: #BA36A5;">2</span> | perl -n -e <span style=
 "color: #036A07;">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
         <span style="color: #0000FF;">while </span><span style=
