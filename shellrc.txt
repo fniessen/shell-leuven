@@ -1,14 +1,14 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-04-30 Wed 15:38>
+#+Time-stamp: <2014-05-14 Wed 11:38>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
 #+OPTIONS:   ^:{}
 
 #+PROPERTY:  eval no
-#+SETUPFILE: ~/src/org-style/bigblow-local-abs.setup
+#+SETUPFILE: bigblow-pirilampo.setup
 
 * Documentation
 
