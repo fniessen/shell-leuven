@@ -1,0 +1,399 @@
+#+TITLE:     Shell utilities
+#+AUTHOR:    Fabrice Niessen
+#+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
+#+Time-stamp: <2014-05-14 Wed 11:37>
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+
+#+PROPERTY:  eval no
+#+SETUPFILE: bigblow-pirilampo.setup
+
+* Context
+
+** Introduction
+
+The shell utilities are core shell functions and scripts which I wrote when
+doing my day-to-day tasks.  Over time, this will become a *powerful toolkit*.
+
+** See also
+
+For similar collections, see:
+
+- http://icodesnippet.com/
+- http://exploitsdownload.com/
+- http://code.google.com/
+- [[https://bbs.archlinux.org/viewtopic.php?id=56646&p=1][Post your handy self made command line utilities]]
+
+* Shell functions
+
+** Exit on error
+
+The exit status follows the conventions for programs such as =grep=, =cmp=, and
+=diff=: it is 2 (or greater) if an error occurred.
+
+#+begin_src sh
+die () {
+    printf "$(basename $0): $@\n" > /dev/stderr
+    exit 2                              # an error occurred
+}
+#+end_src
+
+* Shell scripts
+  :PROPERTIES:
+  :shebang:  #!/bin/bash
+  :END:
+
+** Send an email
+   :PROPERTIES:
+   :tangle:   src/mail
+   :END:
+
+Send a mail to one or more people.
+
+*** Name
+
+#+begin_src sh :noweb yes :padline no
+# mail -- Send simple mail
+#+end_src
+
+*** Synopsis
+
+#+begin_src sh
+Usage ()
+{
+    cat << EOF 1>&2
+Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Try '$CMD -h' for more information.
+EOF
+    exit 2
+}
+#+end_src
+
+*** Description
+
+Send an email using =/bin/mail=:
+
+#+begin_src sh :tangle no
+mail -s "Subject" recipient@example.com < /path/to/file
+cat /path/to/file | mail -s "Subject" recipient@example.com
+echo "Message" | mail -s "Subject" recipient@example.com
+#+end_src
+
+*** Options
+
+#+name: current-time
+#+begin_src emacs-lisp :eval yes :results silent :tangle no
+(format-time-string "%Y%m%d.%H%M")
+#+end_src
+
+#+begin_src sh :noweb yes
+Help ()
+{
+    cat << EOF
+This is $CMD, version: <<current-time()>>.
+
+Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Send simple mail.
+Example: $CMD -s 'Disk failure' bill@example.com < /tmp/message
+
+Options:
+  -s  Specify subject on command line
+  -a  Attach a file
+  -c  Send carbon copies to (comma separated) list of recipients
+  -b  Send blind carbon copies to (comma separated) list of recipients
+  -f  Set the From address
+  -h  Display this help and exit
+EOF
+    exit 0
+}
+#+end_src
+
+*** Stdin
+
+When ~mail~ is invoked, standard input shall be the message to be delivered to
+the specified addresses.
+
+*** Environment variables
+
+The behavior of ~mail~ is affected by the following environment variables.
+
+- ~SMTP~ ::
+     The SMTP connection is made to the server specified by the variable ~SMTP~.
+
+*** Examples
+
+Here's a shell script that reports the disk usage:
+
+#+begin_src sh :tangle no
+( printf "Disk usage:\n" ; du -sh ) | mail -s "Disk usage report" recipient@example.com
+#+end_src
+
+Here's another one to backup a configuration folder, archive it, and send it as
+an attachment:
+
+#+begin_src sh :tangle no
+tar -zcf ~/backup.tar.gz ~/files_to_backup
+printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.gz recipient@example.com
+#+end_src
+
+*** Code
+
+#+begin_src sh
+die () {
+    printf "$CMD: $@\n" > /dev/stderr
+    exit 2                              # an error occurred
+}
+
+CMD=$(basename $0)
+
+if [ $# -eq 0 ]; then
+    Usage
+fi
+
+# default values
+SUBJECT="none"
+ATTFILES=""                             # files to be attached
+CC=""
+BCC=""
+FROM="$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')"
+: ${SMTP:="smtp"}                       # set var if not already set
+BODY="--"                               # stdin.txt
+
+while getopts "s:c:b:f:a:h" opt
+do
+    case "$opt" in
+        s) SUBJECT="$OPTARG";;
+        a) ATTFILES="$ATTFILES $OPTARG";;
+        c) CC="$OPTARG";;
+        b) BCC="$OPTARG";;
+        f) FROM="$OPTARG";;
+        h) Help;;
+        ,*) Usage;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+MAILTO="$1"
+if [ "$MAILTO" = "" ]; then
+    Usage
+fi
+
+ATT_SWITCH=""
+for attach in $ATTFILES
+do
+    if [ ! -r $attach ]
+    then
+        die "File $attach does not exist or is not readable."
+    else
+        # binary vs text file
+        if [ "$(file --brief --mime $attach 2> /dev/null | cut -d/ -f 1)" = "text" ]
+        then
+            ATT_SWITCH="$ATT_SWITCH -attacht $(cygpath -w $attach)"
+        else
+            ATT_SWITCH="$ATT_SWITCH -attach $(cygpath -w $attach)"
+        fi
+    fi
+done
+
+CC_SWITCH=""
+[ "$CC" = "" ] || CC_SWITCH="-cc ${CC}"
+
+BCC_SWITCH=""
+[ "$BCC" = "" ] || BCC_SWITCH="-bcc ${BCC}"
+
+blat -to "$MAILTO" \
+     $CC_SWITCH \
+     $BCC_SWITCH \
+     -subject "$(echo "$SUBJECT" | unaccent)" \
+     -f "$FROM" \
+     -server "$SMTP" \
+     $ATT_SWITCH
+
+# mail ends here
+#+end_src
+
+** Echo text in color
+
+#+begin_src sh :tangle ~/bin/cecho
+cecho () {
+    black="\e[30m"
+    red="\e[31m"
+    green="\e[32m"
+    yellow="\e[33m"
+    blue="\e[34m"
+    magenta="\e[35m"
+    cyan="\e[36m"
+    white="\e[37m"
+    reset="\e[0m"
+
+    color=${green}
+    printf "$color$1$reset\n"
+}
+
+cecho "$@"
+#+end_src
+
+* VC
+
+http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each
+
+#+name: vc-update
+#+begin_src sh :results verbatim
+for dir in ~/src/*
+do
+    cecho "Updating $dir:"
+    if [ -d $dir/.git ]; then
+        (cd $dir && git pull)
+    elif [ -d $dir/.svn ]; then
+        (cd $dir && svn update)
+    fi
+    printf "\n"
+done
+#+end_src
+
+If you need it to be recursive:
+
+#+name: git-recursive-update
+#+begin_src sh
+find -type d -printf "%f" -exec  sh -c "cd \"{}\" && git pull"  \;
+#+end_src
+
+See http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-update/
+
+* Web security assessments
+
+** HTTP
+
+From Hacking Exposed Web Applications:
+
+#+begin_src sh :tangle ~/bin/getit.sh
+#!/bin/sh
+# mike's getit.sh script
+if [ -z $1 ]; then
+echo -e "\n\tUsage: $0 <host> <URL>"
+exit
+fi
+echo -e "GET $2 HTTP/1.0\n\n" | \
+nc -vv $1 80
+#+end_src
+
+#+begin_src sh
+getit.sh www.missioncriticalit.com /index.html
+#+end_src
+
+#+begin_src sh
+getit.sh www.victim.com /index.html | grep -i "<form"
+#+end_src
+
+#+begin_src sh
+getit.sh www.victim.com /index.html | grep -i "input type"
+#+end_src
+
+** HTTPS
+
+#+begin_src sh :tangle ~/bin/sgetit.sh
+#!/bin/sh
+# mike's sgetit.sh script
+if [ -z $1 ]; then
+echo -e "\n\tUsage: $0 <SSL host> <URL>"
+exit
+fi
+echo -e "GET $2 HTTP/1.0\n\n" | \
+openssl s_client -quiet -connect $1:443 2>/dev/null
+#+end_src
+
+#+begin_src sh
+sgetit.sh www.victim.com /secure/admin.html
+#+end_src
+
+* Netcat
+
+Here is a script which will port scan and banner grab automatically with
+netcat. It will check for the SSH and MySQL version by connecting and saving
+the results and it will see if the HTTP server is vulnerable to the =TRACE=
+method, look in the dumpfile ~/tmp/bannergrab~ and look for
+=<script>alert(123)</script>= if you can find that back you got yourself a
+vulnerable server.
+
+#+begin_src sh :tangle ~/bin/nc_bgrab
+#!/bin/sh
+
+range="10.10.10.";
+
+# You can change this to a port range $(seq 20 25) is port 20-25
+ports="20 21 22 23 25 53 80 110 111 443 3306 6000";
+
+http_header="HEAD / HTTP/0.1\n\n";
+
+for host in $(seq 2 254); do
+    for port in $ports; do
+        echo "[+] Testing "$range$host":"$port;
+        result=$(nc -zv -w 1 $range$host $port 2>&1 | grep succeeded);
+        if [ -n "$result" ]; then
+            echo "\n"$range$host":"$port"\n" >> "/tmp/bannergrab"
+            if [ "$port" -eq "22" ]; then
+                echo "Found open port "$range$host":"$port" Here might be some SSH server, it echoes the SSH version to you on connecting when lucky.";
+                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
+            fi;
+            if [ "$port" -eq "80" ]; then
+                echo "Found open port "$range$host":"$port" Trying to fingerprint with HEAD and see if the server is vulnerable to TRACE XSSing";
+                echo $http_header | nc -v -w 1 $range$host $port >> "/tmp/bannergrab"
+                echo "TRACE / HTTP/1.1\nHost: $range$host\nuser-agent: <script>alert(123)</script>\n\n" | nc -v -w 2 $range$host $port >> "/tmp/bannergrab"
+            fi;
+            if [ "$port" -eq "3306" ]; then
+                echo "Found open port "$range$host":"$port" Possible MySQL installation found, saving the banner for later inspection, the MySQL version can be found in this.";
+                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
+            fi;
+        fi;
+    done
+done
+#+end_src
+
+A lot more on http://h.ackack.net/cheatsheets/netcat/: how to workaround =-e
+cmd.exe= option which disappeared, etc.
+
+** Scan only certain ports
+
+#+begin_src sh
+nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
+#+end_src
+
+** DNS
+
+#+begin_src sh
+nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
+nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
+#+end_src
+
+** Spoof source IP address
+
+=-s= option to Netcat: does not work under Cygwin...
+
+** Socat
+
+Learning socat in terms of netcat: http://jdimpson.livejournal.com/6534.html
+
+- *Remote access server*
+
+  #+begin_src sh
+  socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
+  #+end_src
+
+- *Data forwarder* (aka simple proxy)
+
+  #+begin_src sh
+  socat TCP-L:2323 TCP:localhost:22
+  #+end_src
+
+  And of course, you can replace either address with any other socat address
+  we've already talked about (UDP, UDP-L), or ones we'll talk about in another
+  post (e.g. SSL).
+
+** Packet forger
+
+SendIP
+
+** Lauching attacks via Tor
+
+http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html
