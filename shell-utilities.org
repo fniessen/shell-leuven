@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-14 Wed 11:49>
+#+Time-stamp: <2014-05-16 Fri 11:01>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -16,7 +16,7 @@
 
 * Context
 
-** Introduction
+** Description
 
 The shell utilities are core shell functions and scripts which I wrote when
 doing my day-to-day tasks.  Over time, this will become a *powerful toolkit*.
@@ -30,9 +30,21 @@ For similar collections, see:
 - http://code.google.com/
 - [[https://bbs.archlinux.org/viewtopic.php?id=56646&p=1][Post your handy self made command line utilities]]
 
-* Shell functions
+** Prerequisites
 
-** Exit on error
+- Clear
+- Diff
+- Iconv
+
+* Shell functions
+  :PROPERTIES:
+  :shebang:  #!/bin/bash
+  :tangle:   src/shellutils
+  :END:
+
+Only use alphanumeric characters and the underscore for function names.
+
+** Exit with an error
 
 The exit status follows the conventions for programs such as =grep=, =cmp=, and
 =diff=: it is 2 (or greater) if an error occurred.
@@ -41,6 +53,16 @@ The exit status follows the conventions for programs such as =grep=, =cmp=, and
 die () {
     printf "$(basename $0): $@\n" > /dev/stderr
     exit 2                              # an error occurred
+}
+#+end_src
+
+** Find the name of the parent process
+
+The following is supposed to work on Linux, but doesn't on Cygwin.
+
+#+begin_src sh
+pname () {
+    ps -o command= -p $PPID | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
 }
 #+end_src
 
@@ -77,7 +99,7 @@ EOF
 
 *** Description
 
-Send an email using =/bin/mail=:
+Send an email using ~mail~:
 
 #+begin_src sh :tangle no
 mail -s "Subject" recipient@example.com < /path/to/file
@@ -86,6 +108,8 @@ echo "Message" | mail -s "Subject" recipient@example.com
 #+end_src
 
 *** Options
+
+The following options shall be supported:
 
 #+begin_src sh :noweb yes
 Help ()
@@ -114,12 +138,41 @@ EOF
 When ~mail~ is invoked, standard input shall be the message to be delivered to
 the specified addresses.
 
+*** Input files
+
+None.
+
 *** Environment variables
 
-The behavior of ~mail~ is affected by the following environment variables.
+The behavior of ~mail~ is affected by the following environment variable:
 
 - ~SMTP~ ::
      The SMTP connection is made to the server specified by the variable ~SMTP~.
+
+*** Stdout
+
+The standard output shall be that of the ~blat~ command.
+
+*** Stderr
+
+The standard error shall be used only for diagnostic messages.
+
+*** Output files
+
+None.
+
+*** Exit status
+
+The ~mail~ utility returns one of the following values upon exit:
+
+- 0 ::
+     Successful completion: one mail was sent.
+
+- 2 ::
+     Invalid options were specified on the command line or shell input was
+     missing.
+
+Otherwise, the exit status of ~mail~ shall be that of the ~blat~ command.
 
 *** Examples
 
@@ -140,11 +193,9 @@ printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.
 *** Code
 
 #+begin_src sh
-die () {
-    printf "$CMD: $@\n" > /dev/stderr
-    exit 2                              # an error occurred
-}
+. shellutils
 
+# command name
 CMD=$(basename $0)
 
 if [ $# -eq 0 ]; then
@@ -178,6 +229,15 @@ MAILTO="$1"
 if [ "$MAILTO" = "" ]; then
     Usage
 fi
+
+# check presence of stdin contents
+[ -t 0 ] && die "Message body is missing."
+
+# check for executable files
+for x in unaccent blat
+do
+    command -v $x > /dev/null || die "$x not found."
+done
 
 ATT_SWITCH=""
 for attach in $ATTFILES

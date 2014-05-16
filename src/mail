@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20140514.1137.
+This is $CMD, version: 20140516.1101.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
@@ -30,11 +30,9 @@ EOF
     exit 0
 }
 
-die () {
-    printf "$CMD: $@\n" > /dev/stderr
-    exit 2                              # an error occurred
-}
+. shellutils
 
+# command name
 CMD=$(basename $0)
 
 if [ $# -eq 0 ]; then
@@ -68,6 +66,15 @@ MAILTO="$1"
 if [ "$MAILTO" = "" ]; then
     Usage
 fi
+
+# check presence of stdin contents
+[ -t 0 ] && die "Message body is missing."
+
+# check for executable files
+for x in unaccent blat
+do
+    command -v $x > /dev/null || die "$x not found."
+done
 
 ATT_SWITCH=""
 for attach in $ATTFILES

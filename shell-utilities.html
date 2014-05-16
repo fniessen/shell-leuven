@@ -50,9 +50,11 @@
             <a href="#sec-1">1. Context</a>
 
             <ul>
-              <li><a href="#sec-1-1">1.1. Introduction</a></li>
+              <li><a href="#sec-1-1">1.1. Description</a></li>
 
               <li><a href="#sec-1-2">1.2. See also</a></li>
+
+              <li><a href="#sec-1-3">1.3. Prerequisites</a></li>
             </ul>
           </li>
 
@@ -60,7 +62,10 @@
             <a href="#sec-2">2. Shell functions</a>
 
             <ul>
-              <li><a href="#sec-2-1">2.1. Exit on error</a></li>
+              <li><a href="#sec-2-1">2.1. Exit with an error</a></li>
+
+              <li><a href="#sec-2-2">2.2. Find the name of the parent
+              process</a></li>
             </ul>
           </li>
 
@@ -82,12 +87,22 @@
 
                   <li><a href="#sec-3-1-5">3.1.5. Stdin</a></li>
 
-                  <li><a href="#sec-3-1-6">3.1.6. Environment
+                  <li><a href="#sec-3-1-6">3.1.6. Input files</a></li>
+
+                  <li><a href="#sec-3-1-7">3.1.7. Environment
                   variables</a></li>
 
-                  <li><a href="#sec-3-1-7">3.1.7. Examples</a></li>
+                  <li><a href="#sec-3-1-8">3.1.8. Stdout</a></li>
 
-                  <li><a href="#sec-3-1-8">3.1.8. Code</a></li>
+                  <li><a href="#sec-3-1-9">3.1.9. Stderr</a></li>
+
+                  <li><a href="#sec-3-1-10">3.1.10. Output files</a></li>
+
+                  <li><a href="#sec-3-1-11">3.1.11. Exit status</a></li>
+
+                  <li><a href="#sec-3-1-12">3.1.12. Examples</a></li>
+
+                  <li><a href="#sec-3-1-13">3.1.13. Code</a></li>
                 </ul>
               </li>
 
@@ -141,7 +156,7 @@
 
       <div id="outline-container-sec-1-1" class="outline-3">
         <h3 id="sec-1-1"><span class="section-number-3">1.1</span>
-        Introduction</h3>
+        Description</h3>
 
         <div class="outline-text-3" id="text-1-1">
           <p>The shell utilities are core shell functions and scripts which I
@@ -173,16 +188,34 @@
           </ul>
         </div>
       </div>
+
+      <div id="outline-container-sec-1-3" class="outline-3">
+        <h3 id="sec-1-3"><span class="section-number-3">1.3</span>
+        Prerequisites</h3>
+
+        <div class="outline-text-3" id="text-1-3">
+          <ul class="org-ul">
+            <li>Clear</li>
+
+            <li>Diff</li>
+
+            <li>Iconv</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div id="outline-container-sec-2" class="outline-2">
       <h2 id="sec-2"><span class="section-number-2">2</span> Shell
       functions</h2>
 
-      <div class="outline-text-2" id="text-2"></div>
+      <div class="outline-text-2" id="text-2">
+        <p>Only use alphanumeric characters and the underscore for function
+        names.</p>
+      </div>
 
       <div id="outline-container-sec-2-1" class="outline-3">
-        <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Exit on
+        <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Exit with an
         error</h3>
 
         <div class="outline-text-3" id="text-2-1">
@@ -200,6 +233,27 @@
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">an </span><span style=
 "color: #CC0000; background-color: #FFFF88; font-style: italic;">error</span><span style="color: #8D8D84; font-style: italic;"> occurred</span>
+}
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="outline-container-sec-2-2" class="outline-3">
+        <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Find the
+        name of the parent process</h3>
+
+        <div class="outline-text-3" id="text-2-2">
+          <p>The following is supposed to work on Linux, but doesn’t on
+          Cygwin.</p>
+
+          <div class="org-src-container">
+            <pre class="src src-sh">
+<span style="color: #006699;">pname</span> () {
+    ps -o <span style="color: #BA36A5;">command</span>= -p $<span style=
+"color: #BA36A5;">PPID</span> | tail -n 1 | awk <span style=
+"color: #036A07;">'{print $1}'</span> | awk -F/ <span style=
+"color: #036A07;">'{print $NF}'</span>
 }
 </pre>
           </div>
@@ -261,7 +315,7 @@
           Description</h4>
 
           <div class="outline-text-4" id="text-3-1-3">
-            <p>Send an email using <code>/bin/mail</code>:</p>
+            <p>Send an email using <code>mail</code>:</p>
 
             <div class="org-src-container">
               <pre class="src src-sh">
@@ -282,13 +336,15 @@ cat /path/to/file | mail -s <span style=
           Options</h4>
 
           <div class="outline-text-4" id="text-3-1-4">
+            <p>The following options shall be supported:</p>
+
             <div class="org-src-container">
               <pre class="src src-sh">
 <span style="color: #006699;">Help</span> ()
 {
     cat &lt;&lt; EOF
 <span style=
-"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140514.1149.</span>
+"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140516.1101.</span>
 
 <span style=
 "color: #0000ff; background-color: #EEF5FE;">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
@@ -329,12 +385,21 @@ cat /path/to/file | mail -s <span style=
         </div>
 
         <div id="outline-container-sec-3-1-6" class="outline-4">
-          <h4 id="sec-3-1-6"><span class="section-number-4">3.1.6</span>
-          Environment variables</h4>
+          <h4 id="sec-3-1-6"><span class="section-number-4">3.1.6</span> Input
+          files</h4>
 
           <div class="outline-text-4" id="text-3-1-6">
+            <p>None.</p>
+          </div>
+        </div>
+
+        <div id="outline-container-sec-3-1-7" class="outline-4">
+          <h4 id="sec-3-1-7"><span class="section-number-4">3.1.7</span>
+          Environment variables</h4>
+
+          <div class="outline-text-4" id="text-3-1-7">
             <p>The behavior of <code>mail</code> is affected by the following
-            environment variables.</p>
+            environment variable:</p>
 
             <dl class="org-dl">
               <dt><code>SMTP</code></dt>
@@ -345,11 +410,64 @@ cat /path/to/file | mail -s <span style=
           </div>
         </div>
 
-        <div id="outline-container-sec-3-1-7" class="outline-4">
-          <h4 id="sec-3-1-7"><span class="section-number-4">3.1.7</span>
+        <div id="outline-container-sec-3-1-8" class="outline-4">
+          <h4 id="sec-3-1-8"><span class="section-number-4">3.1.8</span>
+          Stdout</h4>
+
+          <div class="outline-text-4" id="text-3-1-8">
+            <p>The standard output shall be that of the <code>blat</code>
+            command.</p>
+          </div>
+        </div>
+
+        <div id="outline-container-sec-3-1-9" class="outline-4">
+          <h4 id="sec-3-1-9"><span class="section-number-4">3.1.9</span>
+          Stderr</h4>
+
+          <div class="outline-text-4" id="text-3-1-9">
+            <p>The standard error shall be used only for diagnostic
+            messages.</p>
+          </div>
+        </div>
+
+        <div id="outline-container-sec-3-1-10" class="outline-4">
+          <h4 id="sec-3-1-10"><span class="section-number-4">3.1.10</span>
+          Output files</h4>
+
+          <div class="outline-text-4" id="text-3-1-10">
+            <p>None.</p>
+          </div>
+        </div>
+
+        <div id="outline-container-sec-3-1-11" class="outline-4">
+          <h4 id="sec-3-1-11"><span class="section-number-4">3.1.11</span> Exit
+          status</h4>
+
+          <div class="outline-text-4" id="text-3-1-11">
+            <p>The <code>mail</code> utility returns one of the following
+            values upon exit:</p>
+
+            <dl class="org-dl">
+              <dt>0</dt>
+
+              <dd>Successful completion: one mail was sent.</dd>
+
+              <dt>2</dt>
+
+              <dd>Invalid options were specified on the command line or shell
+              input was missing.</dd>
+            </dl>
+
+            <p>Otherwise, the exit status of <code>mail</code> shall be that of
+            the <code>blat</code> command.</p>
+          </div>
+        </div>
+
+        <div id="outline-container-sec-3-1-12" class="outline-4">
+          <h4 id="sec-3-1-12"><span class="section-number-4">3.1.12</span>
           Examples</h4>
 
-          <div class="outline-text-4" id="text-3-1-7">
+          <div class="outline-text-4" id="text-3-1-12">
             <p>Here’s a shell script that reports the disk usage:</p>
 
             <div class="org-src-container">
@@ -373,22 +491,17 @@ printf <span style=
           </div>
         </div>
 
-        <div id="outline-container-sec-3-1-8" class="outline-4">
-          <h4 id="sec-3-1-8"><span class="section-number-4">3.1.8</span>
+        <div id="outline-container-sec-3-1-13" class="outline-4">
+          <h4 id="sec-3-1-13"><span class="section-number-4">3.1.13</span>
           Code</h4>
 
-          <div class="outline-text-4" id="text-3-1-8">
+          <div class="outline-text-4" id="text-3-1-13">
             <div class="org-src-container">
               <pre class="src src-sh">
-<span style="color: #006699;">die</span> () {
-    printf <span style="color: #036A07;">"$CMD: $@\n"</span> &gt; /dev/stderr
-    <span style=
-"color: #0000FF;">exit</span> 2                              <span style=
-"color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">an </span><span style=
-"color: #CC0000; background-color: #FFFF88; font-style: italic;">error</span><span style="color: #8D8D84; font-style: italic;"> occurred</span>
-}
+. shellutils
 
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">command name</span>
 <span style="color: #BA36A5;">CMD</span>=$(basename $<span style=
 "color: #BA36A5;">0</span>)
 
@@ -449,6 +562,21 @@ printf <span style=
 "color: #036A07;">""</span> ]; <span style="color: #0000FF;">then</span>
     Usage
 <span style="color: #0000FF;">fi</span>
+
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">check presence of stdin contents</span>
+[ -t 0 ] &amp;&amp; die <span style=
+"color: #036A07;">"Message body is missing."</span>
+
+<span style="color: #8D8D84;"># </span><span style=
+"color: #8D8D84; font-style: italic;">check for executable files</span>
+<span style="color: #0000FF;">for</span> x<span style=
+"color: #0000FF;"> in</span> unaccent blat
+<span style="color: #0000FF;">do</span>
+    command -v $<span style=
+"color: #BA36A5;">x</span> &gt; /dev/null || die <span style=
+"color: #036A07;">"$x not found."</span>
+<span style="color: #0000FF;">done</span>
 
 <span style="color: #BA36A5;">ATT_SWITCH</span>=<span style=
 "color: #036A07;">""</span>
