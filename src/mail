@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20140516.1101.
+This is $CMD, version: 20140516.1120.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
@@ -30,10 +30,11 @@ EOF
     exit 0
 }
 
-. shellutils
-
 # command name
 CMD=$(basename $0)
+
+command -v shellutils > /dev/null || { printf "$CMD: shellutils not found.\n" > /dev/stderr; exit 2; }
+. shellutils
 
 if [ $# -eq 0 ]; then
     Usage

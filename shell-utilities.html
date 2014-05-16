@@ -236,6 +236,9 @@
 }
 </pre>
           </div>
+
+          <p><code>Die</code> <b>must be a function</b> so that the calling
+          script does exit with an error.</p>
         </div>
       </div>
 
@@ -344,7 +347,7 @@ cat /path/to/file | mail -s <span style=
 {
     cat &lt;&lt; EOF
 <span style=
-"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140516.1101.</span>
+"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140516.1120.</span>
 
 <span style=
 "color: #0000ff; background-color: #EEF5FE;">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
@@ -498,12 +501,14 @@ printf <span style=
           <div class="outline-text-4" id="text-3-1-13">
             <div class="org-src-container">
               <pre class="src src-sh">
-. shellutils
-
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">command name</span>
 <span style="color: #BA36A5;">CMD</span>=$(basename $<span style=
 "color: #BA36A5;">0</span>)
+
+command -v shellutils &gt; /dev/null || { printf <span style=
+"color: #036A07;">"$CMD: shellutils not found.\n"</span> &gt; /dev/stderr; <span style="color: #0000FF;">exit</span> 2; }
+. shellutils
 
 <span style="color: #0000FF;">if</span> [ $<span style=
 "color: #BA36A5;">#</span> -eq 0 ]; <span style="color: #0000FF;">then</span>

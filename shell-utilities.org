@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-16 Fri 11:01>
+#+Time-stamp: <2014-05-16 Fri 11:20>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -55,6 +55,8 @@ die () {
     exit 2                              # an error occurred
 }
 #+end_src
+
+~Die~ *must be a function* so that the calling script does exit with an error.
 
 ** Find the name of the parent process
 
@@ -193,10 +195,11 @@ printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.
 *** Code
 
 #+begin_src sh
-. shellutils
-
 # command name
 CMD=$(basename $0)
+
+command -v shellutils > /dev/null || { printf "$CMD: shellutils not found.\n" > /dev/stderr; exit 2; }
+. shellutils
 
 if [ $# -eq 0 ]; then
     Usage
