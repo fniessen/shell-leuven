@@ -4,7 +4,7 @@ die () {
     exit 2                              # an error occurred
 }
 
-files-executables-p () {
+files_executables_p () {
     for x in $@
     do
         command -v $x > /dev/null || die "$x not found."

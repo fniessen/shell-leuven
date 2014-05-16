@@ -251,7 +251,7 @@
         <div class="outline-text-3" id="text-2-2">
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">files-executables-p</span> () {
+<span style="color: #006699;">files_executables_p</span> () {
     <span style="color: #0000FF;">for</span> x<span style=
 "color: #0000FF;"> in</span> $<span style="color: #BA36A5;">@</span>
     <span style="color: #0000FF;">do</span>
@@ -370,7 +370,7 @@ cat /path/to/file | mail -s <span style=
 {
     cat &lt;&lt; EOF
 <span style=
-"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140516.1145.</span>
+"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140516.1149.</span>
 
 <span style=
 "color: #0000ff; background-color: #EEF5FE;">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
@@ -598,7 +598,7 @@ command -v shellutils &gt; /dev/null || { printf <span style=
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">check for executable files</span>
-files-executables-p <span style=
+files_executables_p <span style=
 "color: #036A07;">"unaccent"</span> <span style="color: #036A07;">"blat"</span>
 
 <span style="color: #BA36A5;">ATT_SWITCH</span>=<span style=
