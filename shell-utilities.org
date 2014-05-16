@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-16 Fri 11:20>
+#+Time-stamp: <2014-05-16 Fri 11:44>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -57,6 +57,17 @@ die () {
 #+end_src
 
 ~Die~ *must be a function* so that the calling script does exit with an error.
+
+** Check for executable files
+
+#+begin_src sh
+files-executables-p () {
+    for x in $@
+    do
+        command -v $x > /dev/null || die "$x not found."
+    done
+}
+#+end_src
 
 ** Find the name of the parent process
 
@@ -237,10 +248,7 @@ fi
 [ -t 0 ] && die "Message body is missing."
 
 # check for executable files
-for x in unaccent blat
-do
-    command -v $x > /dev/null || die "$x not found."
-done
+files-executables-p "unaccent" "blat"
 
 ATT_SWITCH=""
 for attach in $ATTFILES

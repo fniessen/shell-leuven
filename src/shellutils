@@ -4,6 +4,13 @@ die () {
     exit 2                              # an error occurred
 }
 
+files-executables-p () {
+    for x in $@
+    do
+        command -v $x > /dev/null || die "$x not found."
+    done
+}
+
 pname () {
     ps -o command= -p $PPID | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
 }
