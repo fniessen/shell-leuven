@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20140516.1149.
+This is $CMD, version: 20140526.2151.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
@@ -33,8 +33,7 @@ EOF
 # command name
 CMD=$(basename $0)
 
-command -v shellutils > /dev/null || { printf "$CMD: shellutils not found.\n" > /dev/stderr; exit 2; }
-. shellutils
+. shellutils || exit 2
 
 if [ $# -eq 0 ]; then
     Usage
@@ -72,7 +71,7 @@ fi
 [ -t 0 ] && die "Message body is missing."
 
 # check for executable files
-files_executables_p "unaccent" "blat"
+files_executables_p "blat"
 
 ATT_SWITCH=""
 for attach in $ATTFILES
@@ -100,7 +99,7 @@ BCC_SWITCH=""
 blat -to "$MAILTO" \
      $CC_SWITCH \
      $BCC_SWITCH \
-     -subject "$(echo "$SUBJECT" | unaccent)" \
+     -subject "$SUBJECT" \
      -f "$FROM" \
      -server "$SMTP" \
      $ATT_SWITCH

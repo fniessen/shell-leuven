@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-16 Fri 11:49>
+#+Time-stamp: <2014-05-26 Mon 21:51>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -29,6 +29,16 @@ For similar collections, see:
 - http://exploitsdownload.com/
 - http://code.google.com/
 - [[https://bbs.archlinux.org/viewtopic.php?id=56646&p=1][Post your handy self made command line utilities]]
+
+** Coding style
+
+- http://wiki.bash-hackers.org/scripting/style
+
+- https://google-styleguide.googlecode.com/svn/trunk/shell.xml
+
+  ~variable_name~ (preferred, ~variableName~ accepted) \\
+  ~function_name~ \\
+  ~CONSTANT_NAME~
 
 ** Prerequisites
 
@@ -209,8 +219,7 @@ printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.
 # command name
 CMD=$(basename $0)
 
-command -v shellutils > /dev/null || { printf "$CMD: shellutils not found.\n" > /dev/stderr; exit 2; }
-. shellutils
+. shellutils || exit 2
 
 if [ $# -eq 0 ]; then
     Usage
@@ -248,7 +257,7 @@ fi
 [ -t 0 ] && die "Message body is missing."
 
 # check for executable files
-files_executables_p "unaccent" "blat"
+files_executables_p "blat"
 
 ATT_SWITCH=""
 for attach in $ATTFILES
@@ -276,7 +285,7 @@ BCC_SWITCH=""
 blat -to "$MAILTO" \
      $CC_SWITCH \
      $BCC_SWITCH \
-     -subject "$(echo "$SUBJECT" | unaccent)" \
+     -subject "$SUBJECT" \
      -f "$FROM" \
      -server "$SMTP" \
      $ATT_SWITCH
