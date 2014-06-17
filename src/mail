@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20140526.2151.
+This is $CMD, version: 20140617.1057.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
@@ -38,6 +38,9 @@ CMD=$(basename $0)
 if [ $# -eq 0 ]; then
     Usage
 fi
+
+# check for Cygwin executable files (and not their Windows counterpart)
+files_cygwin_executables_p "whoami" "hostname"
 
 # default values
 SUBJECT="none"

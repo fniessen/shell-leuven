@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-26 Mon 21:51>
+#+Time-stamp: <2014-06-17 Tue 10:56>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -75,6 +75,21 @@ files_executables_p () {
     for x in $@
     do
         command -v $x > /dev/null || die "$x not found."
+    done
+}
+#+end_src
+
+** Check for Cygwin executable files
+
+We sometimes have to check that the ~PATH~ is set right, so that Cygwin
+executables (for example, ~whoami~ and ~hostname~) are found before their Windows
+counterpart -- to avoid problems of spurious ~\r~ added to the output.
+
+#+begin_src sh
+files_cygwin_executables_p () {
+    for x in $@
+    do
+        [ "$(command -v $x)" = "/usr/bin/$x" ] || die "$x is not a Cygwin executable."
     done
 }
 #+end_src
@@ -224,6 +239,9 @@ CMD=$(basename $0)
 if [ $# -eq 0 ]; then
     Usage
 fi
+
+# check for Cygwin executable files (and not their Windows counterpart)
+files_cygwin_executables_p "whoami" "hostname"
 
 # default values
 SUBJECT="none"
