@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-06-18 Wed 12:12>
+#+Time-stamp: <2014-06-18 Wed 14:49>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -46,7 +46,7 @@ If you get a couple of "command not found" errors and a corrupt prompt at
 startup, then your =.bashrc= is probably in Windows text format (~\r\n~ line
 endings).  Make sure your editor is in Unix format when creating text files.
 
-*** What to put where?
+** What to put where?
 
 Login shell runs .profile (or .bash_profile or .bash_login) on startup. Set
 your env variables in there, cuz sub-shells will inherit the env vars. Then
