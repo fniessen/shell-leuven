@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-06-18 Wed 14:49>
+#+Time-stamp: <2014-06-18 Wed 16:48>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1338,7 +1338,8 @@ update_org () {
 org_test () {
     (
         cd $HOME/Public/Repositories/org-mode;
-        TMPDIR=/tmp/org_test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        TMPDIR=/tmp emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        # TMPDIR must exist!
     )
 }
 #+end_src
