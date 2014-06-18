@@ -87,9 +87,9 @@ update_org () {
             && echo DON\'T sudo make install \
             && echo DON\'T make doc \
             && make info \
-            && sudo make install-info;
-        printf "Running org_test, please wait (this can take a while)...\n"
-        org_test 2>&1 >/dev/null | tail -n 3
+            && sudo make install-info \
+            && printf "Running org_test, please wait (this can take a while)...\n" \
+            && org_test 2>&1 >/dev/null | tail -n 3
     )
 }
 

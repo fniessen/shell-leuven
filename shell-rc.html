@@ -52,6 +52,12 @@
             <a href="#sec-2">2. Startup files</a>
 
             <ul>
+              <li>
+                <ul>
+                  <li><a href="#sec-2-0-1">2.0.1. What to put where?</a></li>
+                </ul>
+              </li>
+
               <li><a href="#sec-2-1">2.1. Note</a></li>
             </ul>
           </li>
@@ -193,8 +199,15 @@
         <p>There are three <b>sorts of shells</b>:</p>
 
         <ul class="org-ul">
-          <li>(interactive) <b>login</b> (for which <code>.profile</code> and
-          <code>.bashrc</code> are read)</li>
+          <li>(interactive) <b>login</b> (for which
+          <code>c:/cygwin/etc/profile</code> and <code>.profile</code> are
+          read, which sources <code>.bashrc</code> as well)
+
+            <p><b>Note --</b> Launching Cygwin Terminal (login shell) does not
+            load <code>.bashrc</code> on its own, it only loads
+            <code>.bash_profile</code>. Hence, the need to have a
+            <code>.bash_profile</code> sourcing <code>.bashrc</code>…</p>
+          </li>
 
           <li><b>interactive</b> (non-login) (for which <code>.bashrc</code> is
           read)</li>
@@ -226,8 +239,44 @@
 
         <p>If you get a couple of “command not found” errors and a corrupt
         prompt at startup, then your <code>.bashrc</code> is probably in
-        Windows text format (line endings). Make sure your editor is in Unix
-        format when creating text files.</p>
+        Windows text format (<code>\r\n</code> line endings). Make sure your
+        editor is in Unix format when creating text files.</p>
+      </div>
+
+      <div id="outline-container-sec-2-0-1" class="outline-4">
+        <h4 id="sec-2-0-1"><span class="section-number-4">2.0.1</span> What to
+        put where?</h4>
+
+        <div class="outline-text-4" id="text-2-0-1">
+          <p>Login shell runs .profile (or .bash_profile or .bash_login) on
+          startup. Set your env variables in there, cuz sub-shells will inherit
+          the env vars. Then make .profile run your .bashrc:</p>
+
+          <div class="org-src-container">
+            <pre class="src src-sh">
+. .bashrc
+</pre>
+          </div>
+
+          <p>Interactive runs .bashrc. Since it inherits envs, but not aliases,
+          put your aliases in this file.</p>
+
+          <p>Shell scripts, cron jobs, and the like, run with a bare shell: no
+          bashrc or profiles are run. No kidding you get 4 env vars set, the
+          bare minimum. Therefore your PATH won’t work very well so you often
+          have to give an abs pathname like in crontab:</p>
+
+          <div class="org-src-container">
+            <pre class="src src-sh">
+right: 0 0 * * 2 /usr/sbin/apachectl restart
+wrong: 0 0 * * 2 apachectl restart
+</pre>
+          </div>
+
+          <p>From <a href=
+          "https://www.linuxquestions.org/questions/linux-general-1/difference-between-normal-shell-and-login-shell-14983/#post4828786">
+          https://www.linuxquestions.org/questions/linux-general-1/difference-between-normal-shell-and-login-shell-14983/#post4828786</a></p>
+        </div>
       </div>
 
       <div id="outline-container-sec-2-1" class="outline-3">
@@ -249,11 +298,6 @@
             hour difference) in Emacs when called from
             <code>c:/cygwin/Cygwin.bat</code>!!</li>
           </ul>
-
-          <p>Note – Launching Cygwin Terminal does not load
-          <code>.bashrc</code>, it only loads <code>.bash_profile</code>.
-          Hence, the need to have a <code>.bash_profile</code> sourcing
-          <code>.bashrc</code>…</p>
         </div>
       </div>
     </div>
@@ -311,7 +355,7 @@
         <div class="org-src-container">
           <pre class="src src-sh">
 $ gm convret -size 120x120 input.png -resize 120x120 -draw <span style=
-"color: #036A07;">"gravity southeast text 0,0 'Dave Neary'"</span> output.jpg
+"color: #008000;">"gravity southeast text 0,0 'Dave Neary'"</span> output.jpg
 bash: convret: command not found
 $ gm convert !*
 </pre>
@@ -330,10 +374,10 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">source the user's .bashrc if it exists</span>
 <span style="color: #0000FF;">if</span> [ -f <span style=
-"color: #036A07;">"${HOME}/.bashrc"</span> ] ; <span style=
+"color: #008000;">"${HOME}/.bashrc"</span> ] ; <span style=
 "color: #0000FF;">then</span>
   <span style="color: #006FE0;">source</span> <span style=
-"color: #036A07;">"${HOME}/.bashrc"</span>
+"color: #008000;">"${HOME}/.bashrc"</span>
 <span style="color: #0000FF;">fi</span>
 </pre>
           </div>
@@ -347,7 +391,7 @@ $ gm convert !*
         <div class="outline-text-3" id="text-4-2">
           <div class="org-src-container">
             <pre class="src src-emacs-lisp" id="current-year">
-(format-time-string <span style="color: #036A07;">"%Y"</span>)
+(format-time-string <span style="color: #008000;">"%Y"</span>)
 </pre>
           </div>
 
@@ -418,7 +462,7 @@ $ gm convert !*
             <pre class="src src-sh">
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">if not running interactively, don't do anything</span>
-[[ <span style="color: #036A07;">"$-"</span> != *i* ]] &amp;&amp; <span style=
+[[ <span style="color: #008000;">"$-"</span> != *i* ]] &amp;&amp; <span style=
 "color: #0000FF;">return</span>
 </pre>
           </div>
@@ -452,16 +496,16 @@ $ gm convert !*
 "color: #8D8D84; font-style: italic;">command. These directories are searched in the order in which they appear.</span>
 <span style="color: #0000FF;">for</span> MAYBE_PATH<span style=
 "color: #0000FF;"> in</span> <span style=
-"color: #036A07;">"$HOME/bin"</span> <span style="color: #036A07;">\</span>
+"color: #008000;">"$HOME/bin"</span> <span style="color: #008000;">\</span>
                   <span style=
-"color: #036A07;">"$HOME/expect"</span> <span style="color: #036A07;">\</span>
-                  <span style="color: #036A07;">"$HOME/winbin"</span>
+"color: #008000;">"$HOME/expect"</span> <span style="color: #008000;">\</span>
+                  <span style="color: #008000;">"$HOME/winbin"</span>
 <span style="color: #0000FF;">do</span>
     <span style="color: #0000FF;">if</span> [ -d <span style=
-"color: #036A07;">"$MAYBE_PATH"</span> ]; <span style=
+"color: #008000;">"$MAYBE_PATH"</span> ]; <span style=
 "color: #0000FF;">then</span>
         <span style="color: #BA36A5;">PATH</span>=<span style=
-"color: #036A07;">"$MAYBE_PATH:$PATH"</span>
+"color: #008000;">"$MAYBE_PATH:$PATH"</span>
     <span style="color: #0000FF;">fi</span>
 <span style="color: #0000FF;">done</span>
 
@@ -470,10 +514,10 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">(not to include for root, for security reasons)</span>
 <span style="color: #0000FF;">if</span> [ ! <span style=
-"color: #036A07;">"$(id -u)"</span> = <span style=
-"color: #036A07;">"0"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$(id -u)"</span> = <span style=
+"color: #008000;">"0"</span> ]; <span style="color: #0000FF;">then</span>
     <span style="color: #BA36A5;">PATH</span>=<span style=
-"color: #036A07;">"$PATH:."</span>
+"color: #008000;">"$PATH:."</span>
 <span style="color: #0000FF;">fi</span>
 </pre>
             </div>
@@ -498,23 +542,23 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">regular colors</span>
 <span style="color: #BA36A5;">green</span>=<span style=
-"color: #036A07;">"\[\e[0;32m\]"</span>
+"color: #008000;">"\[\e[0;32m\]"</span>
 <span style="color: #BA36A5;">yellow</span>=<span style=
-"color: #036A07;">"\[\e[0;33m\]"</span>
+"color: #008000;">"\[\e[0;33m\]"</span>
 <span style="color: #BA36A5;">white</span>=<span style=
-"color: #036A07;">"\[\e[0;37m\]"</span>
+"color: #008000;">"\[\e[0;37m\]"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">bold colors</span>
 <span style="color: #BA36A5;">BLACK</span>=<span style=
-"color: #036A07;">"\[\e[1;30m\]"</span>
+"color: #008000;">"\[\e[1;30m\]"</span>
 <span style="color: #BA36A5;">RED</span>=<span style=
-"color: #036A07;">"\[\e[1;31m\]"</span>
+"color: #008000;">"\[\e[1;31m\]"</span>
 <span style="color: #BA36A5;">GREEN</span>=<span style=
-"color: #036A07;">"\[\e[1;32m\]"</span>
+"color: #008000;">"\[\e[1;32m\]"</span>
 
 <span style="color: #BA36A5;">reset</span>=<span style=
-"color: #036A07;">"\[\e[0m\]"</span>
+"color: #008000;">"\[\e[0m\]"</span>
 
 <span style="color: #8D8D84;">#</span><span style=
 "color: #8D8D84; font-style: italic;">**** PS1 --- Default interaction prompt</span>
@@ -531,9 +575,9 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">get line numbers when you run with `-x'</span>
 <span style="color: #BA36A5;">PS4</span>=<span style=
-"color: #036A07;">'+'</span>${<span style=
+"color: #008000;">'+'</span>${<span style=
 "color: #BA36A5;">green</span>}<span style=
-"color: #036A07;">'[$0:${LINENO}]+ '</span>${<span style=
+"color: #008000;">'[$0:${LINENO}]+ '</span>${<span style=
 "color: #BA36A5;">reset</span>}
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">single quotes (otherwise, this line number is taken)</span>
@@ -603,11 +647,11 @@ $ gm convert !*
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">replace the `$HOME' prefix by `~' in the current directory</span>
     <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$HOME"</span> = <span style=
-"color: #036A07;">"${PWD:0:${#HOME}}"</span> ]; <span style=
+"color: #008000;">"$HOME"</span> = <span style=
+"color: #008000;">"${PWD:0:${#HOME}}"</span> ]; <span style=
 "color: #0000FF;">then</span>
         <span style="color: #BA36A5;">myPWD</span>=<span style=
-"color: #036A07;">"~${PWD:${#HOME}}"</span>
+"color: #008000;">"~${PWD:${#HOME}}"</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #BA36A5;">myPWD</span>=$<span style=
 "color: #BA36A5;">PWD</span>
@@ -627,29 +671,29 @@ $ gm convert !*
 "color: #BA36A5;">myPWD</span>} - $<span style=
 "color: #BA36A5;">pwd_max_length</span> ))
         <span style="color: #BA36A5;">myPWD</span>=<span style=
-"color: #036A07;">"...${myPWD:$pwd_offset:$pwd_max_length}"</span>
+"color: #008000;">"...${myPWD:$pwd_offset:$pwd_max_length}"</span>
     <span style="color: #0000FF;">fi</span>
 
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">prompt character</span>
     <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$USERNAME"</span> = <span style=
-"color: #036A07;">"root"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$USERNAME"</span> = <span style=
+"color: #008000;">"root"</span> ]; <span style="color: #0000FF;">then</span>
         <span style="color: #006FE0;">local</span> <span style=
-"color: #BA36A5;">PROMPTCHAR</span>=<span style="color: #036A07;">"#"</span>
+"color: #BA36A5;">PROMPTCHAR</span>=<span style="color: #008000;">"#"</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #006FE0;">local</span> <span style=
-"color: #BA36A5;">PROMPTCHAR</span>=<span style="color: #036A07;">"$"</span>
+"color: #BA36A5;">PROMPTCHAR</span>=<span style="color: #008000;">"$"</span>
     <span style="color: #0000FF;">fi</span>
 
     <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$color_prompt"</span> = <span style=
-"color: #036A07;">"yes"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$color_prompt"</span> = <span style=
+"color: #008000;">"yes"</span> ]; <span style="color: #0000FF;">then</span>
         <span style="color: #BA36A5;">PS1</span>=<span style=
-"color: #036A07;">"${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${white}${PROMPTCHAR}${reset} "</span>
+"color: #008000;">"${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${white}${PROMPTCHAR}${reset} "</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #BA36A5;">PS1</span>=<span style=
-"color: #036A07;">"\u@\h:${myPWD} ${RET}${PROMPTCHAR} "</span>
+"color: #008000;">"\u@\h:${myPWD} ${RET}${PROMPTCHAR} "</span>
     <span style="color: #0000FF;">fi</span>
 }
 
@@ -658,7 +702,7 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">variable (but don't confuse Tramp)</span>
 [ $<span style="color: #BA36A5;">TERM</span> = <span style=
-"color: #036A07;">"dumb"</span> ] || <span style=
+"color: #008000;">"dumb"</span> ] || <span style=
 "color: #BA36A5;">PROMPT_COMMAND</span>=precmd
 </pre>
             </div>
@@ -684,7 +728,7 @@ $ gm convert !*
 <span style="color: #BA36A5;">HISTSIZE</span>=1000
 <span style="color: #BA36A5;">HISTFILESIZE</span>=1000
 <span style="color: #BA36A5;">HISTIGNORE</span>=<span style=
-"color: #036A07;">"&amp;:[bf]g:exit"</span>
+"color: #008000;">"&amp;:[bf]g:exit"</span>
 <span style="color: #BA36A5;">HISTCONTROL</span>=ignoredups
 </pre>
             </div>
@@ -716,7 +760,7 @@ $ gm convert !*
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">like "stdin: is not a tty" when ssh'ing to a remote machine)</span>
 <span style="color: #0000FF;">if</span> ([ $(expr index <span style=
-"color: #036A07;">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span style="color: #0000FF;">then</span>
+"color: #008000;">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span style="color: #0000FF;">then</span>
     . /etc/bashrc
 <span style="color: #0000FF;">fi</span>
 </pre>
@@ -738,8 +782,8 @@ $ gm convert !*
 "color: #8D8D84; font-style: italic;">prevent new dirs and files from being group and world writable</span>
 
 <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$USERNAME"</span> = <span style=
-"color: #036A07;">"root"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$USERNAME"</span> = <span style=
+"color: #008000;">"root"</span> ]; <span style="color: #0000FF;">then</span>
     <span style="color: #006FE0;">umask</span> 077  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">stricter</span>
@@ -806,21 +850,21 @@ shopt -s cdspell
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Info readers (standalone + Emacs Info mode)</span>
 <span style="color: #BA36A5;">INFOPATH</span>=<span style=
-"color: #036A07;">"/usr/share/info:$INFOPATH"</span>
+"color: #008000;">"/usr/share/info:$INFOPATH"</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">include a trailing colon on `INFOPATH' to concatenate the Emacs</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">`Info-default-directory-list' when searching for info files</span>
 <span style="color: #BA36A5;">INFOPATH</span>=<span style=
-"color: #036A07;">"$HOME/src/emacs-w3m/doc:$INFOPATH"</span>
+"color: #008000;">"$HOME/src/emacs-w3m/doc:$INFOPATH"</span>
 <span style="color: #BA36A5;">INFOPATH</span>=<span style=
-"color: #036A07;">"$HOME/src/gnus/texi:$INFOPATH"</span>
+"color: #008000;">"$HOME/src/gnus/texi:$INFOPATH"</span>
 <span style="color: #BA36A5;">INFOPATH</span>=<span style=
-"color: #036A07;">"$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"</span>
+"color: #008000;">"$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">INFOPATH="$HOME/texlive/2010/texmf/doc/info:$INFOPATH"</span>
 <span style="color: #BA36A5;">INFOPATH</span>=<span style=
-"color: #036A07;">"$HOME/Public/Repositories/org-mode/doc:$INFOPATH"</span>
+"color: #008000;">"$HOME/Public/Repositories/org-mode/doc:$INFOPATH"</span>
 </pre>
           </div>
 
@@ -834,49 +878,49 @@ shopt -s cdspell
 <span style="color: #006699;">setenv</span> () { <span style=
 "color: #006FE0;">eval</span> $<span style=
 "color: #BA36A5;">1</span>=<span style=
-"color: #036A07;">"\$2"</span> export $<span style=
+"color: #008000;">"\$2"</span> export $<span style=
 "color: #BA36A5;">1</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">unsetenv [VAR] - unset environment variable</span>
 <span style="color: #006699;">unsetenv</span> () { <span style=
-"color: #006FE0;">unset</span> <span style="color: #036A07;">"$@"</span>; }
+"color: #006FE0;">unset</span> <span style="color: #008000;">"$@"</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">ifnset [VAR] [value] - set environment variable only if not set yet</span>
 <span style="color: #006699;">ifnset</span> () { <span style=
 "color: #006FE0;">eval</span> $<span style=
-"color: #BA36A5;">1</span>=<span style="color: #036A07;">\$</span>{<span style=
+"color: #BA36A5;">1</span>=<span style="color: #008000;">\$</span>{<span style=
 "color: #BA36A5;">$</span>1-<span style=
-"color: #036A07;">"\$2"</span>} <span style=
+"color: #008000;">"\$2"</span>} <span style=
 "color: #006FE0;">export</span> $<span style="color: #BA36A5;">1</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">ifnull [VAR] [value] - set environment variable if not set yet or if NULL</span>
 <span style="color: #006699;">ifnull</span> () { <span style=
 "color: #006FE0;">eval</span> $<span style=
-"color: #BA36A5;">1</span>=<span style="color: #036A07;">\$</span>{<span style=
+"color: #BA36A5;">1</span>=<span style="color: #008000;">\$</span>{<span style=
 "color: #BA36A5;">$</span>1:-<span style=
-"color: #036A07;">"\$2"</span>} <span style=
+"color: #008000;">"\$2"</span>} <span style=
 "color: #006FE0;">export</span> $<span style="color: #BA36A5;">1</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">append [VAR] [path] - append path separated by `:'</span>
 <span style="color: #006699;">append</span> () { <span style=
 "color: #006FE0;">eval</span> $<span style=
-"color: #BA36A5;">1</span>=<span style="color: #036A07;">\$</span>{<span style=
+"color: #BA36A5;">1</span>=<span style="color: #008000;">\$</span>{<span style=
 "color: #BA36A5;">$</span>1:+<span style=
-"color: #036A07;">\$</span><span style="color: #BA36A5;">$</span>1${<span style="color: #BA36A5;">2</span>:+:}}<span style="color: #036A07;">\$</span><span style="color: #BA36A5;">2</span> export $<span style="color: #BA36A5;">1</span>; }
+"color: #008000;">\$</span><span style="color: #BA36A5;">$</span>1${<span style="color: #BA36A5;">2</span>:+:}}<span style="color: #008000;">\$</span><span style="color: #BA36A5;">2</span> export $<span style="color: #BA36A5;">1</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">prepend [VAR] [path] - prepend path separated by `:'</span>
 <span style="color: #006699;">prepend</span> () { <span style=
 "color: #006FE0;">eval</span> $<span style=
-"color: #BA36A5;">1</span>=<span style="color: #036A07;">\$</span><span style=
-"color: #BA36A5;">2</span><span style="color: #036A07;">\$</span>{<span style=
+"color: #BA36A5;">1</span>=<span style="color: #008000;">\$</span><span style=
+"color: #BA36A5;">2</span><span style="color: #008000;">\$</span>{<span style=
 "color: #BA36A5;">$</span>1:+${<span style=
 "color: #BA36A5;">2</span>:+:}<span style=
-"color: #036A07;">\$</span><span style=
+"color: #008000;">\$</span><span style=
 "color: #BA36A5;">$</span>1} <span style="color: #006FE0;">export</span> $<span style="color: #BA36A5;">1</span>; }
 
 <span style="color: #8D8D84;"># </span><span style=
@@ -885,7 +929,7 @@ shopt -s cdspell
 "color: #0000FF;">for</span> i<span style=
 "color: #0000FF;"> in</span> $<span style=
 "color: #BA36A5;">*</span>; <span style=
-"color: #0000FF;">do </span><span style="color: #006FE0;">eval</span> echo <span style="color: #036A07;">"$i = \\\`\$$i\'"</span>; <span style="color: #0000FF;">done</span>; }
+"color: #0000FF;">do </span><span style="color: #006FE0;">eval</span> echo <span style="color: #008000;">"$i = \\\`\$$i\'"</span>; <span style="color: #0000FF;">done</span>; }
 </pre>
           </div>
         </div>
@@ -915,7 +959,7 @@ shopt -s cdspell
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">source common definitions</span>
 <span style="color: #0000FF;">if</span> [ -r <span style=
-"color: #036A07;">"$HOME/.commonshrc"</span> ]; <span style=
+"color: #008000;">"$HOME/.commonshrc"</span> ]; <span style=
 "color: #0000FF;">then</span>
     . $<span style="color: #BA36A5;">HOME</span>/.commonshrc
 <span style="color: #0000FF;">fi</span>
@@ -935,36 +979,36 @@ shopt -s cdspell
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">expect to see modified!)</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">df</span>=<span style="color: #036A07;">'df -kTh'</span>
+"color: #BA36A5;">df</span>=<span style="color: #008000;">'df -kTh'</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">du</span>=<span style="color: #036A07;">'du -kh'</span>
+"color: #BA36A5;">du</span>=<span style="color: #008000;">'du -kh'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">cp</span>=<span style=
-"color: #036A07;">'cp -i'</span>   <span style=
+"color: #008000;">'cp -i'</span>   <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">confirm copy over an existing file</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">mv</span>=<span style=
-"color: #036A07;">'mv -i'</span>   <span style=
+"color: #008000;">'mv -i'</span>   <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">confirm move over an existing file</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">rm</span>=<span style=
-"color: #036A07;">'rm -i'</span>   <span style=
+"color: #008000;">'rm -i'</span>   <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">confirm removing file (prevent some accidental mistakes)</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">ssh</span>=<span style="color: #036A07;">"ssh -C"</span>
+"color: #BA36A5;">ssh</span>=<span style="color: #008000;">"ssh -C"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">more</span>=<span style="color: #036A07;">"less"</span>
+"color: #BA36A5;">more</span>=<span style="color: #008000;">"less"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">rmdir</span>=<span style="color: #036A07;">"rm -fr"</span>
+"color: #BA36A5;">rmdir</span>=<span style="color: #008000;">"rm -fr"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">path</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">where</span>=<span style="color: #036A07;">'type -all'</span>
+"color: #BA36A5;">where</span>=<span style="color: #008000;">'type -all'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">start up Windows applications associated with a particular file extension</span>
@@ -972,144 +1016,144 @@ shopt -s cdspell
 "color: #8D8D84; font-style: italic;">directly from the Bash prompt</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">start</span>=<span style=
-"color: #036A07;">"cmd /c start"</span>
+"color: #008000;">"cmd /c start"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">start</span>=<span style=
-"color: #036A07;">"cygstart"</span> <span style=
+"color: #008000;">"cygstart"</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">under Cygwin</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">lo</span>=<span style=
-"color: #036A07;">"locate -i"</span> <span style=
+"color: #008000;">"locate -i"</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">case insensitive search</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">lg</span>=<span style=
-"color: #036A07;">"locate -r '.*' | grep -i"</span>
+"color: #008000;">"locate -r '.*' | grep -i"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">mkall</span>=<span style=
-"color: #036A07;">"./configure &amp;&amp; make &amp;&amp; sudo make install"</span>
+"color: #008000;">"./configure &amp;&amp; make &amp;&amp; sudo make install"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">tvm</span>=<span style=
-"color: #036A07;">"tail -f /var/log/messages"</span>
+"color: #008000;">"tail -f /var/log/messages"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">sync files</span>
 <span style="color: #BA36A5;">UNISON_BATCH_FLAGS</span>=<span style=
-"color: #036A07;">"-batch -ui text -xferbycopying"</span>
+"color: #008000;">"-batch -ui text -xferbycopying"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">unisync</span>=<span style=
-"color: #036A07;">"unison mundaneum -logfile /dev/null"</span>
+"color: #008000;">"unison mundaneum -logfile /dev/null"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">unisyncb</span>=<span style=
-"color: #036A07;">"unisync $UNISON_BATCH_FLAGS"</span>
+"color: #008000;">"unisync $UNISON_BATCH_FLAGS"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">sudo'ers</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">root</span>=<span style="color: #036A07;">"su - root"</span>
+"color: #BA36A5;">root</span>=<span style="color: #008000;">"su - root"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">force the radio to always sync at 2 Mbps, even if other speeds are available</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">iwconfigslow</span>=<span style=
-"color: #036A07;">"sudo iwconfig eth1 rate 2M"</span>
+"color: #008000;">"sudo iwconfig eth1 rate 2M"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">shortcuts</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">c</span>=<span style="color: #036A07;">"clear"</span>
+"color: #BA36A5;">c</span>=<span style="color: #008000;">"clear"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">E</span>=<span style="color: #036A07;">"env | sort"</span>
+"color: #BA36A5;">E</span>=<span style="color: #008000;">"env | sort"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">h</span>=<span style="color: #036A07;">"history 25"</span>
+"color: #BA36A5;">h</span>=<span style="color: #008000;">"history 25"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">j</span>=<span style="color: #036A07;">"jobs -l"</span>
+"color: #BA36A5;">j</span>=<span style="color: #008000;">"jobs -l"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">m</span>=$<span style="color: #BA36A5;">PAGER</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">p</span>=$<span style="color: #BA36A5;">PAGER</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">se</span>=<span style="color: #036A07;">"sudoedit"</span>
+"color: #BA36A5;">se</span>=<span style="color: #008000;">"sudoedit"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">X</span>=<span style=
-"color: #036A07;">"ssh-agent startx &amp;"</span>
+"color: #008000;">"ssh-agent startx &amp;"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">z</span>=<span style="color: #036A07;">"suspend"</span>
+"color: #BA36A5;">z</span>=<span style="color: #008000;">"suspend"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">misc commands</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">dos2unix</span>=<span style="color: #036A07;">"sed s/</span>
-<span style="color: #036A07;">//g"</span>
+"color: #BA36A5;">dos2unix</span>=<span style="color: #008000;">"sed s/</span>
+<span style="color: #008000;">//g"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">unix2dos</span>=<span style=
-"color: #036A07;">"sed s/\$/</span>
-<span style="color: #036A07;">/"</span>
+"color: #008000;">"sed s/\$/</span>
+<span style="color: #008000;">/"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">hgrep</span>=<span style=
-"color: #036A07;">"history | grep"</span>
+"color: #008000;">"history | grep"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">keyon</span>=<span style=
-"color: #036A07;">"ssh-add -t 10800"</span>  <span style=
+"color: #008000;">"ssh-add -t 10800"</span>  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">add identity</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">keyoff</span>=<span style=
-"color: #036A07;">"ssh-add -D"</span>       <span style=
+"color: #008000;">"ssh-add -D"</span>       <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">remove all identities</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">keylist</span>=<span style=
-"color: #036A07;">"ssh-add -l"</span>      <span style=
+"color: #008000;">"ssh-add -l"</span>      <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">list all identities</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">kill9</span>=<span style="color: #036A07;">"kill -9"</span>
+"color: #BA36A5;">kill9</span>=<span style="color: #008000;">"kill -9"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">make an extract function!</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">tgz</span>=<span style="color: #036A07;">"tar -zxvf"</span>
+"color: #BA36A5;">tgz</span>=<span style="color: #008000;">"tar -zxvf"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">tbz2</span>=<span style="color: #036A07;">"tar -jxvf"</span>
+"color: #BA36A5;">tbz2</span>=<span style="color: #008000;">"tar -jxvf"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">nfiles</span>=<span style=
-"color: #036A07;">"find . -type f | wc -l"</span>
+"color: #008000;">"find . -type f | wc -l"</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">ports</span>=<span style=
-"color: #036A07;">"netstat -alpe --ip"</span>
+"color: #008000;">"netstat -alpe --ip"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">most used programs</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">web</span>=<span style=
-"color: #036A07;">"firefox &amp;"</span>
+"color: #008000;">"firefox &amp;"</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">alias scan="nmap -sS -O"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">nm</span>=<span style=
-"color: #036A07;">"nmap -sS -O -PI -PT"</span>
+"color: #008000;">"nmap -sS -O -PI -PT"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">portscan</span>=<span style=
-"color: #036A07;">"nmap -sT -PT -R "</span>
+"color: #008000;">"nmap -sT -PT -R "</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">anonymous wget (using Privoxy and Tor)</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">aget</span>=<span style=
-"color: #036A07;">'wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'</span>
+"color: #008000;">'wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">mirror</span>=<span style=
-"color: #036A07;">"wget -v --tries=0 --continue --force-directories --mirror --no-parent"</span>
+"color: #008000;">"wget -v --tries=0 --continue --force-directories --mirror --no-parent"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">ngrep -i -w 'user|pass' port 110</span>
@@ -1198,7 +1242,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 {
     find . -name $<span style=
 "color: #BA36A5;">@</span> -print 2&gt;&amp;1 | grep -v <span style=
-"color: #036A07;">"find:"</span>
+"color: #008000;">"find:"</span>
 }
 
 <span style="color: #006699;">safetmp</span> ()
@@ -1218,7 +1262,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">sendkey</span> ()
 {
     <span style="color: #006FE0;">local</span> <span style=
-"color: #BA36A5;">HOSTNAME</span>=<span style="color: #036A07;">"$*"</span>
+"color: #BA36A5;">HOSTNAME</span>=<span style="color: #008000;">"$*"</span>
     scp $<span style=
 "color: #BA36A5;">HOME</span>/.ssh/id_rsa.pub $<span style="color: #BA36A5;">USER</span>@$<span style="color: #BA36A5;">HOSTNAME</span>:/home/$<span style="color: #BA36A5;">DOMAIN</span>/$<span style="color: #BA36A5;">USER</span>/.ssh/authorized_keys
     <span style="color: #8D8D84;"># </span><span style=
@@ -1230,7 +1274,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">sendbash</span> ()
 {
     <span style="color: #006FE0;">local</span> <span style=
-"color: #BA36A5;">HOSTNAME</span>=<span style="color: #036A07;">"$*"</span>
+"color: #BA36A5;">HOSTNAME</span>=<span style="color: #008000;">"$*"</span>
     scp $<span style="color: #BA36A5;">HOME</span>/.bashrc $<span style=
 "color: #BA36A5;">USER</span>@$<span style=
 "color: #BA36A5;">HOSTNAME</span>:/home/$<span style=
@@ -1243,7 +1287,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">rsetup</span> ()
 {
     <span style="color: #006FE0;">local</span> <span style=
-"color: #BA36A5;">HOSTNAME</span>=<span style="color: #036A07;">"$*"</span>
+"color: #BA36A5;">HOSTNAME</span>=<span style="color: #008000;">"$*"</span>
     sendkey $<span style="color: #BA36A5;">HOSTNAME</span>
     sendbash $<span style="color: #BA36A5;">HOSTNAME</span>
 }
@@ -1253,7 +1297,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">searchkey</span> ()
 {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key <span style=
-"color: #036A07;">"$@"</span>;
+"color: #008000;">"$@"</span>;
 }
 
 <span style="color: #8D8D84;">#</span><span style=
@@ -1263,7 +1307,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 {
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Use ascii armor</span>
-    gpg -ac --no-options <span style="color: #036A07;">"$1"</span>
+    gpg -ac --no-options <span style="color: #008000;">"$1"</span>
 }
 
 <span style="color: #006699;">bencrypt</span> ()
@@ -1272,12 +1316,12 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">No ascii armor</span>
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Encrypt binary data. jpegs/gifs/vobs/etc.</span>
-    gpg -c --no-options <span style="color: #036A07;">"$1"</span>
+    gpg -c --no-options <span style="color: #008000;">"$1"</span>
 }
 
 <span style="color: #006699;">decrypt</span> ()
 {
-    gpg --no-options <span style="color: #036A07;">"$1"</span>
+    gpg --no-options <span style="color: #008000;">"$1"</span>
 }
 
 <span style="color: #006699;">pe</span> ()
@@ -1290,38 +1334,38 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">Reads input from text editor and encrypts to screen.</span>
     clear
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"         Passphrase Encryption Program"</span>;
+"color: #008000;">"         Passphrase Encryption Program"</span>;
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"--------------------------------------------------"</span>; <span style="color: #006FE0;">echo</span> <span style="color: #036A07;">""</span>;
+"color: #008000;">"--------------------------------------------------"</span>; <span style="color: #006FE0;">echo</span> <span style="color: #008000;">""</span>;
     <span style="color: #006FE0;">which</span> $<span style=
 "color: #BA36A5;">EDITOR</span> &amp;&gt;/dev/null
     <span style="color: #0000FF;">if</span> [ $<span style=
 "color: #BA36A5;">?</span> != <span style=
-"color: #036A07;">"0"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"0"</span> ]; <span style="color: #0000FF;">then</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"It appears that you do not have a text editor set in your .bashrc file."</span>;
+"color: #008000;">"It appears that you do not have a text editor set in your .bashrc file."</span>;
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"What editor would you like to use ? "</span> ;
+"color: #008000;">"What editor would you like to use ? "</span> ;
         <span style="color: #006FE0;">read</span> EDITOR ; <span style=
-"color: #006FE0;">echo</span> <span style="color: #036A07;">""</span>;
+"color: #006FE0;">echo</span> <span style="color: #008000;">""</span>;
     <span style="color: #0000FF;">fi</span>
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Enter the name/comment for this message :"</span>
+"color: #008000;">"Enter the name/comment for this message :"</span>
     <span style="color: #006FE0;">read</span> comment
     $<span style="color: #BA36A5;">EDITOR</span> passphraseencryption
     gpg --armor --comment <span style=
-"color: #036A07;">"$comment"</span> --no-options --output
+"color: #008000;">"$comment"</span> --no-options --output
     passphraseencryption.gpg --symmetric passphraseencryption
     shred -u passphraseencryption ; clear
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Outputting passphrase encrypted message"</span>; <span style="color: #006FE0;">echo</span> <span style="color: #036A07;">""</span> ; <span style="color: #006FE0;">echo</span> <span style="color: #036A07;">""</span> ;
+"color: #008000;">"Outputting passphrase encrypted message"</span>; <span style="color: #006FE0;">echo</span> <span style="color: #008000;">""</span> ; <span style="color: #006FE0;">echo</span> <span style="color: #008000;">""</span> ;
     cat passphraseencryption.gpg ; <span style=
 "color: #006FE0;">echo</span> <span style=
-"color: #036A07;">""</span> ; <span style=
-"color: #006FE0;">echo</span> <span style="color: #036A07;">""</span> ;
+"color: #008000;">""</span> ; <span style=
+"color: #006FE0;">echo</span> <span style="color: #008000;">""</span> ;
     shred -u passphraseencryption.gpg ;
     <span style="color: #006FE0;">read</span> -p <span style=
-"color: #036A07;">"Hit enter to exit"</span> temp; clear
+"color: #008000;">"Hit enter to exit"</span> temp; clear
 }
 
 <span style="color: #006699;">keys</span> ()
@@ -1334,7 +1378,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">encryptfile</span> ()
 {
     zenity --title=<span style=
-"color: #036A07;">"zcrypt: Select a file to encrypt"</span> --file-selection &gt; zcrypt
+"color: #008000;">"zcrypt: Select a file to encrypt"</span> --file-selection &gt; zcrypt
     <span style="color: #BA36A5;">encryptthisfile</span>=<span style=
 "color: #FF1493;">`cat zcrypt`</span>;rm zcrypt
     <span style="color: #8D8D84;"># </span><span style=
@@ -1343,22 +1387,22 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">--no-options (for NO gui usage)</span>
     gpg -acq --yes ${<span style="color: #BA36A5;">encryptthisfile</span>}
     zenity --info --title <span style=
-"color: #036A07;">"File Encrypted"</span> --text <span style=
-"color: #036A07;">"$encryptthisfile has been encrypted"</span>
+"color: #008000;">"File Encrypted"</span> --text <span style=
+"color: #008000;">"$encryptthisfile has been encrypted"</span>
 }
 
 <span style="color: #006699;">decryptfile</span> ()
 {
     zenity --title=<span style=
-"color: #036A07;">"zcrypt: Select a file to decrypt"</span> --file-selection &gt; zcrypt
+"color: #008000;">"zcrypt: Select a file to decrypt"</span> --file-selection &gt; zcrypt
     <span style="color: #BA36A5;">decryptthisfile</span>=<span style=
 "color: #FF1493;">`cat zcrypt`</span>;rm zcrypt
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">NOTE: This will OVERWRITE existing files with the same name !!!</span>
     gpg --yes -q ${<span style="color: #BA36A5;">decryptthisfile</span>}
     zenity --info --title <span style=
-"color: #036A07;">"File Decrypted"</span> --text <span style=
-"color: #036A07;">"$encryptthisfile has been decrypted"</span>
+"color: #008000;">"File Decrypted"</span> --text <span style=
+"color: #008000;">"$encryptthisfile has been decrypted"</span>
 }
 
 
@@ -1392,13 +1436,13 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #BA36A5;">HOME</span>/my-unison-root}
 
     <span style="color: #0000FF;">if</span> [ -d <span style=
-"color: #036A07;">"$HOME/my-unison-root/$p"</span> ]; <span style=
+"color: #008000;">"$HOME/my-unison-root/$p"</span> ]; <span style=
 "color: #0000FF;">then</span>
         unison profile-name-for-uwd -path <span style=
-"color: #036A07;">"$p"</span>
+"color: #008000;">"$p"</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"$p is not a directory in a Unison hierarchy on this machine"</span>
+"color: #008000;">"$p is not a directory in a Unison hierarchy on this machine"</span>
     <span style="color: #0000FF;">fi</span>
 }
 
@@ -1408,9 +1452,9 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">jargon</span> ()
 {
     <span style="color: #BA36A5;">BROWSER</span>=<span style=
-"color: #036A07;">"links"</span>
+"color: #008000;">"links"</span>
     <span style="color: #BA36A5;">JARGON_URL</span>=<span style=
-"color: #036A07;">"http://info.astrian.net/jargon/terms"</span>
+"color: #008000;">"http://info.astrian.net/jargon/terms"</span>
     <span style="color: #0000FF;">for</span> i<span style=
 "color: #0000FF;"> in</span> ${<span style=
 "color: #BA36A5;">*</span>}; <span style="color: #0000FF;">do</span>
@@ -1427,14 +1471,14 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
     <span style="color: #0000FF;">if</span> [ $<span style=
 "color: #BA36A5;">#</span> = 0 ]; <span style="color: #0000FF;">then</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Usage: $0 acronym"</span>
+"color: #008000;">"Usage: $0 acronym"</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Purpose: expand an acronym"</span>
+"color: #008000;">"Purpose: expand an acronym"</span>
     <span style="color: #0000FF;">else</span>
        <span style="color: #8D8D84;">#</span><span style=
 "color: #8D8D84; font-style: italic;">links "http://www.ucc.ie/cgi-bin/acronym?$1"</span>
         links <span style=
-"color: #036A07;">"http://www.acronymfinder.com/af-query.asp?String=exact&amp;Acronym=$1"</span>
+"color: #008000;">"http://www.acronymfinder.com/af-query.asp?String=exact&amp;Acronym=$1"</span>
     <span style="color: #0000FF;">fi</span>
 }
 
@@ -1442,7 +1486,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">current weather forecasts</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">weather</span>=<span style=
-"color: #036A07;">"lynx term=vt100 http://weather.ec.gc.ca/forecast/city_e.html?yyz"</span>
+"color: #008000;">"lynx term=vt100 http://weather.ec.gc.ca/forecast/city_e.html?yyz"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">nmap ()</span>
@@ -1470,7 +1514,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
         ntpdate -u swisstime.ethz.ch
     <span style="color: #0000FF;">else</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Must be root"</span>
+"color: #008000;">"Must be root"</span>
     <span style="color: #0000FF;">fi</span>
 }
 
@@ -1479,8 +1523,8 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">google</span> ()
 {
     w3m <span style=
-"color: #036A07;">"http://www.google.com/search?q="</span>$<span style=
-"color: #BA36A5;">1</span><span style="color: #036A07;">""</span>;
+"color: #008000;">"http://www.google.com/search?q="</span>$<span style=
+"color: #BA36A5;">1</span><span style="color: #008000;">""</span>;
 }
 
 
@@ -1495,8 +1539,8 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #006699;">texlist</span> ()
 {
     locate $<span style="color: #BA36A5;">*</span> | grep <span style=
-"color: #036A07;">"\(pdf\|dvi\)"</span> | grep <span style=
-"color: #036A07;">"\ (texlive\|gwTeX\)"</span>;
+"color: #008000;">"\(pdf\|dvi\)"</span> | grep <span style=
+"color: #008000;">"\ (texlive\|gwTeX\)"</span>;
 }
 
 <span style="color: #8D8D84;"># </span><span style=
@@ -1606,10 +1650,10 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">extend the PATH var</span>
 <span style="color: #0000FF;">for</span> MAYBE_PATH<span style=
 "color: #0000FF;"> in</span> <span style=
-"color: #036A07;">"$HOME/bin"</span> <span style="color: #036A07;">\</span>
+"color: #008000;">"$HOME/bin"</span> <span style="color: #008000;">\</span>
                   <span style=
-"color: #036A07;">"$HOME/expect"</span> <span style="color: #036A07;">\</span>
-                  <span style="color: #036A07;">"$HOME/winbin"</span>;
+"color: #008000;">"$HOME/expect"</span> <span style="color: #008000;">\</span>
+                  <span style="color: #008000;">"$HOME/winbin"</span>;
 <span style="color: #0000FF;">do</span>
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">`-d' or `-x'?</span>
@@ -1670,32 +1714,32 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">some colors</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">BLACK</span>=$<span style=
-"color: #036A07;">'%{\e[1;30m%}'</span>
+"color: #008000;">'%{\e[1;30m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">RED</span>=$<span style=
-"color: #036A07;">'%{\e[1;31m%}'</span>
+"color: #008000;">'%{\e[1;31m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">green</span>=$<span style=
-"color: #036A07;">'%{\e[0;32m%}'</span>
+"color: #008000;">'%{\e[0;32m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">GREEN</span>=$<span style=
-"color: #036A07;">'%{\e[1;32m%}'</span>
+"color: #008000;">'%{\e[1;32m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">yellow</span>=$<span style=
-"color: #036A07;">'%{\e[0;33m%}'</span>
+"color: #008000;">'%{\e[0;33m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">white</span>=$<span style=
-"color: #036A07;">'%{\e[0;37m%}'</span>
+"color: #008000;">'%{\e[0;37m%}'</span>
 <span style="color: #006FE0;">local</span> <span style=
 "color: #BA36A5;">reset</span>=$<span style=
-"color: #036A07;">'%{\e[0m%}'</span>
+"color: #008000;">'%{\e[0m%}'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #CC0000; background-color: #FFFF88; font-style: italic;">TODO</span><span style="color: #8D8D84; font-style: italic;"> Insert beep when last command has failed</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">custom prompt settings</span>
 <span style="color: #BA36A5;">PROMPT</span>=<span style=
-"color: #036A07;">"$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$white%(!.#.$)$reset "</span>
+"color: #008000;">"$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$white%(!.#.$)$reset "</span>
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">? - exit code of the previous command</span>
     <span style="color: #8D8D84;"># </span><span style=
@@ -1730,7 +1774,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">git info</span>
 . ~/Public/Repositories/git-prompt/zshrc.sh
 <span style="color: #BA36A5;">RPROMPT</span>=<span style=
-"color: #036A07;">'$(git_super_status)'</span>
+"color: #008000;">'$(git_super_status)'</span>
 </pre>
             </div>
           </div>
@@ -1801,105 +1845,105 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">some global aliases (expand whatever their position)</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">L</span>=<span style=
-"color: #036A07;">"| less"</span> <span style="color: #8D8D84;">#######</span>
+"color: #008000;">"| less"</span> <span style="color: #8D8D84;">#######</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">M</span>=<span style="color: #036A07;">"| most"</span>
+"color: #BA36A5;">M</span>=<span style="color: #008000;">"| most"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">G</span>=<span style=
-"color: #036A07;">'| grep -E'</span> <span style=
+"color: #008000;">'| grep -E'</span> <span style=
 "color: #8D8D84;">######</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">W</span>=<span style=
-"color: #036A07;">'| wc -l'</span> <span style="color: #8D8D84;">####</span>
+"color: #008000;">'| wc -l'</span> <span style="color: #8D8D84;">####</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">H</span>=<span style=
-"color: #036A07;">'| head'</span> <span style="color: #8D8D84;">###</span>
+"color: #008000;">'| head'</span> <span style="color: #8D8D84;">###</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">S</span>=<span style=
-"color: #036A07;">'| sort'</span> <span style="color: #8D8D84;">###</span>
+"color: #008000;">'| sort'</span> <span style="color: #8D8D84;">###</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">T</span>=<span style=
-"color: #036A07;">'| tail'</span> <span style="color: #8D8D84;">###</span>
+"color: #008000;">'| tail'</span> <span style="color: #8D8D84;">###</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">F</span>=<span style=
-"color: #036A07;">' | fmt -'</span> <span style="color: #8D8D84;">##</span>
+"color: #008000;">' | fmt -'</span> <span style="color: #8D8D84;">##</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">21</span>=<span style="color: #036A07;">"2&gt;&amp;1"</span>
+"color: #BA36A5;">21</span>=<span style="color: #008000;">"2&gt;&amp;1"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">DN1</span>=<span style=
-"color: #036A07;">'1&gt; /dev/null'</span> <span style=
+"color: #008000;">'1&gt; /dev/null'</span> <span style=
 "color: #8D8D84;">#</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">DN2</span>=<span style=
-"color: #036A07;">'2&gt; /dev/null'</span> <span style=
+"color: #008000;">'2&gt; /dev/null'</span> <span style=
 "color: #8D8D84;">#</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">VM</span>=/var/log/messages
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">A</span>=<span style="color: #036A07;">'| awk'</span>
+"color: #BA36A5;">A</span>=<span style="color: #008000;">'| awk'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A1</span>=<span style=
-"color: #036A07;">"| awk '{print \$1}'"</span>
+"color: #008000;">"| awk '{print \$1}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A2</span>=<span style=
-"color: #036A07;">"| awk '{print \$2}'"</span>
+"color: #008000;">"| awk '{print \$2}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A3</span>=<span style=
-"color: #036A07;">"| awk '{print \$3}'"</span>
+"color: #008000;">"| awk '{print \$3}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A4</span>=<span style=
-"color: #036A07;">"| awk '{print \$4}'"</span>
+"color: #008000;">"| awk '{print \$4}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A5</span>=<span style=
-"color: #036A07;">"| awk '{print \$5}'"</span>
+"color: #008000;">"| awk '{print \$5}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A6</span>=<span style=
-"color: #036A07;">"| awk '{print \$6}'"</span>
+"color: #008000;">"| awk '{print \$6}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A7</span>=<span style=
-"color: #036A07;">"| awk '{print \$7}'"</span>
+"color: #008000;">"| awk '{print \$7}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A8</span>=<span style=
-"color: #036A07;">"| awk '{print \$8}'"</span>
+"color: #008000;">"| awk '{print \$8}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">A9</span>=<span style=
-"color: #036A07;">"| awk '{print \$9}'"</span>
+"color: #008000;">"| awk '{print \$9}'"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">CA</span>=<span style="color: #036A07;">"| cat -A"</span>
+"color: #BA36A5;">CA</span>=<span style="color: #008000;">"| cat -A"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">ND</span>=<span style=
-"color: #036A07;">'$(ls -d *(/om[1]))'</span> <span style=
+"color: #008000;">'$(ls -d *(/om[1]))'</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">newest directory</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">NF</span>=<span style=
-"color: #036A07;">'$(ls *(.om[1]))'</span>    <span style=
+"color: #008000;">'$(ls *(.om[1]))'</span>    <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">newest file</span>
 
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">EG</span>=<span style="color: #036A07;">'|&amp; egrep'</span>
+"color: #BA36A5;">EG</span>=<span style="color: #008000;">'|&amp; egrep'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">EH</span>=<span style="color: #036A07;">'|&amp; head'</span>
+"color: #BA36A5;">EH</span>=<span style="color: #008000;">'|&amp; head'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">EL</span>=<span style="color: #036A07;">'|&amp; less'</span>
+"color: #BA36A5;">EL</span>=<span style="color: #008000;">'|&amp; less'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">ET</span>=<span style="color: #036A07;">'|&amp; tail'</span>
+"color: #BA36A5;">ET</span>=<span style="color: #008000;">'|&amp; tail'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
-"color: #BA36A5;">X</span>=<span style="color: #036A07;">'| xargs'</span>
+"color: #BA36A5;">X</span>=<span style="color: #008000;">'| xargs'</span>
 
 <span style="color: #006FE0;">alias</span> -- <span style=
-"color: #BA36A5;">cdwd</span>=<span style="color: #036A07;">'cd `pwd`'</span>
+"color: #BA36A5;">cdwd</span>=<span style="color: #008000;">'cd `pwd`'</span>
 <span style="color: #006FE0;">alias</span> -- <span style=
-"color: #BA36A5;">cwd</span>=<span style="color: #036A07;">'echo $cwd'</span>
+"color: #BA36A5;">cwd</span>=<span style="color: #008000;">'echo $cwd'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">h</span>=<span style=
-"color: #036A07;">'history 1 | less +G'</span>
+"color: #008000;">'history 1 | less +G'</span>
 <span style="color: #006FE0;">alias</span> -- <span style=
-"color: #BA36A5;">l</span>=<span style="color: #036A07;">'ls -lg'</span>
+"color: #BA36A5;">l</span>=<span style="color: #008000;">'ls -lg'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">find</span>=<span style=
-"color: #036A07;">'noglob find'</span>
+"color: #008000;">'noglob find'</span>
 </pre>
           </div>
         </div>
@@ -1930,41 +1974,41 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">LG</span>=<span style=
-"color: #036A07;">"\$LEDGER -f \$LEDGER_FILE"</span>
+"color: #008000;">"\$LEDGER -f \$LEDGER_FILE"</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">DATEFMT</span>=<span style=
-"color: #036A07;">'-y %Y/%m/%d'</span>  <span style=
+"color: #008000;">'-y %Y/%m/%d'</span>  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for output</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">DAILY</span>=<span style=
-"color: #036A07;">'--period "daily"'</span>
+"color: #008000;">'--period "daily"'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">DLM</span>=<span style=
-"color: #036A07;">'--display "d&gt;=[last month]"'</span>  <span style=
+"color: #008000;">'--display "d&gt;=[last month]"'</span>  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">display of last month</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">CLM</span>=<span style=
-"color: #036A07;">'-p "last month"'</span>  <span style=
+"color: #008000;">'-p "last month"'</span>  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">computed total of last month</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">D1</span>=<span style=
-"color: #036A07;">'--display "l&lt;=1" --depth 1'</span>
+"color: #008000;">'--display "l&lt;=1" --depth 1'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">D2</span>=<span style=
-"color: #036A07;">'--display "l&lt;=2" --depth 2'</span>
+"color: #008000;">'--display "l&lt;=2" --depth 2'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">BALANCE_SHEET</span>=<span style=
-"color: #036A07;">'^Assets ^Liabilities'</span>
+"color: #008000;">'^Assets ^Liabilities'</span>
 <span style="color: #006FE0;">alias</span> -g <span style=
 "color: #BA36A5;">PROFIT_LOSS</span>=<span style=
-"color: #036A07;">'^Expenses ^Income'</span>
+"color: #008000;">'^Expenses ^Income'</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">lastmonth</span>=<span style=
-"color: #036A07;">'LG reg TLM'</span>
+"color: #008000;">'LG reg TLM'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
@@ -1984,7 +2028,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 
     <span style="color: #0000FF;">case</span> ${<span style=
 "color: #BA36A5;">LEDGER</span>} <span style="color: #0000FF;">in</span>
-        <span style="color: #036A07;">"beancount"</span> )
+        <span style="color: #008000;">"beancount"</span> )
             ;;
 
         * )   <span style="color: #8D8D84;"># </span><span style=
@@ -2002,13 +2046,13 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #BA36A5;">LEDGER_FILE</span>=sample-ledger.dat;
     <span style="color: #0000FF;">case</span> ${<span style=
 "color: #BA36A5;">LEDGER</span>} <span style="color: #0000FF;">in</span>
-        <span style="color: #036A07;">"beancount"</span> )
+        <span style="color: #008000;">"beancount"</span> )
             m4 -D <span style=
 "color: #BA36A5;">LEDGER</span>=beancount ${<span style=
 "color: #BA36A5;">LEDGER_M4_FILE</span>} |<span style=
-"color: #036A07;">\</span>
+"color: #008000;">\</span>
             sed -e <span style=
-"color: #036A07;">'s/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g'</span> &gt; ${<span style="color: #BA36A5;">LEDGER_FILE</span>}
+"color: #008000;">'s/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g'</span> &gt; ${<span style="color: #BA36A5;">LEDGER_FILE</span>}
             bean-web ${<span style=
 "color: #BA36A5;">LEDGER_FILE</span>} $<span style=
 "color: #BA36A5;">@</span>   <span style=
@@ -2019,9 +2063,9 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 "color: #8D8D84; font-style: italic;">default option</span>
             m4 ${<span style=
 "color: #BA36A5;">LEDGER_M4_FILE</span>} |<span style=
-"color: #036A07;">\</span>
+"color: #008000;">\</span>
             sed -e <span style=
-"color: #036A07;">'s/^@/;@/'</span> &gt; ${<span style=
+"color: #008000;">'s/^@/;@/'</span> &gt; ${<span style=
 "color: #BA36A5;">LEDGER_FILE</span>}
             ${<span style="color: #BA36A5;">LEDGER</span>} -f ${<span style=
 "color: #BA36A5;">LEDGER_FILE</span>} $<span style="color: #BA36A5;">@</span>
@@ -2148,9 +2192,9 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">mappings for `Ctrl-arrows' for word moving</span>
 <span style="color: #006FE0;">bindkey</span> <span style=
-"color: #036A07;">';5C'</span> forward-word
+"color: #008000;">';5C'</span> forward-word
 <span style="color: #006FE0;">bindkey</span> <span style=
-"color: #036A07;">';5D'</span> backward-word
+"color: #008000;">';5D'</span> backward-word
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">beep on </span><span style=
@@ -2170,7 +2214,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 }
 zle -N backward-delete-char-beep
 <span style="color: #006FE0;">bindkey</span> <span style=
-"color: #036A07;">"^?"</span> backward-delete-char-beep
+"color: #008000;">"^?"</span> backward-delete-char-beep
 </pre>
           </div>
         </div>
@@ -2214,20 +2258,20 @@ zle -N backward-delete-char-beep
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">case-insensitive completion</span>
 zstyle <span style=
-"color: #036A07;">':completion:*'</span> matcher-list <span style=
-"color: #036A07;">'m:{a-zA-Z}={A-Za-z}'</span>
+"color: #008000;">':completion:*'</span> matcher-list <span style=
+"color: #008000;">'m:{a-zA-Z}={A-Za-z}'</span>
 
 <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$TERM"</span> != <span style=
-"color: #036A07;">"dumb"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$TERM"</span> != <span style=
+"color: #008000;">"dumb"</span> ]; <span style="color: #0000FF;">then</span>
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">eval "$(dircolors -b)"</span>
     <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">ls</span>=<span style=
-"color: #036A07;">'ls --color=always'</span>
+"color: #008000;">'ls --color=always'</span>
 <span style="color: #0000FF;">else</span>
     <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">ls</span>=<span style="color: #036A07;">'ls -CF'</span>
+"color: #BA36A5;">ls</span>=<span style="color: #008000;">'ls -CF'</span>
 <span style="color: #0000FF;">fi</span>
 </pre>
           </div>
@@ -2244,7 +2288,7 @@ zstyle <span style=
 <span style="color: #8D8D84;">## </span><span style=
 "color: #8D8D84; font-style: italic;">coloring stderr</span>
 <span style="color: #BA36A5;">STDERRRED</span>=$<span style=
-"color: #036A07;">'\e[031m'</span>
+"color: #008000;">'\e[031m'</span>
 zmodload zsh/system
 <span style="color: #006699;">color_err</span> () {
     <span style="color: #8D8D84;">## </span><span style=
@@ -2253,7 +2297,7 @@ zmodload zsh/system
     <span style="color: #0000FF;">while</span> sysread
     <span style="color: #0000FF;">do</span>
         syswrite -o 2 <span style=
-"color: #036A07;">"${STDERRRED}${REPLY}$terminfo[sgr0]"</span>
+"color: #008000;">"${STDERRRED}${REPLY}$terminfo[sgr0]"</span>
     <span style="color: #0000FF;">done</span>
 }
 
@@ -2381,13 +2425,13 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">;;</span>
             *)
                 <span style="color: #006FE0;">export</span> <span style=
-"color: #BA36A5;">EDITOR</span>=<span style="color: #036A07;">"$editor"</span>
+"color: #BA36A5;">EDITOR</span>=<span style="color: #008000;">"$editor"</span>
                 ;;
         <span style="color: #0000FF;">esac</span>
         <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">e</span>=<span style="color: #036A07;">"$EDITOR"</span>
+"color: #BA36A5;">e</span>=<span style="color: #008000;">"$EDITOR"</span>
         <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">edit</span>=<span style="color: #036A07;">"$EDITOR"</span>
+"color: #BA36A5;">edit</span>=<span style="color: #008000;">"$EDITOR"</span>
         <span style="color: #0000FF;">break</span>
     <span style="color: #0000FF;">fi</span>
 <span style="color: #0000FF;">done</span>
@@ -2405,23 +2449,23 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">use `$EDITOR' for programs wanting an editor</span>
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">VISUAL</span>=<span style=
-"color: #036A07;">"$EDITOR"</span> <span style=
+"color: #008000;">"$EDITOR"</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for crontab</span>
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">CVSEDITOR</span>=<span style=
-"color: #036A07;">"$EDITOR"</span>
+"color: #008000;">"$EDITOR"</span>
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">SVN_EDITOR</span>=<span style=
-"color: #036A07;">"$EDITOR"</span>
+"color: #008000;">"$EDITOR"</span>
 <span style="color: #006FE0;">export</span> <span style=
-"color: #BA36A5;">EDIT</span>=<span style="color: #036A07;">"$EDITOR"</span>
+"color: #BA36A5;">EDIT</span>=<span style="color: #008000;">"$EDITOR"</span>
 <span style="color: #006FE0;">export</span> <span style=
 "color: #CC0000; background-color: #FFFF88;">ERROR</span><span style=
-"color: #BA36A5;">_EDITOR</span>=<span style="color: #036A07;">"$EDITOR"</span>
+"color: #BA36A5;">_EDITOR</span>=<span style="color: #008000;">"$EDITOR"</span>
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">FCEDIT</span>=<span style=
-"color: #036A07;">"$EDITOR"</span> <span style=
+"color: #008000;">"$EDITOR"</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for the fc (fix command) builtin command</span>
 </pre>
@@ -2431,7 +2475,7 @@ zmodload zsh/system
             <pre class="src src-sh">
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">e</span>=<span style=
-"color: #036A07;">"emacsclient -a emacs -n"</span>       <span style=
+"color: #008000;">"emacsclient -a emacs -n"</span>       <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">-n is essential part</span>
 </pre>
@@ -2464,13 +2508,13 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">* Aliasing</span>
 
 <span style="color: #BA36A5;">LS_OPTIONS</span>=<span style=
-"color: #036A07;">"$LS_OPTIONS --show-control-chars"</span>
+"color: #008000;">"$LS_OPTIONS --show-control-chars"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">enable color support of ls</span>
 <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$TERM"</span> != <span style=
-"color: #036A07;">"dumb"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$TERM"</span> != <span style=
+"color: #008000;">"dumb"</span> ]; <span style="color: #0000FF;">then</span>
 
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;"># add my coloration scheme to directory listings</span>
@@ -2487,22 +2531,22 @@ zmodload zsh/system
 
     <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">ls</span>=<span style=
-"color: #036A07;">'ls --color=auto'</span>
+"color: #008000;">'ls --color=auto'</span>
     <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">ll</span>=<span style=
-"color: #036A07;">"ls --color=yes --all --group-directories-first -l --human-readable --no-group"</span>
+"color: #008000;">"ls --color=yes --all --group-directories-first -l --human-readable --no-group"</span>
             <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">long listing and hidden files</span>
 <span style="color: #0000FF;">fi</span>
 
 <span style="color: #006FE0;">alias</span> -- ..=<span style=
-"color: #036A07;">'cd ..'</span>
+"color: #008000;">'cd ..'</span>
 <span style="color: #006FE0;">alias</span> ...=<span style=
-"color: #036A07;">'cd ../..'</span>
+"color: #008000;">'cd ../..'</span>
 <span style="color: #006FE0;">alias</span> ....=<span style=
-"color: #036A07;">'cd ../../..'</span>
+"color: #008000;">'cd ../../..'</span>
 <span style="color: #006FE0;">alias</span> .....=<span style=
-"color: #036A07;">'cd ../../../..'</span>
+"color: #008000;">'cd ../../../..'</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">s</span>=sudo
@@ -2510,7 +2554,7 @@ zmodload zsh/system
 "color: #BA36A5;">w</span>=which
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">q</span>=<span style=
-"color: #036A07;">'clear &amp;&amp; exit'</span> <span style=
+"color: #008000;">'clear &amp;&amp; exit'</span> <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">`x' is left for X Server...</span>
 
@@ -2518,17 +2562,17 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">print PATH with each directory on a new line</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">path</span>=<span style=
-"color: #036A07;">'echo $PATH | sed -e "s/:/\n/g"'</span>
+"color: #008000;">'echo $PATH | sed -e "s/:/\n/g"'</span>
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">apts</span>=<span style=
-"color: #036A07;">'aptitude search'</span>
+"color: #008000;">'aptitude search'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">apti</span>=<span style=
-"color: #036A07;">'sudo aptitude install --with-recommends'</span>
+"color: #008000;">'sudo aptitude install --with-recommends'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">aptrm</span>=<span style=
-"color: #036A07;">'sudo aptitude remove'</span>
+"color: #008000;">'sudo aptitude remove'</span>
 </pre>
           </div>
         </div>
@@ -2556,22 +2600,23 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">Directory changes made in a subshell do not carry over to the parent shell.</span>
         <span style="color: #006FE0;">cd</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-mode;
-        git fetch --all --verbose <span style="color: #036A07;">\</span>
-            &amp;&amp; git rebase origin <span style="color: #036A07;">\</span>
-            &amp;&amp; make autoloads <span style="color: #036A07;">\</span>
+        git fetch --all --verbose <span style="color: #008000;">\</span>
+            &amp;&amp; git rebase origin <span style="color: #008000;">\</span>
+            &amp;&amp; make autoloads <span style="color: #008000;">\</span>
             &amp;&amp; <span style=
-"color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T make clean <span style="color: #036A07;">\</span>
+"color: #006FE0;">echo</span> DON<span style="color: #008000;">\'</span>T make clean <span style="color: #008000;">\</span>
             &amp;&amp; <span style=
-"color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T make <span style="color: #036A07;">\</span>
+"color: #006FE0;">echo</span> DON<span style="color: #008000;">\'</span>T make <span style="color: #008000;">\</span>
             &amp;&amp; <span style=
-"color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T sudo make install <span style="color: #036A07;">\</span>
+"color: #006FE0;">echo</span> DON<span style="color: #008000;">\'</span>T sudo make install <span style="color: #008000;">\</span>
             &amp;&amp; <span style=
-"color: #006FE0;">echo</span> DON<span style="color: #036A07;">\'</span>T make doc <span style="color: #036A07;">\</span>
-            &amp;&amp; make info <span style="color: #036A07;">\</span>
-            &amp;&amp; sudo make install-info;
-        printf <span style=
-"color: #036A07;">"Running org_test, please wait (this can take a while)...\n"</span>
-        org_test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
+"color: #006FE0;">echo</span> DON<span style="color: #008000;">\'</span>T make doc <span style="color: #008000;">\</span>
+            &amp;&amp; make info <span style="color: #008000;">\</span>
+            &amp;&amp; sudo make install-info <span style=
+"color: #008000;">\</span>
+            &amp;&amp; printf <span style=
+"color: #008000;">"Running org_test, please wait (this can take a while)...\n"</span> <span style="color: #008000;">\</span>
+            &amp;&amp; org_test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
     )
 }
 </pre>
@@ -2584,7 +2629,7 @@ zmodload zsh/system
         <span style="color: #006FE0;">cd</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-mode;
         <span style=
-"color: #BA36A5;">TMPDIR</span>=/tmp/org_test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #036A07;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
+"color: #BA36A5;">TMPDIR</span>=/tmp/org_test emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #008000;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
     )
 }
 </pre>
@@ -2593,10 +2638,10 @@ zmodload zsh/system
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #0000FF;">if</span> [ -d <span style=
-"color: #036A07;">"$HOME/Public/Repositories/org-bash-utils"</span> ]
+"color: #008000;">"$HOME/Public/Repositories/org-bash-utils"</span> ]
 <span style="color: #0000FF;">then</span>
     <span style="color: #BA36A5;">PATH</span>=<span style=
-"color: #036A07;">"$HOME/Public/Repositories/org-bash-utils:$PATH"</span>
+"color: #008000;">"$HOME/Public/Repositories/org-bash-utils:$PATH"</span>
     <span style="color: #006FE0;">source</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-bash-utils/org-alias
     <span style="color: #006FE0;">source</span> $<span style=
@@ -2615,12 +2660,12 @@ zmodload zsh/system
             <pre class="src src-sh">
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">GREP_COLORS</span>=<span style=
-"color: #036A07;">"mt=01;33"</span>
+"color: #008000;">"mt=01;33"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">grep through the running processes</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">pgrep</span>=<span style="color: #036A07;">'pgrep -fl'</span>
+"color: #BA36A5;">pgrep</span>=<span style="color: #008000;">'pgrep -fl'</span>
 </pre>
           </div>
         </div>
@@ -2642,7 +2687,7 @@ zmodload zsh/system
           <div class="org-src-container">
             <pre class="src src-sh">
 <span style="color: #BA36A5;">PAGER</span>=<span style=
-"color: #036A07;">"less"</span>
+"color: #008000;">"less"</span>
 </pre>
           </div>
 
@@ -2656,7 +2701,7 @@ zmodload zsh/system
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">tailoring `less'</span>
 <span style="color: #BA36A5;">LESS</span>=<span style=
-"color: #036A07;">"--quit-at-eof --ignore-case --long-prompt --raw-control-chars"</span>
+"color: #008000;">"--quit-at-eof --ignore-case --long-prompt --raw-control-chars"</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">export LESS="-P ?c&lt;- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"</span>
 </pre>
@@ -2675,37 +2720,37 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">GraphicsMagick</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">GIF</span>=<span style=
-"color: #036A07;">"gm convert -verbose -interlace LINE"</span>
+"color: #008000;">"gm convert -verbose -interlace LINE"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">thumb</span>=<span style=
-"color: #036A07;">"gm convert -geometry 100x100 -interlace LINE -verbose"</span>
+"color: #008000;">"gm convert -geometry 100x100 -interlace LINE -verbose"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">region</span>=<span style=
-"color: #036A07;">'sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'</span>
+"color: #008000;">'sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">screenshot</span>=<span style=
-"color: #036A07;">'sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'</span>
+"color: #008000;">'sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">window</span>=<span style=
-"color: #036A07;">'sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'</span>
+"color: #008000;">'sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'</span>
 
 <span style="color: #006699;">gmresize</span> ()
 {
     <span style="color: #BA36A5;">FILES</span>=<span style=
-"color: #036A07;">"$@"</span>
+"color: #008000;">"$@"</span>
     <span style="color: #BA36A5;">SCALE</span>=<span style=
-"color: #036A07;">"1024x768"</span>
+"color: #008000;">"1024x768"</span>
   <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for i in *.(gif|jpeg|jpg|png);</span>
     <span style="color: #0000FF;">for</span> i<span style=
 "color: #0000FF;"> in</span> $<span style="color: #BA36A5;">FILES</span>
     <span style="color: #0000FF;">do</span>
         <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Processing image $i ..."</span>
+"color: #008000;">"Processing image $i ..."</span>
         gm convert -scale $<span style=
 "color: #BA36A5;">SCALE</span> <span style=
-"color: #036A07;">"$i"</span> $(basename <span style=
-"color: #036A07;">"$i"</span> .${<span style=
+"color: #008000;">"$i"</span> $(basename <span style=
+"color: #008000;">"$i"</span> .${<span style=
 "color: #BA36A5;">i</span>##*.})-$<span style=
 "color: #BA36A5;">SCALE</span>.${<span style="color: #BA36A5;">i</span>##*.}
         <span style="color: #8D8D84;"># </span><span style=
@@ -2764,42 +2809,42 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">show only my processes</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">mytop</span>=<span style=
-"color: #036A07;">'top -u $USERNAME'</span>
+"color: #008000;">'top -u $USERNAME'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">mytop</span>=<span style=
-"color: #036A07;">'htop -u $USERNAME'</span>
+"color: #008000;">'htop -u $USERNAME'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">grep through the aliases</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">agrep</span>=<span style=
-"color: #036A07;">'alias | grep -i'</span>
+"color: #008000;">'alias | grep -i'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">directory history</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">dh</span>=<span style="color: #036A07;">'dirs -v'</span>
+"color: #BA36A5;">dh</span>=<span style="color: #008000;">'dirs -v'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">play safe!</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">rm</span>=<span style="color: #036A07;">'rm -i'</span>
+"color: #BA36A5;">rm</span>=<span style="color: #008000;">'rm -i'</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">mv</span>=<span style="color: #036A07;">'mv -i'</span>
+"color: #BA36A5;">mv</span>=<span style="color: #008000;">'mv -i'</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">cp</span>=<span style="color: #036A07;">'cp -i'</span>
+"color: #BA36A5;">cp</span>=<span style="color: #008000;">'cp -i'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">display the matched pattern in color</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">grep</span>=<span style=
-"color: #036A07;">'grep --color'</span>
+"color: #008000;">'grep --color'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">list all files modified in the last 24 hours (last full day)</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">oneday</span>=<span style=
-"color: #036A07;">'find . -mtime -1 -print'</span>
+"color: #008000;">'find . -mtime -1 -print'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #CC0000; background-color: #FFFF88; font-style: italic;">XXX</span><span style="color: #8D8D84; font-style: italic;"> my traceroute</span>
@@ -2814,34 +2859,34 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">hping[2] (run as root!)</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">myping</span>=<span style=
-"color: #036A07;">"hping2 -c 100 -2 -p 7 $1"</span>
+"color: #008000;">"hping2 -c 100 -2 -p 7 $1"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">myping2</span>=<span style=
-"color: #036A07;">"hping2 -d 500 -c 100 -2 -p 7 $1"</span>
+"color: #008000;">"hping2 -d 500 -c 100 -2 -p 7 $1"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">030925 compare /proc with ps (against rootkits)</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">myps</span>=<span style=
-"color: #036A07;">"sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"</span>
+"color: #008000;">"sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">get gpg-key from keyserver</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">getkey</span>=<span style=
-"color: #036A07;">'gpg --keyserver keys.gnupg.net --recv-keys'</span>
+"color: #008000;">'gpg --keyserver keys.gnupg.net --recv-keys'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">040210 grep</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">g</span>=<span style=
-"color: #036A07;">'find . -type f -print0 | xargs -0 grep'</span>
+"color: #008000;">'find . -type f -print0 | xargs -0 grep'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">search through files, ignoring .svn directories</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">svn_find</span>=<span style=
-"color: #036A07;">"find . -not \( -name .svn -prune \)"</span>
+"color: #008000;">"find . -not \( -name .svn -prune \)"</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">function for grep'ing a string in every SVN revision of a file</span>
@@ -2849,16 +2894,16 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">Usage: svn_grep_all_rev PATTERN FILE</span>
 <span style="color: #006699;">svn_grep_all_rev</span>() {
     svn log $<span style="color: #BA36A5;">2</span> | perl -n -e <span style=
-"color: #036A07;">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
+"color: #008000;">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
         <span style="color: #0000FF;">while </span><span style=
 "color: #006FE0;">read</span> revision; <span style="color: #0000FF;">do</span>
             printf <span style=
-"color: #036A07;">"\e[0;33m%s\e[0m\n"</span> <span style=
-"color: #036A07;">"Revision $revision:"</span>
+"color: #008000;">"\e[0;33m%s\e[0m\n"</span> <span style=
+"color: #008000;">"Revision $revision:"</span>
             svn cat -r $<span style=
 "color: #BA36A5;">revision</span> $<span style=
 "color: #BA36A5;">2</span> | grep $<span style="color: #BA36A5;">1</span>
-            printf <span style="color: #036A07;">"\n"</span>
+            printf <span style="color: #008000;">"\n"</span>
         <span style="color: #0000FF;">done</span>
     )
 }
@@ -2879,7 +2924,7 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">receive</span>=<span style=
-"color: #036A07;">'nc -vlp 51330 | tar xzvp'</span>
+"color: #008000;">'nc -vlp 51330 | tar xzvp'</span>
 
 
 <span style="color: #8D8D84;"># </span><span style=
@@ -2894,48 +2939,48 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">honor embedded linefeeds when displaying packets</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">ngrep</span>=<span style=
-"color: #036A07;">'ngrep -W byline'</span>
+"color: #008000;">'ngrep -W byline'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">echo my current external IP address</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">whatismyip</span>=<span style=
-"color: #036A07;">'curl -s http://whatismyip.org'</span>
+"color: #008000;">'curl -s http://whatismyip.org'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">shortcut to making executable</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">exe</span>=<span style="color: #036A07;">'chmod +x'</span>
+"color: #BA36A5;">exe</span>=<span style="color: #008000;">'chmod +x'</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">chown current dir and subdirs</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">own</span>=<span style=
-"color: #036A07;">'sudo chown -R $USER'</span>
+"color: #008000;">'sudo chown -R $USER'</span>
 
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">Web radio stations</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">europe1</span>=<span style=
-"color: #036A07;">'mplayer http://vipicecast.yacast.net/europe1'</span>
+"color: #008000;">'mplayer http://vipicecast.yacast.net/europe1'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">europe2</span>=<span style=
-"color: #036A07;">'mplayer mms://vipmms9.yacast.fr/encodereurope2'</span>
+"color: #008000;">'mplayer mms://vipmms9.yacast.fr/encodereurope2'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">nrj</span>=<span style=
-"color: #036A07;">'mplayer mms://vipnrj.yacast.fr/encodernrj'</span>
+"color: #008000;">'mplayer mms://vipnrj.yacast.fr/encodernrj'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">rtl</span>=<span style=
-"color: #036A07;">'mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'</span>
+"color: #008000;">'mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">rtl2</span>=<span style=
-"color: #036A07;">'mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'</span>
+"color: #008000;">'mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'</span>
 
 
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">off</span>=<span style=
-"color: #036A07;">'sudo shutdown -h now'</span>
+"color: #008000;">'sudo shutdown -h now'</span>
 
 
 <span style="color: #0000FF;">case</span> $(uname -s) <span style=
@@ -2943,39 +2988,39 @@ zmodload zsh/system
     Linux*)
         <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">vpnup</span>=<span style=
-"color: #036A07;">'sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &amp;'</span>  <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">--daemon'</span>
+"color: #008000;">'sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &amp;'</span>  <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">--daemon'</span>
         <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">vpndown</span>=<span style=
-"color: #036A07;">'sudo kill -INT `cat /tmp/openvpn.pid`'</span>
+"color: #008000;">'sudo kill -INT `cat /tmp/openvpn.pid`'</span>
         ;;
 
     CYGWIN*)
         <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">vpnup</span>=<span style=
-"color: #036A07;">'cd $HOME/.hide/OpenVPN-config; openvpn --config mcbe.ovpn --writepid c:/cygwin/tmp/openvpn.pid &amp;'</span>  <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">--daemon'</span>
+"color: #008000;">'cd $HOME/.hide/OpenVPN-config; openvpn --config mcbe.ovpn --writepid c:/cygwin/tmp/openvpn.pid &amp;'</span>  <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">--daemon'</span>
         <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">vpndown</span>=<span style=
-"color: #036A07;">'killall openvpn'</span>
+"color: #008000;">'killall openvpn'</span>
         ;;
 <span style="color: #0000FF;">esac</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">make `du' human readable</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">du</span>=<span style="color: #036A07;">'du -h'</span>
+"color: #BA36A5;">du</span>=<span style="color: #008000;">'du -h'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">du1</span>=<span style=
-"color: #036A07;">'du -h --max-depth=1'</span>
+"color: #008000;">'du -h --max-depth=1'</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">dus</span>=<span style=
-"color: #036A07;">'du -ms * | sort -rn'</span>  <span style=
+"color: #008000;">'du -ms * | sort -rn'</span>  <span style=
 "color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">ordered by size</span>
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">make `df' human readable</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">df</span>=<span style="color: #036A07;">'df -h'</span>
+"color: #BA36A5;">df</span>=<span style="color: #008000;">'df -h'</span>
 
 
 <span style="color: #8D8D84;"># </span><span style=
@@ -2984,20 +3029,20 @@ zmodload zsh/system
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">dir</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">back</span>=<span style="color: #036A07;">"cd -"</span>
+"color: #BA36A5;">back</span>=<span style="color: #008000;">"cd -"</span>
 <span style="color: #006FE0;">alias</span> <span style=
-"color: #BA36A5;">home</span>=<span style="color: #036A07;">"cd $HOME"</span>
+"color: #BA36A5;">home</span>=<span style="color: #008000;">"cd $HOME"</span>
 
 
 <span style="color: #006FE0;">export</span> <span style=
 "color: #BA36A5;">GS_OPTIONS</span>=<span style=
-"color: #036A07;">"-sPAPERSIZE=a4"</span>
+"color: #008000;">"-sPAPERSIZE=a4"</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">pdfmerge</span>=<span style=
-"color: #036A07;">"gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf"</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">pdfjoin</span>
+"color: #008000;">"gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf"</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">pdfjoin</span>
 <span style="color: #006FE0;">alias</span> <span style=
 "color: #BA36A5;">booklet</span>=<span style=
-"color: #036A07;">"psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"</span>
+"color: #008000;">"psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"</span>
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">for Win32, choose gswin32c</span>
 </pre>
@@ -3044,7 +3089,7 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">line N FILE - show line N of FILE</span>
 <span style="color: #006699;">line</span> ()
 {
-    sed -n <span style="color: #036A07;">"$1 p"</span> $<span style=
+    sed -n <span style="color: #008000;">"$1 p"</span> $<span style=
 "color: #BA36A5;">2</span>
 }
 </pre>
@@ -3063,7 +3108,7 @@ zmodload zsh/system
 "color: #8D8D84; font-style: italic;">ec FILE - open FILE in a running Emacs</span>
 <span style="color: #006699;">ec</span> ()
 {
-    emacsclient --no-wait <span style="color: #036A07;">"$1"</span>
+    emacsclient --no-wait <span style="color: #008000;">"$1"</span>
 }
 </pre>
           </div>
@@ -3087,24 +3132,24 @@ zmodload zsh/system
 <span style="color: #006699;">clean</span> ()
 {
     <span style="color: #0000FF;">if</span> [ <span style=
-"color: #036A07;">"$1"</span> = <span style=
-"color: #036A07;">"-r"</span> ]; <span style="color: #0000FF;">then</span>
-        find . <span style="color: #036A07;">\(</span> -name <span style=
-"color: #036A07;">"#*"</span> -o -name <span style=
-"color: #036A07;">"*~"</span> -o -name <span style=
-"color: #036A07;">".*~"</span> -o <span style="color: #036A07;">\</span>
+"color: #008000;">"$1"</span> = <span style=
+"color: #008000;">"-r"</span> ]; <span style="color: #0000FF;">then</span>
+        find . <span style="color: #008000;">\(</span> -name <span style=
+"color: #008000;">"#*"</span> -o -name <span style=
+"color: #008000;">"*~"</span> -o -name <span style=
+"color: #008000;">".*~"</span> -o <span style="color: #008000;">\</span>
             -name <span style=
-"color: #036A07;">"*.~[0-9]*~"\ </span>-o -name <span style=
-"color: #036A07;">".*.~[0-9]*~"</span> -o <span style=
-"color: #036A07;">\</span>
+"color: #008000;">"*.~[0-9]*~"\ </span>-o -name <span style=
+"color: #008000;">".*.~[0-9]*~"</span> -o <span style=
+"color: #008000;">\</span>
             -name <span style=
-"color: #036A07;">"*.~BASE~"</span> -o -name <span style=
-"color: #036A07;">".*.~BASE~"</span> <span style=
-"color: #036A07;">\)</span> -ok rm <span style=
-"color: #036A07;">"{}"</span> <span style="color: #036A07;">";"</span>
+"color: #008000;">"*.~BASE~"</span> -o -name <span style=
+"color: #008000;">".*.~BASE~"</span> <span style=
+"color: #008000;">\)</span> -ok rm <span style=
+"color: #008000;">"{}"</span> <span style="color: #008000;">";"</span>
     <span style="color: #0000FF;">else</span>
         rm -i <span style=
-"color: #036A07;">\#</span>* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
+"color: #008000;">\#</span>* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
     <span style="color: #0000FF;">fi</span>
 }
 
@@ -3141,21 +3186,21 @@ zmodload zsh/system
 {
     <span style=
 "color: #BA36A5;">IP_ADDRESS</span>=$(ifconfig | grep <span style=
-"color: #036A07;">"inet addr:"</span> | head -n 1 | sed <span style=
-"color: #036A07;">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
+"color: #008000;">"inet addr:"</span> | head -n 1 | sed <span style=
+"color: #008000;">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">we could use `nm-tool' from `network-manager'</span>
 
     <span style="color: #BA36A5;">NETMASK</span>=$(ifconfig | grep <span style=
-"color: #036A07;">"inet addr:"</span> | head -n 1 | sed <span style=
-"color: #036A07;">"s/.*Mask:\([0-9.]*\).*/\1/"</span>)
+"color: #008000;">"inet addr:"</span> | head -n 1 | sed <span style=
+"color: #008000;">"s/.*Mask:\([0-9.]*\).*/\1/"</span>)
 
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">calculate network value</span>
     <span style="color: #006FE0;">echo</span> $(ipcalc -n -b $<span style=
 "color: #BA36A5;">IP_ADDRESS</span> $<span style=
 "color: #BA36A5;">NETMASK</span> | grep Network | awk <span style=
-"color: #036A07;">'{print $2}'</span>)
+"color: #008000;">'{print $2}'</span>)
 }
 
 
@@ -3165,16 +3210,16 @@ zmodload zsh/system
 {
     <span style="color: #006FE0;">local</span> net
     <span style="color: #0000FF;">if</span> [ -n <span style=
-"color: #036A07;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
         <span style="color: #BA36A5;">net</span>=<span style=
-"color: #036A07;">"$1"</span>
+"color: #008000;">"$1"</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #BA36A5;">net</span>=$(localnet)
     <span style="color: #0000FF;">fi</span>
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Discovering online hosts in $net..."</span>
+"color: #008000;">"Discovering online hosts in $net..."</span>
     sudo nmap -sP $<span style="color: #BA36A5;">net</span> | awk <span style=
-"color: #036A07;">'/Host / &amp;&amp; / up/ { print $0; }'</span>
+"color: #008000;">'/Host / &amp;&amp; / up/ { print $0; }'</span>
 }
 
 
@@ -3189,9 +3234,9 @@ zmodload zsh/system
 
     <span style="color: #006FE0;">local</span> net
     <span style="color: #0000FF;">if</span> [ -n <span style=
-"color: #036A07;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
         <span style="color: #BA36A5;">net</span>=<span style=
-"color: #036A07;">"$1"</span>
+"color: #008000;">"$1"</span>
     <span style="color: #0000FF;">else</span>
         <span style="color: #BA36A5;">net</span>=$(localnet)
     <span style="color: #0000FF;">fi</span>
@@ -3199,25 +3244,25 @@ zmodload zsh/system
     <span style="color: #0000FF;">for</span> hostip<span style=
 "color: #0000FF;"> in</span> $(nmap -sP $<span style=
 "color: #BA36A5;">net</span> | grep -E <span style=
-"color: #036A07;">'Host .* up'</span> | cut -d <span style=
-"color: #036A07;">" "</span> -f2-2);
+"color: #008000;">'Host .* up'</span> | cut -d <span style=
+"color: #008000;">" "</span> -f2-2);
     <span style="color: #0000FF;">do</span>
         <span style="color: #BA36A5;">t1</span>=$(ping -c 4 $<span style=
 "color: #BA36A5;">hostip</span> | grep -e PING | cut -d <span style=
-"color: #036A07;">" "</span> -f1-2 | cut -d <span style=
-"color: #036A07;">" "</span> -f2-4) ;
+"color: #008000;">" "</span> -f1-2 | cut -d <span style=
+"color: #008000;">" "</span> -f2-4) ;
         <span style="color: #BA36A5;">t2</span>=$(ping -c 4 $<span style=
 "color: #BA36A5;">hostip</span> | grep -e rtt | cut -d <span style=
-"color: #036A07;">"/"</span> -f5-5) ;
+"color: #008000;">"/"</span> -f5-5) ;
         <span style="color: #BA36A5;">t3</span>=$(sudo nmap -sS $<span style=
 "color: #BA36A5;">hostip</span> | grep <span style=
-"color: #036A07;">" open "</span>) ;
+"color: #008000;">" open "</span>) ;
         <span style="color: #006FE0;">echo</span> -e $<span style=
 "color: #BA36A5;">t1</span> <span style=
-"color: #036A07;">" "</span> $<span style=
+"color: #008000;">" "</span> $<span style=
 "color: #BA36A5;">t2</span> <span style=
-"color: #036A07;">"ms\n"</span> $<span style=
-"color: #BA36A5;">t3</span> <span style="color: #036A07;">"\n"</span>;
+"color: #008000;">"ms\n"</span> $<span style=
+"color: #BA36A5;">t3</span> <span style="color: #008000;">"\n"</span>;
     <span style="color: #0000FF;">done</span>
 }
 
@@ -3240,18 +3285,18 @@ zmodload zsh/system
 {
     <span style="color: #006FE0;">local</span> net
     <span style="color: #0000FF;">if</span> [ -n <span style=
-"color: #036A07;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
+"color: #008000;">"$1"</span> ]; <span style="color: #0000FF;">then</span>
       <span style="color: #BA36A5;">net</span>=<span style=
-"color: #036A07;">"$1"</span>
+"color: #008000;">"$1"</span>
     <span style="color: #0000FF;">else</span>
       <span style="color: #BA36A5;">net</span>=$(localnet)
     <span style="color: #0000FF;">fi</span>
     <span style="color: #006FE0;">echo</span> <span style=
-"color: #036A07;">"Performing reverse DNS lookups in $net..."</span>
+"color: #008000;">"Performing reverse DNS lookups in $net..."</span>
     nmap -R -sL $<span style="color: #BA36A5;">net</span> |<span style=
-"color: #036A07;">\</span>
+"color: #008000;">\</span>
     awk <span style=
-"color: #036A07;">'{if ($3 != "not") print "Host " $3 " is " $2}'</span> | grep <span style="color: #036A07;">'('</span>
+"color: #008000;">'{if ($3 != "not") print "Host " $3 " is " $2}'</span> | grep <span style="color: #008000;">'('</span>
     <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">You could add "--dns-servers x.x.x.x" after the "-sL" if you need the</span>
     <span style="color: #8D8D84;"># </span><span style=
@@ -3391,8 +3436,8 @@ $<span style="color: #BA36A5;">if</span> <span style=
 
 <span style="color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">mappings for "Alt-arrow keys" for Cygwin on Windows</span>
-<span style="color: #036A07;">"\e\e[C"</span>: forward-word
-<span style="color: #036A07;">"\e\e[D"</span>: backward-word
+<span style="color: #008000;">"\e\e[C"</span>: forward-word
+<span style="color: #008000;">"\e\e[D"</span>: backward-word
 
 $<span style="color: #BA36A5;">endif</span>
 
@@ -3471,10 +3516,10 @@ ln -f -s $(<span style=
         <div class="org-src-container">
           <pre class="src src-sh">
 <span style="color: #0000FF;">if</span> [ -d <span style=
-"color: #036A07;">"$HOME/src/shellrc/src"</span> ]
+"color: #008000;">"$HOME/src/shellrc/src"</span> ]
 <span style="color: #0000FF;">then</span>
     <span style="color: #BA36A5;">PATH</span>=<span style=
-"color: #036A07;">"$HOME/src/shellrc/src:$PATH"</span>
+"color: #008000;">"$HOME/src/shellrc/src:$PATH"</span>
 <span style="color: #0000FF;">fi</span>
 </pre>
         </div>

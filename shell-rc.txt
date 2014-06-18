@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-05-14 Wed 12:45>
+#+Time-stamp: <2014-06-18 Wed 12:12>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -18,7 +18,12 @@
 
 There are three *sorts of shells*:
 
-- (interactive) *login* (for which =.profile= and =.bashrc= are read)
+- (interactive) *login* (for which =c:/cygwin/etc/profile= and =.profile= are read,
+  which sources =.bashrc= as well)
+
+  *Note --* Launching Cygwin Terminal (login shell) does not load ~.bashrc~ on its
+  own, it only loads ~.bash_profile~. Hence, the need to have a ~.bash_profile~
+  sourcing ~.bashrc~...
 
 - *interactive* (non-login) (for which =.bashrc= is read)
 
@@ -38,8 +43,33 @@ To recover the default bash configuration files, get their copy from
 =/etc/skel=.
 
 If you get a couple of "command not found" errors and a corrupt prompt at
-startup, then your =.bashrc= is probably in Windows text format (line endings).
-Make sure your editor is in Unix format when creating text files.
+startup, then your =.bashrc= is probably in Windows text format (~\r\n~ line
+endings).  Make sure your editor is in Unix format when creating text files.
+
+*** What to put where?
+
+Login shell runs .profile (or .bash_profile or .bash_login) on startup. Set
+your env variables in there, cuz sub-shells will inherit the env vars. Then
+make .profile run your .bashrc:
+
+#+begin_src sh
+. .bashrc
+#+end_src
+
+Interactive runs .bashrc. Since it inherits envs, but not aliases, put your
+aliases in this file.
+
+Shell scripts, cron jobs, and the like, run with a bare shell: no bashrc or
+profiles are run. No kidding you get 4 env vars set, the bare
+minimum. Therefore your PATH won't work very well so you often have to give an
+abs pathname like in crontab:
+
+#+begin_src sh
+right: 0 0 * * 2 /usr/sbin/apachectl restart
+wrong: 0 0 * * 2 apachectl restart
+#+end_src
+
+From https://www.linuxquestions.org/questions/linux-general-1/difference-between-normal-shell-and-login-shell-14983/#post4828786
 
 ** Note
 
@@ -52,9 +82,6 @@ In ~c:/cygwin/etc/profile~,
 
 - =TZ= (time zone) is set... which gives wrong times (1 hour difference) in Emacs
   when called from ~c:/cygwin/Cygwin.bat~!!
-
-Note -- Launching Cygwin Terminal does not load ~.bashrc~, it only loads
-~.bash_profile~. Hence, the need to have a ~.bash_profile~ sourcing ~.bashrc~...
 
 * Terminals
 
@@ -1300,9 +1327,9 @@ update_org () {
             && echo DON\'T sudo make install \
             && echo DON\'T make doc \
             && make info \
-            && sudo make install-info;
-        printf "Running org_test, please wait (this can take a while)...\n"
-        org_test 2>&1 >/dev/null | tail -n 3
+            && sudo make install-info \
+            && printf "Running org_test, please wait (this can take a while)...\n" \
+            && org_test 2>&1 >/dev/null | tail -n 3
     )
 }
 #+end_src
