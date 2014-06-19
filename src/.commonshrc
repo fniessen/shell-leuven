@@ -96,8 +96,8 @@ update_org () {
 org_test () {
     (
         cd $HOME/Public/Repositories/org-mode;
-        TMPDIR=/tmp emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
-        # TMPDIR must exist!
+        mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
+        TMPDIR=/tmp/tmp-orgtest emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
     )
 }
 

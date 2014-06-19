@@ -2624,10 +2624,11 @@ zmodload zsh/system
     (
         <span style="color: #006FE0;">cd</span> $<span style=
 "color: #BA36A5;">HOME</span>/Public/Repositories/org-mode;
-        <span style=
-"color: #BA36A5;">TMPDIR</span>=/tmp emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #008000;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
-        <span style="color: #8D8D84;"># </span><span style=
+        mkdir /tmp/tmp-orgtest 2&gt; /dev/null <span style=
+"color: #8D8D84;"># </span><span style=
 "color: #8D8D84; font-style: italic;">TMPDIR must exist!</span>
+        <span style=
+"color: #BA36A5;">TMPDIR</span>=/tmp/tmp-orgtest emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span style="color: #008000;">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
     )
 }
 </pre>
