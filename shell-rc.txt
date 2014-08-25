@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-08-25 Mon 14:49>
+#+Time-stamp: <2014-08-25 Mon 15:06>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1778,16 +1778,16 @@ Zsh doesn't use the =inputrc= file.
 $include /etc/skel/.inputrc
 $include /etc/inputrc
 
+# allow Meta (Alt) key bindings [line added to the top of my `.inputrc']
+set convert-meta on
+
 # behave like Emacs when editing
 set editing-mode emacs
-    # Ctrl-a        Start of line
-    # Ctrl-e        End of line
-    # Ctrl-f        Forward one character
-    # Ctrl-b        Backward one character
+    # Ctrl-a/e      Start/End of line
+    # Ctrl-f/b      Forward/Backward one character
     # Ctrl-d        Delete one character
     # Ctrl-k        Kill line
-    # Ctrl-p        Previous command in history
-    # Ctrl-n        Next command in history
+    # Ctrl-p/n      Previous/Next command in history
     # Ctrl-r        Search for command in history
     # Ctrl-i/TAB    File name completion
 
@@ -1802,6 +1802,9 @@ $if mode=emacs
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
 
+Meta-p: history-search-backward
+Meta-n: history-search-forward
+
 $endif
 
 # ignore case while completing
@@ -1812,10 +1815,6 @@ set completion-ignore-case on
 
 # #* get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
 
-# # allow iso-latin1 characters to be inserted rather than converted to
-# # prefix-meta sequences
-# set convert-meta off
-
 # # don't strip characters to 7 bits when reading
 # set input-meta on
 # # (synonym of 'meta-flag')
@@ -1823,10 +1822,6 @@ set completion-ignore-case on
 # # display characters with the eighth bit set directly rather than as
 # # meta-prefixed characters
 # set output-meta on
-
-# This is for the sake of Emacs.
-# Local Variables:
-# End:
 
 ## .inputrc ends here
 #+end_src
