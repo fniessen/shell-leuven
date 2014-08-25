@@ -52,9 +52,13 @@ set editing-mode emacs
 # some defaults / modifications for the Emacs mode
 $if mode=emacs
 
-# mappings for "Alt-arrow keys" for Cygwin on Windows
-"\e\e[C": forward-word
-"\e\e[D": backward-word
+# mappings for `Ctrl-up/down' for matching commands from the history
+"\e[1;5A": history-search-backward
+"\e[1;5B": history-search-forward
+
+# mappings for `Ctrl-left/right' for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
 $endif
 
@@ -77,7 +81,6 @@ set completion-ignore-case on
 # # display characters with the eighth bit set directly rather than as
 # # meta-prefixed characters
 # set output-meta on
-
 
 # This is for the sake of Emacs.
 # Local Variables:

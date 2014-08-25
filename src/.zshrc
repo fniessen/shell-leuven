@@ -205,7 +205,11 @@ fi
 # behave like Emacs when editing
 bindkey -e
 
-# mappings for `Ctrl-arrows' for word moving
+# mappings for `Ctrl-up/down' for matching commands from the history
+bindkey ';5A' history-search-backward
+bindkey ';5B' history-search-forward
+
+# mappings for `Ctrl-left/right' for word moving
 bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 

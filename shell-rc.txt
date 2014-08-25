@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-06-19 Thu 10:42>
+#+Time-stamp: <2014-08-25 Mon 14:49>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1098,7 +1098,11 @@ Useful commands:
 # behave like Emacs when editing
 bindkey -e
 
-# mappings for `Ctrl-arrows' for word moving
+# mappings for `Ctrl-up/down' for matching commands from the history
+bindkey ';5A' history-search-backward
+bindkey ';5B' history-search-forward
+
+# mappings for `Ctrl-left/right' for word moving
 bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 
@@ -1729,7 +1733,11 @@ rdns ()
   :END:
 
 This file controls the behavior of line input editing for programs that use
-the Gnu Readline library. Existing programs include FTP, Bash, and Gdb.
+the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
+
+#+begin_note
+Zsh doesn't use the =inputrc= file.
+#+end_note
 
 #+begin_src sh :noweb yes
 ## .inputrc --- my Readline Init File
@@ -1786,9 +1794,13 @@ set editing-mode emacs
 # some defaults / modifications for the Emacs mode
 $if mode=emacs
 
-# mappings for "Alt-arrow keys" for Cygwin on Windows
-"\e\e[C": forward-word
-"\e\e[D": backward-word
+# mappings for `Ctrl-up/down' for matching commands from the history
+"\e[1;5A": history-search-backward
+"\e[1;5B": history-search-forward
+
+# mappings for `Ctrl-left/right' for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
 $endif
 
@@ -1811,7 +1823,6 @@ set completion-ignore-case on
 # # display characters with the eighth bit set directly rather than as
 # # meta-prefixed characters
 # set output-meta on
-
 
 # This is for the sake of Emacs.
 # Local Variables:
