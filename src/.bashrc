@@ -56,7 +56,6 @@ fi
 # regular colors
 green="\[\e[0;32m\]"
 yellow="\[\e[0;33m\]"
-white="\[\e[0;37m\]"
 
 # bold colors
 BLACK="\[\e[1;30m\]"
@@ -138,7 +137,7 @@ precmd ()
     fi
 
     if [ "$color_prompt" = "yes" ]; then
-        PS1="${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${white}${PROMPTCHAR}${reset} "
+        PS1="${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${reset}${PROMPTCHAR} "
     else
         PS1="\u@\h:${myPWD} ${RET}${PROMPTCHAR} "
     fi

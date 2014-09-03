@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-08-25 Mon 15:06>
+#+Time-stamp: <2014-09-03 Wed 13:49>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -219,7 +219,6 @@ Note =\[...\]= used by the shell to count proper length.
 # regular colors
 green="\[\e[0;32m\]"
 yellow="\[\e[0;33m\]"
-white="\[\e[0;37m\]"
 
 # bold colors
 BLACK="\[\e[1;30m\]"
@@ -303,7 +302,7 @@ precmd ()
     fi
 
     if [ "$color_prompt" = "yes" ]; then
-        PS1="${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${white}${PROMPTCHAR}${reset} "
+        PS1="${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${reset}${PROMPTCHAR} "
     else
         PS1="\u@\h:${myPWD} ${RET}${PROMPTCHAR} "
     fi
@@ -868,12 +867,11 @@ local RED=$'%{\e[1;31m%}'
 local green=$'%{\e[0;32m%}'
 local GREEN=$'%{\e[1;32m%}'
 local yellow=$'%{\e[0;33m%}'
-local white=$'%{\e[0;37m%}'
 local reset=$'%{\e[0m%}'
 
 # TODO Insert beep when last command has failed
 # custom prompt settings
-PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$white%(!.#.$)$reset "
+PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # ? - exit code of the previous command
     # n - user name
     # m - machine name

@@ -32,12 +32,11 @@ local RED=$'%{\e[1;31m%}'
 local green=$'%{\e[0;32m%}'
 local GREEN=$'%{\e[1;32m%}'
 local yellow=$'%{\e[0;33m%}'
-local white=$'%{\e[0;37m%}'
 local reset=$'%{\e[0m%}'
 
 # TODO Insert beep when last command has failed
 # custom prompt settings
-PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$white%(!.#.$)$reset "
+PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # ? - exit code of the previous command
     # n - user name
     # m - machine name
