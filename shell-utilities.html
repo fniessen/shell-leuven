@@ -1,4 +1,4 @@
-<!-- <xml version="1.0"> -->
+<!-- <xml version="1.0" encoding="utf-8"> -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -152,7 +152,7 @@
 
     <div class="org-src-container">
       <pre class="src src-emacs-lisp" id="current-time">
-(format-time-string <span style="color: #008000;">"%Y%m%d.%H%M"</span>)
+(format-time-string <span class="org-string">"%Y%m%d.%H%M"</span>)
 </pre>
     </div>
 
@@ -206,8 +206,8 @@
             "http://wiki.bash-hackers.org/scripting/style">http://wiki.bash-hackers.org/scripting/style</a></li>
 
             <li>
-              <a href=
-              "https://google-styleguide.googlecode.com/svn/trunk/shell.xml">https://google-styleguide.googlecode.com/svn/trunk/shell.xml</a>
+              <p><a href=
+              "https://google-styleguide.googlecode.com/svn/trunk/shell.xml">https://google-styleguide.googlecode.com/svn/trunk/shell.xml</a></p>
 
               <p><code>variable_name</code> (preferred,
               <code>variableName</code> accepted)<br />
@@ -254,14 +254,13 @@
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">die</span> () {
-    printf <span style=
-"color: #008000;">"$(basename $0): $@\n"</span> &gt; /dev/stderr
-    <span style=
-"color: #0000FF;">exit</span> 2                              <span style=
-"color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">an </span><span style=
-"color: #CC0000; background-color: #FFFF88; font-style: italic;">error</span><span style="color: #8D8D84; font-style: italic;"> occurred</span>
+<span class="org-function-name">die</span> () {
+    printf <span class=
+"org-string">"$(basename $0): $@\n"</span> &gt; /dev/stderr
+    <span class=
+"org-keyword">exit</span> 2                              <span class=
+"org-comment-delimiter"># </span><span class=
+"org-comment">an error occurred</span>
 }
 </pre>
           </div>
@@ -278,14 +277,14 @@
         <div class="outline-text-3" id="text-2-2">
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">files_executables_p</span> () {
-    <span style="color: #0000FF;">for</span> x<span style=
-"color: #0000FF;"> in</span> $<span style="color: #BA36A5;">@</span>
-    <span style="color: #0000FF;">do</span>
-        command -v $<span style=
-"color: #BA36A5;">x</span> &gt; /dev/null || die <span style=
-"color: #008000;">"$x not found."</span>
-    <span style="color: #0000FF;">done</span>
+<span class="org-function-name">files_executables_p</span> () {
+    <span class="org-keyword">for</span> x<span class=
+"org-keyword"> in</span> $<span class="org-variable-name">@</span>
+    <span class="org-keyword">do</span>
+        command -v $<span class=
+"org-variable-name">x</span> &gt; /dev/null || die <span class=
+"org-string">"$x not found."</span>
+    <span class="org-keyword">done</span>
 }
 </pre>
           </div>
@@ -305,13 +304,14 @@
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">files_cygwin_executables_p</span> () {
-    <span style="color: #0000FF;">for</span> x<span style=
-"color: #0000FF;"> in</span> $<span style="color: #BA36A5;">@</span>
-    <span style="color: #0000FF;">do</span>
-        [ <span style=
-"color: #008000;">"$(command -v $x)"</span> = <span style="color: #008000;">"/usr/bin/$x"</span> ] || die <span style="color: #008000;">"$x is not a Cygwin executable."</span>
-    <span style="color: #0000FF;">done</span>
+<span class="org-function-name">files_cygwin_executables_p</span> () {
+    <span class="org-keyword">for</span> x<span class=
+"org-keyword"> in</span> $<span class="org-variable-name">@</span>
+    <span class="org-keyword">do</span>
+        [ <span class="org-string">"$(command -v $x)"</span> = <span class=
+"org-string">"/usr/bin/$x"</span> ] || die <span class=
+"org-string">"$x is not a Cygwin executable."</span>
+    <span class="org-keyword">done</span>
 }
 </pre>
           </div>
@@ -328,11 +328,11 @@
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">pname</span> () {
-    ps -o <span style="color: #BA36A5;">command</span>= -p $<span style=
-"color: #BA36A5;">PPID</span> | tail -n 1 | awk <span style=
-"color: #008000;">'{print $1}'</span> | awk -F/ <span style=
-"color: #008000;">'{print $NF}'</span>
+<span class="org-function-name">pname</span> () {
+    ps -o <span class="org-variable-name">command</span>= -p $<span class=
+"org-variable-name">PPID</span> | tail -n 1 | awk <span class=
+"org-string">'{print $1}'</span> | awk -F/ <span class=
+"org-string">'{print $NF}'</span>
 }
 </pre>
           </div>
@@ -360,8 +360,8 @@
           <div class="outline-text-4" id="text-3-1-1">
             <div class="org-src-container">
               <pre class="src src-sh">
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">mail -- Send simple mail</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">mail -- Send simple mail</span>
 </pre>
             </div>
           </div>
@@ -374,15 +374,14 @@
           <div class="outline-text-4" id="text-3-1-2">
             <div class="org-src-container">
               <pre class="src src-sh">
-<span style="color: #006699;">Usage</span> ()
+<span class="org-function-name">Usage</span> ()
 {
     cat &lt;&lt; EOF 1&gt;&amp;2
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">Try '$CMD -h' for more information.</span>
-<span style="color: #0000ff; background-color: #EEF5FE;">EOF</span>
-    <span style="color: #0000FF;">exit</span> 2
+<span class=
+"org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
+<span class="org-sh-heredoc">Try '$CMD -h' for more information.</span>
+<span class="org-sh-heredoc">EOF</span>
+    <span class="org-keyword">exit</span> 2
 }
 </pre>
             </div>
@@ -398,13 +397,13 @@
 
             <div class="org-src-container">
               <pre class="src src-sh">
-mail -s <span style=
-"color: #008000;">"Subject"</span> recipient@example.com &lt; /path/to/file
-cat /path/to/file | mail -s <span style=
-"color: #008000;">"Subject"</span> recipient@example.com
-<span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"Message"</span> | mail -s <span style=
-"color: #008000;">"Subject"</span> recipient@example.com
+mail -s <span class=
+"org-string">"Subject"</span> recipient@example.com &lt; /path/to/file
+cat /path/to/file | mail -s <span class=
+"org-string">"Subject"</span> recipient@example.com
+<span class="org-builtin">echo</span> <span class=
+"org-string">"Message"</span> | mail -s <span class=
+"org-string">"Subject"</span> recipient@example.com
 </pre>
             </div>
           </div>
@@ -419,34 +418,28 @@ cat /path/to/file | mail -s <span style=
 
             <div class="org-src-container">
               <pre class="src src-sh">
-<span style="color: #006699;">Help</span> ()
+<span class="org-function-name">Help</span> ()
 {
     cat &lt;&lt; EOF
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">This is $CMD, version: 20140617.1057.</span>
+<span class="org-sh-heredoc">This is $CMD, version: 20141020.1618.</span>
 
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">Send simple mail.</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">Example: $CMD -s 'Disk failure' bill@example.com &lt; /tmp/message</span>
+<span class=
+"org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
+<span class="org-sh-heredoc">Send simple mail.</span>
+<span class=
+"org-sh-heredoc">Example: $CMD -s 'Disk failure' bill@example.com &lt; /tmp/message</span>
 
-<span style="color: #0000ff; background-color: #EEF5FE;">Options:</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -s  Specify subject on command line</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -a  Attach a file</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -c  Send carbon copies to (comma separated) list of recipients</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -b  Send blind carbon copies to (comma separated) list of recipients</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -f  Set the From address</span>
-<span style=
-"color: #0000ff; background-color: #EEF5FE;">  -h  Display this help and exit</span>
-<span style="color: #0000ff; background-color: #EEF5FE;">EOF</span>
-    <span style="color: #0000FF;">exit</span> 0
+<span class="org-sh-heredoc">Options:</span>
+<span class="org-sh-heredoc">  -s  Specify subject on command line</span>
+<span class="org-sh-heredoc">  -a  Attach a file</span>
+<span class=
+"org-sh-heredoc">  -c  Send carbon copies to (comma separated) list of recipients</span>
+<span class=
+"org-sh-heredoc">  -b  Send blind carbon copies to (comma separated) list of recipients</span>
+<span class="org-sh-heredoc">  -f  Set the From address</span>
+<span class="org-sh-heredoc">  -h  Display this help and exit</span>
+<span class="org-sh-heredoc">EOF</span>
+    <span class="org-keyword">exit</span> 0
 }
 </pre>
             </div>
@@ -551,9 +544,9 @@ cat /path/to/file | mail -s <span style=
 
             <div class="org-src-container">
               <pre class="src src-sh">
-( printf <span style=
-"color: #008000;">"Disk usage:\n"</span> ; du -sh ) | mail -s <span style=
-"color: #008000;">"Disk usage report"</span> recipient@example.com
+( printf <span class=
+"org-string">"Disk usage:\n"</span> ; du -sh ) | mail -s <span class=
+"org-string">"Disk usage report"</span> recipient@example.com
 </pre>
             </div>
 
@@ -563,8 +556,9 @@ cat /path/to/file | mail -s <span style=
             <div class="org-src-container">
               <pre class="src src-sh">
 tar -zcf ~/backup.tar.gz ~/files_to_backup
-printf <span style=
-"color: #008000;">"Archived configuration files\n"</span> | mail -s <span style="color: #008000;">"Backup data"</span> -a ~/backup.tar.gz recipient@example.com
+printf <span class=
+"org-string">"Archived configuration files\n"</span> | mail -s <span class=
+"org-string">"Backup data"</span> -a ~/backup.tar.gz recipient@example.com
 </pre>
             </div>
           </div>
@@ -577,141 +571,138 @@ printf <span style=
           <div class="outline-text-4" id="text-3-1-13">
             <div class="org-src-container">
               <pre class="src src-sh">
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">command name</span>
-<span style="color: #BA36A5;">CMD</span>=$(basename $<span style=
-"color: #BA36A5;">0</span>)
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">command name</span>
+<span class="org-variable-name">CMD</span>=$(basename $<span class=
+"org-variable-name">0</span>)
 
-. shellutils || <span style="color: #0000FF;">exit</span> 2
+. shellutils || <span class="org-keyword">exit</span> 2
 
-<span style="color: #0000FF;">if</span> [ $<span style=
-"color: #BA36A5;">#</span> -eq 0 ]; <span style="color: #0000FF;">then</span>
+<span class="org-keyword">if</span> [ $<span class=
+"org-variable-name">#</span> -eq 0 ]; <span class="org-keyword">then</span>
     Usage
-<span style="color: #0000FF;">fi</span>
+<span class="org-keyword">fi</span>
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">check for Cygwin executable files (and not their Windows counterpart)</span>
-files_cygwin_executables_p <span style=
-"color: #008000;">"whoami"</span> <span style=
-"color: #008000;">"hostname"</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">check for Cygwin executable files (and not their Windows counterpart)</span>
+files_cygwin_executables_p <span class=
+"org-string">"whoami"</span> <span class="org-string">"hostname"</span>
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">default values</span>
-<span style="color: #BA36A5;">SUBJECT</span>=<span style=
-"color: #008000;">"none"</span>
-<span style="color: #BA36A5;">ATTFILES</span>=<span style=
-"color: #008000;">""</span>                             <span style=
-"color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">files to be attached</span>
-<span style="color: #BA36A5;">CC</span>=<span style="color: #008000;">""</span>
-<span style="color: #BA36A5;">BCC</span>=<span style=
-"color: #008000;">""</span>
-<span style="color: #BA36A5;">FROM</span>=<span style=
-"color: #008000;">"$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')"</span>
-: ${<span style="color: #BA36A5;">SMTP</span>:=<span style=
-"color: #008000;">"smtp"</span>}                       <span style=
-"color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">set var if not already set</span>
-<span style="color: #BA36A5;">BODY</span>=<span style=
-"color: #008000;">"--"</span>                               <span style=
-"color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">stdin.txt</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">default values</span>
+<span class="org-variable-name">SUBJECT</span>=<span class=
+"org-string">"none"</span>
+<span class="org-variable-name">ATTFILES</span>=<span class=
+"org-string">""</span>                             <span class=
+"org-comment-delimiter"># </span><span class=
+"org-comment">files to be attached</span>
+<span class="org-variable-name">CC</span>=<span class="org-string">""</span>
+<span class="org-variable-name">BCC</span>=<span class="org-string">""</span>
+<span class="org-variable-name">FROM</span>=<span class=
+"org-string">"&lt;$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')&gt;"</span>
+: ${<span class="org-variable-name">SMTP</span>:=<span class=
+"org-string">"smtp"</span>}                       <span class=
+"org-comment-delimiter"># </span><span class=
+"org-comment">set var if not already set</span>
+<span class="org-variable-name">BODY</span>=<span class=
+"org-string">"--"</span>                               <span class=
+"org-comment-delimiter"># </span><span class="org-comment">stdin.txt</span>
 
-<span style="color: #0000FF;">while </span><span style=
-"color: #006FE0;">getopts</span> <span style=
-"color: #008000;">"s:c:b:f:a:h"</span> opt
-<span style="color: #0000FF;">do</span>
-    <span style="color: #0000FF;">case</span> <span style=
-"color: #008000;">"$opt"</span><span style="color: #0000FF;"> in</span>
-        s) <span style="color: #BA36A5;">SUBJECT</span>=<span style=
-"color: #008000;">"$OPTARG"</span>;;
-        a) <span style="color: #BA36A5;">ATTFILES</span>=<span style=
-"color: #008000;">"$ATTFILES $OPTARG"</span>;;
-        c) <span style="color: #BA36A5;">CC</span>=<span style=
-"color: #008000;">"$OPTARG"</span>;;
-        b) <span style="color: #BA36A5;">BCC</span>=<span style=
-"color: #008000;">"$OPTARG"</span>;;
-        f) <span style="color: #BA36A5;">FROM</span>=<span style=
-"color: #008000;">"$OPTARG"</span>;;
+<span class="org-keyword">while </span><span class=
+"org-builtin">getopts</span> <span class="org-string">"s:c:b:f:a:h"</span> opt
+<span class="org-keyword">do</span>
+    <span class="org-keyword">case</span> <span class=
+"org-string">"$opt"</span><span class="org-keyword"> in</span>
+        s) <span class="org-variable-name">SUBJECT</span>=<span class=
+"org-string">"$OPTARG"</span>;;
+        a) <span class="org-variable-name">ATTFILES</span>=<span class=
+"org-string">"$ATTFILES $OPTARG"</span>;;
+        c) <span class="org-variable-name">CC</span>=<span class=
+"org-string">"$OPTARG"</span>;;
+        b) <span class="org-variable-name">BCC</span>=<span class=
+"org-string">"$OPTARG"</span>;;
+        f) <span class="org-variable-name">FROM</span>=<span class=
+"org-string">"$OPTARG"</span>;;
         h) Help;;
         *) Usage;;
-    <span style="color: #0000FF;">esac</span>
-<span style="color: #0000FF;">done</span>
-<span style="color: #006FE0;">shift</span> $(($<span style=
-"color: #BA36A5;">OPTIND</span> - 1))
+    <span class="org-keyword">esac</span>
+<span class="org-keyword">done</span>
+<span class="org-builtin">shift</span> $(($<span class=
+"org-variable-name">OPTIND</span> - 1))
 
-<span style="color: #BA36A5;">MAILTO</span>=<span style=
-"color: #008000;">"$1"</span>
-<span style="color: #0000FF;">if</span> [ <span style=
-"color: #008000;">"$MAILTO"</span> = <span style=
-"color: #008000;">""</span> ]; <span style="color: #0000FF;">then</span>
+<span class="org-variable-name">MAILTO</span>=<span class=
+"org-string">"$1"</span>
+<span class="org-keyword">if</span> [ <span class=
+"org-string">"$MAILTO"</span> = <span class=
+"org-string">""</span> ]; <span class="org-keyword">then</span>
     Usage
-<span style="color: #0000FF;">fi</span>
+<span class="org-keyword">fi</span>
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">check presence of stdin contents</span>
-[ -t 0 ] &amp;&amp; die <span style=
-"color: #008000;">"Message body is missing."</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">check presence of stdin contents</span>
+[ -t 0 ] &amp;&amp; die <span class=
+"org-string">"Message body is missing."</span>
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">check for executable files</span>
-files_executables_p <span style="color: #008000;">"blat"</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">check for executable files</span>
+files_executables_p <span class="org-string">"blat"</span>
 
-<span style="color: #BA36A5;">ATT_SWITCH</span>=<span style=
-"color: #008000;">""</span>
-<span style="color: #0000FF;">for</span> attach<span style=
-"color: #0000FF;"> in</span> $<span style="color: #BA36A5;">ATTFILES</span>
-<span style="color: #0000FF;">do</span>
-    <span style="color: #0000FF;">if</span> [ ! -r $<span style=
-"color: #BA36A5;">attach</span> ]
-    <span style="color: #0000FF;">then</span>
-        die <span style=
-"color: #008000;">"File $attach does not exist or is not readable."</span>
-    <span style="color: #0000FF;">else</span>
-        <span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">binary vs text file</span>
-        <span style="color: #0000FF;">if</span> [ <span style=
-"color: #008000;">"$(file --brief --mime $attach 2&gt; /dev/null | cut -d/ -f 1)"</span> = <span style="color: #008000;">"text"</span> ]
-        <span style="color: #0000FF;">then</span>
-            <span style="color: #BA36A5;">ATT_SWITCH</span>=<span style=
-"color: #008000;">"$ATT_SWITCH -attacht $(cygpath -w $attach)"</span>
-        <span style="color: #0000FF;">else</span>
-            <span style="color: #BA36A5;">ATT_SWITCH</span>=<span style=
-"color: #008000;">"$ATT_SWITCH -attach $(cygpath -w $attach)"</span>
-        <span style="color: #0000FF;">fi</span>
-    <span style="color: #0000FF;">fi</span>
-<span style="color: #0000FF;">done</span>
+<span class="org-variable-name">ATT_SWITCH</span>=<span class=
+"org-string">""</span>
+<span class="org-keyword">for</span> attach<span class=
+"org-keyword"> in</span> $<span class="org-variable-name">ATTFILES</span>
+<span class="org-keyword">do</span>
+    <span class="org-keyword">if</span> [ <span class=
+"org-negation-char">!</span> -r $<span class=
+"org-variable-name">attach</span> ]
+    <span class="org-keyword">then</span>
+        die <span class=
+"org-string">"File $attach does not exist or is not readable."</span>
+    <span class="org-keyword">else</span>
+        <span class="org-comment-delimiter"># </span><span class=
+"org-comment">binary vs text file</span>
+        <span class="org-keyword">if</span> [ <span class=
+"org-string">"$(file --brief --mime $attach 2&gt; /dev/null | cut -d/ -f 1)"</span> = <span class="org-string">"text"</span> ]
+        <span class="org-keyword">then</span>
+            <span class="org-variable-name">ATT_SWITCH</span>=<span class=
+"org-string">"$ATT_SWITCH -attacht $(cygpath -w $attach)"</span>
+        <span class="org-keyword">else</span>
+            <span class="org-variable-name">ATT_SWITCH</span>=<span class=
+"org-string">"$ATT_SWITCH -attach $(cygpath -w $attach)"</span>
+        <span class="org-keyword">fi</span>
+    <span class="org-keyword">fi</span>
+<span class="org-keyword">done</span>
 
-<span style="color: #BA36A5;">CC_SWITCH</span>=<span style=
-"color: #008000;">""</span>
-[ <span style="color: #008000;">"$CC"</span> = <span style=
-"color: #008000;">""</span> ] || <span style=
-"color: #BA36A5;">CC_SWITCH</span>=<span style=
-"color: #008000;">"-cc ${CC}"</span>
+<span class="org-variable-name">CC_SWITCH</span>=<span class=
+"org-string">""</span>
+[ <span class="org-string">"$CC"</span> = <span class=
+"org-string">""</span> ] || <span class=
+"org-variable-name">CC_SWITCH</span>=<span class=
+"org-string">"-cc ${CC}"</span>
 
-<span style="color: #BA36A5;">BCC_SWITCH</span>=<span style=
-"color: #008000;">""</span>
-[ <span style="color: #008000;">"$BCC"</span> = <span style=
-"color: #008000;">""</span> ] || <span style=
-"color: #BA36A5;">BCC_SWITCH</span>=<span style=
-"color: #008000;">"-bcc ${BCC}"</span>
+<span class="org-variable-name">BCC_SWITCH</span>=<span class=
+"org-string">""</span>
+[ <span class="org-string">"$BCC"</span> = <span class=
+"org-string">""</span> ] || <span class=
+"org-variable-name">BCC_SWITCH</span>=<span class=
+"org-string">"-bcc ${BCC}"</span>
 
-blat -to <span style="color: #008000;">"$MAILTO"</span> <span style=
-"color: #008000;">\</span>
-     $<span style="color: #BA36A5;">CC_SWITCH</span> <span style=
-"color: #008000;">\</span>
-     $<span style="color: #BA36A5;">BCC_SWITCH</span> <span style=
-"color: #008000;">\</span>
-     -subject <span style="color: #008000;">"$SUBJECT"</span> <span style=
-"color: #008000;">\</span>
-     -f <span style="color: #008000;">"$FROM"</span> <span style=
-"color: #008000;">\</span>
-     -server <span style="color: #008000;">"$SMTP"</span> <span style=
-"color: #008000;">\</span>
-     $<span style="color: #BA36A5;">ATT_SWITCH</span>
+blat -to <span class="org-string">"$MAILTO"</span> <span class=
+"org-sh-escaped-newline">\</span>
+     $<span class="org-variable-name">CC_SWITCH</span> <span class=
+"org-sh-escaped-newline">\</span>
+     $<span class="org-variable-name">BCC_SWITCH</span> <span class=
+"org-sh-escaped-newline">\</span>
+     -subject <span class="org-string">"$SUBJECT"</span> <span class=
+"org-sh-escaped-newline">\</span>
+     -f <span class="org-string">"$FROM"</span> <span class=
+"org-sh-escaped-newline">\</span>
+     -server <span class="org-string">"$SMTP"</span> <span class=
+"org-sh-escaped-newline">\</span>
+     $<span class="org-variable-name">ATT_SWITCH</span>
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">mail ends here</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">mail ends here</span>
 </pre>
             </div>
           </div>
@@ -725,32 +716,32 @@ blat -to <span style="color: #008000;">"$MAILTO"</span> <span style=
         <div class="outline-text-3" id="text-3-2">
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #006699;">cecho</span> () {
-    <span style="color: #BA36A5;">black</span>=<span style=
-"color: #008000;">"\e[30m"</span>
-    <span style="color: #BA36A5;">red</span>=<span style=
-"color: #008000;">"\e[31m"</span>
-    <span style="color: #BA36A5;">green</span>=<span style=
-"color: #008000;">"\e[32m"</span>
-    <span style="color: #BA36A5;">yellow</span>=<span style=
-"color: #008000;">"\e[33m"</span>
-    <span style="color: #BA36A5;">blue</span>=<span style=
-"color: #008000;">"\e[34m"</span>
-    <span style="color: #BA36A5;">magenta</span>=<span style=
-"color: #008000;">"\e[35m"</span>
-    <span style="color: #BA36A5;">cyan</span>=<span style=
-"color: #008000;">"\e[36m"</span>
-    <span style="color: #BA36A5;">white</span>=<span style=
-"color: #008000;">"\e[37m"</span>
-    <span style="color: #BA36A5;">reset</span>=<span style=
-"color: #008000;">"\e[0m"</span>
+<span class="org-function-name">cecho</span> () {
+    <span class="org-variable-name">black</span>=<span class=
+"org-string">"\e[30m"</span>
+    <span class="org-variable-name">red</span>=<span class=
+"org-string">"\e[31m"</span>
+    <span class="org-variable-name">green</span>=<span class=
+"org-string">"\e[32m"</span>
+    <span class="org-variable-name">yellow</span>=<span class=
+"org-string">"\e[33m"</span>
+    <span class="org-variable-name">blue</span>=<span class=
+"org-string">"\e[34m"</span>
+    <span class="org-variable-name">magenta</span>=<span class=
+"org-string">"\e[35m"</span>
+    <span class="org-variable-name">cyan</span>=<span class=
+"org-string">"\e[36m"</span>
+    <span class="org-variable-name">white</span>=<span class=
+"org-string">"\e[37m"</span>
+    <span class="org-variable-name">reset</span>=<span class=
+"org-string">"\e[0m"</span>
 
-    <span style="color: #BA36A5;">color</span>=${<span style=
-"color: #BA36A5;">green</span>}
-    printf <span style="color: #008000;">"$color$1$reset\n"</span>
+    <span class="org-variable-name">color</span>=${<span class=
+"org-variable-name">green</span>}
+    printf <span class="org-string">"$color$1$reset\n"</span>
 }
 
-cecho <span style="color: #008000;">"$@"</span>
+cecho <span class="org-string">"$@"</span>
 </pre>
           </div>
         </div>
@@ -767,21 +758,21 @@ cecho <span style="color: #008000;">"$@"</span>
 
         <div class="org-src-container">
           <pre class="src src-sh" id="vc-update">
-<span style="color: #0000FF;">for</span> dir<span style=
-"color: #0000FF;"> in</span> ~/src/*
-<span style="color: #0000FF;">do</span>
-    cecho <span style="color: #008000;">"Updating $dir:"</span>
-    <span style="color: #0000FF;">if</span> [ -d $<span style=
-"color: #BA36A5;">dir</span>/.git ]; <span style="color: #0000FF;">then</span>
-        (<span style="color: #006FE0;">cd</span> $<span style=
-"color: #BA36A5;">dir</span> &amp;&amp; git pull)
-    <span style="color: #0000FF;">elif</span> [ -d $<span style=
-"color: #BA36A5;">dir</span>/.svn ]; <span style="color: #0000FF;">then</span>
-        (<span style="color: #006FE0;">cd</span> $<span style=
-"color: #BA36A5;">dir</span> &amp;&amp; svn update)
-    <span style="color: #0000FF;">fi</span>
-    printf <span style="color: #008000;">"\n"</span>
-<span style="color: #0000FF;">done</span>
+<span class="org-keyword">for</span> dir<span class=
+"org-keyword"> in</span> ~/src/*
+<span class="org-keyword">do</span>
+    cecho <span class="org-string">"Updating $dir:"</span>
+    <span class="org-keyword">if</span> [ -d $<span class=
+"org-variable-name">dir</span>/.git ]; <span class="org-keyword">then</span>
+        (<span class="org-builtin">cd</span> $<span class=
+"org-variable-name">dir</span> &amp;&amp; git pull)
+    <span class="org-keyword">elif</span> [ -d $<span class=
+"org-variable-name">dir</span>/.svn ]; <span class="org-keyword">then</span>
+        (<span class="org-builtin">cd</span> $<span class=
+"org-variable-name">dir</span> &amp;&amp; svn update)
+    <span class="org-keyword">fi</span>
+    printf <span class="org-string">"\n"</span>
+<span class="org-keyword">done</span>
 </pre>
         </div>
 
@@ -789,10 +780,10 @@ cecho <span style="color: #008000;">"$@"</span>
 
         <div class="org-src-container">
           <pre class="src src-sh" id="git-recursive-update">
-find -type d -printf <span style=
-"color: #008000;">"%f"</span> -exec  sh -c <span style=
-"color: #008000;">"cd \"{}\" &amp;&amp; git pull"</span>  <span style=
-"color: #008000;">\;</span>
+find -type d -printf <span class=
+"org-string">"%f"</span> -exec  sh -c <span class=
+"org-string">"cd \"{}\" &amp;&amp; git pull"</span>  <span class=
+"org-string">\;</span>
 </pre>
         </div>
 
@@ -816,21 +807,20 @@ find -type d -printf <span style=
 
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #8D8D84;">#</span><span style=
-"color: #8D8D84; font-style: italic;">!/bin/</span><span style=
-"color: #0000FF;">sh</span>
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">mike's getit.sh script</span>
-<span style="color: #0000FF;">if</span> [ -z $<span style=
-"color: #BA36A5;">1</span> ]; <span style="color: #0000FF;">then</span>
-<span style="color: #006FE0;">echo</span> -e <span style=
-"color: #008000;">"\n\tUsage: $0 &lt;host&gt; &lt;URL&gt;"</span>
-<span style="color: #0000FF;">exit</span>
-<span style="color: #0000FF;">fi</span>
-<span style="color: #006FE0;">echo</span> -e <span style=
-"color: #008000;">"GET $2 HTTP/1.0\n\n"</span> | <span style=
-"color: #008000;">\</span>
-nc -vv $<span style="color: #BA36A5;">1</span> 80
+<span class="org-comment-delimiter">#</span><span class=
+"org-comment">!/bin/</span><span class="org-keyword">sh</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">mike's getit.sh script</span>
+<span class="org-keyword">if</span> [ -z $<span class=
+"org-variable-name">1</span> ]; <span class="org-keyword">then</span>
+<span class="org-builtin">echo</span> -e <span class=
+"org-string">"\n\tUsage: $0 &lt;host&gt; &lt;URL&gt;"</span>
+<span class="org-keyword">exit</span>
+<span class="org-keyword">fi</span>
+<span class="org-builtin">echo</span> -e <span class=
+"org-string">"GET $2 HTTP/1.0\n\n"</span> | <span class=
+"org-sh-escaped-newline">\</span>
+nc -vv $<span class="org-variable-name">1</span> 80
 </pre>
           </div>
 
@@ -842,15 +832,15 @@ getit.sh www.missioncriticalit.com /index.html
 
           <div class="org-src-container">
             <pre class="src src-sh">
-getit.sh www.victim.com /index.html | grep -i <span style=
-"color: #008000;">"&lt;form"</span>
+getit.sh www.victim.com /index.html | grep -i <span class=
+"org-string">"&lt;form"</span>
 </pre>
           </div>
 
           <div class="org-src-container">
             <pre class="src src-sh">
-getit.sh www.victim.com /index.html | grep -i <span style=
-"color: #008000;">"input type"</span>
+getit.sh www.victim.com /index.html | grep -i <span class=
+"org-string">"input type"</span>
 </pre>
           </div>
         </div>
@@ -862,22 +852,21 @@ getit.sh www.victim.com /index.html | grep -i <span style=
         <div class="outline-text-3" id="text-5-2">
           <div class="org-src-container">
             <pre class="src src-sh">
-<span style="color: #8D8D84;">#</span><span style=
-"color: #8D8D84; font-style: italic;">!/bin/</span><span style=
-"color: #0000FF;">sh</span>
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">mike's sgetit.sh script</span>
-<span style="color: #0000FF;">if</span> [ -z $<span style=
-"color: #BA36A5;">1</span> ]; <span style="color: #0000FF;">then</span>
-<span style="color: #006FE0;">echo</span> -e <span style=
-"color: #008000;">"\n\tUsage: $0 &lt;SSL host&gt; &lt;URL&gt;"</span>
-<span style="color: #0000FF;">exit</span>
-<span style="color: #0000FF;">fi</span>
-<span style="color: #006FE0;">echo</span> -e <span style=
-"color: #008000;">"GET $2 HTTP/1.0\n\n"</span> | <span style=
-"color: #008000;">\</span>
-openssl s_client -quiet -connect $<span style=
-"color: #BA36A5;">1</span>:443 2&gt;/dev/null
+<span class="org-comment-delimiter">#</span><span class=
+"org-comment">!/bin/</span><span class="org-keyword">sh</span>
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">mike's sgetit.sh script</span>
+<span class="org-keyword">if</span> [ -z $<span class=
+"org-variable-name">1</span> ]; <span class="org-keyword">then</span>
+<span class="org-builtin">echo</span> -e <span class=
+"org-string">"\n\tUsage: $0 &lt;SSL host&gt; &lt;URL&gt;"</span>
+<span class="org-keyword">exit</span>
+<span class="org-keyword">fi</span>
+<span class="org-builtin">echo</span> -e <span class=
+"org-string">"GET $2 HTTP/1.0\n\n"</span> | <span class=
+"org-sh-escaped-newline">\</span>
+openssl s_client -quiet -connect $<span class=
+"org-variable-name">1</span>:443 2&gt;/dev/null
 </pre>
           </div>
 
@@ -904,100 +893,95 @@ sgetit.sh www.victim.com /secure/admin.html
 
         <div class="org-src-container">
           <pre class="src src-sh">
-<span style="color: #8D8D84;">#</span><span style=
-"color: #8D8D84; font-style: italic;">!/bin/</span><span style=
-"color: #0000FF;">sh</span>
+<span class="org-comment-delimiter">#</span><span class=
+"org-comment">!/bin/</span><span class="org-keyword">sh</span>
 
-<span style="color: #BA36A5;">range</span>=<span style=
-"color: #008000;">"10.10.10."</span>;
+<span class="org-variable-name">range</span>=<span class=
+"org-string">"10.10.10."</span>;
 
-<span style="color: #8D8D84;"># </span><span style=
-"color: #8D8D84; font-style: italic;">You can change this to a port range $(seq 20 25) is port 20-25</span>
-<span style="color: #BA36A5;">ports</span>=<span style=
-"color: #008000;">"20 21 22 23 25 53 80 110 111 443 3306 6000"</span>;
+<span class="org-comment-delimiter"># </span><span class=
+"org-comment">You can change this to a port range $(seq 20 25) is port 20-25</span>
+<span class="org-variable-name">ports</span>=<span class=
+"org-string">"20 21 22 23 25 53 80 110 111 443 3306 6000"</span>;
 
-<span style="color: #BA36A5;">http_header</span>=<span style=
-"color: #008000;">"HEAD / HTTP/0.1\n\n"</span>;
+<span class="org-variable-name">http_header</span>=<span class=
+"org-string">"HEAD / HTTP/0.1\n\n"</span>;
 
-<span style="color: #0000FF;">for</span> host<span style=
-"color: #0000FF;"> in</span> $(seq 2 254); <span style=
-"color: #0000FF;">do</span>
-    <span style="color: #0000FF;">for</span> port<span style=
-"color: #0000FF;"> in</span> $<span style=
-"color: #BA36A5;">ports</span>; <span style="color: #0000FF;">do</span>
-        <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"[+] Testing "</span>$<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span><span style=
-"color: #008000;">":"</span>$<span style="color: #BA36A5;">port</span>;
-        <span style="color: #BA36A5;">result</span>=$(nc -zv -w 1 $<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span> $<span style=
-"color: #BA36A5;">port</span> 2&gt;&amp;1 | grep succeeded);
-        <span style="color: #0000FF;">if</span> [ -n <span style=
-"color: #008000;">"$result"</span> ]; <span style="color: #0000FF;">then</span>
-            <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"\n"</span>$<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span><span style=
-"color: #008000;">":"</span>$<span style=
-"color: #BA36A5;">port</span><span style=
-"color: #008000;">"\n"</span> &gt;&gt; <span style=
-"color: #008000;">"/tmp/bannergrab"</span>
-            <span style="color: #0000FF;">if</span> [ <span style=
-"color: #008000;">"$port"</span> -eq <span style=
-"color: #008000;">"22"</span> ]; <span style="color: #0000FF;">then</span>
-                <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"Found open port "</span>$<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span><span style=
-"color: #008000;">":"</span>$<span style=
-"color: #BA36A5;">port</span><span style=
-"color: #008000;">" Here might be some SSH server, it echoes the SSH version to you on connecting when lucky."</span>;
-                nc -v -w 1 $<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span> $<span style=
-"color: #BA36A5;">port</span> &gt;&gt; <span style=
-"color: #008000;">"/tmp/bannergrab"</span>;
-            <span style="color: #0000FF;">fi</span>;
-            <span style="color: #0000FF;">if</span> [ <span style=
-"color: #008000;">"$port"</span> -eq <span style=
-"color: #008000;">"80"</span> ]; <span style="color: #0000FF;">then</span>
-                <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"Found open port "</span>$<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span><span style=
-"color: #008000;">":"</span>$<span style=
-"color: #BA36A5;">port</span><span style=
-"color: #008000;">" Trying to fingerprint with HEAD and see if the server is vulnerable to TRACE XSSing"</span>;
-                <span style="color: #006FE0;">echo</span> $<span style=
-"color: #BA36A5;">http_header</span> | nc -v -w 1 $<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span> $<span style=
-"color: #BA36A5;">port</span> &gt;&gt; <span style=
-"color: #008000;">"/tmp/bannergrab"</span>
-                <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"TRACE / HTTP/1.1\nHost: $range$host\nuser-agent: &lt;script&gt;alert(123)&lt;/script&gt;\n\n"</span> | nc -v -w 2 $<span style="color: #BA36A5;">range</span>$<span style="color: #BA36A5;">host</span> $<span style="color: #BA36A5;">port</span> &gt;&gt; <span style="color: #008000;">"/tmp/bannergrab"</span>
-            <span style="color: #0000FF;">fi</span>;
-            <span style="color: #0000FF;">if</span> [ <span style=
-"color: #008000;">"$port"</span> -eq <span style=
-"color: #008000;">"3306"</span> ]; <span style="color: #0000FF;">then</span>
-                <span style="color: #006FE0;">echo</span> <span style=
-"color: #008000;">"Found open port "</span>$<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span><span style=
-"color: #008000;">":"</span>$<span style=
-"color: #BA36A5;">port</span><span style=
-"color: #008000;">" Possible MySQL installation found, saving the banner for later inspection, the MySQL version can be found in this."</span>;
-                nc -v -w 1 $<span style=
-"color: #BA36A5;">range</span>$<span style=
-"color: #BA36A5;">host</span> $<span style=
-"color: #BA36A5;">port</span> &gt;&gt; <span style=
-"color: #008000;">"/tmp/bannergrab"</span>;
-            <span style="color: #0000FF;">fi</span>;
-        <span style="color: #0000FF;">fi</span>;
-    <span style="color: #0000FF;">done</span>
-<span style="color: #0000FF;">done</span>
+<span class="org-keyword">for</span> host<span class=
+"org-keyword"> in</span> $(seq 2 254); <span class="org-keyword">do</span>
+    <span class="org-keyword">for</span> port<span class=
+"org-keyword"> in</span> $<span class=
+"org-variable-name">ports</span>; <span class="org-keyword">do</span>
+        <span class="org-builtin">echo</span> <span class=
+"org-string">"[+] Testing "</span>$<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span><span class="org-string">":"</span>$<span class=
+"org-variable-name">port</span>;
+        <span class=
+"org-variable-name">result</span>=$(nc -zv -w 1 $<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span> $<span class=
+"org-variable-name">port</span> 2&gt;&amp;1 | grep succeeded);
+        <span class="org-keyword">if</span> [ -n <span class=
+"org-string">"$result"</span> ]; <span class="org-keyword">then</span>
+            <span class="org-builtin">echo</span> <span class=
+"org-string">"\n"</span>$<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span><span class="org-string">":"</span>$<span class=
+"org-variable-name">port</span><span class=
+"org-string">"\n"</span> &gt;&gt; <span class=
+"org-string">"/tmp/bannergrab"</span>
+            <span class="org-keyword">if</span> [ <span class=
+"org-string">"$port"</span> -eq <span class=
+"org-string">"22"</span> ]; <span class="org-keyword">then</span>
+                <span class="org-builtin">echo</span> <span class=
+"org-string">"Found open port "</span>$<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span><span class="org-string">":"</span>$<span class=
+"org-variable-name">port</span><span class=
+"org-string">" Here might be some SSH server, it echoes the SSH version to you on connecting when lucky."</span>;
+                nc -v -w 1 $<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span> $<span class=
+"org-variable-name">port</span> &gt;&gt; <span class=
+"org-string">"/tmp/bannergrab"</span>;
+            <span class="org-keyword">fi</span>;
+            <span class="org-keyword">if</span> [ <span class=
+"org-string">"$port"</span> -eq <span class=
+"org-string">"80"</span> ]; <span class="org-keyword">then</span>
+                <span class="org-builtin">echo</span> <span class=
+"org-string">"Found open port "</span>$<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span><span class="org-string">":"</span>$<span class=
+"org-variable-name">port</span><span class=
+"org-string">" Trying to fingerprint with HEAD and see if the server is vulnerable to TRACE XSSing"</span>;
+                <span class="org-builtin">echo</span> $<span class=
+"org-variable-name">http_header</span> | nc -v -w 1 $<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span> $<span class=
+"org-variable-name">port</span> &gt;&gt; <span class=
+"org-string">"/tmp/bannergrab"</span>
+                <span class="org-builtin">echo</span> <span class=
+"org-string">"TRACE / HTTP/1.1\nHost: $range$host\nuser-agent: &lt;script&gt;alert(123)&lt;/script&gt;\n\n"</span> | nc -v -w 2 $<span class="org-variable-name">range</span>$<span class="org-variable-name">host</span> $<span class="org-variable-name">port</span> &gt;&gt; <span class="org-string">"/tmp/bannergrab"</span>
+            <span class="org-keyword">fi</span>;
+            <span class="org-keyword">if</span> [ <span class=
+"org-string">"$port"</span> -eq <span class=
+"org-string">"3306"</span> ]; <span class="org-keyword">then</span>
+                <span class="org-builtin">echo</span> <span class=
+"org-string">"Found open port "</span>$<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span><span class="org-string">":"</span>$<span class=
+"org-variable-name">port</span><span class=
+"org-string">" Possible MySQL installation found, saving the banner for later inspection, the MySQL version can be found in this."</span>;
+                nc -v -w 1 $<span class=
+"org-variable-name">range</span>$<span class=
+"org-variable-name">host</span> $<span class=
+"org-variable-name">port</span> &gt;&gt; <span class=
+"org-string">"/tmp/bannergrab"</span>;
+            <span class="org-keyword">fi</span>;
+        <span class="org-keyword">fi</span>;
+    <span class="org-keyword">done</span>
+<span class="org-keyword">done</span>
 </pre>
         </div>
 
@@ -1051,7 +1035,7 @@ nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
 
           <ul class="org-ul">
             <li>
-              <b>Remote access server</b>
+              <p><b>Remote access server</b></p>
 
               <div class="org-src-container">
                 <pre class="src src-sh">
@@ -1061,7 +1045,7 @@ socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
             </li>
 
             <li>
-              <b>Data forwarder</b> (aka simple proxy)
+              <p><b>Data forwarder</b> (aka simple proxy)</p>
 
               <div class="org-src-container">
                 <pre class="src src-sh">

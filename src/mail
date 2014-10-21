@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20140617.1057.
+This is $CMD, version: 20141020.1618.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
@@ -47,7 +47,7 @@ SUBJECT="none"
 ATTFILES=""                             # files to be attached
 CC=""
 BCC=""
-FROM="$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')"
+FROM="<$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')>"
 : ${SMTP:="smtp"}                       # set var if not already set
 BODY="--"                               # stdin.txt
 

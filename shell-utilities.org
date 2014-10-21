@@ -1,7 +1,7 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-06-17 Tue 10:56>
+#+Time-stamp: <2014-10-20 Mon 16:18>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -248,7 +248,7 @@ SUBJECT="none"
 ATTFILES=""                             # files to be attached
 CC=""
 BCC=""
-FROM="$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')"
+FROM="<$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')>"
 : ${SMTP:="smtp"}                       # set var if not already set
 BODY="--"                               # stdin.txt
 
