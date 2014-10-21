@@ -241,11 +241,6 @@ alias mkall="./configure && make && sudo make install"
 
 alias tvm="tail -f /var/log/messages"
 
-# sync files
-UNISON_BATCH_FLAGS="-batch -ui text -xferbycopying"
-alias unisync="unison mundaneum -logfile /dev/null"
-alias unisyncb="unisync $UNISON_BATCH_FLAGS"
-
 # sudo'ers
 alias root="su - root"
 
