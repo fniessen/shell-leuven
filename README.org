@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-09-03 Wed 13:49>
+#+Time-stamp: <2014-10-21 Tue 10:44>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -473,11 +473,6 @@ alias lg="locate -r '.*' | grep -i"
 alias mkall="./configure && make && sudo make install"
 
 alias tvm="tail -f /var/log/messages"
-
-# sync files
-UNISON_BATCH_FLAGS="-batch -ui text -xferbycopying"
-alias unisync="unison mundaneum -logfile /dev/null"
-alias unisyncb="unisync $UNISON_BATCH_FLAGS"
 
 # sudo'ers
 alias root="su - root"
