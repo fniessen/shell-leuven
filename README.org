@@ -1,7 +1,7 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-10-21 Tue 10:44>
+#+Time-stamp: <2014-11-14 Fri 13:43>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1148,7 +1148,7 @@ fi
 
 #+begin_src sh
 ## coloring stderr
-STDERRRED=$'\e[031m'
+STDERRRED=$'\e[1;31m'
 zmodload zsh/system
 color_err () {
     ## sysread & syswrite are part of `zsh/system'

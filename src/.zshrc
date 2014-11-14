@@ -249,7 +249,7 @@ else
 fi
 
 ## coloring stderr
-STDERRRED=$'\e[031m'
+STDERRRED=$'\e[1;31m'
 zmodload zsh/system
 color_err () {
     ## sysread & syswrite are part of `zsh/system'
