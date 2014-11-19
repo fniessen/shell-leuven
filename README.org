@@ -1,7 +1,6 @@
 #+TITLE:     Shell configuration files
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-11-14 Fri 13:43>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -1293,7 +1292,6 @@ alias .....='cd ../../../..'
 
 alias s=sudo
 alias w=which
-alias q='clear && exit' # `x' is left for X Server...
 
 # print PATH with each directory on a new line
 alias path='echo $PATH | sed -e "s/:/\n/g"'

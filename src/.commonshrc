@@ -65,7 +65,6 @@ alias .....='cd ../../../..'
 
 alias s=sudo
 alias w=which
-alias q='clear && exit' # `x' is left for X Server...
 
 # print PATH with each directory on a new line
 alias path='echo $PATH | sed -e "s/:/\n/g"'
