@@ -63,6 +63,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
+alias g=git
 alias s=sudo
 alias w=which
 
@@ -189,8 +190,8 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 # get gpg-key from keyserver
 alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 
-# 040210 grep
-alias g='find . -type f -print0 | xargs -0 grep'
+# # 040210 grep
+# alias g='find . -type f -print0 | xargs -0 grep'
 
 # search through files, ignoring .svn directories
 alias svn_find="find . -not \( -name .svn -prune \)"
