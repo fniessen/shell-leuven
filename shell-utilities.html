@@ -253,7 +253,7 @@
           (or greater) if an error occurred.</p>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-function-name">die</span> () {
     printf <span class=
 "org-string">"$(basename $0): $@\n"</span> &gt; /dev/stderr
@@ -276,7 +276,7 @@
 
         <div class="outline-text-3" id="text-2-2">
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-function-name">files_executables_p</span> () {
     <span class="org-keyword">for</span> x<span class=
 "org-keyword"> in</span> $<span class="org-variable-name">@</span>
@@ -303,7 +303,7 @@
           output.</p>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-function-name">files_cygwin_executables_p</span> () {
     <span class="org-keyword">for</span> x<span class=
 "org-keyword"> in</span> $<span class="org-variable-name">@</span>
@@ -327,7 +327,7 @@
           Cygwin.</p>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-function-name">pname</span> () {
     ps -o <span class="org-variable-name">command</span>= -p $<span class=
 "org-variable-name">PPID</span> | tail -n 1 | awk <span class=
@@ -359,7 +359,7 @@
 
           <div class="outline-text-4" id="text-3-1-1">
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class=
 "org-comment">mail -- Send simple mail</span>
 </pre>
@@ -373,7 +373,7 @@
 
           <div class="outline-text-4" id="text-3-1-2">
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 <span class="org-function-name">Usage</span> ()
 {
     cat &lt;&lt; EOF 1&gt;&amp;2
@@ -396,7 +396,7 @@
             <p>Send an email using <code>mail</code>:</p>
 
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 mail -s <span class=
 "org-string">"Subject"</span> recipient@example.com &lt; /path/to/file
 cat /path/to/file | mail -s <span class=
@@ -417,11 +417,11 @@ cat /path/to/file | mail -s <span class=
             <p>The following options shall be supported:</p>
 
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 <span class="org-function-name">Help</span> ()
 {
     cat &lt;&lt; EOF
-<span class="org-sh-heredoc">This is $CMD, version: 20141020.1618.</span>
+<span class="org-sh-heredoc">This is $CMD, version: 20141209.1202.</span>
 
 <span class=
 "org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
@@ -543,7 +543,7 @@ cat /path/to/file | mail -s <span class=
             <p>Here’s a shell script that reports the disk usage:</p>
 
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 ( printf <span class=
 "org-string">"Disk usage:\n"</span> ; du -sh ) | mail -s <span class=
 "org-string">"Disk usage report"</span> recipient@example.com
@@ -554,7 +554,7 @@ cat /path/to/file | mail -s <span class=
             and send it as an attachment:</p>
 
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 tar -zcf ~/backup.tar.gz ~/files_to_backup
 printf <span class=
 "org-string">"Archived configuration files\n"</span> | mail -s <span class=
@@ -570,7 +570,7 @@ printf <span class=
 
           <div class="outline-text-4" id="text-3-1-13">
             <div class="org-src-container">
-              <pre class="src src-sh">
+              <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class=
 "org-comment">command name</span>
 <span class="org-variable-name">CMD</span>=$(basename $<span class=
@@ -715,7 +715,7 @@ blat -to <span class="org-string">"$MAILTO"</span> <span class=
 
         <div class="outline-text-3" id="text-3-2">
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-function-name">cecho</span> () {
     <span class="org-variable-name">black</span>=<span class=
 "org-string">"\e[30m"</span>
@@ -757,7 +757,7 @@ cecho <span class="org-string">"$@"</span>
         http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each</a></p>
 
         <div class="org-src-container">
-          <pre class="src src-sh" id="vc-update">
+          <pre class="src src-shell" id="vc-update">
 <span class="org-keyword">for</span> dir<span class=
 "org-keyword"> in</span> ~/src/*
 <span class="org-keyword">do</span>
@@ -779,7 +779,7 @@ cecho <span class="org-string">"$@"</span>
         <p>If you need it to be recursive:</p>
 
         <div class="org-src-container">
-          <pre class="src src-sh" id="git-recursive-update">
+          <pre class="src src-shell" id="git-recursive-update">
 find -type d -printf <span class=
 "org-string">"%f"</span> -exec  sh -c <span class=
 "org-string">"cd \"{}\" &amp;&amp; git pull"</span>  <span class=
@@ -806,7 +806,7 @@ find -type d -printf <span class=
           <p>From Hacking Exposed Web Applications:</p>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-comment-delimiter">#</span><span class=
 "org-comment">!/bin/</span><span class="org-keyword">sh</span>
 <span class="org-comment-delimiter"># </span><span class=
@@ -825,20 +825,20 @@ nc -vv $<span class="org-variable-name">1</span> 80
           </div>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 getit.sh www.missioncriticalit.com /index.html
 </pre>
           </div>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 getit.sh www.victim.com /index.html | grep -i <span class=
 "org-string">"&lt;form"</span>
 </pre>
           </div>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 getit.sh www.victim.com /index.html | grep -i <span class=
 "org-string">"input type"</span>
 </pre>
@@ -851,7 +851,7 @@ getit.sh www.victim.com /index.html | grep -i <span class=
 
         <div class="outline-text-3" id="text-5-2">
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 <span class="org-comment-delimiter">#</span><span class=
 "org-comment">!/bin/</span><span class="org-keyword">sh</span>
 <span class="org-comment-delimiter"># </span><span class=
@@ -871,7 +871,7 @@ openssl s_client -quiet -connect $<span class=
           </div>
 
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 sgetit.sh www.victim.com /secure/admin.html
 </pre>
           </div>
@@ -892,7 +892,7 @@ sgetit.sh www.victim.com /secure/admin.html
         that back you got yourself a vulnerable server.</p>
 
         <div class="org-src-container">
-          <pre class="src src-sh">
+          <pre class="src src-shell">
 <span class="org-comment-delimiter">#</span><span class=
 "org-comment">!/bin/</span><span class="org-keyword">sh</span>
 
@@ -997,7 +997,7 @@ sgetit.sh www.victim.com /secure/admin.html
 
         <div class="outline-text-3" id="text-6-1">
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
 </pre>
           </div>
@@ -1009,7 +1009,7 @@ nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
 
         <div class="outline-text-3" id="text-6-2">
           <div class="org-src-container">
-            <pre class="src src-sh">
+            <pre class="src src-shell">
 nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
 nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
 </pre>
@@ -1038,7 +1038,7 @@ nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
               <p><b>Remote access server</b></p>
 
               <div class="org-src-container">
-                <pre class="src src-sh">
+                <pre class="src src-shell">
 socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
 </pre>
               </div>
@@ -1048,7 +1048,7 @@ socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
               <p><b>Data forwarder</b> (aka simple proxy)</p>
 
               <div class="org-src-container">
-                <pre class="src src-sh">
+                <pre class="src src-shell">
 socat TCP-L:2323 TCP:localhost:22
 </pre>
               </div>

@@ -1,7 +1,6 @@
 #+TITLE:     Shell utilities
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2014-10-20 Mon 16:18>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
@@ -59,7 +58,7 @@ Only use alphanumeric characters and the underscore for function names.
 The exit status follows the conventions for programs such as =grep=, =cmp=, and
 =diff=: it is 2 (or greater) if an error occurred.
 
-#+begin_src sh
+#+begin_src shell
 die () {
     printf "$(basename $0): $@\n" > /dev/stderr
     exit 2                              # an error occurred
@@ -70,7 +69,7 @@ die () {
 
 ** Check for executable files
 
-#+begin_src sh
+#+begin_src shell
 files_executables_p () {
     for x in $@
     do
@@ -85,7 +84,7 @@ We sometimes have to check that the ~PATH~ is set right, so that Cygwin
 executables (for example, ~whoami~ and ~hostname~) are found before their Windows
 counterpart -- to avoid problems of spurious ~\r~ added to the output.
 
-#+begin_src sh
+#+begin_src shell
 files_cygwin_executables_p () {
     for x in $@
     do
@@ -98,7 +97,7 @@ files_cygwin_executables_p () {
 
 The following is supposed to work on Linux, but doesn't on Cygwin.
 
-#+begin_src sh
+#+begin_src shell
 pname () {
     ps -o command= -p $PPID | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
 }
@@ -118,13 +117,13 @@ Send a mail to one or more people.
 
 *** Name
 
-#+begin_src sh :noweb yes :padline no
+#+begin_src shell :noweb yes :padline no
 # mail -- Send simple mail
 #+end_src
 
 *** Synopsis
 
-#+begin_src sh
+#+begin_src shell
 Usage ()
 {
     cat << EOF 1>&2
@@ -139,7 +138,7 @@ EOF
 
 Send an email using ~mail~:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 mail -s "Subject" recipient@example.com < /path/to/file
 cat /path/to/file | mail -s "Subject" recipient@example.com
 echo "Message" | mail -s "Subject" recipient@example.com
@@ -149,7 +148,7 @@ echo "Message" | mail -s "Subject" recipient@example.com
 
 The following options shall be supported:
 
-#+begin_src sh :noweb yes
+#+begin_src shell :noweb yes
 Help ()
 {
     cat << EOF
@@ -216,21 +215,21 @@ Otherwise, the exit status of ~mail~ shall be that of the ~blat~ command.
 
 Here's a shell script that reports the disk usage:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 ( printf "Disk usage:\n" ; du -sh ) | mail -s "Disk usage report" recipient@example.com
 #+end_src
 
 Here's another one to backup a configuration folder, archive it, and send it as
 an attachment:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 tar -zcf ~/backup.tar.gz ~/files_to_backup
 printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.gz recipient@example.com
 #+end_src
 
 *** Code
 
-#+begin_src sh
+#+begin_src shell
 # command name
 CMD=$(basename $0)
 
@@ -313,7 +312,7 @@ blat -to "$MAILTO" \
 
 ** Echo text in color
 
-#+begin_src sh :tangle ~/bin/cecho
+#+begin_src shell :tangle ~/bin/cecho
 cecho () {
     black="\e[30m"
     red="\e[31m"
@@ -337,7 +336,7 @@ cecho "$@"
 http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each
 
 #+name: vc-update
-#+begin_src sh :results verbatim
+#+begin_src shell :results verbatim
 for dir in ~/src/*
 do
     cecho "Updating $dir:"
@@ -353,7 +352,7 @@ done
 If you need it to be recursive:
 
 #+name: git-recursive-update
-#+begin_src sh
+#+begin_src shell
 find -type d -printf "%f" -exec  sh -c "cd \"{}\" && git pull"  \;
 #+end_src
 
@@ -365,7 +364,7 @@ See http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-
 
 From Hacking Exposed Web Applications:
 
-#+begin_src sh :tangle ~/bin/getit.sh
+#+begin_src shell :tangle ~/bin/getit.sh
 #!/bin/sh
 # mike's getit.sh script
 if [ -z $1 ]; then
@@ -376,21 +375,21 @@ echo -e "GET $2 HTTP/1.0\n\n" | \
 nc -vv $1 80
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 getit.sh www.missioncriticalit.com /index.html
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 getit.sh www.victim.com /index.html | grep -i "<form"
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 getit.sh www.victim.com /index.html | grep -i "input type"
 #+end_src
 
 ** HTTPS
 
-#+begin_src sh :tangle ~/bin/sgetit.sh
+#+begin_src shell :tangle ~/bin/sgetit.sh
 #!/bin/sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
@@ -401,7 +400,7 @@ echo -e "GET $2 HTTP/1.0\n\n" | \
 openssl s_client -quiet -connect $1:443 2>/dev/null
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 sgetit.sh www.victim.com /secure/admin.html
 #+end_src
 
@@ -414,7 +413,7 @@ method, look in the dumpfile ~/tmp/bannergrab~ and look for
 =<script>alert(123)</script>= if you can find that back you got yourself a
 vulnerable server.
 
-#+begin_src sh :tangle ~/bin/nc_bgrab
+#+begin_src shell :tangle ~/bin/nc_bgrab
 #!/bin/sh
 
 range="10.10.10.";
@@ -453,13 +452,13 @@ cmd.exe= option which disappeared, etc.
 
 ** Scan only certain ports
 
-#+begin_src sh
+#+begin_src shell
 nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
 #+end_src
 
 ** DNS
 
-#+begin_src sh
+#+begin_src shell
 nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
 nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
 #+end_src
@@ -474,13 +473,13 @@ Learning socat in terms of netcat: http://jdimpson.livejournal.com/6534.html
 
 - *Remote access server*
 
-  #+begin_src sh
+  #+begin_src shell
   socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
   #+end_src
 
 - *Data forwarder* (aka simple proxy)
 
-  #+begin_src sh
+  #+begin_src shell
   socat TCP-L:2323 TCP:localhost:22
   #+end_src
 
