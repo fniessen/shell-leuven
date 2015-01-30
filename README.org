@@ -51,7 +51,7 @@ Login shell runs .profile (or .bash_profile or .bash_login) on startup. Set
 your env variables in there, cuz sub-shells will inherit the env vars. Then
 make .profile run your .bashrc:
 
-#+begin_src sh
+#+begin_src shell
 . .bashrc
 #+end_src
 
@@ -63,7 +63,7 @@ profiles are run. No kidding you get 4 env vars set, the bare
 minimum. Therefore your PATH won't work very well so you often have to give an
 abs pathname like in crontab:
 
-#+begin_src sh
+#+begin_src shell
 right: 0 0 * * 2 /usr/sbin/apachectl restart
 wrong: 0 0 * * 2 apachectl restart
 #+end_src
@@ -109,7 +109,7 @@ Le =!= en shell permet plein de trucs sympa.
 
 Pourquoi ce dernier est-il utile ?  Pense à ceci :
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 $ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
 bash: convret: command not found
 $ gm convert !*
@@ -117,7 +117,7 @@ $ gm convert !*
 
 ** Profile
 
-#+begin_src sh :tangle ./src/.bash_profile
+#+begin_src shell :tangle ./src/.bash_profile
 # User dependent .bash_profile file
 
 # source the user's .bashrc if it exists
@@ -133,7 +133,7 @@ fi
 (format-time-string "%Y")
 #+end_src
 
-#+begin_src sh :noweb yes
+#+begin_src shell :noweb yes
 ## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
 
 # Copyright (C) 2003-<<current-year()>> Fabrice Niessen
@@ -171,7 +171,7 @@ fi
 I think the following is important for tools such as =rsync= (and Emacs
 Tramp?)...
 
-#+begin_src sh
+#+begin_src shell
 # if not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
 #+end_src
@@ -187,7 +187,7 @@ The global search PATH is defined in the file `/etc/environment'
 Note that PATH should already be marked as exported, so reexporting is not
 needed.
 
-#+begin_src sh
+#+begin_src shell
 # specify the directories that the shell is to look through to find a
 # command. These directories are searched in the order in which they appear.
 for MAYBE_PATH in "$HOME/bin" \
@@ -212,7 +212,7 @@ Appearance of the prompt.
 
 Note =\[...\]= used by the shell to count proper length.
 
-#+begin_src sh
+#+begin_src shell
 #*** Controlling the Prompt
 
 # regular colors
@@ -242,7 +242,7 @@ PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 # as well
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 #**** PROMPT_COMMAND
 
 # to be called just before the prompt is printed
@@ -316,7 +316,7 @@ precmd ()
 
 Access and modify commands that you had previously typed at the command line.
 
-#+begin_src sh
+#+begin_src shell
 # history
 HISTFILE=$HOME/.bash_history # if paranoiac, `/dev/null'
 HISTSIZE=1000
@@ -331,7 +331,7 @@ HISTCONTROL=ignoredups
 
 ** Code
 
-#+begin_src sh
+#+begin_src shell
 #** Source global rc file (if any)
 
 # source global definitions if the session is interactive (to avoid problems
@@ -345,7 +345,7 @@ A common cause is =mesg y= in =/etc/bashrc= on the remote machine, hence the use
 has to try avoiding sourcing it (on the *remote* machine) in non-interactive
 sessions.
 
-#+begin_src sh
+#+begin_src shell
 #** Default permissions
 
 # permissions on newly created files
@@ -356,7 +356,7 @@ if [ "$USERNAME" = "root" ]; then
 fi
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 #** Shell options
 
 # correct minor misspellings of cd pathnames
@@ -365,7 +365,7 @@ shopt -s cdspell
 
 ** Next
 
-#+begin_src sh
+#+begin_src shell
 #** 5 (info "(bashref)Shell Variables")
 
 # set MANPATH so it includes user's private man if it exists
@@ -394,11 +394,11 @@ INFOPATH="/usr/share/info:$INFOPATH"
 INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
 INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
 INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2010/texmf/doc/info:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
 INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 #+end_src
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 # Functions to help us manage environment variables
 
 # setenv [VAR] [value] - set environment variable
@@ -434,7 +434,7 @@ functions called in an interactive shell!).
 
 In general, it should not do more than *change the default options of a command*.
 
-#+begin_src sh
+#+begin_src shell
 #** 4.2 or 6.6 Aliases
 
 # source common definitions
@@ -445,7 +445,7 @@ fi
 
 ** Next
 
-#+begin_src sh
+#+begin_src shell
 # ALTER the ORIGINAL meaning of existing commands (that scripts don't
 # expect to see modified!)
 alias df='df -kTh'
@@ -777,7 +777,7 @@ texlist ()
 
 ** Postamble
 
-#+begin_src sh
+#+begin_src shell
 #* Local Variables
 
 # This is for the sake of Emacs.
@@ -799,10 +799,11 @@ texlist ()
 
 - [[http://aperiodic.net/phil/prompt/][Phil!'s ZSH Prompt]]
 - [[http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/][My Extravagant Zsh Prompt]] (with Git Repository Information)
+- [[http://grml.org/zsh/zsh-lovers.html][zsh-lovers]]
 
 ** Preamble
 
-#+begin_src sh :noweb yes
+#+begin_src shell :noweb yes
 ## .zshrc --- Z Shell configuration file (for interactive shells)
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
@@ -821,7 +822,7 @@ texlist ()
 
 *** Search path
 
-#+begin_src sh
+#+begin_src shell
 # extend the PATH var
 for MAYBE_PATH in "$HOME/bin" \
                   "$HOME/expect" \
@@ -842,7 +843,7 @@ If you add the CWD to your PATH, just do it:
 - as the *last entry* (so, the current directory is only checked as a last
   resort).
 
-#+begin_src sh
+#+begin_src shell
 PATH=$PATH:.
 #+end_src
 
@@ -852,7 +853,7 @@ Zsh expects that every character in =PS1= will advance the cursor one space.
 Wrap any non-printing escape sequences in =%{...%}=, and it should work. So use
 =%{\e[31m%}=, etc.
 
-#+begin_src sh
+#+begin_src shell
 #** 13 (info "(zsh)Prompt Expansion")
 
 # some colors
@@ -880,7 +881,7 @@ true-string; if it fails, show false-string after the second dot.
 
 https://github.com/olivierverdier/zsh-git-prompt
 
-#+begin_src sh
+#+begin_src shell
 # # prompt on the right hand side of the screen
 # RPROMPT="[%t]"
 
@@ -891,7 +892,7 @@ RPROMPT='$(git_super_status)'
 
 *** Command history
 
-#+begin_src sh
+#+begin_src shell
 # history
 HISTFILE=$HOME/.histfile
 HISTSIZE=1000
@@ -912,7 +913,7 @@ setopt SHARE_HISTORY
 
 Sett the terminal type explicitly:
 
-#+begin_src sh
+#+begin_src shell
 export TERM=xterm-256color
 #+end_src
 
@@ -920,7 +921,7 @@ export TERM=xterm-256color
 
 ** Aliasing
 
-#+begin_src sh
+#+begin_src shell
 # some global aliases (expand whatever their position)
 alias -g L="| less" #######
 alias -g M="| most"
@@ -963,7 +964,7 @@ alias find='noglob find'
 
 ** Ledger
 
-#+begin_src sh
+#+begin_src shell
 export LEDGER=ledger
 export LEDGER_FILE=/home/fni/Personal/Business/Accounting/LEDGER.dat
 
@@ -1033,7 +1034,7 @@ EOF
 
 ** Functions
 
-#+begin_src sh
+#+begin_src shell
 #** 9 (info "(zsh)Functions")
 
 # ll ()
@@ -1057,7 +1058,7 @@ hgrep ()
 
 ** Source common files
 
-#+begin_src sh
+#+begin_src shell
 #** 17 (info "(zsh)Shell Builtin Commands")
 
 # source common aliases
@@ -1084,7 +1085,7 @@ Useful commands:
 - =vared VAR= ::
      Interactively edit variable VAR.
 
-#+begin_src sh
+#+begin_src shell
 #** 18 (info "(zsh)Zsh Line Editor")
 
 # behave like Emacs when editing
@@ -1115,7 +1116,7 @@ bindkey "^?" backward-delete-char-beep
 
 ** Completion Widgets
 
-#+begin_src sh
+#+begin_src shell
 #** 19 (info "(zsh)Completion Widgets")
 
 # load general completion
@@ -1129,7 +1130,7 @@ setopt autolist
 
 ** Completion System
 
-#+begin_src sh
+#+begin_src shell
 #** 20 (info "(zsh)Completion System")
 
 # case-insensitive completion
@@ -1145,7 +1146,7 @@ fi
 
 ** Zsh Modules
 
-#+begin_src sh
+#+begin_src shell
 ## coloring stderr
 STDERRRED=$'\e[1;31m'
 zmodload zsh/system
@@ -1163,7 +1164,7 @@ exec 2> >( color_err )
 
 ** Others
 
-#+begin_src sh
+#+begin_src shell
 # change directory given just path
 setopt autocd
 
@@ -1177,7 +1178,7 @@ setopt nomatch
 setopt notify
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 #* Local Variables
 
 # This is for the sake of Emacs.
@@ -1197,7 +1198,7 @@ Everything in common between Bash and Z shell will come here.
 
 ** Preamble
 
-#+begin_src sh :noweb yes
+#+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
 ## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
 
@@ -1214,7 +1215,7 @@ Be sure one of these *editors* is *in your search path*!
 Note -- Right now, I have instead hard-coded the path to Emacs in the
 [[file:~/bin/emacsclient]] script.
 
-#+begin_src sh
+#+begin_src shell
 # set the user's preferred text editor
 for editor in emacsclientw emacsclient emacs vi; do
     # find a suitable editor
@@ -1249,7 +1250,7 @@ export ERROR_EDITOR="$EDITOR"
 export FCEDIT="$EDITOR" # for the fc (fix command) builtin command
 #+end_src
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 alias e="emacsclient -a emacs -n"       # -n is essential part
 #+end_src
 
@@ -1265,7 +1266,7 @@ Aliases should usually be kept simple. If not, they should be converted to:
 
 An alias cannot have an argument like =$1=.
 
-#+begin_src sh
+#+begin_src shell
 #* Aliasing
 
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
@@ -1304,14 +1305,14 @@ alias aptrm='sudo aptitude remove'
 
 ** Emacs / Org
 
-#+begin_src sh
+#+begin_src shell
 alias em=emacs-minimal
 #+end_src
 
 For branches for which we want to make some development, and keep in track with
 =master=:
 
-#+begin_src sh
+#+begin_src shell
 update_org () {
     (   # Directory changes made in a subshell do not carry over to the parent shell.
         cd $HOME/Public/Repositories/org-mode;
@@ -1330,7 +1331,9 @@ update_org () {
 }
 #+end_src
 
-#+begin_src sh
+*************** TODO Don't regenerate autoloads, doc, etc. if nothing new was pulled
+
+#+begin_src shell
 org_test () {
     (
         cd $HOME/Public/Repositories/org-mode;
@@ -1340,7 +1343,7 @@ org_test () {
 }
 #+end_src
 
-#+begin_src sh
+#+begin_src shell
 if [ -d "$HOME/Public/Repositories/org-bash-utils" ]
 then
     PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
@@ -1351,7 +1354,7 @@ fi
 
 ** Grep
 
-#+begin_src sh
+#+begin_src shell
 export GREP_COLORS="mt=01;33"
 
 # grep through the running processes
@@ -1366,14 +1369,14 @@ programs such as =man= or =git diff= to display pages.
 =less= is faster than anything else around (with exception of possibly =more=, but
 this one feels really archaic).
 
-#+begin_src sh
+#+begin_src shell
 PAGER="less"
 #+end_src
 
 Without =--raw-control-chars=, =less= outputs the colors as raw escape codes, that
 is it does not *interpret colors*. With it, =git diff= finally shows colors...
 
-#+begin_src sh
+#+begin_src shell
 # tailoring `less'
 LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
@@ -1381,7 +1384,7 @@ LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 
 ** GraphicsMagick
 
-#+begin_src sh
+#+begin_src shell
 # GraphicsMagick
 alias GIF="gm convert -verbose -interlace LINE"
 alias thumb="gm convert -geometry 100x100 -interlace LINE -verbose"
@@ -1408,13 +1411,13 @@ gmresize ()
 
 ** MCit tools
 
-#+begin_src sh
+#+begin_src shell
 alias sp=sendpatch
 #+end_src
 
 ** Next
 
-#+begin_src sh
+#+begin_src shell
 # # dirty (?) hack
 # alias killspell='kill `pidof hunspell`'
 # # use `pkill' (which is pgrep + kill in a single command)
@@ -1554,7 +1557,7 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 
 ** Functions
 
-#+begin_src sh
+#+begin_src shell
 #* Functions
 
 # list all files modified today only (since start of day only, i.e. 00:00)
@@ -1586,7 +1589,7 @@ line ()
 
 ** Emacsclient
 
-#+begin_src sh
+#+begin_src shell
 # ec FILE - open FILE in a running Emacs
 ec ()
 {
@@ -1601,7 +1604,7 @@ alias ec=emacsclient -c # new terminal frame
 
 ** Other
 
-#+begin_src sh
+#+begin_src shell
 # clean [-r] - remove useless files (recursively)
 clean ()
 {
@@ -1710,7 +1713,7 @@ rdns ()
 
 ** Postamble
 
-#+begin_src sh
+#+begin_src shell
 # This is for the sake of Emacs.
 # Local Variables:
 # ispell-local-dictionary: "en_US"
@@ -1731,7 +1734,7 @@ the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 Zsh doesn't use the =inputrc= file.
 #+end_note
 
-#+begin_src sh :noweb yes
+#+begin_src shell :noweb yes
 ## .inputrc --- my Readline Init File
 
 # Copyright (C) 2005-<<current-year()>> Fabrice Niessen
@@ -1825,7 +1828,7 @@ set completion-ignore-case on
 
 Symlink the files.
 
-#+begin_src sh :results silent :shebang #!/bin/bash
+#+begin_src shell :results silent :shebang #!/bin/bash
 ln -f -s $(pwd)/../src/.bashrc        ~/.bashrc
 ln -f -s $(pwd)/../src/.bash_profile  ~/.bash_profile
 ln -f -s $(pwd)/../src/.commonshrc    ~/.commonshrc
@@ -1835,7 +1838,7 @@ ln -f -s $(pwd)/../src/.zshrc         ~/.zshrc
 
 Or something like...
 
-#+begin_src sh :results silent :shebang #!/bin/bash :tangle no
+#+begin_src shell :results silent :shebang #!/bin/bash :tangle no
 if [ -d "$HOME/src/shellrc/src" ]
 then
     PATH="$HOME/src/shellrc/src:$PATH"

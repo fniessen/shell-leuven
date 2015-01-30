@@ -1,6 +1,6 @@
 ## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
 
-# Copyright (C) 2003-2014 Fabrice Niessen
+# Copyright (C) 2003-2015 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config
@@ -204,7 +204,7 @@ INFOPATH="/usr/share/info:$INFOPATH"
 INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
 INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
 INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2010/texmf/doc/info:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
 INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
 #** 4.2 or 6.6 Aliases
