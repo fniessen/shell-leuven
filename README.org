@@ -184,8 +184,9 @@ Where to look for executable files.
 
 The global search PATH is defined in the file `/etc/environment'
 
-Note that PATH should already be marked as exported, so reexporting is not
-needed.
+#+begin_note
+~PATH~ should already be marked as exported, so reexporting is not needed.
+#+end_note
 
 #+begin_src shell
 # specify the directories that the shell is to look through to find a
@@ -198,7 +199,12 @@ do
         PATH="$MAYBE_PATH:$PATH"
     fi
 done
+#+end_src
 
+By default, the =root= shell does not load commands from the current location.  If
+you're root and if you trust those commands, type =./whatever-command= instead.
+
+#+begin_src shell
 # add the current directory as last component in the search path
 # (not to include for root, for security reasons)
 if [ ! "$(id -u)" = "0" ]; then
