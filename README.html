@@ -1336,12 +1336,19 @@ zmodload zsh/system
         <span class="org-keyword">break</span>
     <span class="org-keyword">fi</span>
 <span class="org-keyword">done</span>
-
+</pre></div>
+<div class="note">
+<p>Shouldn't we alias <code>EDITOR</code> to <code>emacs -nw</code>?</p>
+</div>
+<div class="org-src-container">
+<pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-leuven-highlight"><span class="org-comment">FIXME</span></span><span class="org-comment"> 2010-11-04 This causes problems when scp'ing .bash_profile (for</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">example) when this .bashrc is deployed onto the remote SSH server.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">[ -z "$EDITOR" ] &amp;&amp; echo "No suitable editor found."</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">[ -z "$EDITOR" ] || showvalue EDITOR</span>
-
+</pre></div>
+<div class="org-src-container">
+<pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment">use `$EDITOR' for programs wanting an editor</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">VISUAL</span>=<span class="org-string">"$EDITOR"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">for crontab</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">CVSEDITOR</span>=<span class="org-string">"$EDITOR"</span>

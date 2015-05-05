@@ -1231,12 +1231,20 @@ for editor in emacsclientw emacsclient emacs vi; do
         break
     fi
 done
+#+end_src
 
+#+begin_note
+Shouldn't we alias ~EDITOR~ to ~emacs -nw~?
+#+end_note
+
+#+begin_src shell
 # FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
 # example) when this .bashrc is deployed onto the remote SSH server.
 # [ -z "$EDITOR" ] && echo "No suitable editor found."
 # [ -z "$EDITOR" ] || showvalue EDITOR
+#+end_src
 
+#+begin_src shell
 # use `$EDITOR' for programs wanting an editor
 export VISUAL="$EDITOR" # for crontab
 export CVSEDITOR="$EDITOR"
