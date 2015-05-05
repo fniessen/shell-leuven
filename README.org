@@ -4,10 +4,11 @@
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
-#+OPTIONS:   ^:{}
+#+OPTIONS:   num:nil ^:{}
 
 #+PROPERTY:  eval no
-#+SETUPFILE: bigblow-pirilampo.setup
+# #+SETUPFILE: bigblow-pirilampo.setup
+#+SETUPFILE: ~/src/org-html-themes/setup/theme-readtheorg-local-abs.setup
 
 * Documentation
 
@@ -15,18 +16,20 @@
 
 * Startup files
 
-There are three *sorts of shells*:
+There are 3 *sorts of shells*:
 
 - (interactive) *login* (for which =c:/cygwin/etc/profile= and =.profile= are read,
   which sources =.bashrc= as well)
 
-  *Note --* Launching Cygwin Terminal (login shell) does not load =.bashrc= on its
-  own, it only loads =.bash_profile=. Hence, the need to have a =.bash_profile=
-  sourcing =.bashrc=...
+  #+begin_note
+  Launching Cygwin Terminal (login shell) does not load =.bashrc= on its own, it
+  only loads =.bash_profile=. Hence, the need to have a =.bash_profile= sourcing
+  =.bashrc=...
+  #+end_note
 
 - *interactive* (non-login) (for which =.bashrc= is read)
 
-- normal shell, i.e. one that's running a *script* (bash does not execute any
+- normal shell, i.e. one that's running a *script* (Bash does not execute any
   initialization file in this case!)
 
   ~$tty~ is empty.
@@ -35,8 +38,8 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 *Read* [[http://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/][Zsh/Bash startup files loading order]]:
 
-- For bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
-- For zsh, put stuff in =~/.zshrc=, which is always executed.
+- For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
+- For Zsh, put stuff in =~/.zshrc=, which is always executed.
 
 To recover the default bash configuration files, get their copy from
 =/etc/skel=.
@@ -47,21 +50,21 @@ endings).  Make sure your editor is in Unix format when creating text files.
 
 ** What to put where?
 
-Login shell runs .profile (or .bash_profile or .bash_login) on startup. Set
-your env variables in there, cuz sub-shells will inherit the env vars. Then
-make .profile run your .bashrc:
+Login shell runs =.profile= (or =.bash_profile= or =.bash_login=) on startup. Set your
+env variables in there, because sub-shells will inherit the env vars. Then make
+=.profile= run your =.bashrc=:
 
 #+begin_src shell
 . .bashrc
 #+end_src
 
-Interactive runs .bashrc. Since it inherits envs, but not aliases, put your
+Interactive runs =.bashrc=. Since it inherits envs, but not aliases, put your
 aliases in this file.
 
 Shell scripts, cron jobs, and the like, run with a bare shell: no bashrc or
-profiles are run. No kidding you get 4 env vars set, the bare
-minimum. Therefore your PATH won't work very well so you often have to give an
-abs pathname like in crontab:
+profiles are run. No kidding you get 4 env vars set, the bare minimum. Therefore
+your ~PATH~ won't work very well so you often have to give an absolute pathname
+like in ~crontab~:
 
 #+begin_src shell
 right: 0 0 * * 2 /usr/sbin/apachectl restart
@@ -182,7 +185,7 @@ Tramp?)...
 
 Where to look for executable files.
 
-The global search PATH is defined in the file `/etc/environment'
+The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_note
 ~PATH~ should already be marked as exported, so reexporting is not needed.
@@ -202,7 +205,7 @@ done
 #+end_src
 
 By default, the ~root~ shell does not load commands from the current location.  If
-you're root and if you trust those commands, type ~./whatever-command~ instead.
+you're ~root~ and if you trust those commands, type ~./whatever-command~ instead.
 
 #+begin_src shell
 # add the current directory as last component in the search path
@@ -435,8 +438,10 @@ showvalue () { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
 
 An *alias* is a simple string substitution.
 
+#+begin_note
 By default, it is *not expanded in non-interactive shells* (scripts, and even
 functions called in an interactive shell!).
+#+end_note
 
 In general, it should not do more than *change the default options of a command*.
 
@@ -1091,7 +1096,7 @@ bindkey ';5D' backward-word
 # beep on errors
 setopt beep
 
-# making zsh beep like Bash when backspacing on an empty command line
+# making Zsh beep like Bash when backspacing on an empty command line
 backward-delete-char-beep ()
 {
     if (( CURSOR == 0 )); then
@@ -1114,7 +1119,7 @@ autoload -Uz compinit && compinit
 # display a list of completions when you give an ambiguous choice (like Bash)
 setopt autolist
 
-# zsh will attempt to complete wildcards by expanding them in the command line
+# Zsh will attempt to complete wildcards by expanding them in the command line
 #+end_src
 
 ** Completion System
@@ -1201,8 +1206,10 @@ Everything in common between Bash and Z shell will come here.
 
 Be sure one of these *editors* is *in your search path*!
 
-Note -- Right now, I have instead hard-coded the path to Emacs in the
+#+begin_warning
+Right now, I have instead hard-coded the path to Emacs in the
 [[file:~/bin/emacsclient]] script.
+#+end_warning
 
 #+begin_src shell
 # set the user's preferred text editor

@@ -215,7 +215,7 @@ bindkey ';5D' backward-word
 # beep on errors
 setopt beep
 
-# making zsh beep like Bash when backspacing on an empty command line
+# making Zsh beep like Bash when backspacing on an empty command line
 backward-delete-char-beep ()
 {
     if (( CURSOR == 0 )); then
@@ -234,7 +234,7 @@ autoload -Uz compinit && compinit
 # display a list of completions when you give an ambiguous choice (like Bash)
 setopt autolist
 
-# zsh will attempt to complete wildcards by expanding them in the command line
+# Zsh will attempt to complete wildcards by expanding them in the command line
 
 #** 20 (info "(zsh)Completion System")
 
