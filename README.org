@@ -14,6 +14,164 @@
 
 [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]]
 
+* Cygwin
+
+- After Cygwin is installed, modify the System ~PATH~ variable: append
+  =C:\cygwin\bin= before ~%SystemRoot%\system32~
+
+- If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
+  Cygwin, please check that those directories don't contain =cygwin1.dll= or
+  such. That was why I had troubles running ~git~ commands...
+
+- Programs like ~ssh~ rely on =/etc/passwd= rather than your environment variable
+  ~HOME~ for the location of your home directory.
+
+  Hence, change your [[http://www.cygwin.com/faq/faq-nochunks.html#faq.setup.home][Cygwin home directory]] by editing the penultimate element
+  on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
+  from that field).
+
+** Packages
+
+Install extra packages:
+
+- Archive
+  + [X] ~zip~ used by the "Org to ODT" exporter
+  + [X] ~unzip~
+
+- Devel
+  + [X] ~binutils~ (for the ~strings~ command)
+  + [X] ~autoconf~
+  + [ ] ~bzr~
+  + [X] ~cvs~
+  + [ ] ~ctags~ (Exuberant Ctags)
+  + [X] ~gcc-core~ (C compiler)
+  + [X] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
+  + [X] ~gdb~
+  + [X] ~git~
+  + [X] ~make~
+  + [X] ~mercurial~ (for ~hg~, used by Beamer)
+  + [X] ~subversion~
+
+- Editors
+  + [X] ~emacs~
+  + [X] ~emacs-w32~ (for graphical Cygwin Emacs with the w32 graphics toolkit)
+  + [X] ~emacs-X11~ (for graphical Cygwin Emacs)
+  + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
+
+- Graphics
+  + [X] ~ghostscript~ (needed by various utilities)
+  + [X] ~gnuplot~
+
+- Interpreters
+  + [X] ~m4~
+
+- Libs
+  + [X] ~libbz2-devel~ (needed for installing RODBC inside R)
+  + [X] ~libiconv~
+  + [X] ~libicu-devel~ (needed for installing RODBC inside R)
+  + [X] ~libiodbc-devel~ (needed for installing RODBC inside R)
+
+- Math
+  + [X] ~R~
+
+- Net
+  + [X] ~bind-utils~ (for getting ~dig~, ~host~, ~nslookup~, etc.)
+  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
+  + [X] ~nc~ (see socat)
+  + [X] ~openssh~
+  + [X] ~ping~ (Note: Allow to "Run this program as an administrator")
+  + [X] ~rsync~
+  + [X] ~socat~ (see nc)
+
+- Perl
+  + [X] ~perl~
+
+- Ruby
+  + [ ] ~ruby~
+
+- Python
+  + [X] ~python~
+
+- Shells
+  + [X] ~mintty~ (terminal with Windows look and feel)
+  + [ ] ~rxvt~
+  + [X] ~zsh~
+
+- System
+  + [X] ~procps~ (to get ~top~)
+  + [X] ~psmisc~ (to get ~killall~)
+
+- Tcl
+  + [X] ~expect~
+
+- Text
+  + [ ] ~antiword~
+  + [ ] ~aspell~ (Win32 binary has more dictionaries)
+  + [X] ~most~
+  + [ ] ~opensp~ (for ~nsgmls~ validator)
+  + [X] ~tidy~
+
+- Utils
+  + [X] ~fdupes~
+  + [ ] ~file~ to determine file type
+  + [X] ~flog~ (logger, to syslog)
+  + [X] ~gnupg~ (~gpg~)
+  + [ ] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
+    though you can use ~C-l~ to get the same result)
+  + [X] ~patch~ and ~patchutils~
+  + [ ] ~screen~
+
+- X11
+  + [X] ~fontconfig~ (needed by XeTeX)
+  + [X] ~libXaw7~ (needed by ~xdvi~)
+  + [X] ~xorg-server~ (for graphical Cygwin Emacs)
+
+- Web
+  + [ ] ~curl~
+  + [X] ~w3m~
+  + [X] ~wget~
+
+** GnuPG
+
+When first running ~gpg~:
+
+- Directory =~/.gnupg= created
+- New configuration file =~/.gnupg/gpg.conf= created
+- Keyring =~/.gnupg/secring.gpg= created
+- Keyring =~/.gnupg/pubring.gpg= created
+
+** Suppress the Cygwin DOS path warning
+
+When first running ~M-x ediff-buffers~, I got this Cygwin warning:
+
+#+begin_example
+MS-DOS style path detected: c:/Users/...
+Preferred POSIX equivalent is: /cygdrive/c/Users/...
+CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+Consult the user's guide for more details about POSIX paths:
+  http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+#+end_example
+
+Though, setting it in =.bashrc= or something like that does not work. A good
+place to set it is in the global *Windows environment variables*.
+
+** Suppress the annoying "tty option" warning
+
+#+begin_example
+"tty" option detected in CYGWIN environment variable.
+CYGWIN=tty is no longer supported.  Please remove it from your
+CYGWIN environment variable and use a terminal emulator like mintty,
+xterm, or rxvt.
+#+end_example
+
+This is not a Cygwin problem: ~Emacs-w3m~ used to set the ~CYGWIN~ environment
+variable in =w3m.el=. Just edit that file and remove the setting. Alternatively,
+it looks like you could solve the problem by customizing
+~w3m-command-environment~.
+
+Though, downloading (via the anonymous CVS server) the latest source code from
+http://emacs-w3m.namazu.org/ also solves the problem.
+
 * Startup files
 
 There are 3 *sorts of shells*:
