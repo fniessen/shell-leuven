@@ -1501,6 +1501,18 @@ nil</div>
 <span class="org-variable-name">LESS</span>=<span class="org-string">"--quit-at-eof --ignore-case --long-prompt --raw-control-chars"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">export LESS="-P ?c&lt;- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"</span>
 </pre></div>
+<div class="org-src-container">
+<pre class="src src-shell">
+<span class="org-comment-delimiter"># </span><span class="org-comment">Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Less Colors for Man Pages</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_mb</span>=$<span class="org-string">'\E[01;31m'</span>       <span class="org-comment-delimiter"># </span><span class="org-comment">begin blinking</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_md</span>=$<span class="org-string">'\E[01;38;5;74m'</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">begin bold</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_me</span>=$<span class="org-string">'\E[0m'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">end mode</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_se</span>=$<span class="org-string">'\E[0m'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">end standout-mode</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_so</span>=$<span class="org-string">'\E[38;5;016m\E[48;5;220m'</span>    <span class="org-comment-delimiter"># </span><span class="org-comment">begin standout-mode - info box</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_ue</span>=$<span class="org-string">'\E[0m'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">end underline</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_us</span>=$<span class="org-string">'\E[04;38;5;146m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">begin underline</span>
+</pre></div>
 </div>
 </div>
 <div id="outline-container-orgheadline44" class="outline-3">
