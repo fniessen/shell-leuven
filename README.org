@@ -1569,7 +1569,7 @@ Man pages colors:
 # Less Colors for Man Pages
 export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode
 export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (info box)
+export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode line at the bottom)
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode
 export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like mb and md)
 export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode
@@ -1601,8 +1601,8 @@ is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
 To add a bit of color to your man pages, you can install ~most~.
 
 #+begin_note
-But it does not do *search highlight*: when searching using ~/~, it scrolls to the
-location but the found word is not highlighted...
+But it does not *highlight search results*: when searching using ~/~, it only
+scrolls to the location...
 #+end_note
 
 See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.

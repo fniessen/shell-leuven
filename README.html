@@ -1711,7 +1711,7 @@ nil</div>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Less Colors for Man Pages</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_mb</span>=$<span class="org-string">'\E[01;31m'</span>     <span class="org-comment-delimiter"># </span><span class="org-comment">enter_blink_mode</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_md</span>=$<span class="org-string">'\E[01;38;5;74m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_bold_mode</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_so</span>=$<span class="org-string">'\E[38;5;016m\E[48;5;220m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_standout_mode (info box)</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_so</span>=$<span class="org-string">'\E[38;5;016m\E[48;5;220m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_standout_mode (mode line at the bottom)</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_us</span>=$<span class="org-string">'\E[04;38;5;146m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_underline_mode</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_me</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_attribute_mode (end modes like mb and md)</span>
 <span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_se</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_standout_mode</span>
@@ -1738,7 +1738,7 @@ nil</div>
 <div class="outline-text-4" id="text-orgheadline50">
 <p>To add a bit of color to your man pages, you can install <code>most</code>.</p>
 <div class="note">
-<p>But it does not do <b>search highlight</b>: when searching using <code>/</code>, it scrolls to the location but the found word is not highlighted…</p>
+<p>But it does not <b>highlight search results</b>: when searching using <code>/</code>, it only scrolls to the location…</p>
 </div>
 <p>See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/">http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/</a>.</p>
 </div>
