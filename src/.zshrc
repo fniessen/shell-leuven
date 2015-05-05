@@ -241,13 +241,6 @@ setopt autolist
 # case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-if [ "$TERM" != "dumb" ]; then
-    # eval "$(dircolors -b)"
-    alias ls='ls --color=always'
-else
-    alias ls='ls -CF'
-fi
-
 ## coloring stderr
 STDERRRED=$'\e[1;31m'
 zmodload zsh/system

@@ -54,8 +54,10 @@ if [ "$TERM" != "dumb" ]; then
     # fi
 
     alias ls='ls --color=auto'
-    alias ll="ls --color=yes --all --group-directories-first -l --human-readable --no-group"
-            # long listing and hidden files
+    alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
+                                        # long listing and hidden files
+else
+    alias ls='ls -CF'
 fi
 
 alias -- ..='cd ..'
@@ -107,6 +109,9 @@ then
     source $HOME/Public/Repositories/org-bash-utils/org-alias
     source $HOME/Public/Repositories/org-bash-utils/awk-alias
 fi
+
+# display the matched pattern in color
+alias grep='grep --color=auto'
 
 export GREP_COLOR="0;30;43"
 
@@ -179,9 +184,6 @@ alias dh='dirs -v'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-
-# display the matched pattern in color
-alias grep='grep --color'
 
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'

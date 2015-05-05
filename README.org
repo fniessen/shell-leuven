@@ -1139,13 +1139,6 @@ setopt autolist
 
 # case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-
-if [ "$TERM" != "dumb" ]; then
-    # eval "$(dircolors -b)"
-    alias ls='ls --color=always'
-else
-    alias ls='ls -CF'
-fi
 #+end_src
 
 ** Zsh Modules
@@ -1282,7 +1275,9 @@ An alias cannot have an argument like ~$1~.
 
 #+begin_src shell
 #* Aliasing
+#+end_src
 
+#+begin_src shell
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 
 # enable color support of ls
@@ -1296,8 +1291,10 @@ if [ "$TERM" != "dumb" ]; then
     # fi
 
     alias ls='ls --color=auto'
-    alias ll="ls --color=yes --all --group-directories-first -l --human-readable --no-group"
-            # long listing and hidden files
+    alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
+                                        # long listing and hidden files
+else
+    alias ls='ls -CF'
 fi
 
 alias -- ..='cd ..'
@@ -1367,6 +1364,11 @@ fi
 #+end_src
 
 ** Grep
+
+#+begin_src shell
+# display the matched pattern in color
+alias grep='grep --color=auto'
+#+end_src
 
 Change the color of ~grep~:
 
@@ -1490,9 +1492,6 @@ alias dh='dirs -v'
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-
-# display the matched pattern in color
-alias grep='grep --color'
 
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
