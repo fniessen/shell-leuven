@@ -20,16 +20,16 @@ There are three *sorts of shells*:
 - (interactive) *login* (for which =c:/cygwin/etc/profile= and =.profile= are read,
   which sources =.bashrc= as well)
 
-  *Note --* Launching Cygwin Terminal (login shell) does not load ~.bashrc~ on its
-  own, it only loads ~.bash_profile~. Hence, the need to have a ~.bash_profile~
-  sourcing ~.bashrc~...
+  *Note --* Launching Cygwin Terminal (login shell) does not load =.bashrc= on its
+  own, it only loads =.bash_profile=. Hence, the need to have a =.bash_profile=
+  sourcing =.bashrc=...
 
 - *interactive* (non-login) (for which =.bashrc= is read)
 
 - normal shell, i.e. one that's running a *script* (bash does not execute any
   initialization file in this case!)
 
-  =$tty= is empty.
+  ~$tty~ is empty.
 
 We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
@@ -72,40 +72,40 @@ From https://www.linuxquestions.org/questions/linux-general-1/difference-between
 
 ** Note
 
-In ~c:/cygwin/etc/profile~,
+In =c:/cygwin/etc/profile=,
 
-- ~/usr/local/bin~ is appended to the =PATH=!!
+- =/usr/local/bin= is appended to the ~PATH~!!
 
-  And, except when root, it is almost always wrong to have ~/usr/local/bin~ after
+  And, except when root, it is almost always wrong to have =/usr/local/bin= after
   any system path.
 
-- =TZ= (time zone) is set... which gives wrong times (1 hour difference) in Emacs
-  when called from ~c:/cygwin/Cygwin.bat~!!
+- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
+  when called from =c:/cygwin/Cygwin.bat=!!
 
 * Terminals
 
-- =dumb=
-- =cygwin=
-- =emacs=
-- =screen=
-- =xterm=
-- =xterm-256color= (choose this if Emacs looks ugly in a terminal)
-- =eterm-color=
+- ~dumb~
+- ~cygwin~
+- ~emacs~
+- ~screen~
+- ~xterm~
+- ~xterm-256color~ (choose this if Emacs looks ugly in a terminal)
+- ~eterm-color~
 
 * Bash specific
   :PROPERTIES:
   :tangle:   ./src/.bashrc
   :END:
 
-Le =!= en shell permet plein de trucs sympa.
+Le ~!~ en shell permet plein de trucs sympa.
 
-- =!!= refait la dernière commande
-- =!cmd= refait la dernière commande commençant par =cmd=
-- =!cmd:p= permet de visualiser sans éxecuter la dernière commande commençant
-  par =cmd=
-- =!$= est le dernier mot du ligne de commande précédent
-- =!cmd:$= est le dernier mot du dernier ligne de commande commençant par =cmd=
-- =!*= est l'ensemble de la dernière ligne de commande à part le premier mot
+- ~!!~ refait la dernière commande
+- ~!cmd~ refait la dernière commande commençant par ~cmd~
+- ~!cmd:p~ permet de visualiser sans éxecuter la dernière commande commençant
+  par ~cmd~
+- ~!$~ est le dernier mot du ligne de commande précédent
+- ~!cmd:$~ est le dernier mot du dernier ligne de commande commençant par ~cmd~
+- ~!*~ est l'ensemble de la dernière ligne de commande à part le premier mot
 
 Pourquoi ce dernier est-il utile ?  Pense à ceci :
 
@@ -168,7 +168,7 @@ fi
 # modify to taste
 #+end_src
 
-I think the following is important for tools such as =rsync= (and Emacs
+I think the following is important for tools such as ~rsync~ (and Emacs
 Tramp?)...
 
 #+begin_src shell
@@ -201,8 +201,8 @@ do
 done
 #+end_src
 
-By default, the =root= shell does not load commands from the current location.  If
-you're root and if you trust those commands, type =./whatever-command= instead.
+By default, the ~root~ shell does not load commands from the current location.  If
+you're root and if you trust those commands, type ~./whatever-command~ instead.
 
 #+begin_src shell
 # add the current directory as last component in the search path
@@ -216,7 +216,7 @@ fi
 
 Appearance of the prompt.
 
-Note =\[...\]= used by the shell to count proper length.
+Note ~\[...\]~ used by the shell to count proper length.
 
 #+begin_src shell
 #*** Controlling the Prompt
@@ -347,7 +347,7 @@ if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
 fi
 #+end_src
 
-A common cause is =mesg y= in =/etc/bashrc= on the remote machine, hence the user
+A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the user
 has to try avoiding sourcing it (on the *remote* machine) in non-interactive
 sessions.
 
@@ -431,7 +431,7 @@ showvalue () { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
 
 ** Source common files
 
-~.commonshrc~ contains miscellaneous definitions common to Bash and Zsh.
+=.commonshrc= contains miscellaneous definitions common to Bash and Zsh.
 
 An *alias* is a simple string substitution.
 
@@ -855,9 +855,9 @@ PATH=$PATH:.
 
 *** Prompt
 
-Zsh expects that every character in =PS1= will advance the cursor one space.
-Wrap any non-printing escape sequences in =%{...%}=, and it should work. So use
-=%{\e[31m%}=, etc.
+Zsh expects that every character in ~PS1~ will advance the cursor one space.
+Wrap any non-printing escape sequences in ~%{...%}~, and it should work. So use
+~%{\e[31m%}~, etc.
 
 #+begin_src shell
 #** 13 (info "(zsh)Prompt Expansion")
@@ -881,8 +881,8 @@ PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
 #+end_src
 
 The tricky part was getting the syntax for testing the exit code. The syntax
-is =%(x.true-string.false-string)=, where =x= is some arbitrary testing condition,
-in this case, =?= for exit codes. After the first dot, if the test passes, show
+is ~%(x.true-string.false-string)~, where ~x~ is some arbitrary testing condition,
+in this case, ~?~ for exit codes. After the first dot, if the test passes, show
 true-string; if it fails, show false-string after the second dot.
 
 https://github.com/olivierverdier/zsh-git-prompt
@@ -1077,18 +1077,18 @@ fi
 
 Useful keybindings:
 
-- =M-q= ::
+- ~M-q~ ::
      Type another command in the middle of a long command (look at man, etc.).
 
-- =M-.= ::
+- ~M-.~ ::
      Recall the last argument of the previous command, and so on.
 
-- =C-r= ::
+- ~C-r~ ::
      Do an interactive search across all of the history.
 
 Useful commands:
 
-- =vared VAR= ::
+- ~vared VAR~ ::
      Interactively edit variable VAR.
 
 #+begin_src shell
@@ -1270,7 +1270,7 @@ Aliases should usually be kept simple. If not, they should be converted to:
 - shell functions, or
 - shell scripts.
 
-An alias cannot have an argument like =$1=.
+An alias cannot have an argument like ~$1~.
 
 #+begin_src shell
 #* Aliasing
@@ -1316,7 +1316,7 @@ alias em=emacs-minimal
 #+end_src
 
 For branches for which we want to make some development, and keep in track with
-=master=:
+~master~:
 
 #+begin_src shell
 update_org () {
@@ -1369,18 +1369,18 @@ alias pgrep='pgrep -fl'
 
 ** Pager
 
-Set the user's preferred text pager (=cat=, =more= or =less=) that will be used by
-programs such as =man= or =git diff= to display pages.
+Set the user's preferred text pager (~cat~, ~more~ or ~less~) that will be used by
+programs such as ~man~ or ~git diff~ to display pages.
 
-=less= is faster than anything else around (with exception of possibly =more=, but
+~less~ is faster than anything else around (with exception of possibly ~more~, but
 this one feels really archaic).
 
 #+begin_src shell
 PAGER="less"
 #+end_src
 
-Without =--raw-control-chars=, =less= outputs the colors as raw escape codes, that
-is it does not *interpret colors*. With it, =git diff= finally shows colors...
+Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
+is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
 
 #+begin_src shell
 # tailoring `less'
@@ -1617,8 +1617,10 @@ ec ()
 
 I connect to the server with either a terminal or a GUI client like this:
 
+#+begin_example
 alias et=emacsclient -t # new GUI frame
 alias ec=emacsclient -c # new terminal frame
+#+end_example
 
 ** Other
 
