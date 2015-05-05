@@ -699,23 +699,6 @@ decryptfile ()
 #     ssh-add
 # fi
 
-#*** Unison
-
-# unison the current working directory only
-uwd ()
-{
-    p=$(pwd -P)
-    p=${p#*$HOME/my-unison-root/}
-    p=${p#*$HOME/my-unison-root}
-
-    if [ -d "$HOME/my-unison-root/$p" ]; then
-        unison profile-name-for-uwd -path "$p"
-    else
-        echo "$p is not a directory in a Unison hierarchy on this machine"
-    fi
-}
-
-
 # look for definitions
 jargon ()
 {
