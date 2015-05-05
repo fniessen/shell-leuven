@@ -1560,6 +1560,8 @@ this one feels really archaic).
 PAGER="less"
 #+end_src
 
+*** Less
+
 Man pages colors:
 
 #+begin_src shell
@@ -1593,6 +1595,17 @@ LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
 is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
 #+end_note
+
+*** Most
+
+To add a bit of color to your man pages, you can install ~most~.
+
+#+begin_note
+But it does not do *search highlight*: when searching using ~/~, it scrolls to the
+location but the found word is not highlighted...
+#+end_note
+
+See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
 
 ** GraphicsMagick
 

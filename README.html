@@ -91,18 +91,23 @@
 <li><a href="#orgheadline45">Aliases</a></li>
 <li><a href="#orgheadline46">Emacs / Org</a></li>
 <li><a href="#orgheadline47">Grep</a></li>
-<li><a href="#orgheadline48">Pager</a></li>
-<li><a href="#orgheadline49">GraphicsMagick</a></li>
-<li><a href="#orgheadline50">MCit tools</a></li>
-<li><a href="#orgheadline51">Next</a></li>
-<li><a href="#orgheadline52">Functions</a></li>
-<li><a href="#orgheadline53">Emacsclient</a></li>
-<li><a href="#orgheadline54">Other</a></li>
-<li><a href="#orgheadline55">Postamble</a></li>
+<li><a href="#orgheadline48">Pager</a>
+<ul>
+<li><a href="#orgheadline49">Less</a></li>
+<li><a href="#orgheadline50">Most</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline56">InputRC</a></li>
-<li><a href="#orgheadline57">Install environment</a></li>
+<li><a href="#orgheadline51">GraphicsMagick</a></li>
+<li><a href="#orgheadline52">MCit tools</a></li>
+<li><a href="#orgheadline53">Next</a></li>
+<li><a href="#orgheadline54">Functions</a></li>
+<li><a href="#orgheadline55">Emacsclient</a></li>
+<li><a href="#orgheadline56">Other</a></li>
+<li><a href="#orgheadline57">Postamble</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline58">InputRC</a></li>
+<li><a href="#orgheadline59">Install environment</a></li>
 </ul>
 </div>
 </div>
@@ -1695,6 +1700,10 @@ nil</div>
 <pre class="src src-shell">
 <span class="org-variable-name">PAGER</span>=<span class="org-string">"less"</span>
 </pre></div>
+</div>
+<div id="outline-container-orgheadline49" class="outline-4">
+<h4 id="orgheadline49">Less</h4>
+<div class="outline-text-4" id="text-orgheadline49">
 <p>Man pages colors:</p>
 <div class="org-src-container">
 <pre class="src src-shell">
@@ -1724,9 +1733,20 @@ nil</div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline49" class="outline-3">
-<h3 id="orgheadline49">GraphicsMagick</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline49">
+<div id="outline-container-orgheadline50" class="outline-4">
+<h4 id="orgheadline50">Most</h4>
+<div class="outline-text-4" id="text-orgheadline50">
+<p>To add a bit of color to your man pages, you can install <code>most</code>.</p>
+<div class="note">
+<p>But it does not do <b>search highlight</b>: when searching using <code>/</code>, it scrolls to the location but the found word is not highlighted…</p>
+</div>
+<p>See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/">http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/</a>.</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51">GraphicsMagick</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline51">
 <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">GIF</span>=<span class="org-string">"gm convert -verbose -interlace LINE"</span>
@@ -1752,16 +1772,16 @@ nil</div>
 <span class="org-comment-delimiter"># </span><span class="org-comment">find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"</span>
 </pre></div>
 </div>
-<div id="outline-container-orgheadline50" class="outline-3">
-<h3 id="orgheadline50">MCit tools</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline50">
+<div id="outline-container-orgheadline52" class="outline-3">
+<h3 id="orgheadline52">MCit tools</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline52">
 <pre class="src src-shell">
 <span class="org-builtin">alias</span> <span class="org-variable-name">sp</span>=sendpatch
 </pre></div>
 </div>
-<div id="outline-container-orgheadline51" class="outline-3">
-<h3 id="orgheadline51">Next</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline51">
+<div id="outline-container-orgheadline53" class="outline-3">
+<h3 id="orgheadline53">Next</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline53">
 <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment"># dirty (?) hack</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">alias killspell='kill `pidof hunspell`'</span>
@@ -1897,9 +1917,9 @@ nil</div>
 <span class="org-comment-delimiter"># </span><span class="org-comment">for Win32, choose gswin32c</span>
 </pre></div>
 </div>
-<div id="outline-container-orgheadline52" class="outline-3">
-<h3 id="orgheadline52">Functions</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline52">
+<div id="outline-container-orgheadline54" class="outline-3">
+<h3 id="orgheadline54">Functions</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline54">
 <pre class="src src-shell">
 <span class="org-comment-delimiter">#</span><span class="org-comment">* Functions</span>
 
@@ -1930,9 +1950,9 @@ nil</div>
 }
 </pre></div>
 </div>
-<div id="outline-container-orgheadline53" class="outline-3">
-<h3 id="orgheadline53">Emacsclient</h3>
-<div class="outline-text-3" id="text-orgheadline53">
+<div id="outline-container-orgheadline55" class="outline-3">
+<h3 id="orgheadline55">Emacsclient</h3>
+<div class="outline-text-3" id="text-orgheadline55">
 <div class="org-src-container">
 <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment">ec FILE - open FILE in a running Emacs</span>
@@ -1947,9 +1967,9 @@ alias et=emacsclient -t # new GUI frame
 alias ec=emacsclient -c # new terminal frame
 </pre></div>
 </div>
-<div id="outline-container-orgheadline54" class="outline-3">
-<h3 id="orgheadline54">Other</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline54">
+<div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56">Other</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline56">
 <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment">clean [-r] - remove useless files (recursively)</span>
 <span class="org-function-name">clean</span> ()
@@ -2057,9 +2077,9 @@ alias ec=emacsclient -c # new terminal frame
 }
 </pre></div>
 </div>
-<div id="outline-container-orgheadline55" class="outline-3">
-<h3 id="orgheadline55">Postamble</h3>
-<div class="outline-text-3 org-src-container" id="text-orgheadline55">
+<div id="outline-container-orgheadline57" class="outline-3">
+<h3 id="orgheadline57">Postamble</h3>
+<div class="outline-text-3 org-src-container" id="text-orgheadline57">
 <pre class="src src-shell">
 <span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables:</span>
@@ -2070,9 +2090,9 @@ alias ec=emacsclient -c # new terminal frame
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgheadline56" class="outline-2">
-<h2 id="orgheadline56">InputRC</h2>
-<div class="outline-text-2" id="text-orgheadline56">
+<div id="outline-container-orgheadline58" class="outline-2">
+<h2 id="orgheadline58">InputRC</h2>
+<div class="outline-text-2" id="text-orgheadline58">
 <p>This file controls the behavior of line input editing for programs that use the Gnu <b>Readline</b> library. Existing programs include FTP, Bash, and Gdb.</p>
 <div class="note">
 <p>Zsh doesn't use the <code>inputrc</code> file.</p>
@@ -2166,9 +2186,9 @@ $<span class="org-variable-name">endif</span>
 </pre></div>
 </div>
 </div>
-<div id="outline-container-orgheadline57" class="outline-2">
-<h2 id="orgheadline57">Install environment</h2>
-<div class="outline-text-2" id="text-orgheadline57">
+<div id="outline-container-orgheadline59" class="outline-2">
+<h2 id="orgheadline59">Install environment</h2>
+<div class="outline-text-2" id="text-orgheadline59">
 <p>Symlink the files.</p>
 <div class="org-src-container">
 <pre class="src src-shell">
