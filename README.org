@@ -1128,7 +1128,7 @@ alias find='noglob find'
 
 #+begin_src shell
 export LEDGER=ledger
-export LEDGER_FILE=/home/fni/Personal/Business/Accounting/LEDGER.dat
+export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
 
 # hledger print [REGEXP]... - show entries in Ledger format
     #! `hledger' is better than `ledger' in the sense that it does output
@@ -1578,7 +1578,7 @@ export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode
 #+end_src
 
 #+begin_seealso
-[[file:~/.minttyrc][.minttyrc]] to fix colors and fonts.
+[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.
 #+end_seealso
 
 See also
