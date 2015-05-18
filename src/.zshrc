@@ -107,7 +107,7 @@ alias -- l='ls -lg'
 alias find='noglob find'
 
 export LEDGER=ledger
-export LEDGER_FILE=/home/fni/Personal/Business/Accounting/LEDGER.dat
+export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
 
 # hledger print [REGEXP]... - show entries in Ledger format
     #! `hledger' is better than `ledger' in the sense that it does output
