@@ -35,56 +35,54 @@
 Install extra packages:
 
 - Archive
-  + [X] ~zip~ used by the "Org to ODT" exporter
-  + [X] ~unzip~
+  + [ ] ~zip~ used by the "Org to ODT" exporter
+  + [ ] ~unzip~
 
 - Devel
-  + [X] ~binutils~ (for the ~strings~ command)
-  + [X] ~autoconf~
-  + [ ] ~bzr~
-  + [X] ~cvs~
-  + [ ] ~ctags~ (Exuberant Ctags)
-  + [X] ~gcc-core~ (C compiler)
-  + [X] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
-  + [X] ~gdb~
   + [X] ~git~
-  + [X] ~make~
-  + [X] ~mercurial~ (for ~hg~, used by Beamer)
-  + [X] ~subversion~
+  + [ ] ~autoconf~
+  + [ ] ~bzr~
+  + [ ] ~cvs~
+  + [ ] ~ctags~ (Exuberant Ctags)
+  + [ ] ~gcc-core~ (C compiler)
+  + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
+  + [ ] ~gdb~
+  + [ ] ~make~
+  + [ ] ~mercurial~ (for ~hg~, used by Beamer)
+  + [ ] ~subversion~
 
 - Editors
   + [X] ~emacs~
   + [X] ~emacs-w32~ (for graphical Cygwin Emacs with the w32 graphics toolkit)
-  + [X] ~emacs-X11~ (for graphical Cygwin Emacs)
   + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
 
 - Graphics
-  + [X] ~ghostscript~ (needed by various utilities)
-  + [X] ~gnuplot~
+  + [ ] ~ghostscript~ (needed by various utilities)
+  + [ ] ~gnuplot~
 
 - Interpreters
-  + [X] ~m4~
+  + [ ] ~m4~
 
 - Libs
-  + [X] ~libbz2-devel~ (needed for installing RODBC inside R)
-  + [X] ~libiconv~
-  + [X] ~libicu-devel~ (needed for installing RODBC inside R)
-  + [X] ~libiodbc-devel~ (needed for installing RODBC inside R)
+  + [ ] ~libbz2-devel~ (needed for installing RODBC inside R)
+  + [ ] ~libiconv~
+  + [ ] ~libicu-devel~ (needed for installing RODBC inside R)
+  + [ ] ~libiodbc-devel~ (needed for installing RODBC inside R)
 
 - Math
   + [X] ~R~
 
 - Net
-  + [X] ~bind-utils~ (for getting ~dig~, ~host~, ~nslookup~, etc.)
-  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
-  + [X] ~nc~ (see socat)
-  + [X] ~openssh~
-  + [X] ~ping~ (Note: Allow to "Run this program as an administrator")
-  + [X] ~rsync~
-  + [X] ~socat~ (see nc)
+  + [ ] ~bind-utils~ (for getting ~dig~, ~host~, ~nslookup~, etc.)
+  + [ ] ~inetutils~ (for getting ~telnet~ to work with expect)
+  + [ ] ~nc~ (see socat)
+  + [ ] ~openssh~
+  + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
+  + [ ] ~rsync~
+  + [ ] ~socat~ (see nc)
 
 - Perl
-  + [X] ~perl~
+  + [ ] ~perl~
 
 - Ruby
   + [ ] ~ruby~
@@ -93,43 +91,41 @@ Install extra packages:
   + [X] ~python~
 
 - Shells
-  + [X] ~mintty~ (terminal with Windows look and feel)
+  + [X] ~zsh
   + [ ] ~rxvt~
-  + [X] ~zsh~
 
 - System
-  + [X] ~procps~ (to get ~top~)
-  + [X] ~psmisc~ (to get ~killall~)
+  + [ ] ~procps~ (to get ~top~)
+  + [ ] ~psmisc~ (to get ~killall~)
 
 - Tcl
-  + [X] ~expect~
+  + [ ] ~expect~
 
 - Text
   + [ ] ~antiword~
   + [ ] ~aspell~ (Win32 binary has more dictionaries)
-  + [X] ~most~
+  + [ ] ~most~
   + [ ] ~opensp~ (for ~nsgmls~ validator)
-  + [X] ~tidy~
+  + [ ] ~tidy~
 
 - Utils
-  + [X] ~fdupes~
-  + [ ] ~file~ to determine file type
-  + [X] ~flog~ (logger, to syslog)
   + [X] ~gnupg~ (~gpg~)
+  + [ ] ~fdupes~
+  + [ ] ~file~ to determine file type
+  + [ ] ~flog~ (logger, to syslog)
   + [ ] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
     though you can use ~C-l~ to get the same result)
-  + [X] ~patch~ and ~patchutils~
+  + [ ] ~patch~ and ~patchutils~
   + [ ] ~screen~
 
 - X11
-  + [X] ~fontconfig~ (needed by XeTeX)
-  + [X] ~libXaw7~ (needed by ~xdvi~)
-  + [X] ~xorg-server~ (for graphical Cygwin Emacs)
+  + [ ] ~fontconfig~ (needed by XeTeX)
+  + [ ] ~libXaw7~ (needed by ~xdvi~)
 
 - Web
   + [ ] ~curl~
-  + [X] ~w3m~
-  + [X] ~wget~
+  + [ ] ~w3m~
+  + [ ] ~wget~
 
 ** GnuPG
 
@@ -233,7 +229,7 @@ From https://www.linuxquestions.org/questions/linux-general-1/difference-between
 
 ** Note
 
-In =c:/cygwin/etc/profile=,
+In =c:/cygwin64/etc/profile=,
 
 - =/usr/local/bin= is appended to the ~PATH~!!
 
