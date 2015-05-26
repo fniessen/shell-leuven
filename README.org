@@ -40,6 +40,7 @@ Install extra packages:
 
 - Devel
   + [X] ~git~
+  + [X] ~subversion~ (for ~svn~)
   + [ ] ~autoconf~
   + [ ] ~bzr~
   + [ ] ~cvs~
@@ -49,7 +50,6 @@ Install extra packages:
   + [ ] ~gdb~
   + [ ] ~make~
   + [ ] ~mercurial~ (for ~hg~, used by Beamer)
-  + [ ] ~subversion~
 
 - Editors
   + [X] ~emacs~
@@ -126,6 +126,16 @@ Install extra packages:
   + [ ] ~curl~
   + [ ] ~w3m~
   + [ ] ~wget~
+
+** Change your Cygwin ~HOME~ folder
+
+If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
+you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
+editing your user's entry in that file. Your ~HOME~ directory is the
+second-to-last element on your user's line in =/etc/passwd=.
+
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+~db_home~ setting to =/etc/nsswitch.conf=.
 
 ** GnuPG
 
