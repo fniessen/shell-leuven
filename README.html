@@ -160,16 +160,16 @@ Install extra packages:
 <li>Devel
 <ul class="org-ul">
 <li class="on">&#x2611; <code>git</code></li>
-<li class="on">&#x2611; <code>subversion</code> (for <code>svn</code>)</li>
+<li class="on">&#x2611; <code>subversion</code> (for <code>svn</code> command)</li>
+<li class="on">&#x2611; <code>gdb</code></li>
 <li class="off">&#x2610; <code>autoconf</code></li>
 <li class="off">&#x2610; <code>bzr</code></li>
 <li class="off">&#x2610; <code>cvs</code></li>
 <li class="off">&#x2610; <code>ctags</code> (Exuberant Ctags)</li>
 <li class="off">&#x2610; <code>gcc-core</code> (C compiler)</li>
 <li class="off">&#x2610; <code>gcc4</code> (needed for installing some Perl packages, for CSV2Ledger)</li>
-<li class="off">&#x2610; <code>gdb</code></li>
 <li class="off">&#x2610; <code>make</code></li>
-<li class="off">&#x2610; <code>mercurial</code> (for <code>hg</code>, used by Beamer)</li>
+<li class="off">&#x2610; <code>mercurial</code> (for <code>hg</code> command, used by Beamer)</li>
 </ul></li>
 
 <li>Editors
@@ -944,83 +944,7 @@ In general, it should not do more than <b>change the default options of a comman
 <div class="outline-text-3" id="text-orgheadline23">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">ALTER the ORIGINAL meaning of existing commands (that scripts don't</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">expect to see modified!)</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -kTh'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -kh'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">cp</span>=<span class="org-string">'cp -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm copy over an existing file</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">mv</span>=<span class="org-string">'mv -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm move over an existing file</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">rm</span>=<span class="org-string">'rm -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm removing file (prevent some accidental mistakes)</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">ssh</span>=<span class="org-string">"ssh -C"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">more</span>=<span class="org-string">"less"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">rmdir</span>=<span class="org-string">"rm -fr"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">path</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">where</span>=<span class="org-string">'type -all'</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">start up Windows applications associated with a particular file extension</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">directly from the Bash prompt</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">start</span>=<span class="org-string">"cmd /c start"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">start</span>=<span class="org-string">"cygstart"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">under Cygwin</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">lo</span>=<span class="org-string">"locate -i"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">case insensitive search</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">lg</span>=<span class="org-string">"locate -r '.*' | grep -i"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">mkall</span>=<span class="org-string">"./configure &amp;&amp; make &amp;&amp; sudo make install"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">tvm</span>=<span class="org-string">"tail -f /var/log/messages"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">sudo'ers</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">root</span>=<span class="org-string">"su - root"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">force the radio to always sync at 2 Mbps, even if other speeds are available</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">iwconfigslow</span>=<span class="org-string">"sudo iwconfig eth1 rate 2M"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">shortcuts</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">c</span>=<span class="org-string">"clear"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">E</span>=<span class="org-string">"env | sort"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">h</span>=<span class="org-string">"history 25"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">j</span>=<span class="org-string">"jobs -l"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">m</span>=$<span class="org-variable-name">PAGER</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">p</span>=$<span class="org-variable-name">PAGER</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">se</span>=<span class="org-string">"sudoedit"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">X</span>=<span class="org-string">"ssh-agent startx &amp;"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">z</span>=<span class="org-string">"suspend"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">misc commands</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">dos2unix</span>=<span class="org-string">"sed s/</span>
-<span class="org-string">//g"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">unix2dos</span>=<span class="org-string">"sed s/\$/</span>
-<span class="org-string">/"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">hgrep</span>=<span class="org-string">"history | grep"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">keyoff</span>=<span class="org-string">"ssh-add -D"</span>       <span class="org-comment-delimiter"># </span><span class="org-comment">remove all identities</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">keylist</span>=<span class="org-string">"ssh-add -l"</span>      <span class="org-comment-delimiter"># </span><span class="org-comment">list all identities</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">kill9</span>=<span class="org-string">"kill -9"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">make an extract function!</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">tgz</span>=<span class="org-string">"tar -zxvf"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">tbz2</span>=<span class="org-string">"tar -jxvf"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">nfiles</span>=<span class="org-string">"find . -type f | wc -l"</span>
-
-<span class="org-builtin">alias</span> <span class="org-variable-name">ports</span>=<span class="org-string">"netstat -alpe --ip"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">most used programs</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">web</span>=<span class="org-string">"firefox &amp;"</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">alias scan="nmap -sS -O"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">nm</span>=<span class="org-string">"nmap -sS -O -PI -PT"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">portscan</span>=<span class="org-string">"nmap -sT -PT -R "</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">anonymous wget (using Privoxy and Tor)</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">aget</span>=<span class="org-string">'wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">mirror</span>=<span class="org-string">"wget -v --tries=0 --continue --force-directories --mirror --no-parent"</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i -w 'user|pass' port 110</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i -w 'user|pass' port 110</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -d eth0 -i 'USER|PASS' tcp port 80</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep google port 80</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i 'rcpt to|mail from' tcp port smtp</span>
@@ -1499,7 +1423,7 @@ Use the script <code>colortest</code> (on Linux distros) to output the default c
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">some global aliases (expand whatever their position)</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">L</span>=<span class="org-string">"| less"</span> <span class="org-comment-delimiter">#######</span>
-<span class="org-builtin">alias</span> -g <span class="org-variable-name">M</span>=<span class="org-string">"| most"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">M</span>=<span class="org-string">"| less"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">G</span>=<span class="org-string">'| grep -E'</span> <span class="org-comment-delimiter">######</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">W</span>=<span class="org-string">'| wc -l'</span> <span class="org-comment-delimiter">####</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">H</span>=<span class="org-string">'| head'</span> <span class="org-comment-delimiter">###</span>
@@ -1842,7 +1766,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
+<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>
@@ -1970,6 +1894,85 @@ An alias cannot have an argument like <code>$1</code>.
 <span class="org-builtin">alias</span> <span class="org-variable-name">apts</span>=<span class="org-string">'aptitude search'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">apti</span>=<span class="org-string">'sudo aptitude install --with-recommends'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">aptrm</span>=<span class="org-string">'sudo aptitude remove'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">ALTER the ORIGINAL meaning of existing commands (that scripts don't</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">expect to see modified!)</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -kTh'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -kh'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">cp</span>=<span class="org-string">'cp -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm copy over an existing file</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">mv</span>=<span class="org-string">'mv -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm move over an existing file</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">rm</span>=<span class="org-string">'rm -i'</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">confirm removing file (prevent some accidental mistakes)</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">ssh</span>=<span class="org-string">"ssh -C"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">rmdir</span>=<span class="org-string">"rm -fr"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">path</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">where</span>=<span class="org-string">'type -all'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">start up Windows applications associated with a particular file extension</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">directly from the Bash prompt</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">start</span>=<span class="org-string">"cmd /c start"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">start</span>=<span class="org-string">"cygstart"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">under Cygwin</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">lo</span>=<span class="org-string">"locate -i"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">case insensitive search</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">lg</span>=<span class="org-string">"locate -r '.*' | grep -i"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">mkall</span>=<span class="org-string">"./configure &amp;&amp; make &amp;&amp; sudo make install"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">tvm</span>=<span class="org-string">"tail -f /var/log/messages"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">sudo'ers</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">root</span>=<span class="org-string">"su - root"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">force the radio to always sync at 2 Mbps, even if other speeds are available</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">iwconfigslow</span>=<span class="org-string">"sudo iwconfig eth1 rate 2M"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">shortcuts</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">c</span>=<span class="org-string">"clear"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">E</span>=<span class="org-string">"env | sort"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">h</span>=<span class="org-string">"history 25"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">j</span>=<span class="org-string">"jobs -l"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">m</span>=$<span class="org-variable-name">PAGER</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">p</span>=$<span class="org-variable-name">PAGER</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">se</span>=<span class="org-string">"sudoedit"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">X</span>=<span class="org-string">"ssh-agent startx &amp;"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">z</span>=<span class="org-string">"suspend"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">misc commands</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">dos2unix</span>=<span class="org-string">"sed s/</span>
+<span class="org-string">//g"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">unix2dos</span>=<span class="org-string">"sed s/\$/</span>
+<span class="org-string">/"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">hgrep</span>=<span class="org-string">"history | grep"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">keyoff</span>=<span class="org-string">"ssh-add -D"</span>       <span class="org-comment-delimiter"># </span><span class="org-comment">remove all identities</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">keylist</span>=<span class="org-string">"ssh-add -l"</span>      <span class="org-comment-delimiter"># </span><span class="org-comment">list all identities</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">kill9</span>=<span class="org-string">"kill -9"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">make an extract function!</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">tgz</span>=<span class="org-string">"tar -zxvf"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">tbz2</span>=<span class="org-string">"tar -jxvf"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">nfiles</span>=<span class="org-string">"find . -type f | wc -l"</span>
+
+<span class="org-builtin">alias</span> <span class="org-variable-name">ports</span>=<span class="org-string">"netstat -alpe --ip"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">most used programs</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">web</span>=<span class="org-string">"firefox &amp;"</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">alias scan="nmap -sS -O"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">nm</span>=<span class="org-string">"nmap -sS -O -PI -PT"</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">portscan</span>=<span class="org-string">"nmap -sT -PT -R "</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">anonymous wget (using Privoxy and Tor)</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">aget</span>=<span class="org-string">'wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">mirror</span>=<span class="org-string">"wget -v --tries=0 --continue --force-directories --mirror --no-parent"</span>
 </pre>
 </div>
 </div>
@@ -2100,6 +2103,17 @@ this one feels really archaic).
 <pre class="src src-shell"><span class="org-variable-name">PAGER</span>=<span class="org-string">"less"</span>
 </pre>
 </div>
+
+<p>
+With the <code>less</code> command, you can <b>scroll up</b> in the file as well as down; with the
+<code>more</code> command, you can only <b>scroll down</b> the file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">more</span>=<span class="org-string">"less"</span>
+</pre>
+</div>
 </div>
 
 <div id="outline-container-orgheadline50" class="outline-4">
@@ -2126,7 +2140,7 @@ Man pages colors:
 
 <div class="seealso">
 <p>
-<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
+<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
 </p>
 
 </div>

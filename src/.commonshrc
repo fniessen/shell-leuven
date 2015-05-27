@@ -76,6 +76,81 @@ alias apts='aptitude search'
 alias apti='sudo aptitude install --with-recommends'
 alias aptrm='sudo aptitude remove'
 
+# ALTER the ORIGINAL meaning of existing commands (that scripts don't
+# expect to see modified!)
+alias df='df -kTh'
+alias du='du -kh'
+alias cp='cp -i'   # confirm copy over an existing file
+alias mv='mv -i'   # confirm move over an existing file
+alias rm='rm -i'   # confirm removing file (prevent some accidental mistakes)
+alias ssh="ssh -C"
+
+alias rmdir="rm -fr"
+
+# path
+alias where='type -all'
+
+# start up Windows applications associated with a particular file extension
+# directly from the Bash prompt
+alias start="cmd /c start"
+alias start="cygstart" # under Cygwin
+
+alias lo="locate -i" # case insensitive search
+alias lg="locate -r '.*' | grep -i"
+
+alias mkall="./configure && make && sudo make install"
+
+alias tvm="tail -f /var/log/messages"
+
+# sudo'ers
+alias root="su - root"
+
+# force the radio to always sync at 2 Mbps, even if other speeds are available
+alias iwconfigslow="sudo iwconfig eth1 rate 2M"
+
+# shortcuts
+alias c="clear"
+alias E="env | sort"
+alias h="history 25"
+alias j="jobs -l"
+alias m=$PAGER
+alias p=$PAGER
+alias se="sudoedit"
+alias X="ssh-agent startx &"
+alias z="suspend"
+
+# misc commands
+alias dos2unix="sed s/
+//g"
+alias unix2dos="sed s/\$/
+/"
+
+alias hgrep="history | grep"
+
+alias keyon="ssh-add -t 10800"  # add identity
+alias keyoff="ssh-add -D"       # remove all identities
+alias keylist="ssh-add -l"      # list all identities
+
+alias kill9="kill -9"
+
+# make an extract function!
+alias tgz="tar -zxvf"
+alias tbz2="tar -jxvf"
+
+alias nfiles="find . -type f | wc -l"
+
+alias ports="netstat -alpe --ip"
+
+# most used programs
+alias web="firefox &"
+# alias scan="nmap -sS -O"
+alias nm="nmap -sS -O -PI -PT"
+alias portscan="nmap -sT -PT -R "
+
+# anonymous wget (using Privoxy and Tor)
+alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
+alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
+
 alias em=emacs-minimal
 
 update_org () {
@@ -119,6 +194,8 @@ export GREP_COLOR="0;30;43"
 alias pgrep='pgrep -fl'
 
 PAGER="less"
+
+alias more="less"
 
 # Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
 # Less Colors for Man Pages

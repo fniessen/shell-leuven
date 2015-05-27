@@ -69,7 +69,7 @@ export TERM=xterm-256color
 
 # some global aliases (expand whatever their position)
 alias -g L="| less" #######
-alias -g M="| most"
+alias -g M="| less"
 alias -g G='| grep -E' ######
 alias -g W='| wc -l' ####
 alias -g H='| head' ###
