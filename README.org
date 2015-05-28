@@ -641,41 +641,11 @@ saneperms ()
 # # everything before last '/'
 # basename=${file%/*}
 
-# TODO If possible, get the lines colored (exe in green) or suffixed (`*' for
-# exe, `/' for dir, etc.)
-ff ()
-{
-    find . -name $@ -print 2>&1 | grep -v "find:"
-}
-
 safetmp ()
 {
     test -d $HOME || exit 1
     test -d $HOME/tmp || mkdir $HOME/tmp
     echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
-}
-
-# Copies my public key to the given server
-sendkey ()
-{
-    local HOSTNAME="$*"
-    scp $HOME/.ssh/id_rsa.pub $USER@$HOSTNAME:/home/$DOMAIN/$USER/.ssh/authorized_keys
-    # The PuTTY developers strongly recommend you use RSA
-}
-
-# Copies my `.bashrc' to the given server
-sendbash ()
-{
-    local HOSTNAME="$*"
-    scp $HOME/.bashrc $USER@$HOSTNAME:/home/$DOMAIN/$USER/.bashrc
-}
-
-# Copies my public key and bashrc to the given server
-rsetup ()
-{
-    local HOSTNAME="$*"
-    sendkey $HOSTNAME
-    sendbash $HOSTNAME
 }
 
 # gpg
@@ -735,13 +705,6 @@ keys ()
     # Opens up kgpg keymanager
     kgpg -k
 }
-
-# # have one SSH agent ready at all times
-# if [ "$SSH_AUTH_SOCK" = "" ]; then
-#     # check to see if there's an ssh-agent running
-#     eval $(ssh-agent)
-#     ssh-add
-# fi
 #+end_src
 
 #+begin_src shell

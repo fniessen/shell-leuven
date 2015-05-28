@@ -981,41 +981,11 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span class="org-comment-delimiter"># </span><span class="org-comment"># everything before last '/'</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file%/*}</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-leuven-highlight"><span class="org-comment">TODO</span></span><span class="org-comment"> If possible, get the lines colored (exe in green) or suffixed (`*' for</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">exe, `/' for dir, etc.)</span>
-<span class="org-function-name">ff</span> ()
-{
-    find . -name $<span class="org-variable-name">@</span> -print 2&gt;&amp;1 | grep -v <span class="org-string">"find:"</span>
-}
-
 <span class="org-function-name">safetmp</span> ()
 {
     test -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
     test -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
     <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(hostname).$(date +%s).$<span class="org-variable-name">$</span>
-}
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copies my public key to the given server</span>
-<span class="org-function-name">sendkey</span> ()
-{
-    <span class="org-builtin">local</span> <span class="org-variable-name">HOSTNAME</span>=<span class="org-string">"$*"</span>
-    scp $<span class="org-variable-name">HOME</span>/.ssh/id_rsa.pub $<span class="org-variable-name">USER</span>@$<span class="org-variable-name">HOSTNAME</span>:/home/$<span class="org-variable-name">DOMAIN</span>/$<span class="org-variable-name">USER</span>/.ssh/authorized_keys
-    <span class="org-comment-delimiter"># </span><span class="org-comment">The PuTTY developers strongly recommend you use RSA</span>
-}
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copies my `.bashrc' to the given server</span>
-<span class="org-function-name">sendbash</span> ()
-{
-    <span class="org-builtin">local</span> <span class="org-variable-name">HOSTNAME</span>=<span class="org-string">"$*"</span>
-    scp $<span class="org-variable-name">HOME</span>/.bashrc $<span class="org-variable-name">USER</span>@$<span class="org-variable-name">HOSTNAME</span>:/home/$<span class="org-variable-name">DOMAIN</span>/$<span class="org-variable-name">USER</span>/.bashrc
-}
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copies my public key and bashrc to the given server</span>
-<span class="org-function-name">rsetup</span> ()
-{
-    <span class="org-builtin">local</span> <span class="org-variable-name">HOSTNAME</span>=<span class="org-string">"$*"</span>
-    sendkey $<span class="org-variable-name">HOSTNAME</span>
-    sendbash $<span class="org-variable-name">HOSTNAME</span>
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">gpg</span>
@@ -1075,13 +1045,6 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
     <span class="org-comment-delimiter"># </span><span class="org-comment">Opens up kgpg keymanager</span>
     kgpg -k
 }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment"># have one SSH agent ready at all times</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">if [ "$SSH_AUTH_SOCK" = "" ]; then</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment"># check to see if there's an ssh-agent running</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">eval $(ssh-agent)</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">ssh-add</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">fi</span>
 </pre>
 </div>
 
