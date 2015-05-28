@@ -5,10 +5,6 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
 
-#* Install:
-
-# For Cygwin users: Create a shortcut for zsh by using the `mkzsh' command.
-
 #* Code:
 
 # extend the PATH var
@@ -108,7 +104,6 @@ alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
 alias -- l='ls -lg'
-alias find='noglob find'
 
 export LEDGER=ledger
 export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
@@ -177,18 +172,6 @@ EOF
 # ledger.
 
 #** 9 (info "(zsh)Functions")
-
-# ll ()
-# {
-#     ls -lag $* | more
-# }
-
-term ()
-{
-    setopt noglob;
-    unset TERMCAP;
-    eval `tset -s -I -Q - $*`
-}
 
 # hgrep PATTERN - print the history lines matching PATTERN
 hgrep ()

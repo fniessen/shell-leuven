@@ -358,67 +358,12 @@ keys ()
     kgpg -k
 }
 
-encryptfile ()
-{
-    zenity --title="zcrypt: Select a file to encrypt" --file-selection > zcrypt
-    encryptthisfile=`cat zcrypt`;rm zcrypt
-    # Use ascii armor
-    #  --no-options (for NO gui usage)
-    gpg -acq --yes ${encryptthisfile}
-    zenity --info --title "File Encrypted" --text "$encryptthisfile has been encrypted"
-}
-
-decryptfile ()
-{
-    zenity --title="zcrypt: Select a file to decrypt" --file-selection > zcrypt
-    decryptthisfile=`cat zcrypt`;rm zcrypt
-    # NOTE: This will OVERWRITE existing files with the same name !!!
-    gpg --yes -q ${decryptthisfile}
-    zenity --info --title "File Decrypted" --text "$encryptthisfile has been decrypted"
-}
-
-
 # # have one SSH agent ready at all times
 # if [ "$SSH_AUTH_SOCK" = "" ]; then
 #     # check to see if there's an ssh-agent running
 #     eval $(ssh-agent)
 #     ssh-add
 # fi
-
-# look for definitions
-jargon ()
-{
-    BROWSER="links"
-    JARGON_URL="http://info.astrian.net/jargon/terms"
-    for i in ${*}; do
-        ${BROWSER} ${JARGON_URL}/${i}.html
-    done
-}
-
-# acronym finder
-acro ()
-{
-    if [ $# = 0 ]; then
-        echo "Usage: $0 acronym"
-        echo "Purpose: expand an acronym"
-    else
-       #links "http://www.ucc.ie/cgi-bin/acronym?$1"
-        links "http://www.acronymfinder.com/af-query.asp?String=exact&Acronym=$1"
-    fi
-}
-
-# current weather forecasts
-alias weather="lynx term=vt100 http://weather.ec.gc.ca/forecast/city_e.html?yyz"
-
-# nmap ()
-# {
-#     echo "Enter port #"
-#     read port
-#     echo "Enter IP range"
-#     read range
-#     sudo nmap -sT -p $port -P0 -v -T 4 -oG dump-$port-${range////_}.txt $range
-#     grep -i open dump-$port-${range////_}.txt
-# }
 
 timesync ()
 {
@@ -428,13 +373,6 @@ timesync ()
         echo "Must be root"
     fi
 }
-
-# Searching for keyword(s) with Google
-google ()
-{
-    w3m "http://www.google.com/search?q="$1"";
-}
-
 
 # immediately opens the first match
 texman ()
@@ -446,8 +384,6 @@ texlist ()
 {
     locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
 }
-
-# http_proxy="http://hellman:8080"
 
 #* Local Variables
 

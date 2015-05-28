@@ -265,7 +265,7 @@ Le ~!~ en shell permet plein de trucs sympa.
 - ~!cmd~ refait la dernière commande commençant par ~cmd~
 - ~!cmd:p~ permet de visualiser sans éxecuter la dernière commande commençant
   par ~cmd~
-- ~!$~ est le dernier mot du ligne de commande précédent
+- ~!$~ est le dernier mot de la ligne de commande précédente
 - ~!cmd:$~ est le dernier mot du dernier ligne de commande commençant par ~cmd~
 - ~!*~ est l'ensemble de la dernière ligne de commande à part le premier mot
 
@@ -291,7 +291,7 @@ fi
 ** Preamble
 
 #+name: current-year
-#+begin_src emacs-lisp :eval yes :results silent :tangle no
+#+begin_src emacs-lisp :eval yes :results silent :tangle no :exports none
 (format-time-string "%Y")
 #+end_src
 
@@ -760,68 +760,15 @@ keys ()
     kgpg -k
 }
 
-encryptfile ()
-{
-    zenity --title="zcrypt: Select a file to encrypt" --file-selection > zcrypt
-    encryptthisfile=`cat zcrypt`;rm zcrypt
-    # Use ascii armor
-    #  --no-options (for NO gui usage)
-    gpg -acq --yes ${encryptthisfile}
-    zenity --info --title "File Encrypted" --text "$encryptthisfile has been encrypted"
-}
-
-decryptfile ()
-{
-    zenity --title="zcrypt: Select a file to decrypt" --file-selection > zcrypt
-    decryptthisfile=`cat zcrypt`;rm zcrypt
-    # NOTE: This will OVERWRITE existing files with the same name !!!
-    gpg --yes -q ${decryptthisfile}
-    zenity --info --title "File Decrypted" --text "$encryptthisfile has been decrypted"
-}
-
-
 # # have one SSH agent ready at all times
 # if [ "$SSH_AUTH_SOCK" = "" ]; then
 #     # check to see if there's an ssh-agent running
 #     eval $(ssh-agent)
 #     ssh-add
 # fi
+#+end_src
 
-# look for definitions
-jargon ()
-{
-    BROWSER="links"
-    JARGON_URL="http://info.astrian.net/jargon/terms"
-    for i in ${*}; do
-        ${BROWSER} ${JARGON_URL}/${i}.html
-    done
-}
-
-# acronym finder
-acro ()
-{
-    if [ $# = 0 ]; then
-        echo "Usage: $0 acronym"
-        echo "Purpose: expand an acronym"
-    else
-       #links "http://www.ucc.ie/cgi-bin/acronym?$1"
-        links "http://www.acronymfinder.com/af-query.asp?String=exact&Acronym=$1"
-    fi
-}
-
-# current weather forecasts
-alias weather="lynx term=vt100 http://weather.ec.gc.ca/forecast/city_e.html?yyz"
-
-# nmap ()
-# {
-#     echo "Enter port #"
-#     read port
-#     echo "Enter IP range"
-#     read range
-#     sudo nmap -sT -p $port -P0 -v -T 4 -oG dump-$port-${range////_}.txt $range
-#     grep -i open dump-$port-${range////_}.txt
-# }
-
+#+begin_src shell
 timesync ()
 {
     if [ $(id -u) = 0 ]; then
@@ -830,13 +777,6 @@ timesync ()
         echo "Must be root"
     fi
 }
-
-# Searching for keyword(s) with Google
-google ()
-{
-    w3m "http://www.google.com/search?q="$1"";
-}
-
 
 # immediately opens the first match
 texman ()
@@ -848,8 +788,6 @@ texlist ()
 {
     locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
 }
-
-# http_proxy="http://hellman:8080"
 #+end_src
 
 ** Postamble
@@ -887,10 +825,6 @@ texlist ()
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
-
-#* Install:
-
-# For Cygwin users: Create a shortcut for zsh by using the `mkzsh' command.
 
 #* Code:
 #+end_src
@@ -1059,8 +993,6 @@ tput colors
 Use the script ~colortest~ (on Linux distros) to output the default colors.
 #+end_seealso
 
-*** Display
-
 ** Aliasing
 
 Some global aliases (expand whatever their position).
@@ -1100,7 +1032,6 @@ alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
 alias -- l='ls -lg'
-alias find='noglob find'
 #+end_src
 
 ** Ledger
@@ -1177,18 +1108,6 @@ EOF
 
 #+begin_src shell
 #** 9 (info "(zsh)Functions")
-
-# ll ()
-# {
-#     ls -lag $* | more
-# }
-
-term ()
-{
-    setopt noglob;
-    unset TERMCAP;
-    eval `tset -s -I -Q - $*`
-}
 
 # hgrep PATTERN - print the history lines matching PATTERN
 hgrep ()
@@ -1396,6 +1315,21 @@ export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
 alias em=emacs-minimal
 #+end_src
 
+#+begin_src shell
+# ec FILE - open FILE in a running Emacs
+ec ()
+{
+    emacsclient --no-wait "$1"
+}
+#+end_src
+
+I connect to the server with either a terminal or a GUI client like this:
+
+#+begin_example
+alias et=emacsclient -t                 # New GUI frame.
+alias ec=emacsclient -c                 # New terminal frame.
+#+end_example
+
 ** Aliases
 
 Aliases are abbreviations or alternative names (usually mnemonics) for
@@ -1414,6 +1348,11 @@ An alias cannot have an argument like ~$1~.
 
 #+begin_src shell
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+#+end_src
+
+#+begin_src shell
+# Grep through the aliases.
+alias agrep='alias | grep -i'
 #+end_src
 
 *** Common aliases
@@ -1483,6 +1422,12 @@ alias mkall="./configure && make && sudo make install"
 
 # sudo'ers
 alias root="su - root"
+
+# make executable
+alias exe='chmod +x'
+
+# chown current dir and subdirs
+alias own='sudo chown -R $USER'
 #+end_src
 
 *** Single char shortcuts for some commands
@@ -1502,10 +1447,29 @@ alias j='jobs -l'
 alias g='git'
 #+end_src
 
+*** SVN
+
+#+begin_src shell
+# search through files, ignoring .svn directories
+alias svn_find="find . -not \( -name .svn -prune \)"
+
+# function for grep'ing a string in every SVN revision of a file
+# Usage: svn_grep_all_rev PATTERN FILE
+svn_grep_all_rev() {
+    svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
+        while read revision; do
+            printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
+            svn cat -r $revision $2 | grep $1
+            printf "\n"
+        done
+    )
+}
+#+end_src
+
 *** History
 
 #+begin_src shell
-alias hg="history | grep -i"
+alias hgrep="history | grep -i"
 #+end_src
 
 *** SSH agent / GPG agent
@@ -1522,16 +1486,105 @@ alias keylist="ssh-add -l"      # list all identities
 alias aps='aptitude search'
 #+end_src
 
-*** System admin
+*** System admin (NMAP, etc.)
 
 #+begin_src shell
 alias ports="netstat -alpe --ip"
+#+end_src
 
-# most used programs
+#+begin_src shell
 # alias scan="nmap -sS -O"
 alias nm="nmap -sS -O -PI -PT"
 alias portscan="nmap -sT -PT -R "
+alias nmap_fast="nmap -F -T5 --top-ports 300"
+#+end_src
 
+#+begin_src shell
+# nmap ()
+# {
+#     echo "Enter port #"
+#     read port
+#     echo "Enter IP range"
+#     read range
+#     sudo nmap -sT -p $port -P0 -v -T 4 -oG dump-$port-${range////_}.txt $range
+#     grep -i open dump-$port-${range////_}.txt
+# }
+#+end_src
+
+#+begin_src shell
+# localnet - find the local network in CIDR notation
+localnet ()
+{
+    IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
+    # we could use `nm-tool' from `network-manager'
+
+    NETMASK=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*Mask:\([0-9.]*\).*/\1/")
+
+    # calculate network value
+    echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
+}
+
+# whoisonline [TARGET] - list hosts that are online
+whoisonline ()
+{
+    local net
+    if [ -n "$1" ]; then
+        net="$1"
+    else
+        net=$(localnet)
+    fi
+    echo "Discovering online hosts in $net..."
+    sudo nmap -sP $net | awk '/Host / && / up/ { print $0; }'
+}
+
+# localps [TARGET] - list open ports on hosts that are online
+localps ()
+{
+    local hostip
+    local t1
+    local t2
+    local t3
+
+    local net
+    if [ -n "$1" ]; then
+        net="$1"
+    else
+        net=$(localnet)
+    fi
+
+    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2);
+    do
+        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4) ;
+        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5) ;
+        t3=$(sudo nmap -sS $hostip | grep " open ") ;
+        echo -e $t1 " " $t2 "ms\n" $t3 "\n";
+    done
+}
+
+# watchport HOST PORT - watch TCP port PORT on machine HOST
+watchport ()
+{
+    while true; do clear; nmap $1 -PN -p $2; sleep 5; done
+}
+
+# rdns [TARGET] - perform reverse DNS lookups
+rdns ()
+{
+    local net
+    if [ -n "$1" ]; then
+      net="$1"
+    else
+      net=$(localnet)
+    fi
+    echo "Performing reverse DNS lookups in $net..."
+    nmap -R -sL $net |\
+    awk '{if ($3 != "not") print "Host " $3 " is " $2}' | grep '('
+    # You could add "--dns-servers x.x.x.x" after the "-sL" if you need the
+    # lookups to be performed on a specific DNS server.
+}
+#+end_src
+
+#+begin_src shell
 # anonymous wget (using Privoxy and Tor)
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
@@ -1582,6 +1635,12 @@ then
     source $HOME/Public/Repositories/org-bash-utils/org-alias
     source $HOME/Public/Repositories/org-bash-utils/awk-alias
 fi
+#+end_src
+
+*** MCit tools
+
+#+begin_src shell
+alias sp=sendpatch
 #+end_src
 
 ** Grep
@@ -1637,13 +1696,15 @@ Man pages colors:
 #+begin_src shell
 # Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
 # Less Colors for Man Pages
-export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode
-export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode line at the bottom)
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode
-export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like mb and md)
-export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode
-export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode
+export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
+export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
+export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
+                                                   # line at the bottom).
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
+export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
+                                        # `mb' and `md').
+export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
+export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 # See `terminfo'.
 #+end_src
 
@@ -1661,8 +1722,10 @@ LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 #+end_src
 
+#+begin_note
 If you want that ~less~ does not clear the terminal when quitting, use the ~-X~
 option.
+#+end_note
 
 #+begin_note
 Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
@@ -1707,31 +1770,13 @@ gmresize ()
 # find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
 #+end_src
 
-** MCit tools
-
-#+begin_src shell
-alias sp=sendpatch
-#+end_src
-
 ** Next
 
 #+begin_src shell
-# # dirty (?) hack
-# alias killspell='kill `pidof hunspell`'
-# # use `pkill' (which is pgrep + kill in a single command)
-
-# use `htop' instead of `top'
-# XXX sudo aptitude install htop
-if $(which htop >& /dev/null); then
-    alias top=htop
-fi
+# use `pkill' (which is pgrep + kill in a single command)
 
 # show only my processes
 alias mytop='top -u $USERNAME'
-alias mytop='htop -u $USERNAME'
-
-# grep through the aliases
-alias agrep='alias | grep -i'
 
 # directory history
 alias dh='dirs -v'
@@ -1756,22 +1801,9 @@ alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 
 # # 040210 grep
 # alias g='find . -type f -print0 | xargs -0 grep'
+#+end_src
 
-# search through files, ignoring .svn directories
-alias svn_find="find . -not \( -name .svn -prune \)"
-
-# function for grep'ing a string in every SVN revision of a file
-# Usage: svn_grep_all_rev PATTERN FILE
-svn_grep_all_rev() {
-    svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
-        while read revision; do
-            printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
-            svn cat -r $revision $2 | grep $1
-            printf "\n"
-        done
-    )
-}
-
+#+begin_src shell
 # 040319 send files via netcat
 # on sending side:
 #  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
@@ -1792,13 +1824,6 @@ alias ngrep='ngrep -W byline'
 
 # echo my current external IP address
 alias whatismyip='curl -s http://whatismyip.org'
-
-# shortcut to making executable
-alias exe='chmod +x'
-
-# chown current dir and subdirs
-alias own='sudo chown -R $USER'
-
 
 # Web radio stations
 alias europe1='mplayer http://vipicecast.yacast.net/europe1'
@@ -1845,8 +1870,6 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 ** Functions
 
 #+begin_src shell
-#* Functions
-
 # list all files modified today only (since start of day only, i.e. 00:00)
 today ()
 {
@@ -1854,42 +1877,7 @@ today ()
     find . -type f -newer /tmp/$$
     rm -f /tmp/$$
 }
-
-# ff PATTERN - find file named PATTERN
-ff ()
-{
-    find . -name $1 -print
-}
-
-# files PATH - list files in PATH
-files ()
-{
-    find $1 -type f -print
-}
-
-# line N FILE - show line N of FILE
-line ()
-{
-    sed -n "$1 p" $2
-}
 #+end_src
-
-** Emacsclient
-
-#+begin_src shell
-# ec FILE - open FILE in a running Emacs
-ec ()
-{
-    emacsclient --no-wait "$1"
-}
-#+end_src
-
-I connect to the server with either a terminal or a GUI client like this:
-
-#+begin_example
-alias et=emacsclient -t # new GUI frame
-alias ec=emacsclient -c # new terminal frame
-#+end_example
 
 ** Other
 
@@ -1919,84 +1907,6 @@ swap ()
     mv -f $2 $1
     mv -f $tmpfile $2
     return 0
-}
-
-
-#** Networking toolbox
-
-# localnet - find the local network in CIDR notation
-localnet ()
-{
-    IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
-    # we could use `nm-tool' from `network-manager'
-
-    NETMASK=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*Mask:\([0-9.]*\).*/\1/")
-
-    # calculate network value
-    echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
-}
-
-
-# whoisonline [TARGET] - list hosts that are online
-whoisonline ()
-{
-    local net
-    if [ -n "$1" ]; then
-        net="$1"
-    else
-        net=$(localnet)
-    fi
-    echo "Discovering online hosts in $net..."
-    sudo nmap -sP $net | awk '/Host / && / up/ { print $0; }'
-}
-
-
-# localps [TARGET] - list open ports on hosts that are online
-localps ()
-{
-    local hostip
-    local t1
-    local t2
-    local t3
-
-    local net
-    if [ -n "$1" ]; then
-        net="$1"
-    else
-        net=$(localnet)
-    fi
-
-    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2);
-    do
-        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4) ;
-        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5) ;
-        t3=$(sudo nmap -sS $hostip | grep " open ") ;
-        echo -e $t1 " " $t2 "ms\n" $t3 "\n";
-    done
-}
-
-
-# watchport HOST PORT - watch TCP port PORT on machine HOST
-watchport ()
-{
-    while true; do clear; nmap $1 -PN -p $2; sleep 5; done
-}
-
-
-# rdns [TARGET] - perform reverse DNS lookups
-rdns ()
-{
-    local net
-    if [ -n "$1" ]; then
-      net="$1"
-    else
-      net=$(localnet)
-    fi
-    echo "Performing reverse DNS lookups in $net..."
-    nmap -R -sL $net |\
-    awk '{if ($3 != "not") print "Host " $3 " is " $2}' | grep '('
-    # You could add "--dns-servers x.x.x.x" after the "-sL" if you need the
-    # lookups to be performed on a specific DNS server.
 }
 #+end_src
 
