@@ -25,8 +25,8 @@
 <li><a href="#orgheadline1">Documentation</a></li>
 <li><a href="#orgheadline2">Cygwin</a>
 <ul>
-<li><a href="#orgheadline3">Packages</a></li>
-<li><a href="#orgheadline4">Change your Cygwin <code>HOME</code> folder</a></li>
+<li><a href="#orgheadline3">Change your Cygwin <code>HOME</code> folder</a></li>
+<li><a href="#orgheadline4">Packages</a></li>
 <li><a href="#orgheadline5">GnuPG</a></li>
 <li><a href="#orgheadline6">Suppress the Cygwin DOS path warning</a></li>
 <li><a href="#orgheadline7">Suppress the annoying &ldquo;tty option&rdquo; warning</a></li>
@@ -139,23 +139,35 @@
 <li>If you add other directories (such as <code>~/bin</code> or <code>~/winbin</code>) in the <code>PATH</code> before
 Cygwin, please check that those directories don&rsquo;t contain <code>cygwin1.dll</code> or
 such. That was why I had troubles running <code>git</code> commands&#x2026;</li>
-
-<li><p>
-Programs like <code>ssh</code> rely on <code>/etc/passwd</code> rather than your environment variable
-<code>HOME</code> for the location of your home directory.
-</p>
-
-<p>
-Hence, change your <a href="http://www.cygwin.com/faq/faq-nochunks.html#faq.setup.home">Cygwin home directory</a> by editing the penultimate element
-on your user&rsquo;s line in <code>/etc/passwd</code> (the <code>HOME</code> environment variable is set
-from that field).
-</p></li>
 </ul>
 </div>
 
 <div id="outline-container-orgheadline3" class="outline-3">
-<h3 id="orgheadline3">Packages</h3>
+<h3 id="orgheadline3">Change your Cygwin <code>HOME</code> folder</h3>
 <div class="outline-text-3" id="text-orgheadline3">
+<p>
+Programs like <code>ssh</code> don&rsquo;t rely on your environment variable <code>HOME</code> for the location
+of your <b>home directory</b>.
+</p>
+
+<p>
+If you installed Cygwin prior to 1.7.34 or have run its <code>mkpasswd</code> utility so that
+you have an <code>/etc/passwd</code> file, you can change your Cygwin <code>HOME</code> directory by
+editing your user&rsquo;s entry in that file. Your <code>HOME</code> directory is the penultimate
+element on your user&rsquo;s line in <code>/etc/passwd</code> (the <code>HOME</code> environment variable is set
+from that field).
+</p>
+
+<p>
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+<code>db_home</code> setting to <code>/etc/nsswitch.conf</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Packages</h3>
+<div class="outline-text-3" id="text-orgheadline4">
 <p>
 <a href="ftp://ftp.cygwinports.org/pub/cygwinports/">ftp://ftp.cygwinports.org/pub/cygwinports/</a> is the most popular choice.
 </p>
@@ -298,23 +310,6 @@ though you can use <code>C-l</code> to get the same result)</li>
 <li class="off">&#x2610; <code>wget</code></li>
 </ul></li>
 </ul>
-</div>
-</div>
-
-<div id="outline-container-orgheadline4" class="outline-3">
-<h3 id="orgheadline4">Change your Cygwin <code>HOME</code> folder</h3>
-<div class="outline-text-3" id="text-orgheadline4">
-<p>
-If you installed Cygwin prior to 1.7.34 or have run its <code>mkpasswd</code> utility so that
-you have an <code>/etc/passwd</code> file, you can change your Cygwin <code>HOME</code> directory by
-editing your user&rsquo;s entry in that file. Your <code>HOME</code> directory is the
-second-to-last element on your user&rsquo;s line in <code>/etc/passwd</code>.
-</p>
-
-<p>
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-<code>db_home</code> setting to <code>/etc/nsswitch.conf</code>.
-</p>
 </div>
 </div>
 

@@ -23,12 +23,19 @@
   Cygwin, please check that those directories don't contain =cygwin1.dll= or
   such. That was why I had troubles running ~git~ commands...
 
-- Programs like ~ssh~ rely on =/etc/passwd= rather than your environment variable
-  ~HOME~ for the location of your home directory.
+** Change your Cygwin ~HOME~ folder
 
-  Hence, change your [[http://www.cygwin.com/faq/faq-nochunks.html#faq.setup.home][Cygwin home directory]] by editing the penultimate element
-  on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
-  from that field).
+Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
+of your *home directory*.
+
+If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
+you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
+editing your user's entry in that file. Your ~HOME~ directory is the penultimate
+element on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
+from that field).
+
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+~db_home~ setting to =/etc/nsswitch.conf=.
 
 ** Packages
 
@@ -131,16 +138,6 @@ Install extra packages:
   + [X] ~curl~
   + [ ] ~w3m~
   + [ ] ~wget~
-
-** Change your Cygwin ~HOME~ folder
-
-If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
-you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
-editing your user's entry in that file. Your ~HOME~ directory is the
-second-to-last element on your user's line in =/etc/passwd=.
-
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-~db_home~ setting to =/etc/nsswitch.conf=.
 
 ** GnuPG
 
