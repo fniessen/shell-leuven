@@ -980,70 +980,16 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span class="org-comment-delimiter"># </span><span class="org-comment">dirname=`dirname "$file"`</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment"># everything before last '/'</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file%/*}</span>
+</pre>
+</div>
 
-<span class="org-function-name">safetmp</span> ()
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">safetmp</span> ()
 {
     test -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
     test -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
     <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(hostname).$(date +%s).$<span class="org-variable-name">$</span>
-}
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">gpg</span>
-<span class="org-function-name">searchkey</span> ()
-{
-    gpg --keyserver pgp.mit.edu --fingerprint --search-key <span class="org-string">"$@"</span>;
-}
-
-<span class="org-comment-delimiter">#</span><span class="org-comment">*** GPG functions</span>
-
-<span class="org-function-name">encrypt</span> ()
-{
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Use ascii armor</span>
-    gpg -ac --no-options <span class="org-string">"$1"</span>
-}
-
-<span class="org-function-name">bencrypt</span> ()
-{
-    <span class="org-comment-delimiter"># </span><span class="org-comment">No ascii armor</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Encrypt binary data. jpegs/gifs/vobs/etc.</span>
-    gpg -c --no-options <span class="org-string">"$1"</span>
-}
-
-<span class="org-function-name">decrypt</span> ()
-{
-    gpg --no-options <span class="org-string">"$1"</span>
-}
-
-<span class="org-function-name">pe</span> ()
-{
-<span class="org-comment-delimiter"># </span><span class="org-comment">Passphrase encryption program</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">Created by Dave Crouse 01-13-2006</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">Reads input from text editor and encrypts to screen.</span>
-    clear
-    <span class="org-builtin">echo</span> <span class="org-string">"         Passphrase Encryption Program"</span>;
-    <span class="org-builtin">echo</span> <span class="org-string">"--------------------------------------------------"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
-    <span class="org-builtin">which</span> $<span class="org-variable-name">EDITOR</span> &amp;&gt;/dev/null
-    <span class="org-keyword">if</span> [ $<span class="org-variable-name">?</span> != <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
-        <span class="org-builtin">echo</span> <span class="org-string">"It appears that you do not have a text editor set in your .bashrc file."</span>;
-        <span class="org-builtin">echo</span> <span class="org-string">"What editor would you like to use ? "</span> ;
-        <span class="org-builtin">read</span> EDITOR ; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
-    <span class="org-keyword">fi</span>
-    <span class="org-builtin">echo</span> <span class="org-string">"Enter the name/comment for this message :"</span>
-    <span class="org-builtin">read</span> comment
-    $<span class="org-variable-name">EDITOR</span> passphraseencryption
-    gpg --armor --comment <span class="org-string">"$comment"</span> --no-options --output
-    passphraseencryption.gpg --symmetric passphraseencryption
-    shred -u passphraseencryption ; clear
-    <span class="org-builtin">echo</span> <span class="org-string">"Outputting passphrase encrypted message"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span> ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ;
-    cat passphraseencryption.gpg ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ;
-    shred -u passphraseencryption.gpg ;
-    <span class="org-builtin">read</span> -p <span class="org-string">"Hit enter to exit"</span> temp; clear
-}
-
-<span class="org-function-name">keys</span> ()
-{
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Opens up kgpg keymanager</span>
-    kgpg -k
 }
 </pre>
 </div>
@@ -1962,8 +1908,8 @@ An alias cannot have an argument like <code>$1</code>.
 
 <div class="note">
 <p>
-This <b>alters</b> the <b>original</b> meaning of existing commands (that scripts don&rsquo;t expect
-to see modified!).
+The above aliases <b>alter</b> the <b>original</b> meaning of existing commands &#x2013; that
+scripts don&rsquo;t expect to see modified!
 </p>
 
 </div>
@@ -2082,6 +2028,68 @@ to see modified!).
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">keyoff</span>=<span class="org-string">"ssh-add -D"</span>       <span class="org-comment-delimiter"># </span><span class="org-comment">remove all identities</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">keylist</span>=<span class="org-string">"ssh-add -l"</span>      <span class="org-comment-delimiter"># </span><span class="org-comment">list all identities</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">gpg</span>
+<span class="org-function-name">searchkey</span> ()
+{
+    gpg --keyserver pgp.mit.edu --fingerprint --search-key <span class="org-string">"$@"</span>;
+}
+
+<span class="org-comment-delimiter">#</span><span class="org-comment">*** GPG functions</span>
+
+<span class="org-function-name">encrypt</span> ()
+{
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Use ascii armor</span>
+    gpg -ac --no-options <span class="org-string">"$1"</span>
+}
+
+<span class="org-function-name">bencrypt</span> ()
+{
+    <span class="org-comment-delimiter"># </span><span class="org-comment">No ascii armor</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Encrypt binary data. jpegs/gifs/vobs/etc.</span>
+    gpg -c --no-options <span class="org-string">"$1"</span>
+}
+
+<span class="org-function-name">decrypt</span> ()
+{
+    gpg --no-options <span class="org-string">"$1"</span>
+}
+
+<span class="org-function-name">pe</span> ()
+{
+<span class="org-comment-delimiter"># </span><span class="org-comment">Passphrase encryption program</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Created by Dave Crouse 01-13-2006</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Reads input from text editor and encrypts to screen.</span>
+    clear
+    <span class="org-builtin">echo</span> <span class="org-string">"         Passphrase Encryption Program"</span>;
+    <span class="org-builtin">echo</span> <span class="org-string">"--------------------------------------------------"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
+    <span class="org-builtin">which</span> $<span class="org-variable-name">EDITOR</span> &amp;&gt;/dev/null
+    <span class="org-keyword">if</span> [ $<span class="org-variable-name">?</span> != <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
+        <span class="org-builtin">echo</span> <span class="org-string">"It appears that you do not have a text editor set in your .bashrc file."</span>;
+        <span class="org-builtin">echo</span> <span class="org-string">"What editor would you like to use ? "</span> ;
+        <span class="org-builtin">read</span> EDITOR ; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
+    <span class="org-keyword">fi</span>
+    <span class="org-builtin">echo</span> <span class="org-string">"Enter the name/comment for this message :"</span>
+    <span class="org-builtin">read</span> comment
+    $<span class="org-variable-name">EDITOR</span> passphraseencryption
+    gpg --armor --comment <span class="org-string">"$comment"</span> --no-options --output
+    passphraseencryption.gpg --symmetric passphraseencryption
+    shred -u passphraseencryption ; clear
+    <span class="org-builtin">echo</span> <span class="org-string">"Outputting passphrase encrypted message"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span> ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ;
+    cat passphraseencryption.gpg ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ; <span class="org-builtin">echo</span> <span class="org-string">""</span> ;
+    shred -u passphraseencryption.gpg ;
+    <span class="org-builtin">read</span> -p <span class="org-string">"Hit enter to exit"</span> temp; clear
+}
+
+<span class="org-function-name">keys</span> ()
+{
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Opens up kgpg keymanager</span>
+    kgpg -k
+}
 </pre>
 </div>
 </div>

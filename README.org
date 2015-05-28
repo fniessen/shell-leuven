@@ -626,70 +626,14 @@ saneperms ()
 # dirname=`dirname "$file"`
 # # everything before last '/'
 # basename=${file%/*}
+#+end_src
 
+#+begin_src shell
 safetmp ()
 {
     test -d $HOME || exit 1
     test -d $HOME/tmp || mkdir $HOME/tmp
     echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
-}
-
-# gpg
-searchkey ()
-{
-    gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
-}
-
-#*** GPG functions
-
-encrypt ()
-{
-    # Use ascii armor
-    gpg -ac --no-options "$1"
-}
-
-bencrypt ()
-{
-    # No ascii armor
-    # Encrypt binary data. jpegs/gifs/vobs/etc.
-    gpg -c --no-options "$1"
-}
-
-decrypt ()
-{
-    gpg --no-options "$1"
-}
-
-pe ()
-{
-# Passphrase encryption program
-# Created by Dave Crouse 01-13-2006
-# Reads input from text editor and encrypts to screen.
-    clear
-    echo "         Passphrase Encryption Program";
-    echo "--------------------------------------------------"; echo "";
-    which $EDITOR &>/dev/null
-    if [ $? != "0" ]; then
-        echo "It appears that you do not have a text editor set in your .bashrc file.";
-        echo "What editor would you like to use ? " ;
-        read EDITOR ; echo "";
-    fi
-    echo "Enter the name/comment for this message :"
-    read comment
-    $EDITOR passphraseencryption
-    gpg --armor --comment "$comment" --no-options --output
-    passphraseencryption.gpg --symmetric passphraseencryption
-    shred -u passphraseencryption ; clear
-    echo "Outputting passphrase encrypted message"; echo "" ; echo "" ;
-    cat passphraseencryption.gpg ; echo "" ; echo "" ;
-    shred -u passphraseencryption.gpg ;
-    read -p "Hit enter to exit" temp; clear
-}
-
-keys ()
-{
-    # Opens up kgpg keymanager
-    kgpg -k
 }
 #+end_src
 
@@ -1392,8 +1336,8 @@ alias mv='mv -i'                        # Confirm move over an existing file.
 #+end_src
 
 #+begin_note
-This *alters* the *original* meaning of existing commands (that scripts don't expect
-to see modified!).
+The above aliases *alter* the *original* meaning of existing commands -- that
+scripts don't expect to see modified!
 #+end_note
 
 #+begin_src shell
@@ -1478,6 +1422,66 @@ alias hgrep="history | grep -i"
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
 alias keylist="ssh-add -l"      # list all identities
+#+end_src
+
+#+begin_src shell
+# gpg
+searchkey ()
+{
+    gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
+}
+
+#*** GPG functions
+
+encrypt ()
+{
+    # Use ascii armor
+    gpg -ac --no-options "$1"
+}
+
+bencrypt ()
+{
+    # No ascii armor
+    # Encrypt binary data. jpegs/gifs/vobs/etc.
+    gpg -c --no-options "$1"
+}
+
+decrypt ()
+{
+    gpg --no-options "$1"
+}
+
+pe ()
+{
+# Passphrase encryption program
+# Created by Dave Crouse 01-13-2006
+# Reads input from text editor and encrypts to screen.
+    clear
+    echo "         Passphrase Encryption Program";
+    echo "--------------------------------------------------"; echo "";
+    which $EDITOR &>/dev/null
+    if [ $? != "0" ]; then
+        echo "It appears that you do not have a text editor set in your .bashrc file.";
+        echo "What editor would you like to use ? " ;
+        read EDITOR ; echo "";
+    fi
+    echo "Enter the name/comment for this message :"
+    read comment
+    $EDITOR passphraseencryption
+    gpg --armor --comment "$comment" --no-options --output
+    passphraseencryption.gpg --symmetric passphraseencryption
+    shred -u passphraseencryption ; clear
+    echo "Outputting passphrase encrypted message"; echo "" ; echo "" ;
+    cat passphraseencryption.gpg ; echo "" ; echo "" ;
+    shred -u passphraseencryption.gpg ;
+    read -p "Hit enter to exit" temp; clear
+}
+
+keys ()
+{
+    # Opens up kgpg keymanager
+    kgpg -k
+}
 #+end_src
 
 *** Debian
