@@ -45,12 +45,12 @@ ec ()
 
 #* Aliasing
 
-LS_OPTIONS="$LS_OPTIONS --show-control-chars"
-
 # Grep through the aliases.
 alias agrep='alias | grep -i'
 
-# enable color support of ls
+LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+
+# Enable color support of `ls'.
 if [ "$TERM" != "dumb" ]; then
 
     # # add my coloration scheme to directory listings
@@ -140,7 +140,8 @@ searchkey ()
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
 }
 
-#*** GPG functions
+# get gpg-key from keyserver
+alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 
 encrypt ()
 {
@@ -390,6 +391,14 @@ alias dh='dirs -v'
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
 
+# list all files modified today only (since start of day only, i.e. 00:00)
+today ()
+{
+    touch -t `date +%m%d0000` /tmp/$$
+    find . -type f -newer /tmp/$$
+    rm -f /tmp/$$
+}
+
 # XXX my traceroute
 if $(which mtr >& /dev/null); then
     alias ping=mtr
@@ -401,9 +410,6 @@ alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
 
 # 030925 compare /proc with ps (against rootkits)
 alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
-
-# get gpg-key from keyserver
-alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 
 # # 040210 grep
 # alias g='find . -type f -print0 | xargs -0 grep'
@@ -449,20 +455,10 @@ alias dus='du -ms * | sort -rn'  # ordered by size
 # make `df' human readable
 alias df='df -h'
 
-# `unp' is for archive extract
-
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
-
-# list all files modified today only (since start of day only, i.e. 00:00)
-today ()
-{
-    touch -t `date +%m%d0000` /tmp/$$
-    find . -type f -newer /tmp/$$
-    rm -f /tmp/$$
-}
 
 # clean [-r] - remove useless files (recursively)
 clean ()

@@ -111,13 +111,11 @@
 </ul>
 </li>
 <li><a href="#orgheadline64">GraphicsMagick</a></li>
-<li><a href="#orgheadline65">Next</a></li>
-<li><a href="#orgheadline66">Functions</a></li>
-<li><a href="#orgheadline67">Other</a></li>
-<li><a href="#orgheadline68">Postamble</a></li>
+<li><a href="#orgheadline65">Others</a></li>
+<li><a href="#orgheadline66">Postamble</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline69">Install environment</a></li>
+<li><a href="#orgheadline67">Install environment</a></li>
 </ul>
 </div>
 </div>
@@ -1851,12 +1849,6 @@ An alias cannot have an argument like <code>$1</code>.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-variable-name">LS_OPTIONS</span>=<span class="org-string">"$LS_OPTIONS --show-control-chars"</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Grep through the aliases.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">agrep</span>=<span class="org-string">'alias | grep -i'</span>
 </pre>
@@ -1868,7 +1860,9 @@ An alias cannot have an argument like <code>$1</code>.
 <div class="outline-text-4" id="text-orgheadline50">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">enable color support of ls</span>
+<pre class="src src-shell"><span class="org-variable-name">LS_OPTIONS</span>=<span class="org-string">"$LS_OPTIONS --show-control-chars"</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Enable color support of `ls'.</span>
 <span class="org-keyword">if</span> [ <span class="org-string">"$TERM"</span> != <span class="org-string">"dumb"</span> ]; <span class="org-keyword">then</span>
 
     <span class="org-comment-delimiter"># </span><span class="org-comment"># add my coloration scheme to directory listings</span>
@@ -2038,10 +2032,19 @@ scripts don&rsquo;t expect to see modified!
 {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key <span class="org-string">"$@"</span>;
 }
+</pre>
+</div>
 
-<span class="org-comment-delimiter">#</span><span class="org-comment">*** GPG functions</span>
+<div class="org-src-container">
 
-<span class="org-function-name">encrypt</span> ()
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">get gpg-key from keyserver</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">getkey</span>=<span class="org-string">'gpg --keyserver keys.gnupg.net --recv-keys'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">encrypt</span> ()
 {
     <span class="org-comment-delimiter"># </span><span class="org-comment">Use ascii armor</span>
     gpg -ac --no-options <span class="org-string">"$1"</span>
@@ -2492,7 +2495,7 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 </div>
 
 <div id="outline-container-orgheadline65" class="outline-3">
-<h3 id="orgheadline65">Next</h3>
+<h3 id="orgheadline65">Others</h3>
 <div class="outline-text-3" id="text-orgheadline65">
 <div class="org-src-container">
 
@@ -2503,9 +2506,21 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">directory history</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">dh</span>=<span class="org-string">'dirs -v'</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">list all files modified in the last 24 hours (last full day)</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">list all files modified in the last 24 hours (last full day)</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">oneday</span>=<span class="org-string">'find . -mtime -1 -print'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">list all files modified today only (since start of day only, i.e. 00:00)</span>
+<span class="org-function-name">today</span> ()
+{
+    touch -t <span class="org-sh-quoted-exec">`date +%m%d0000`</span> /tmp/$<span class="org-variable-name">$</span>
+    find . -type f -newer /tmp/$<span class="org-variable-name">$</span>
+    rm -f /tmp/$<span class="org-variable-name">$</span>
+}
 </pre>
 </div>
 
@@ -2523,9 +2538,6 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 <span class="org-comment-delimiter"># </span><span class="org-comment">030925 compare /proc with ps (against rootkits)</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">myps</span>=<span class="org-string">"sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">get gpg-key from keyserver</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">getkey</span>=<span class="org-string">'gpg --keyserver keys.gnupg.net --recv-keys'</span>
-
 <span class="org-comment-delimiter"># </span><span class="org-comment"># 040210 grep</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">alias g='find . -type f -print0 | xargs -0 grep'</span>
 </pre>
@@ -2541,8 +2553,12 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 <span class="org-comment-delimiter">#  </span><span class="org-comment">${!#} gibt den letzten Parameter (den Hostnamen) zurück,</span>
 <span class="org-comment-delimiter">#  </span><span class="org-comment">${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">receive</span>=<span class="org-string">'nc -vlp 51330 | tar xzvp'</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">honor embedded linefeeds when displaying packets</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">honor embedded linefeeds when displaying packets</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">ngrep</span>=<span class="org-string">'ngrep -W byline'</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i -w 'user|pass' port 110</span>
@@ -2550,11 +2566,19 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep google port 80</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i 'rcpt to|mail from' tcp port smtp</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -q -t -wi "login" port 23</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">echo my current external IP address</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">echo my current external IP address</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
+</pre>
+</div>
 
-<span class="org-keyword">case</span> $(uname -s) <span class="org-keyword">in</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-keyword">case</span> $(uname -s) <span class="org-keyword">in</span>
     Linux*)
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpnup</span>=<span class="org-string">'sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &amp;'</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">--daemon'</span>
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpndown</span>=<span class="org-string">'sudo kill -INT `cat /tmp/openvpn.pid`'</span>
@@ -2565,46 +2589,30 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpndown</span>=<span class="org-string">'killall openvpn'</span>
         ;;
 <span class="org-keyword">esac</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">make `du' human readable</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">make `du' human readable</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -h'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">du1</span>=<span class="org-string">'du -h --max-depth=1'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">dus</span>=<span class="org-string">'du -ms * | sort -rn'</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">ordered by size</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">make `df' human readable</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -h'</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">`unp' is for archive extract</span>
+<div class="org-src-container">
 
-<span class="org-builtin">export</span> <span class="org-variable-name">GS_OPTIONS</span>=<span class="org-string">"-sPAPERSIZE=a4"</span>
+<pre class="src src-shell"><span class="org-builtin">export</span> <span class="org-variable-name">GS_OPTIONS</span>=<span class="org-string">"-sPAPERSIZE=a4"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">pdfmerge</span>=<span class="org-string">"gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf"</span> <span class="org-comment-delimiter"># </span><span class="org-comment">pdfjoin</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">booklet</span>=<span class="org-string">"psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">for Win32, choose gswin32c</span>
 </pre>
 </div>
-</div>
-</div>
 
-<div id="outline-container-orgheadline66" class="outline-3">
-<h3 id="orgheadline66">Functions</h3>
-<div class="outline-text-3" id="text-orgheadline66">
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">list all files modified today only (since start of day only, i.e. 00:00)</span>
-<span class="org-function-name">today</span> ()
-{
-    touch -t <span class="org-sh-quoted-exec">`date +%m%d0000`</span> /tmp/$<span class="org-variable-name">$</span>
-    find . -type f -newer /tmp/$<span class="org-variable-name">$</span>
-    rm -f /tmp/$<span class="org-variable-name">$</span>
-}
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline67" class="outline-3">
-<h3 id="orgheadline67">Other</h3>
-<div class="outline-text-3" id="text-orgheadline67">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">clean [-r] - remove useless files (recursively)</span>
@@ -2638,9 +2646,9 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 </div>
 </div>
 
-<div id="outline-container-orgheadline68" class="outline-3">
-<h3 id="orgheadline68">Postamble</h3>
-<div class="outline-text-3" id="text-orgheadline68">
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66">Postamble</h3>
+<div class="outline-text-3" id="text-orgheadline66">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
@@ -2655,9 +2663,9 @@ See <a href="http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configurati
 </div>
 </div>
 
-<div id="outline-container-orgheadline69" class="outline-2">
-<h2 id="orgheadline69">Install environment</h2>
-<div class="outline-text-2" id="text-orgheadline69">
+<div id="outline-container-orgheadline67" class="outline-2">
+<h2 id="orgheadline67">Install environment</h2>
+<div class="outline-text-2" id="text-orgheadline67">
 <p>
 Symlink the files.
 </p>

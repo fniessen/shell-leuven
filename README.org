@@ -1291,10 +1291,6 @@ An alias cannot have an argument like ~$1~.
 #+end_src
 
 #+begin_src shell
-LS_OPTIONS="$LS_OPTIONS --show-control-chars"
-#+end_src
-
-#+begin_src shell
 # Grep through the aliases.
 alias agrep='alias | grep -i'
 #+end_src
@@ -1302,7 +1298,9 @@ alias agrep='alias | grep -i'
 *** Common aliases
 
 #+begin_src shell
-# enable color support of ls
+LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+
+# Enable color support of `ls'.
 if [ "$TERM" != "dumb" ]; then
 
     # # add my coloration scheme to directory listings
@@ -1430,9 +1428,14 @@ searchkey ()
 {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
 }
+#+end_src
 
-#*** GPG functions
+#+begin_src shell
+# get gpg-key from keyserver
+alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
+#+end_src
 
+#+begin_src shell
 encrypt ()
 {
     # Use ascii armor
@@ -1779,7 +1782,7 @@ gmresize ()
 # find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
 #+end_src
 
-** Next
+** Others
 
 #+begin_src shell
 # use `pkill' (which is pgrep + kill in a single command)
@@ -1789,9 +1792,19 @@ alias mytop='top -u $USERNAME'
 
 # directory history
 alias dh='dirs -v'
+#+end_src
 
+#+begin_src shell
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
+
+# list all files modified today only (since start of day only, i.e. 00:00)
+today ()
+{
+    touch -t `date +%m%d0000` /tmp/$$
+    find . -type f -newer /tmp/$$
+    rm -f /tmp/$$
+}
 #+end_src
 
 #+begin_src shell
@@ -1807,9 +1820,6 @@ alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
 # 030925 compare /proc with ps (against rootkits)
 alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
-# get gpg-key from keyserver
-alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
-
 # # 040210 grep
 # alias g='find . -type f -print0 | xargs -0 grep'
 #+end_src
@@ -1823,7 +1833,9 @@ alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 #  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
 #  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
 alias receive='nc -vlp 51330 | tar xzvp'
+#+end_src
 
+#+begin_src shell
 # honor embedded linefeeds when displaying packets
 alias ngrep='ngrep -W byline'
 
@@ -1832,10 +1844,14 @@ alias ngrep='ngrep -W byline'
 # ngrep google port 80
 # ngrep -i 'rcpt to|mail from' tcp port smtp
 # ngrep -q -t -wi "login" port 23
+#+end_src
 
+#+begin_src shell
 # echo my current external IP address
 alias whatismyip='curl -s http://whatismyip.org'
+#+end_src
 
+#+begin_src shell
 case $(uname -s) in
     Linux*)
         alias vpnup='sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &'  # --daemon'
@@ -1847,7 +1863,9 @@ case $(uname -s) in
         alias vpndown='killall openvpn'
         ;;
 esac
+#+end_src
 
+#+begin_src shell
 # make `du' human readable
 alias du='du -h'
 alias du1='du -h --max-depth=1'
@@ -1855,28 +1873,14 @@ alias dus='du -ms * | sort -rn'  # ordered by size
 
 # make `df' human readable
 alias df='df -h'
+#+end_src
 
-# `unp' is for archive extract
-
+#+begin_src shell
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
 #+end_src
-
-** Functions
-
-#+begin_src shell
-# list all files modified today only (since start of day only, i.e. 00:00)
-today ()
-{
-    touch -t `date +%m%d0000` /tmp/$$
-    find . -type f -newer /tmp/$$
-    rm -f /tmp/$$
-}
-#+end_src
-
-** Other
 
 #+begin_src shell
 # clean [-r] - remove useless files (recursively)
