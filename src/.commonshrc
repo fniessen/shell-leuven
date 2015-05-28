@@ -6,10 +6,10 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
 
-# set the user's preferred text editor
-for editor in emacsclientw emacsclient emacs vi; do
-    # find a suitable editor
+# Find a suitable editor.
+for editor in emacsclientw emacsclient emacs; do
     if $(which $editor >& /dev/null); then
+        # Set EDITOR.
         case $editor in
             # emacsclient*)
             #     # # doesn't bother waiting for a response
@@ -20,24 +20,22 @@ for editor in emacsclientw emacsclient emacs vi; do
                 export EDITOR="$editor"
                 ;;
         esac
+
         alias e="$EDITOR"
-        alias edit="$EDITOR"
         break
     fi
 done
 
-# FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
-# example) when this .bashrc is deployed onto the remote SSH server.
-# [ -z "$EDITOR" ] && echo "No suitable editor found."
-# [ -z "$EDITOR" ] || showvalue EDITOR
-
-# use `$EDITOR' for programs wanting an editor
-export VISUAL="$EDITOR" # for crontab
+# Use `$EDITOR' for programs wanting an editor.
+export VISUAL="$EDITOR"                 # For `crontab'.
 export CVSEDITOR="$EDITOR"
 export SVN_EDITOR="$EDITOR"
 export EDIT="$EDITOR"
 export ERROR_EDITOR="$EDITOR"
-export FCEDIT="$EDITOR" # for the fc (fix command) builtin command
+export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
+                                        # command.
+
+alias em=emacs-minimal
 
 #* Aliasing
 
@@ -55,94 +53,62 @@ if [ "$TERM" != "dumb" ]; then
 
     alias ls='ls --color=auto'
     alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
-                                        # long listing and hidden files
+                                        # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
+
+alias df='df -kTh'
+alias du='du -kh'
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+
+# Play safe!
+alias rm='rm -i'                        # Confirm removing file (prevent some
+                                        # accidental mistakes).
+alias cp='cp -i'                        # Confirm copy over an existing file.
+alias mv='mv -i'                        # Confirm move over an existing file.
+
+# Make an extract function!
+alias tgz="tar -zxvf"
+alias tbz2="tar -jxvf"
 
 alias -- ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-alias g=git
-alias s=sudo
-alias w=which
-
 # print PATH with each directory on a new line
 alias path='echo $PATH | sed -e "s/:/\n/g"'
-
-alias apts='aptitude search'
-alias apti='sudo aptitude install --with-recommends'
-alias aptrm='sudo aptitude remove'
-
-# ALTER the ORIGINAL meaning of existing commands (that scripts don't
-# expect to see modified!)
-alias df='df -kTh'
-alias du='du -kh'
-alias cp='cp -i'   # confirm copy over an existing file
-alias mv='mv -i'   # confirm move over an existing file
-alias rm='rm -i'   # confirm removing file (prevent some accidental mistakes)
-alias ssh="ssh -C"
-
-alias rmdir="rm -fr"
 
 # path
 alias where='type -all'
 
-# start up Windows applications associated with a particular file extension
-# directly from the Bash prompt
-alias start="cmd /c start"
-alias start="cygstart" # under Cygwin
-
-alias lo="locate -i" # case insensitive search
-alias lg="locate -r '.*' | grep -i"
-
 alias mkall="./configure && make && sudo make install"
-
-alias tvm="tail -f /var/log/messages"
 
 # sudo'ers
 alias root="su - root"
 
-# force the radio to always sync at 2 Mbps, even if other speeds are available
-alias iwconfigslow="sudo iwconfig eth1 rate 2M"
+alias t='tail -f'
+alias p="$PAGER"
+alias m='man'
+alias s='sudo'
 
-# shortcuts
-alias c="clear"
-alias E="env | sort"
-alias h="history 25"
-alias j="jobs -l"
-alias m=$PAGER
-alias p=$PAGER
-alias se="sudoedit"
-alias X="ssh-agent startx &"
-alias z="suspend"
+alias j='jobs -l'
 
-# misc commands
-alias dos2unix="sed s/
-//g"
-alias unix2dos="sed s/\$/
-/"
+alias g='git'
 
-alias hgrep="history | grep"
+alias hg="history | grep -i"
 
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
 alias keylist="ssh-add -l"      # list all identities
 
-alias kill9="kill -9"
-
-# make an extract function!
-alias tgz="tar -zxvf"
-alias tbz2="tar -jxvf"
-
-alias nfiles="find . -type f | wc -l"
+alias aps='aptitude search'
 
 alias ports="netstat -alpe --ip"
 
 # most used programs
-alias web="firefox &"
 # alias scan="nmap -sS -O"
 alias nm="nmap -sS -O -PI -PT"
 alias portscan="nmap -sT -PT -R "
@@ -151,7 +117,7 @@ alias portscan="nmap -sT -PT -R "
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
 
-alias em=emacs-minimal
+alias off='sudo shutdown -h now'
 
 update_org () {
     (   # Directory changes made in a subshell do not carry over to the parent shell.
@@ -257,11 +223,6 @@ alias agrep='alias | grep -i'
 # directory history
 alias dh='dirs -v'
 
-# play safe!
-alias rm='rm -i'
-alias mv='mv -i'
-alias cp='cp -i'
-
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
 
@@ -332,9 +293,6 @@ alias europe2='mplayer mms://vipmms9.yacast.fr/encodereurope2'
 alias nrj='mplayer mms://vipnrj.yacast.fr/encodernrj'
 alias rtl='mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'
 alias rtl2='mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'
-
-
-alias off='sudo shutdown -h now'
 
 
 case $(uname -s) in

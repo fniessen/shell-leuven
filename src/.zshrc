@@ -43,12 +43,21 @@ PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # . - abbreviated pwd
     # ! - su?
 
-# # prompt on the right hand side of the screen
-# RPROMPT="[%t]"
+. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+setopt prompt_subst
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM=verbose
+export GIT_PS1_DESCRIBE_STYLE=branch
+export GIT_PS1_SHOWCOLORHINTS=true
+export RPROMPT=$'$(__git_ps1 "%s")'
 
-# git info
-. ~/Public/Repositories/git-prompt/zshrc.sh
-RPROMPT='$(git_super_status)'
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="agnoster"
+# ZSH_THEME="zsh2000"
+DEFAULT_USER="Fabrice"
+source ~/.oh-my-zsh/templates/zshrc.zsh-template
 
 # history
 HISTFILE=$HOME/.histfile
@@ -67,18 +76,19 @@ setopt SHARE_HISTORY
 
 export TERM=xterm-256color
 
-# some global aliases (expand whatever their position)
+# Command line head / tail shortcuts
+alias -g H='| head' ###
+alias -g T='| tail' ###
+alias -g G='| grep -E' ######
 alias -g L="| less" #######
 alias -g M="| less"
-alias -g G='| grep -E' ######
-alias -g W='| wc -l' ####
-alias -g H='| head' ###
-alias -g S='| sort' ###
-alias -g T='| tail' ###
-alias -g F=' | fmt -' ##
 alias -g 21="2>&1"
 alias -g DN1='1> /dev/null' #
 alias -g DN2='2> /dev/null' #
+
+alias -g W='| wc -l' ####
+alias -g S='| sort' ###
+alias -g F=' | fmt -' ##
 alias -g VM=/var/log/messages
 alias -g A='| awk'
 alias -g A1="| awk '{print \$1}'"
@@ -91,14 +101,8 @@ alias -g A7="| awk '{print \$7}'"
 alias -g A8="| awk '{print \$8}'"
 alias -g A9="| awk '{print \$9}'"
 alias -g CA="| cat -A"
-alias -g ND='$(ls -d *(/om[1]))' # newest directory
-alias -g NF='$(ls *(.om[1]))'    # newest file
-
-alias -g EG='|& egrep'
-alias -g EH='|& head'
-alias -g EL='|& less'
-alias -g ET='|& tail'
-alias -g X='| xargs'
+alias -g ND='$(ls -d *(/om[1]))'        # Newest directory.
+alias -g NF='$(ls *(.om[1]))'           # Newest file.
 
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'

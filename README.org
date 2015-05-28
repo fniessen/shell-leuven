@@ -32,6 +32,11 @@
 
 ** Packages
 
+ftp://ftp.cygwinports.org/pub/cygwinports/ is the most popular choice.
+
+*************** TODO See http://www.4thinker.com/cygwin-setup.html
+*************** END
+
 Install extra packages:
 
 - Archive
@@ -123,7 +128,7 @@ Install extra packages:
   + [ ] ~libXaw7~ (needed by ~xdvi~)
 
 - Web
-  + [ ] ~curl~
+  + [X] ~curl~
   + [ ] ~w3m~
   + [ ] ~wget~
 
@@ -925,6 +930,10 @@ Zsh expects that every character in ~PS1~ will advance the cursor one space.
 Wrap any non-printing escape sequences in ~%{...%}~, and it should work. So use
 ~%{\e[31m%}~, etc.
 
+*************** TODO Define colors using ~terminfo~
+See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are-stashed-revisions-on-a-git-repo-whenever
+*************** END
+
 #+begin_src shell
 #** 13 (info "(zsh)Prompt Expansion")
 
@@ -953,13 +962,54 @@ true-string; if it fails, show false-string after the second dot.
 
 https://github.com/olivierverdier/zsh-git-prompt
 
-#+begin_src shell
-# # prompt on the right hand side of the screen
-# RPROMPT="[%t]"
-
-# git info
+#+begin_src shell :tangle no
+# Prompt on the right hand side of the screen (Git info).
 . ~/Public/Repositories/git-prompt/zshrc.sh
 RPROMPT='$(git_super_status)'
+#+end_src
+
+*************** TODO See predefined functions provided by =git-prompt.sh=
+http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with-git-info/
+*************** END
+
+#+begin_src shell
+. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+setopt prompt_subst
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM=verbose
+export GIT_PS1_DESCRIBE_STYLE=branch
+export GIT_PS1_SHOWCOLORHINTS=true
+export RPROMPT=$'$(__git_ps1 "%s")'
+#+end_src
+
+*** Customizing Zsh
+
+Oh-my-Zsh...
+
+I am fan of ~agnoster~.
+
+Make sure to use a [[https://github.com/Lokaltog/powerline-fonts][patched up font]] though.
+
+#+begin_note
+If you right click them, there should be install option in the menu. Or you can
+drag it straight to Windows Fonts folder
+#+end_note
+
+Good-looking fonts:
+- UbuntuMono
+- DejaVuSansMono
+- DroidSansMono (bad?)
+
+For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
+
+#+begin_src shell
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="agnoster"
+# ZSH_THEME="zsh2000"
+DEFAULT_USER="Fabrice"
+source ~/.oh-my-zsh/templates/zshrc.zsh-template
 #+end_src
 
 *** Command history
@@ -1013,19 +1063,24 @@ Use the script ~colortest~ (on Linux distros) to output the default colors.
 
 ** Aliasing
 
+Some global aliases (expand whatever their position).
+
 #+begin_src shell
-# some global aliases (expand whatever their position)
+# Command line head / tail shortcuts
+alias -g H='| head' ###
+alias -g T='| tail' ###
+alias -g G='| grep -E' ######
 alias -g L="| less" #######
 alias -g M="| less"
-alias -g G='| grep -E' ######
-alias -g W='| wc -l' ####
-alias -g H='| head' ###
-alias -g S='| sort' ###
-alias -g T='| tail' ###
-alias -g F=' | fmt -' ##
 alias -g 21="2>&1"
 alias -g DN1='1> /dev/null' #
 alias -g DN2='2> /dev/null' #
+#+end_src
+
+#+begin_src shell
+alias -g W='| wc -l' ####
+alias -g S='| sort' ###
+alias -g F=' | fmt -' ##
 alias -g VM=/var/log/messages
 alias -g A='| awk'
 alias -g A1="| awk '{print \$1}'"
@@ -1038,14 +1093,8 @@ alias -g A7="| awk '{print \$7}'"
 alias -g A8="| awk '{print \$8}'"
 alias -g A9="| awk '{print \$9}'"
 alias -g CA="| cat -A"
-alias -g ND='$(ls -d *(/om[1]))' # newest directory
-alias -g NF='$(ls *(.om[1]))'    # newest file
-
-alias -g EG='|& egrep'
-alias -g EH='|& head'
-alias -g EL='|& less'
-alias -g ET='|& tail'
-alias -g X='| xargs'
+alias -g ND='$(ls -d *(/om[1]))'        # Newest directory.
+alias -g NF='$(ls *(.om[1]))'           # Newest file.
 
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
@@ -1293,7 +1342,7 @@ Everything in common between Bash and Z shell will come here.
 # Keywords: bash, zsh, dotfile, config
 #+end_src
 
-** Default editor
+** Emacs (default editor)
 
 Be sure one of these *editors* is *in your search path*!
 
@@ -1303,10 +1352,10 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+end_warning
 
 #+begin_src shell
-# set the user's preferred text editor
-for editor in emacsclientw emacsclient emacs vi; do
-    # find a suitable editor
+# Find a suitable editor.
+for editor in emacsclientw emacsclient emacs; do
     if $(which $editor >& /dev/null); then
+        # Set EDITOR.
         case $editor in
             # emacsclient*)
             #     # # doesn't bother waiting for a response
@@ -1317,11 +1366,15 @@ for editor in emacsclientw emacsclient emacs vi; do
                 export EDITOR="$editor"
                 ;;
         esac
+
         alias e="$EDITOR"
-        alias edit="$EDITOR"
         break
     fi
 done
+#+end_src
+
+#+begin_src shell :tangle no
+alias e="emacsclient -a emacs -n"       # -n is essential part
 #+end_src
 
 #+begin_note
@@ -1329,24 +1382,18 @@ Shouldn't we alias ~EDITOR~ to ~emacs -nw~?
 #+end_note
 
 #+begin_src shell
-# FIXME 2010-11-04 This causes problems when scp'ing .bash_profile (for
-# example) when this .bashrc is deployed onto the remote SSH server.
-# [ -z "$EDITOR" ] && echo "No suitable editor found."
-# [ -z "$EDITOR" ] || showvalue EDITOR
-#+end_src
-
-#+begin_src shell
-# use `$EDITOR' for programs wanting an editor
-export VISUAL="$EDITOR" # for crontab
+# Use `$EDITOR' for programs wanting an editor.
+export VISUAL="$EDITOR"                 # For `crontab'.
 export CVSEDITOR="$EDITOR"
 export SVN_EDITOR="$EDITOR"
 export EDIT="$EDITOR"
 export ERROR_EDITOR="$EDITOR"
-export FCEDIT="$EDITOR" # for the fc (fix command) builtin command
+export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
+                                        # command.
 #+end_src
 
-#+begin_src shell :tangle no
-alias e="emacsclient -a emacs -n"       # -n is essential part
+#+begin_src shell
+alias em=emacs-minimal
 #+end_src
 
 ** Aliases
@@ -1367,7 +1414,11 @@ An alias cannot have an argument like ~$1~.
 
 #+begin_src shell
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+#+end_src
 
+*** Common aliases
+
+#+begin_src shell
 # enable color support of ls
 if [ "$TERM" != "dumb" ]; then
 
@@ -1380,96 +1431,103 @@ if [ "$TERM" != "dumb" ]; then
 
     alias ls='ls --color=auto'
     alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
-                                        # long listing and hidden files
+                                        # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
+#+end_src
 
+#+begin_src shell
+alias df='df -kTh'
+alias du='du -kh'
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+#+end_src
+
+#+begin_src shell
+# Play safe!
+alias rm='rm -i'                        # Confirm removing file (prevent some
+                                        # accidental mistakes).
+alias cp='cp -i'                        # Confirm copy over an existing file.
+alias mv='mv -i'                        # Confirm move over an existing file.
+#+end_src
+
+#+begin_note
+This *alters* the *original* meaning of existing commands (that scripts don't expect
+to see modified!).
+#+end_note
+
+#+begin_src shell
+# Make an extract function!
+alias tgz="tar -zxvf"
+alias tbz2="tar -jxvf"
+#+end_src
+
+#+begin_src shell
 alias -- ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-
-alias g=git
-alias s=sudo
-alias w=which
-
-# print PATH with each directory on a new line
-alias path='echo $PATH | sed -e "s/:/\n/g"'
-
-alias apts='aptitude search'
-alias apti='sudo aptitude install --with-recommends'
-alias aptrm='sudo aptitude remove'
 #+end_src
 
 #+begin_src shell
-# ALTER the ORIGINAL meaning of existing commands (that scripts don't
-# expect to see modified!)
-alias df='df -kTh'
-alias du='du -kh'
-alias cp='cp -i'   # confirm copy over an existing file
-alias mv='mv -i'   # confirm move over an existing file
-alias rm='rm -i'   # confirm removing file (prevent some accidental mistakes)
-alias ssh="ssh -C"
-
-alias rmdir="rm -fr"
+# print PATH with each directory on a new line
+alias path='echo $PATH | sed -e "s/:/\n/g"'
 
 # path
 alias where='type -all'
+#+end_src
 
-# start up Windows applications associated with a particular file extension
-# directly from the Bash prompt
-alias start="cmd /c start"
-alias start="cygstart" # under Cygwin
-
-alias lo="locate -i" # case insensitive search
-alias lg="locate -r '.*' | grep -i"
-
+#+begin_src shell
 alias mkall="./configure && make && sudo make install"
-
-alias tvm="tail -f /var/log/messages"
 
 # sudo'ers
 alias root="su - root"
+#+end_src
 
-# force the radio to always sync at 2 Mbps, even if other speeds are available
-alias iwconfigslow="sudo iwconfig eth1 rate 2M"
+*** Single char shortcuts for some commands
 
-# shortcuts
-alias c="clear"
-alias E="env | sort"
-alias h="history 25"
-alias j="jobs -l"
-alias m=$PAGER
-alias p=$PAGER
-alias se="sudoedit"
-alias X="ssh-agent startx &"
-alias z="suspend"
+#+begin_src shell
+alias t='tail -f'
+alias p="$PAGER"
+alias m='man'
+alias s='sudo'
 
-# misc commands
-alias dos2unix="sed s/
-//g"
-alias unix2dos="sed s/\$/
-/"
+alias j='jobs -l'
+#+end_src
 
-alias hgrep="history | grep"
+*** Git
 
+#+begin_src shell
+alias g='git'
+#+end_src
+
+*** History
+
+#+begin_src shell
+alias hg="history | grep -i"
+#+end_src
+
+*** SSH agent / GPG agent
+
+#+begin_src shell
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
 alias keylist="ssh-add -l"      # list all identities
+#+end_src
 
-alias kill9="kill -9"
+*** Debian
 
-# make an extract function!
-alias tgz="tar -zxvf"
-alias tbz2="tar -jxvf"
+#+begin_src shell
+alias aps='aptitude search'
+#+end_src
 
-alias nfiles="find . -type f | wc -l"
+*** System admin
 
+#+begin_src shell
 alias ports="netstat -alpe --ip"
 
 # most used programs
-alias web="firefox &"
 # alias scan="nmap -sS -O"
 alias nm="nmap -sS -O -PI -PT"
 alias portscan="nmap -sT -PT -R "
@@ -1477,13 +1535,11 @@ alias portscan="nmap -sT -PT -R "
 # anonymous wget (using Privoxy and Tor)
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
+
+alias off='sudo shutdown -h now'
 #+end_src
 
-** Emacs / Org
-
-#+begin_src shell
-alias em=emacs-minimal
-#+end_src
+*** Org
 
 For branches for which we want to make some development, and keep in track with
 ~master~:
@@ -1605,6 +1661,9 @@ LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 #+end_src
 
+If you want that ~less~ does not clear the terminal when quitting, use the ~-X~
+option.
+
 #+begin_note
 Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
 is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
@@ -1677,11 +1736,6 @@ alias agrep='alias | grep -i'
 # directory history
 alias dh='dirs -v'
 
-# play safe!
-alias rm='rm -i'
-alias mv='mv -i'
-alias cp='cp -i'
-
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
 
@@ -1752,9 +1806,6 @@ alias europe2='mplayer mms://vipmms9.yacast.fr/encodereurope2'
 alias nrj='mplayer mms://vipnrj.yacast.fr/encodernrj'
 alias rtl='mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'
 alias rtl2='mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'
-
-
-alias off='sudo shutdown -h now'
 
 
 case $(uname -s) in
