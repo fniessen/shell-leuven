@@ -274,6 +274,11 @@ alias pgrep='pgrep -fl'
 
 PAGER="less"
 
+# LANG="en_US.utf8"
+# LC_CTYPE="en_US.utf8"
+# LC_ALL="C"   # fixes the problem of strange characters in the man page
+# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
+
 alias more="less"
 
 # Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
@@ -354,25 +359,17 @@ alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 #  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
 alias receive='nc -vlp 51330 | tar xzvp'
 
-
-# If I want to find out which lines in a file are duplicated and want to print
-# them, the following awk script helps:
-# awk 'seen[$0]++ == 1' <filename>
-
-
 # honor embedded linefeeds when displaying packets
 alias ngrep='ngrep -W byline'
 
+# ngrep -i -w 'user|pass' port 110
+# ngrep -d eth0 -i 'USER|PASS' tcp port 80
+# ngrep google port 80
+# ngrep -i 'rcpt to|mail from' tcp port smtp
+# ngrep -q -t -wi "login" port 23
+
 # echo my current external IP address
 alias whatismyip='curl -s http://whatismyip.org'
-
-# Web radio stations
-alias europe1='mplayer http://vipicecast.yacast.net/europe1'
-alias europe2='mplayer mms://vipmms9.yacast.fr/encodereurope2'
-alias nrj='mplayer mms://vipnrj.yacast.fr/encodernrj'
-alias rtl='mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'
-alias rtl2='mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'
-
 
 case $(uname -s) in
     Linux*)
@@ -394,13 +391,7 @@ alias dus='du -ms * | sort -rn'  # ordered by size
 # make `df' human readable
 alias df='df -h'
 
-
 # `unp' is for archive extract
-
-# dir
-alias back="cd -"
-alias home="cd $HOME"
-
 
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin

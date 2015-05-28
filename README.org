@@ -350,6 +350,36 @@ if [ ! "$(id -u)" = "0" ]; then
 fi
 #+end_src
 
+*** Manpath
+
+#+begin_src shell
+# set MANPATH so it includes user's private man if it exists
+# do the same with MANPATH
+#if [ -d $HOME/man ]; then
+#    MANPATH=$HOME/man:"${MANPATH}"
+#    export MANPATH
+#fi
+
+# colon separated list of directories to search for manual pages
+#ifnset MANPATH "/usr/man"
+    # TODO don't define it like that: does not work under Ubuntu!
+    # See `/etc/manpath.config'
+#+end_src
+
+*** Infopath
+
+#+begin_src shell
+# Info readers (standalone + Emacs Info mode)
+INFOPATH="/usr/share/info:$INFOPATH"
+# include a trailing colon on `INFOPATH' to concatenate the Emacs
+# `Info-default-directory-list' when searching for info files
+INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
+INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
+INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
+INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
+#+end_src
+
 *** Prompt
 
 Appearance of the prompt.
@@ -469,10 +499,6 @@ HISTIGNORE="&:[bf]g:exit"
 HISTCONTROL=ignoredups
 #+end_src
 
-*** Term
-
-*** Display
-
 ** Code
 
 #+begin_src shell
@@ -489,9 +515,9 @@ A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the use
 has to try avoiding sourcing it (on the *remote* machine) in non-interactive
 sessions.
 
-#+begin_src shell
-#** Default permissions
+** Default permissions
 
+#+begin_src shell
 # permissions on newly created files
 umask 022 # prevent new dirs and files from being group and world writable
 
@@ -500,51 +526,18 @@ if [ "$USERNAME" = "root" ]; then
 fi
 #+end_src
 
-#+begin_src shell
-#** Shell options
+** Shell options
 
+#+begin_src shell
 # correct minor misspellings of cd pathnames
 shopt -s cdspell
 #+end_src
 
 ** Next
 
-#+begin_src shell
-#** 5 (info "(bashref)Shell Variables")
-
-# set MANPATH so it includes user's private man if it exists
-# do the same with MANPATH
-#if [ -d $HOME/man ]; then
-#    MANPATH=$HOME/man:"${MANPATH}"
-#    export MANPATH
-#fi
-
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"   # fixes the problem of strange characters in the man page
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-
-# XXX Set DISPLAY?
-
-# colon separated list of directories to search for manual pages
-#ifnset MANPATH "/usr/man"
-    # TODO don't define it like that: does not work under Ubuntu!
-    # See `/etc/manpath.config'
-
-# Info readers (standalone + Emacs Info mode)
-INFOPATH="/usr/share/info:$INFOPATH"
-# include a trailing colon on `INFOPATH' to concatenate the Emacs
-# `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
-#+end_src
+Functions to help us manage environment variables
 
 #+begin_src shell :tangle no
-# Functions to help us manage environment variables
-
 # setenv [VAR] [value] - set environment variable
 setenv () { eval $1="\$2" export $1; }
 
@@ -592,13 +585,6 @@ fi
 ** Next
 
 #+begin_src shell
-# ngrep -i -w 'user|pass' port 110
-# ngrep -d eth0 -i 'USER|PASS' tcp port 80
-# ngrep google port 80
-# ngrep -i 'rcpt to|mail from' tcp port smtp
-# ngrep -q -t -wi "login" port 23
-
-
 #** 8.6 Programmable Completion
 
 complete -A helptopic help
@@ -1694,6 +1680,11 @@ this one feels really archaic).
 
 #+begin_src shell
 PAGER="less"
+
+# LANG="en_US.utf8"
+# LC_CTYPE="en_US.utf8"
+# LC_ALL="C"   # fixes the problem of strange characters in the man page
+# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
 #+end_src
 
 With the ~less~ command, you can *scroll up* in the file as well as down; with the
@@ -1797,7 +1788,9 @@ alias dh='dirs -v'
 
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
+#+end_src
 
+#+begin_src shell
 # XXX my traceroute
 if $(which mtr >& /dev/null); then
     alias ping=mtr
@@ -1827,25 +1820,17 @@ alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 #  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
 alias receive='nc -vlp 51330 | tar xzvp'
 
-
-# If I want to find out which lines in a file are duplicated and want to print
-# them, the following awk script helps:
-# awk 'seen[$0]++ == 1' <filename>
-
-
 # honor embedded linefeeds when displaying packets
 alias ngrep='ngrep -W byline'
 
+# ngrep -i -w 'user|pass' port 110
+# ngrep -d eth0 -i 'USER|PASS' tcp port 80
+# ngrep google port 80
+# ngrep -i 'rcpt to|mail from' tcp port smtp
+# ngrep -q -t -wi "login" port 23
+
 # echo my current external IP address
 alias whatismyip='curl -s http://whatismyip.org'
-
-# Web radio stations
-alias europe1='mplayer http://vipicecast.yacast.net/europe1'
-alias europe2='mplayer mms://vipmms9.yacast.fr/encodereurope2'
-alias nrj='mplayer mms://vipnrj.yacast.fr/encodernrj'
-alias rtl='mplayer http://streaming.radio.rtl.fr/rtl-1-44-96'
-alias rtl2='mplayer http://streaming.radio.rtl.fr/rtl2-1-44-96'
-
 
 case $(uname -s) in
     Linux*)
@@ -1867,13 +1852,7 @@ alias dus='du -ms * | sort -rn'  # ordered by size
 # make `df' human readable
 alias df='df -h'
 
-
 # `unp' is for archive extract
-
-# dir
-alias back="cd -"
-alias home="cd $HOME"
-
 
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin

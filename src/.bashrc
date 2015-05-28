@@ -27,6 +27,28 @@ if [ ! "$(id -u)" = "0" ]; then
     PATH="$PATH:."
 fi
 
+# set MANPATH so it includes user's private man if it exists
+# do the same with MANPATH
+#if [ -d $HOME/man ]; then
+#    MANPATH=$HOME/man:"${MANPATH}"
+#    export MANPATH
+#fi
+
+# colon separated list of directories to search for manual pages
+#ifnset MANPATH "/usr/man"
+    # TODO don't define it like that: does not work under Ubuntu!
+    # See `/etc/manpath.config'
+
+# Info readers (standalone + Emacs Info mode)
+INFOPATH="/usr/share/info:$INFOPATH"
+# include a trailing colon on `INFOPATH' to concatenate the Emacs
+# `Info-default-directory-list' when searching for info files
+INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
+INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
+INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
+INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
+
 #*** Controlling the Prompt
 
 # regular colors
@@ -138,8 +160,6 @@ if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
     . /etc/bashrc
 fi
 
-#** Default permissions
-
 # permissions on newly created files
 umask 022 # prevent new dirs and files from being group and world writable
 
@@ -147,41 +167,8 @@ if [ "$USERNAME" = "root" ]; then
     umask 077  # stricter
 fi
 
-#** Shell options
-
 # correct minor misspellings of cd pathnames
 shopt -s cdspell
-
-#** 5 (info "(bashref)Shell Variables")
-
-# set MANPATH so it includes user's private man if it exists
-# do the same with MANPATH
-#if [ -d $HOME/man ]; then
-#    MANPATH=$HOME/man:"${MANPATH}"
-#    export MANPATH
-#fi
-
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"   # fixes the problem of strange characters in the man page
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-
-# XXX Set DISPLAY?
-
-# colon separated list of directories to search for manual pages
-#ifnset MANPATH "/usr/man"
-    # TODO don't define it like that: does not work under Ubuntu!
-    # See `/etc/manpath.config'
-
-# Info readers (standalone + Emacs Info mode)
-INFOPATH="/usr/share/info:$INFOPATH"
-# include a trailing colon on `INFOPATH' to concatenate the Emacs
-# `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
 #** 4.2 or 6.6 Aliases
 
@@ -189,13 +176,6 @@ INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 if [ -r "$HOME/.commonshrc" ]; then
     . $HOME/.commonshrc
 fi
-
-# ngrep -i -w 'user|pass' port 110
-# ngrep -d eth0 -i 'USER|PASS' tcp port 80
-# ngrep google port 80
-# ngrep -i 'rcpt to|mail from' tcp port smtp
-# ngrep -q -t -wi "login" port 23
-
 
 #** 8.6 Programmable Completion
 
