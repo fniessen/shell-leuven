@@ -7,8 +7,6 @@
 
 #* Code:
 
-# Modify to taste.
-
 # if not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
 

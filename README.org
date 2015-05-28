@@ -304,8 +304,6 @@ fi
 # Keywords: bash, dotfile, config
 
 #* Code:
-
-# Modify to taste.
 #+end_src
 
 I think the following is important for tools such as ~rsync~ (and Emacs
@@ -781,6 +779,81 @@ texlist ()
 # End:
 
 ## .bashrc ends here
+#+end_src
+
+** InputRC
+   :PROPERTIES:
+   :tangle:   ./src/.inputrc
+   :END:
+
+This file controls the behavior of line input editing for programs that use
+the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
+
+#+begin_note
+Zsh doesn't use the =inputrc= file.
+#+end_note
+
+#+begin_src shell :noweb yes
+## .inputrc --- my Readline Init File
+
+# Copyright (C) 2005-<<current-year()>> Fabrice Niessen
+
+# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
+# Keywords: readline, dotfile, config
+
+#* Code:
+
+# first, include any system-wide settings (ignored if one has his own
+# `.inputrc')
+$include /etc/skel/.inputrc
+$include /etc/inputrc
+
+# allow Meta (Alt) key bindings [line added to the top of my `.inputrc']
+set convert-meta on
+
+# behave like Emacs when editing
+set editing-mode emacs
+    # Ctrl-a/e      Start/End of line
+    # Ctrl-f/b      Forward/Backward one character
+    # Ctrl-d        Delete one character
+    # Ctrl-k        Kill line
+    # Ctrl-p/n      Previous/Next command in history
+    # Ctrl-r        Search for command in history
+    # Ctrl-i/TAB    File name completion
+
+# some defaults / modifications for the Emacs mode
+$if mode=emacs
+
+# mappings for `Ctrl-up/down' for matching commands from the history
+"\e[1;5A": history-search-backward
+"\e[1;5B": history-search-forward
+
+# mappings for `Ctrl-left/right' for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+Meta-p: history-search-backward
+Meta-n: history-search-forward
+
+$endif
+
+# ignore case while completing
+set completion-ignore-case on
+
+# # will display all alternatives for completion after one tab keypress
+# set show-all-if-ambiguous on
+
+# #* get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+
+# # don't strip characters to 7 bits when reading
+# set input-meta on
+# # (synonym of 'meta-flag')
+
+# # display characters with the eighth bit set directly rather than as
+# # meta-prefixed characters
+# set output-meta on
+
+## .inputrc ends here
 #+end_src
 
 * Zsh specific
@@ -1897,105 +1970,6 @@ swap ()
 # End:
 
 # .commonshrc ends here
-#+end_src
-
-* InputRC
-  :PROPERTIES:
-  :tangle:   ./src/.inputrc
-  :END:
-
-This file controls the behavior of line input editing for programs that use
-the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
-
-#+begin_note
-Zsh doesn't use the =inputrc= file.
-#+end_note
-
-#+begin_src shell :noweb yes
-## .inputrc --- my Readline Init File
-
-# Copyright (C) 2005-<<current-year()>> Fabrice Niessen
-
-# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
-# Keywords: readline, dotfile, config
-
-#    _                   _
-#   (_)_ __  _ __  _   _| |_ _ __ ___
-#   | | '_ \| '_ \| | | | __| '__/ __|
-#  _| | | | | |_) | |_| | |_| | | (__
-# (_)_|_| |_| .__/ \__,_|\__|_|  \___|
-#           |_|
-
-# This file is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as
-# published by the Free Software Foundation; either version 2 of
-# the License, or (at your option) any later version.
-
-# This file is distributed in the hope that it will be
-# useful, but WITHOUT ANY WARRANTY; without even the implied
-# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-# PURPOSE.  See the GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public
-# License along with this file; if not, write to the Free
-# Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-# MA 02111-1307, USA.
-
-#* Code:
-
-# modify to taste
-
-# first, include any system-wide settings (ignored if one has his own
-# `.inputrc')
-$include /etc/skel/.inputrc
-$include /etc/inputrc
-
-# allow Meta (Alt) key bindings [line added to the top of my `.inputrc']
-set convert-meta on
-
-# behave like Emacs when editing
-set editing-mode emacs
-    # Ctrl-a/e      Start/End of line
-    # Ctrl-f/b      Forward/Backward one character
-    # Ctrl-d        Delete one character
-    # Ctrl-k        Kill line
-    # Ctrl-p/n      Previous/Next command in history
-    # Ctrl-r        Search for command in history
-    # Ctrl-i/TAB    File name completion
-
-# some defaults / modifications for the Emacs mode
-$if mode=emacs
-
-# mappings for `Ctrl-up/down' for matching commands from the history
-"\e[1;5A": history-search-backward
-"\e[1;5B": history-search-forward
-
-# mappings for `Ctrl-left/right' for word moving
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
-
-Meta-p: history-search-backward
-Meta-n: history-search-forward
-
-$endif
-
-# ignore case while completing
-set completion-ignore-case on
-
-# # will display all alternatives for completion after one tab keypress
-# set show-all-if-ambiguous on
-
-# #* get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
-
-# # don't strip characters to 7 bits when reading
-# set input-meta on
-# # (synonym of 'meta-flag')
-
-# # display characters with the eighth bit set directly rather than as
-# # meta-prefixed characters
-# set output-meta on
-
-## .inputrc ends here
 #+end_src
 
 * Install environment
