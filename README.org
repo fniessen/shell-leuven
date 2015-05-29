@@ -534,11 +534,9 @@ HISTIGNORE="&:[bf]g:exit"
 HISTCONTROL=ignoredups
 #+end_src
 
-** Code
+** Source global rc file (if any)
 
 #+begin_src shell
-#** Source global rc file (if any)
-
 # source global definitions if the session is interactive (to avoid problems
 # like "stdin: is not a tty" when ssh'ing to a remote machine)
 if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
@@ -595,7 +593,7 @@ prepend () { eval $1=\$2\${$1:+${2:+:}\$$1} export $1; }
 showvalue () { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
 #+end_src
 
-** Source common files
+** Source common file
 
 =.commonshrc= contains miscellaneous definitions common to Bash and Zsh.
 
@@ -1097,7 +1095,7 @@ hgrep ()
 }
 #+end_src
 
-** Source common files
+** Source common file
 
 #+begin_src shell
 #** 17 (info "(zsh)Shell Builtin Commands")
@@ -1124,7 +1122,7 @@ Useful keybindings:
 Useful commands:
 
 - ~vared VAR~ ::
-     Interactively edit variable VAR.
+     Interactively edit variable ~VAR~.
 
 #+begin_src shell
 #** 18 (info "(zsh)Zsh Line Editor")

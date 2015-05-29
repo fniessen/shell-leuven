@@ -55,11 +55,11 @@
 <li><a href="#orgheadline19">Command history</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline21">Code</a></li>
+<li><a href="#orgheadline21">Source global rc file (if any)</a></li>
 <li><a href="#orgheadline22">Default permissions</a></li>
 <li><a href="#orgheadline23">Shell options</a></li>
 <li><a href="#orgheadline24">Next</a></li>
-<li><a href="#orgheadline25">Source common files</a></li>
+<li><a href="#orgheadline25">Source common file</a></li>
 <li><a href="#orgheadline26">Next</a></li>
 <li><a href="#orgheadline27">Postamble</a></li>
 <li><a href="#orgheadline28">InputRC</a></li>
@@ -81,7 +81,7 @@
 <li><a href="#orgheadline38">Aliasing</a></li>
 <li><a href="#orgheadline39">Ledger</a></li>
 <li><a href="#orgheadline40">Functions</a></li>
-<li><a href="#orgheadline41">Source common files</a></li>
+<li><a href="#orgheadline41">Source common file</a></li>
 <li><a href="#orgheadline42">Line Editor</a></li>
 <li><a href="#orgheadline43">Completion Widgets</a></li>
 <li><a href="#orgheadline44">Completion System</a></li>
@@ -873,13 +873,11 @@ Access and modify commands that you had previously typed at the command line.
 </div>
 
 <div id="outline-container-orgheadline21" class="outline-3">
-<h3 id="orgheadline21">Code</h3>
+<h3 id="orgheadline21">Source global rc file (if any)</h3>
 <div class="outline-text-3" id="text-orgheadline21">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** Source global rc file (if any)</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">source global definitions if the session is interactive (to avoid problems</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">source global definitions if the session is interactive (to avoid problems</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">like "stdin: is not a tty" when ssh'ing to a remote machine)</span>
 <span class="org-keyword">if</span> ([ $(expr index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
     . /etc/bashrc
@@ -958,7 +956,7 @@ Functions to help us manage environment variables
 </div>
 
 <div id="outline-container-orgheadline25" class="outline-3">
-<h3 id="orgheadline25">Source common files</h3>
+<h3 id="orgheadline25">Source common file</h3>
 <div class="outline-text-3" id="text-orgheadline25">
 <p>
 <code>.commonshrc</code> contains miscellaneous definitions common to Bash and Zsh.
@@ -1605,7 +1603,7 @@ Some global aliases (expand whatever their position).
 </div>
 
 <div id="outline-container-orgheadline41" class="outline-3">
-<h3 id="orgheadline41">Source common files</h3>
+<h3 id="orgheadline41">Source common file</h3>
 <div class="outline-text-3" id="text-orgheadline41">
 <div class="org-src-container">
 
