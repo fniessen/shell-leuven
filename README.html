@@ -23,7 +23,7 @@
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#orgheadline1">Summary</a></li>
-<li><a href="#orgheadline10">Getting started</a>
+<li><a href="#orgheadline11">Getting started</a>
 <ul>
 <li><a href="#orgheadline2">Prerequisites for Windows</a>
 <ul>
@@ -36,22 +36,22 @@
 </ul>
 </li>
 <li><a href="#orgheadline9">Basic installation</a></li>
+<li><a href="#orgheadline10">Custom directory</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline11">Startup files</a>
+<li><a href="#orgheadline12">Startup files</a>
 <ul>
-<li><a href="#orgheadline12">What to put where?</a></li>
+<li><a href="#orgheadline13">What to put where?</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline13">Bash specific</a>
+<li><a href="#orgheadline14">Bash specific</a>
 <ul>
-<li><a href="#orgheadline14">Preamble</a></li>
-<li><a href="#orgheadline15">Command history</a></li>
-<li><a href="#orgheadline16">Prompt</a></li>
-<li><a href="#orgheadline17">Source global rc file (if any)</a></li>
-<li><a href="#orgheadline18">Default permissions</a></li>
-<li><a href="#orgheadline19">Shell options</a></li>
-<li><a href="#orgheadline20">Next</a></li>
+<li><a href="#orgheadline15">Preamble</a></li>
+<li><a href="#orgheadline16">Command history</a></li>
+<li><a href="#orgheadline17">Prompt</a></li>
+<li><a href="#orgheadline18">Source global rc file (if any)</a></li>
+<li><a href="#orgheadline19">Default permissions</a></li>
+<li><a href="#orgheadline20">Shell options</a></li>
 <li><a href="#orgheadline21">Source common file</a></li>
 <li><a href="#orgheadline22">Next</a></li>
 <li><a href="#orgheadline23">Postamble</a></li>
@@ -64,54 +64,55 @@
 <li><a href="#orgheadline27">Preamble</a></li>
 <li><a href="#orgheadline28">Command history</a></li>
 <li><a href="#orgheadline29">Prompt</a></li>
-<li><a href="#orgheadline30">Customizing Zsh</a></li>
-<li><a href="#orgheadline31">Term</a></li>
-<li><a href="#orgheadline32">Aliasing</a></li>
-<li><a href="#orgheadline33">Ledger</a></li>
-<li><a href="#orgheadline34">Functions</a></li>
-<li><a href="#orgheadline35">Source common file</a></li>
-<li><a href="#orgheadline36">Line Editor</a></li>
-<li><a href="#orgheadline37">Completion Widgets</a></li>
-<li><a href="#orgheadline38">Completion System</a></li>
-<li><a href="#orgheadline39">Zsh Modules</a></li>
-<li><a href="#orgheadline40">Others</a></li>
+<li><a href="#orgheadline30">Aliasing</a></li>
+<li><a href="#orgheadline31">Ledger</a></li>
+<li><a href="#orgheadline32">Functions</a></li>
+<li><a href="#orgheadline33">Source common file</a></li>
+<li><a href="#orgheadline34">Line Editor</a></li>
+<li><a href="#orgheadline35">Completion Widgets</a></li>
+<li><a href="#orgheadline36">Completion System</a></li>
+<li><a href="#orgheadline37">Zsh Modules</a></li>
+<li><a href="#orgheadline38">Others</a></li>
+<li><a href="#orgheadline39">Oh-my-Zsh Agnoster theme</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline41">System-wide configuration file</a>
+<li><a href="#orgheadline40">System-wide configuration file</a>
 <ul>
-<li><a href="#orgheadline42">Preamble</a></li>
-<li><a href="#orgheadline46">Paths</a>
+<li><a href="#orgheadline41">Preamble</a></li>
+<li><a href="#orgheadline45">Paths</a>
 <ul>
-<li><a href="#orgheadline43">Search path</a></li>
-<li><a href="#orgheadline44">Manpath</a></li>
-<li><a href="#orgheadline45">Infopath</a></li>
+<li><a href="#orgheadline42">Search path</a></li>
+<li><a href="#orgheadline43">Manpath</a></li>
+<li><a href="#orgheadline44">Infopath</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline47">Pager</a>
+<li><a href="#orgheadline46">Pager</a>
 <ul>
-<li><a href="#orgheadline48">Less</a></li>
-<li><a href="#orgheadline49">Most</a></li>
+<li><a href="#orgheadline47">Less</a></li>
+<li><a href="#orgheadline48">Most</a></li>
 </ul>
 </li>
+<li><a href="#orgheadline49">Term</a></li>
 <li><a href="#orgheadline50">Emacs (default editor)</a></li>
 <li><a href="#orgheadline51">Plugins</a>
 <ul>
 <li><a href="#orgheadline52">Common aliases</a></li>
-<li><a href="#orgheadline53">Single char shortcuts for some commands</a></li>
-<li><a href="#orgheadline54">Git</a></li>
-<li><a href="#orgheadline55">SVN</a></li>
-<li><a href="#orgheadline56">History</a></li>
-<li><a href="#orgheadline57">SSH agent / GPG agent</a></li>
-<li><a href="#orgheadline58">Debian</a></li>
-<li><a href="#orgheadline59">System admin (NMAP, etc.)</a></li>
-<li><a href="#orgheadline60">Org</a></li>
-<li><a href="#orgheadline61">Grep</a></li>
-<li><a href="#orgheadline62">GraphicsMagick</a></li>
-<li><a href="#orgheadline63">Other things to sort</a></li>
-<li><a href="#orgheadline64">MCit tools</a></li>
+<li><a href="#orgheadline53">Directories</a></li>
+<li><a href="#orgheadline54">Single char shortcuts for some commands</a></li>
+<li><a href="#orgheadline55">Git</a></li>
+<li><a href="#orgheadline56">SVN</a></li>
+<li><a href="#orgheadline57">History</a></li>
+<li><a href="#orgheadline58">SSH agent / GPG agent</a></li>
+<li><a href="#orgheadline59">Debian</a></li>
+<li><a href="#orgheadline60">System admin (NMAP, etc.)</a></li>
+<li><a href="#orgheadline61">Org</a></li>
+<li><a href="#orgheadline62">Grep</a></li>
+<li><a href="#orgheadline63">GraphicsMagick</a></li>
+<li><a href="#orgheadline64">Other things to sort</a></li>
+<li><a href="#orgheadline65">MCit tools</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline65">Postamble</a></li>
+<li><a href="#orgheadline66">Postamble</a></li>
 </ul>
 </li>
 </ul>
@@ -128,9 +129,9 @@ Zsh on Mac OS X, Linux and Windows (with Cygwin).
 </div>
 </div>
 
-<div id="outline-container-orgheadline10" class="outline-2">
-<h2 id="orgheadline10">Getting started</h2>
-<div class="outline-text-2" id="text-orgheadline10">
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11">Getting started</h2>
+<div class="outline-text-2" id="text-orgheadline11">
 </div><div id="outline-container-orgheadline2" class="outline-3">
 <h3 id="orgheadline2">Prerequisites for Windows</h3>
 <div class="outline-text-3" id="text-orgheadline2">
@@ -406,8 +407,7 @@ Though, downloading (via the anonymous CVS server) the latest source code from
 <h3 id="orgheadline9">Basic installation</h3>
 <div class="outline-text-3" id="text-orgheadline9">
 <p>
-ShellRC-Leuven is installed by running (one of) the following commands in your
-terminal.
+ShellRC-Leuven is installed by doing the following:
 </p>
 
 <ol class="org-ol">
@@ -427,13 +427,13 @@ terminal.
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. ~/.shellrc-leuven/src/.bashrc
+<pre class="src src-shell">. ~/.shellrc-leuven/etc/bash_profile
 </pre>
 </div>
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. ~/.shellrc-leuven/src/.zshrc
+<pre class="src src-shell">. ~/.shellrc-leuven/etc/zprofile
 </pre>
 </div>
 
@@ -457,11 +457,21 @@ ShellRC-Leuven&rsquo;s configuration.
 </p>
 </div>
 </div>
+
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10">Custom directory</h3>
+<div class="outline-text-3" id="text-orgheadline10">
+<p>
+If you&rsquo;d like to change the install directory with the <code>ZSH</code> environment variable,
+either by running export ZSH=/your/path before installing,
+</p>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline11" class="outline-2">
-<h2 id="orgheadline11">Startup files</h2>
-<div class="outline-text-2" id="text-orgheadline11">
+<div id="outline-container-orgheadline12" class="outline-2">
+<h2 id="orgheadline12">Startup files</h2>
+<div class="outline-text-2" id="text-orgheadline12">
 <p>
 There are 3 <b>sorts of shells</b>:
 </p>
@@ -517,7 +527,7 @@ We just let <code>.profile</code> also read <code>.bashrc</code> and put everyth
 </div>
 
 <ul class="org-ul">
-<li>For Zsh, put stuff in <code>~/.zshrc</code>, which is always executed.</li>
+<li>For Zsh, put stuff in <code>~/zprofile</code>, which is always executed.</li>
 </ul>
 
 <p>
@@ -535,9 +545,9 @@ endings).  Make sure your editor is in Unix format when creating text files.
 </div>
 </div>
 
-<div id="outline-container-orgheadline12" class="outline-3">
-<h3 id="orgheadline12">What to put where?</h3>
-<div class="outline-text-3" id="text-orgheadline12">
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13">What to put where?</h3>
+<div class="outline-text-3" id="text-orgheadline13">
 <p>
 Login shell runs <code>.profile</code> (or <code>.bash_profile</code> or <code>.bash_login</code>) on startup. Set your
 env variables in there, because sub-shells will inherit the env vars. Then make
@@ -576,9 +586,9 @@ From <a href="https://www.linuxquestions.org/questions/linux-general-1/differenc
 </div>
 </div>
 
-<div id="outline-container-orgheadline13" class="outline-2">
-<h2 id="orgheadline13">Bash specific</h2>
-<div class="outline-text-2" id="text-orgheadline13">
+<div id="outline-container-orgheadline14" class="outline-2">
+<h2 id="orgheadline14">Bash specific</h2>
+<div class="outline-text-2" id="text-orgheadline14">
 <p>
 Le <code>!</code> en shell permet plein de trucs sympa.
 </p>
@@ -606,12 +616,12 @@ $ gm convert !*
 </div>
 </div>
 
-<div id="outline-container-orgheadline14" class="outline-3">
-<h3 id="orgheadline14">Preamble</h3>
-<div class="outline-text-3" id="text-orgheadline14">
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15">Preamble</h3>
+<div class="outline-text-3" id="text-orgheadline15">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">.bashrc --- Bourne Again Shell configuration file (for interactive shells)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">bash_profile --- Bourne Again Shell configuration file (for interactive shells)</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2003-2015 Fabrice Niessen</span>
 
@@ -636,9 +646,9 @@ Tramp?)&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline15" class="outline-3">
-<h3 id="orgheadline15">Command history</h3>
-<div class="outline-text-3" id="text-orgheadline15">
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16">Command history</h3>
+<div class="outline-text-3" id="text-orgheadline16">
 <p>
 Access and modify commands that you had previously typed at the command line.
 </p>
@@ -656,9 +666,9 @@ Access and modify commands that you had previously typed at the command line.
 </div>
 </div>
 
-<div id="outline-container-orgheadline16" class="outline-3">
-<h3 id="orgheadline16">Prompt</h3>
-<div class="outline-text-3" id="text-orgheadline16">
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17">Prompt</h3>
+<div class="outline-text-3" id="text-orgheadline17">
 <p>
 Appearance of the prompt.
 </p>
@@ -773,9 +783,9 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 </div>
 </div>
 
-<div id="outline-container-orgheadline17" class="outline-3">
-<h3 id="orgheadline17">Source global rc file (if any)</h3>
-<div class="outline-text-3" id="text-orgheadline17">
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18">Source global rc file (if any)</h3>
+<div class="outline-text-3" id="text-orgheadline18">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">source global definitions if the session is interactive (to avoid problems</span>
@@ -794,9 +804,9 @@ sessions.
 </div>
 </div>
 
-<div id="outline-container-orgheadline18" class="outline-3">
-<h3 id="orgheadline18">Default permissions</h3>
-<div class="outline-text-3" id="text-orgheadline18">
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">Default permissions</h3>
+<div class="outline-text-3" id="text-orgheadline19">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Permissions on newly created files.</span>
@@ -811,9 +821,9 @@ sessions.
 </div>
 </div>
 
-<div id="outline-container-orgheadline19" class="outline-3">
-<h3 id="orgheadline19">Shell options</h3>
-<div class="outline-text-3" id="text-orgheadline19">
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20">Shell options</h3>
+<div class="outline-text-3" id="text-orgheadline20">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Correct minor misspellings of cd pathnames.</span>
@@ -823,45 +833,11 @@ shopt -s cdspell
 </div>
 </div>
 
-<div id="outline-container-orgheadline20" class="outline-3">
-<h3 id="orgheadline20">Next</h3>
-<div class="outline-text-3" id="text-orgheadline20">
-<p>
-Functions to help us manage environment variables
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">setenv [VAR] [value] - set environment variable</span>
-<span class="org-function-name">setenv</span> () { <span class="org-builtin">eval</span> $<span class="org-variable-name">1</span>=<span class="org-string">"\$2"</span> export $<span class="org-variable-name">1</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">unsetenv [VAR] - unset environment variable</span>
-<span class="org-function-name">unsetenv</span> () { <span class="org-builtin">unset</span> <span class="org-string">"$@"</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">ifnset [VAR] [value] - set environment variable only if not set yet</span>
-<span class="org-function-name">ifnset</span> () { <span class="org-builtin">eval</span> $<span class="org-variable-name">1</span>=<span class="org-string">\$</span>{<span class="org-variable-name">$</span>1-<span class="org-string">"\$2"</span>} <span class="org-builtin">export</span> $<span class="org-variable-name">1</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">ifnull [VAR] [value] - set environment variable if not set yet or if NULL</span>
-<span class="org-function-name">ifnull</span> () { <span class="org-builtin">eval</span> $<span class="org-variable-name">1</span>=<span class="org-string">\$</span>{<span class="org-variable-name">$</span>1:-<span class="org-string">"\$2"</span>} <span class="org-builtin">export</span> $<span class="org-variable-name">1</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">append [VAR] [path] - append path separated by `:'</span>
-<span class="org-function-name">append</span> () { <span class="org-builtin">eval</span> $<span class="org-variable-name">1</span>=<span class="org-string">\$</span>{<span class="org-variable-name">$</span>1:+<span class="org-string">\$</span><span class="org-variable-name">$</span>1${<span class="org-variable-name">2</span>:+:}}<span class="org-string">\$</span><span class="org-variable-name">2</span> export $<span class="org-variable-name">1</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">prepend [VAR] [path] - prepend path separated by `:'</span>
-<span class="org-function-name">prepend</span> () { <span class="org-builtin">eval</span> $<span class="org-variable-name">1</span>=<span class="org-string">\$</span><span class="org-variable-name">2</span><span class="org-string">\$</span>{<span class="org-variable-name">$</span>1:+${<span class="org-variable-name">2</span>:+:}<span class="org-string">\$</span><span class="org-variable-name">$</span>1} <span class="org-builtin">export</span> $<span class="org-variable-name">1</span>; }
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">showvalue [VAR]... - print out the value of variables given their name</span>
-<span class="org-function-name">showvalue</span> () { <span class="org-keyword">for</span> i<span class="org-keyword"> in</span> $<span class="org-variable-name">*</span>; <span class="org-keyword">do </span><span class="org-builtin">eval</span> echo <span class="org-string">"$i = \\\`\$$i\'"</span>; <span class="org-keyword">done</span>; }
-</pre>
-</div>
-</div>
-</div>
-
 <div id="outline-container-orgheadline21" class="outline-3">
 <h3 id="orgheadline21">Source common file</h3>
 <div class="outline-text-3" id="text-orgheadline21">
 <p>
-<code>.commonshrc</code> contains miscellaneous definitions common to Bash and Zsh.
+<code>commonprofile</code> contains miscellaneous settings common to Bash and Zsh.
 </p>
 
 <p>
@@ -884,10 +860,9 @@ In general, it should not do more than <b>change the default options of a comman
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 4.2 or 6.6 Aliases</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">source common definitions</span>
-<span class="org-keyword">if</span> [ -r <span class="org-string">"$HOME/.commonshrc"</span> ]; <span class="org-keyword">then</span>
-    . $<span class="org-variable-name">HOME</span>/.commonshrc
-<span class="org-keyword">fi</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
+: ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
+. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
 </pre>
 </div>
 </div>
@@ -903,7 +878,6 @@ In general, it should not do more than <b>change the default options of a comman
 complete -A helptopic help
 complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
 
-
 <span class="org-comment-delimiter">#</span><span class="org-comment">** Misc functions</span>
 
 <span class="org-function-name">saneperms</span> ()
@@ -911,7 +885,6 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
     find . -type d -print0 | xargs -0 chmod 755
     find . -type f -print0 | xargs -0 chmod ${<span class="org-variable-name">1</span>:=644}
 }
-
 
 <span class="org-comment-delimiter"># </span><span class="org-comment"># search for various types or README file in dir and display them in $PAGER</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">readme ()</span>
@@ -924,8 +897,12 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span class="org-comment-delimiter">#         </span><span class="org-comment">print 'No README files.'</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">fi</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">}</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Get a file's basename, dirname, extension, etc</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Get a file's basename, dirname, extension, etc</span>
 <span class="org-comment-delimiter">#</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment"># get extension; everything after last '.'</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ext=${file##*.}</span>
@@ -993,7 +970,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span class="org-comment-delimiter"># </span><span class="org-comment">sh-shell: bash</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
-<span class="org-comment-delimiter">## </span><span class="org-comment">.bashrc ends here</span>
+<span class="org-comment-delimiter">## </span><span class="org-comment">bash_profile ends here</span>
 </pre>
 </div>
 </div>
@@ -1022,8 +999,6 @@ Zsh doesn&rsquo;t use the <code>inputrc</code> file.
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Keywords: readline, dotfile, config</span>
-
-<span class="org-comment-delimiter">#</span><span class="org-comment">* Code:</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">first, include any system-wide settings (ignored if one has his own</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">`.inputrc')</span>
@@ -1106,7 +1081,7 @@ Documentation: <a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">Zsh Ref
 <div class="outline-text-3" id="text-orgheadline27">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">.zshrc --- Z Shell configuration file (for interactive shells)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">zprofile --- Z Shell configuration file (for interactive shells)</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2015 Fabrice Niessen</span>
 
@@ -1228,102 +1203,8 @@ true-string; if it fails, show false-string after the second dot.
 </div>
 
 <div id="outline-container-orgheadline30" class="outline-3">
-<h3 id="orgheadline30">Customizing Zsh</h3>
+<h3 id="orgheadline30">Aliasing</h3>
 <div class="outline-text-3" id="text-orgheadline30">
-<p>
-Oh-my-Zsh&#x2026;
-</p>
-
-<p>
-I am fan of <code>agnoster</code>.
-</p>
-
-<p>
-Make sure to use a <a href="https://github.com/Lokaltog/powerline-fonts">patched up font</a> though.
-</p>
-
-<div class="note">
-<p>
-If you right click them, there should be install option in the menu. Or you can
-drag it straight to Windows Fonts folder
-</p>
-
-</div>
-
-<p>
-Good-looking fonts:
-</p>
-<ul class="org-ul">
-<li>UbuntuMono</li>
-<li>DejaVuSansMono</li>
-<li>DroidSansMono (bad?)</li>
-</ul>
-
-<p>
-For Consolas, use: <a href="https://github.com/runsisi/consolas-font-for-powerline">https://github.com/runsisi/consolas-font-for-powerline</a>.
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-variable-name">ZSH</span>=$<span class="org-variable-name">HOME</span>/.oh-my-zsh
-<span class="org-variable-name">ZSH_THEME</span>=<span class="org-string">"agnoster"</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">ZSH_THEME="zsh2000"</span>
-<span class="org-variable-name">DEFAULT_USER</span>=<span class="org-string">"Fabrice"</span>
-<span class="org-builtin">source</span> ~/.oh-my-zsh/templates/zshrc.zsh-template
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline31" class="outline-3">
-<h3 id="orgheadline31">Term</h3>
-<div class="outline-text-3" id="text-orgheadline31">
-<p>
-Terminals:
-</p>
-<ul class="org-ul">
-<li><code>dumb</code></li>
-<li><code>cygwin</code></li>
-<li><code>emacs</code></li>
-<li><code>screen</code></li>
-<li><code>xterm</code></li>
-<li><code>xterm-256color</code> (choose this if Emacs looks ugly in a terminal)</li>
-<li><code>eterm-color</code></li>
-</ul>
-
-<p>
-Set the terminal type explicitly to get a nice 256 color palette (instead of the
-default 8 colors):
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-builtin">export</span> <span class="org-variable-name">TERM</span>=xterm-256color
-</pre>
-</div>
-
-<p>
-See what your color palet is for the terminal session:
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell">tput colors
-</pre>
-</div>
-
-<div class="seealso">
-<p>
-Use the script <code>colortest</code> (on Linux distros) to output the default colors.
-</p>
-
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline32" class="outline-3">
-<h3 id="orgheadline32">Aliasing</h3>
-<div class="outline-text-3" id="text-orgheadline32">
 <p>
 Some global aliases (expand whatever their position).
 </p>
@@ -1336,6 +1217,7 @@ Some global aliases (expand whatever their position).
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">G</span>=<span class="org-string">'| grep -E'</span> <span class="org-comment-delimiter">######</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">L</span>=<span class="org-string">"| less"</span> <span class="org-comment-delimiter">#######</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">M</span>=<span class="org-string">"| less"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">CA</span>=<span class="org-string">"| cat -A"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">21</span>=<span class="org-string">"2&gt;&amp;1"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">DN1</span>=<span class="org-string">'1&gt; /dev/null'</span> <span class="org-comment-delimiter">#</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">DN2</span>=<span class="org-string">'2&gt; /dev/null'</span> <span class="org-comment-delimiter">#</span>
@@ -1358,7 +1240,6 @@ Some global aliases (expand whatever their position).
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A7</span>=<span class="org-string">"| awk '{print \$7}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A8</span>=<span class="org-string">"| awk '{print \$8}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A9</span>=<span class="org-string">"| awk '{print \$9}'"</span>
-<span class="org-builtin">alias</span> -g <span class="org-variable-name">CA</span>=<span class="org-string">"| cat -A"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">ND</span>=<span class="org-string">'$(ls -d *(/om[1]))'</span>        <span class="org-comment-delimiter"># </span><span class="org-comment">Newest directory.</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">NF</span>=<span class="org-string">'$(ls *(.om[1]))'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">Newest file.</span>
 
@@ -1371,9 +1252,9 @@ Some global aliases (expand whatever their position).
 </div>
 </div>
 
-<div id="outline-container-orgheadline33" class="outline-3">
-<h3 id="orgheadline33">Ledger</h3>
-<div class="outline-text-3" id="text-orgheadline33">
+<div id="outline-container-orgheadline31" class="outline-3">
+<h3 id="orgheadline31">Ledger</h3>
+<div class="outline-text-3" id="text-orgheadline31">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">export</span> <span class="org-variable-name">LEDGER</span>=ledger
@@ -1446,9 +1327,9 @@ Some global aliases (expand whatever their position).
 </div>
 </div>
 
-<div id="outline-container-orgheadline34" class="outline-3">
-<h3 id="orgheadline34">Functions</h3>
-<div class="outline-text-3" id="text-orgheadline34">
+<div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32">Functions</h3>
+<div class="outline-text-3" id="text-orgheadline32">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 9 (info "(zsh)Functions")</span>
@@ -1463,25 +1344,24 @@ Some global aliases (expand whatever their position).
 </div>
 </div>
 
-<div id="outline-container-orgheadline35" class="outline-3">
-<h3 id="orgheadline35">Source common file</h3>
-<div class="outline-text-3" id="text-orgheadline35">
+<div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33">Source common file</h3>
+<div class="outline-text-3" id="text-orgheadline33">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 17 (info "(zsh)Shell Builtin Commands")</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">source common aliases</span>
-<span class="org-keyword">if</span> [ -r $<span class="org-variable-name">HOME</span>/.commonshrc ]; <span class="org-keyword">then</span>
-    . $<span class="org-variable-name">HOME</span>/.commonshrc
-<span class="org-keyword">fi</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
+: ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
+. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline36" class="outline-3">
-<h3 id="orgheadline36">Line Editor</h3>
-<div class="outline-text-3" id="text-orgheadline36">
+<div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34">Line Editor</h3>
+<div class="outline-text-3" id="text-orgheadline34">
 <p>
 Useful keybindings:
 </p>
@@ -1535,9 +1415,9 @@ zle -N backward-delete-char-beep
 </div>
 </div>
 
-<div id="outline-container-orgheadline37" class="outline-3">
-<h3 id="orgheadline37">Completion Widgets</h3>
-<div class="outline-text-3" id="text-orgheadline37">
+<div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35">Completion Widgets</h3>
+<div class="outline-text-3" id="text-orgheadline35">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 19 (info "(zsh)Completion Widgets")</span>
@@ -1554,9 +1434,9 @@ zle -N backward-delete-char-beep
 </div>
 </div>
 
-<div id="outline-container-orgheadline38" class="outline-3">
-<h3 id="orgheadline38">Completion System</h3>
-<div class="outline-text-3" id="text-orgheadline38">
+<div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36">Completion System</h3>
+<div class="outline-text-3" id="text-orgheadline36">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 20 (info "(zsh)Completion System")</span>
@@ -1568,9 +1448,9 @@ zstyle <span class="org-string">':completion:*'</span> matcher-list <span class=
 </div>
 </div>
 
-<div id="outline-container-orgheadline39" class="outline-3">
-<h3 id="orgheadline39">Zsh Modules</h3>
-<div class="outline-text-3" id="text-orgheadline39">
+<div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37">Zsh Modules</h3>
+<div class="outline-text-3" id="text-orgheadline37">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Coloring stderr.</span>
@@ -1591,9 +1471,9 @@ zmodload zsh/system
 </div>
 </div>
 
-<div id="outline-container-orgheadline40" class="outline-3">
-<h3 id="orgheadline40">Others</h3>
-<div class="outline-text-3" id="text-orgheadline40">
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38">Others</h3>
+<div class="outline-text-3" id="text-orgheadline38">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">change directory given just path</span>
@@ -1619,29 +1499,73 @@ zmodload zsh/system
 <span class="org-comment-delimiter"># </span><span class="org-comment">mode: outline-minor</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
-<span class="org-comment-delimiter">## </span><span class="org-comment">.zshrc ends here</span>
+<span class="org-comment-delimiter">## </span><span class="org-comment">zprofile ends here</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39">Oh-my-Zsh Agnoster theme</h3>
+<div class="outline-text-3" id="text-orgheadline39">
+<p>
+I am fan of <code>agnoster</code>.
+</p>
+
+<p>
+Make sure to use a <a href="https://github.com/Lokaltog/powerline-fonts">patched up font</a> though.
+</p>
+
+<div class="note">
+<p>
+If you right click them, there should be install option in the menu. Or you can
+drag it straight to Windows Fonts folder
+</p>
+
+</div>
+
+<p>
+Good-looking fonts:
+</p>
+<ul class="org-ul">
+<li>UbuntuMono</li>
+<li>DejaVuSansMono</li>
+<li>DroidSansMono (bad?)</li>
+</ul>
+
+<p>
+For Consolas, use: <a href="https://github.com/runsisi/consolas-font-for-powerline">https://github.com/runsisi/consolas-font-for-powerline</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-keyword">if</span> [ -r <span class="org-string">"$HOME/.oh-my-zsh"</span> ]; <span class="org-keyword">then</span>
+    <span class="org-variable-name">ZSH</span>=$<span class="org-variable-name">HOME</span>/.oh-my-zsh
+    <span class="org-variable-name">ZSH_THEME</span>=<span class="org-string">"agnoster"</span>
+    . $<span class="org-variable-name">HOME</span>/.oh-my-zsh/templates/zshrc.zsh-template
+<span class="org-keyword">fi</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline41" class="outline-2">
-<h2 id="orgheadline41">System-wide configuration file</h2>
-<div class="outline-text-2" id="text-orgheadline41">
+<div id="outline-container-orgheadline40" class="outline-2">
+<h2 id="orgheadline40">System-wide configuration file</h2>
+<div class="outline-text-2" id="text-orgheadline40">
 <p>
 Everything in common between Bash and Z shell will come here, since it is read
 by both shells.
 </p>
 </div>
 
-<div id="outline-container-orgheadline42" class="outline-3">
-<h3 id="orgheadline42">Preamble</h3>
-<div class="outline-text-3" id="text-orgheadline42">
+<div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41">Preamble</h3>
+<div class="outline-text-3" id="text-orgheadline41">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Hey Emacs, this is a -*- sh -*- file</span>
-<span class="org-comment-delimiter">## </span><span class="org-comment">.commonshrc --- Common features between Bash and Z Shell</span>
+<span class="org-comment-delimiter">## </span><span class="org-comment">commonprofile --- Common features between Bash and Z Shell</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2015 Fabrice Niessen</span>
 
@@ -1652,12 +1576,12 @@ by both shells.
 </div>
 </div>
 
-<div id="outline-container-orgheadline46" class="outline-3">
-<h3 id="orgheadline46">Paths</h3>
-<div class="outline-text-3" id="text-orgheadline46">
-</div><div id="outline-container-orgheadline43" class="outline-4">
-<h4 id="orgheadline43">Search path</h4>
-<div class="outline-text-4" id="text-orgheadline43">
+<div id="outline-container-orgheadline45" class="outline-3">
+<h3 id="orgheadline45">Paths</h3>
+<div class="outline-text-3" id="text-orgheadline45">
+</div><div id="outline-container-orgheadline42" class="outline-4">
+<h4 id="orgheadline42">Search path</h4>
+<div class="outline-text-4" id="text-orgheadline42">
 <p>
 Specify the directories that the shell is to look through to find a command.
 These directories are searched in the order in which they appear.
@@ -1716,9 +1640,9 @@ resort).</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline44" class="outline-4">
-<h4 id="orgheadline44">Manpath</h4>
-<div class="outline-text-4" id="text-orgheadline44">
+<div id="outline-container-orgheadline43" class="outline-4">
+<h4 id="orgheadline43">Manpath</h4>
+<div class="outline-text-4" id="text-orgheadline43">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">set MANPATH so it includes user's private man if it exists</span>
@@ -1737,9 +1661,9 @@ resort).</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline45" class="outline-4">
-<h4 id="orgheadline45">Infopath</h4>
-<div class="outline-text-4" id="text-orgheadline45">
+<div id="outline-container-orgheadline44" class="outline-4">
+<h4 id="orgheadline44">Infopath</h4>
+<div class="outline-text-4" id="text-orgheadline44">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Info readers (standalone + Emacs Info mode)</span>
@@ -1757,9 +1681,9 @@ resort).</li>
 </div>
 </div>
 
-<div id="outline-container-orgheadline47" class="outline-3">
-<h3 id="orgheadline47">Pager</h3>
-<div class="outline-text-3" id="text-orgheadline47">
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46">Pager</h3>
+<div class="outline-text-3" id="text-orgheadline46">
 <p>
 Set the user&rsquo;s preferred text pager (<code>cat</code>, <code>more</code> or <code>less</code>) that will be used by
 programs such as <code>man</code> or <code>git diff</code> to display pages.
@@ -1793,9 +1717,9 @@ With the <code>less</code> command, you can <b>scroll up</b> in the file as well
 </div>
 </div>
 
-<div id="outline-container-orgheadline48" class="outline-4">
-<h4 id="orgheadline48">Less</h4>
-<div class="outline-text-4" id="text-orgheadline48">
+<div id="outline-container-orgheadline47" class="outline-4">
+<h4 id="orgheadline47">Less</h4>
+<div class="outline-text-4" id="text-orgheadline47">
 <p>
 Man pages colors:
 </p>
@@ -1862,9 +1786,9 @@ is it does not <b>interpret colors</b>. With it, <code>git diff</code> finally s
 </div>
 </div>
 
-<div id="outline-container-orgheadline49" class="outline-4">
-<h4 id="orgheadline49">Most</h4>
-<div class="outline-text-4" id="text-orgheadline49">
+<div id="outline-container-orgheadline48" class="outline-4">
+<h4 id="orgheadline48">Most</h4>
+<div class="outline-text-4" id="text-orgheadline48">
 <p>
 To add a bit of color to your man pages, you can install <code>most</code>.
 </p>
@@ -1880,6 +1804,52 @@ to the location&#x2026;
 </p>
 
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49">Term</h3>
+<div class="outline-text-3" id="text-orgheadline49">
+<p>
+Terminals:
+</p>
+<ul class="org-ul">
+<li><code>dumb</code></li>
+<li><code>cygwin</code></li>
+<li><code>emacs</code></li>
+<li><code>screen</code></li>
+<li><code>xterm</code></li>
+<li><code>xterm-256color</code> (choose this if Emacs looks ugly in a terminal)</li>
+<li><code>eterm-color</code></li>
+</ul>
+
+<p>
+Set the terminal type explicitly to get a nice 256 color palette (instead of the
+default 8 colors):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">export</span> <span class="org-variable-name">TERM</span>=xterm-256color
+</pre>
+</div>
+
+<div class="seealso">
+<p>
+Use the script <code>colortest</code> (on Linux distros) to output the default colors.
+</p>
+
+</div>
+
+<p>
+See what your color palet is for the terminal session:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">tput colors
+</pre>
 </div>
 </div>
 </div>
@@ -2034,8 +2004,26 @@ An alias cannot have an argument like <code>$1</code>.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -kTh'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -kh'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">fd</span>=<span class="org-string">'find . -type d -name'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Make `df' human readable.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -h'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -kh'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Make `du' human readable.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -h'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">du1</span>=<span class="org-string">'du -h --max-depth=1'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">dus</span>=<span class="org-string">'du -ms * | sort -rn'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">Ordered by size.</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">fd</span>=<span class="org-string">'find . -type d -name'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">ff</span>=<span class="org-string">'find . -type f -name'</span>
 </pre>
 </div>
@@ -2068,15 +2056,6 @@ scripts don&rsquo;t expect to see modified!
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-builtin">alias</span> -- ..=<span class="org-string">'cd ..'</span>
-<span class="org-builtin">alias</span> ...=<span class="org-string">'cd ../..'</span>
-<span class="org-builtin">alias</span> ....=<span class="org-string">'cd ../../..'</span>
-<span class="org-builtin">alias</span> .....=<span class="org-string">'cd ../../../..'</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">print PATH with each directory on a new line</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">path</span>=<span class="org-string">'echo $PATH | sed -e "s/:/\n/g"'</span>
 
@@ -2092,10 +2071,10 @@ scripts don&rsquo;t expect to see modified!
 <span class="org-comment-delimiter"># </span><span class="org-comment">sudo'ers</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">root</span>=<span class="org-string">"su - root"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">make executable</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Make executable.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">exe</span>=<span class="org-string">'chmod +x'</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">chown current dir and subdirs</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Chown current dir and subdirs.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">own</span>=<span class="org-string">'sudo chown -R $USER'</span>
 </pre>
 </div>
@@ -2103,8 +2082,25 @@ scripts don&rsquo;t expect to see modified!
 </div>
 
 <div id="outline-container-orgheadline53" class="outline-4">
-<h4 id="orgheadline53">Single char shortcuts for some commands</h4>
+<h4 id="orgheadline53">Directories</h4>
 <div class="outline-text-4" id="text-orgheadline53">
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> -- ..=<span class="org-string">'cd ..'</span>
+<span class="org-builtin">alias</span> ...=<span class="org-string">'cd ../..'</span>
+<span class="org-builtin">alias</span> ....=<span class="org-string">'cd ../../..'</span>
+<span class="org-builtin">alias</span> .....=<span class="org-string">'cd ../../../..'</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Directory history.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">d</span>=<span class="org-string">'dirs -v'</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline54" class="outline-4">
+<h4 id="orgheadline54">Single char shortcuts for some commands</h4>
+<div class="outline-text-4" id="text-orgheadline54">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">t</span>=<span class="org-string">'tail -f'</span>
@@ -2118,9 +2114,9 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline54" class="outline-4">
-<h4 id="orgheadline54">Git</h4>
-<div class="outline-text-4" id="text-orgheadline54">
+<div id="outline-container-orgheadline55" class="outline-4">
+<h4 id="orgheadline55">Git</h4>
+<div class="outline-text-4" id="text-orgheadline55">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">g</span>=<span class="org-string">'git'</span>
@@ -2129,9 +2125,9 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline55" class="outline-4">
-<h4 id="orgheadline55">SVN</h4>
-<div class="outline-text-4" id="text-orgheadline55">
+<div id="outline-container-orgheadline56" class="outline-4">
+<h4 id="orgheadline56">SVN</h4>
+<div class="outline-text-4" id="text-orgheadline56">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">search through files, ignoring .svn directories</span>
@@ -2153,27 +2149,20 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline56" class="outline-4">
-<h4 id="orgheadline56">History</h4>
-<div class="outline-text-4" id="text-orgheadline56">
+<div id="outline-container-orgheadline57" class="outline-4">
+<h4 id="orgheadline57">History</h4>
+<div class="outline-text-4" id="text-orgheadline57">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">hgrep</span>=<span class="org-string">"history | grep -i"</span>
 </pre>
 </div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Directory history.</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">dh</span>=<span class="org-string">'dirs -v'</span>
-</pre>
-</div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline57" class="outline-4">
-<h4 id="orgheadline57">SSH agent / GPG agent</h4>
-<div class="outline-text-4" id="text-orgheadline57">
+<div id="outline-container-orgheadline58" class="outline-4">
+<h4 id="orgheadline58">SSH agent / GPG agent</h4>
+<div class="outline-text-4" id="text-orgheadline58">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>
@@ -2255,9 +2244,9 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline58" class="outline-4">
-<h4 id="orgheadline58">Debian</h4>
-<div class="outline-text-4" id="text-orgheadline58">
+<div id="outline-container-orgheadline59" class="outline-4">
+<h4 id="orgheadline59">Debian</h4>
+<div class="outline-text-4" id="text-orgheadline59">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">aps</span>=<span class="org-string">'aptitude search'</span>
@@ -2266,21 +2255,21 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline59" class="outline-4">
-<h4 id="orgheadline59">System admin (NMAP, etc.)</h4>
-<div class="outline-text-4" id="text-orgheadline59">
+<div id="outline-container-orgheadline60" class="outline-4">
+<h4 id="orgheadline60">System admin (NMAP, etc.)</h4>
+<div class="outline-text-4" id="text-orgheadline60">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">use `pkill' (which is pgrep + kill in a single command)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Use `pkill' (which is pgrep + kill in a single command).</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">show only my processes</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Show only my processes.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">mytop</span>=<span class="org-string">'top -u $USERNAME'</span>
 </pre>
 </div>
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-leuven-highlight"><span class="org-comment">XXX</span></span><span class="org-comment"> my traceroute</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">My traceroute.</span>
 <span class="org-keyword">if</span> $(<span class="org-builtin">which</span> mtr &gt;&amp; /dev/null); <span class="org-keyword">then</span>
     <span class="org-builtin">alias</span> <span class="org-variable-name">ping</span>=mtr
 <span class="org-keyword">fi</span>
@@ -2299,8 +2288,10 @@ scripts don&rsquo;t expect to see modified!
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">echo my current external IP address</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Echo my current external IP address.</span>
+<span class="org-keyword">if</span> $(<span class="org-builtin">which</span> curl &gt;&amp; /dev/null); <span class="org-keyword">then</span>
+    <span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
+<span class="org-keyword">fi</span>
 </pre>
 </div>
 
@@ -2450,9 +2441,9 @@ scripts don&rsquo;t expect to see modified!
 </div>
 </div>
 
-<div id="outline-container-orgheadline60" class="outline-4">
-<h4 id="orgheadline60">Org</h4>
-<div class="outline-text-4" id="text-orgheadline60">
+<div id="outline-container-orgheadline61" class="outline-4">
+<h4 id="orgheadline61">Org</h4>
+<div class="outline-text-4" id="text-orgheadline61">
 <p>
 For branches for which we want to make some development, and keep in track with
 <code>master</code>:
@@ -2508,9 +2499,9 @@ nil</div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline61" class="outline-4">
-<h4 id="orgheadline61">Grep</h4>
-<div class="outline-text-4" id="text-orgheadline61">
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62">Grep</h4>
+<div class="outline-text-4" id="text-orgheadline62">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">display the matched pattern in color</span>
@@ -2551,9 +2542,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline62" class="outline-4">
-<h4 id="orgheadline62">GraphicsMagick</h4>
-<div class="outline-text-4" id="text-orgheadline62">
+<div id="outline-container-orgheadline63" class="outline-4">
+<h4 id="orgheadline63">GraphicsMagick</h4>
+<div class="outline-text-4" id="text-orgheadline63">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick</span>
@@ -2583,9 +2574,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline63" class="outline-4">
-<h4 id="orgheadline63">Other things to sort</h4>
-<div class="outline-text-4" id="text-orgheadline63">
+<div id="outline-container-orgheadline64" class="outline-4">
+<h4 id="orgheadline64">Other things to sort</h4>
+<div class="outline-text-4" id="text-orgheadline64">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">list all files modified in the last 24 hours (last full day)</span>
@@ -2614,18 +2605,6 @@ worked&#x2026;
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpndown</span>=<span class="org-string">'killall openvpn'</span>
         ;;
 <span class="org-keyword">esac</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">make `du' human readable</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -h'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">du1</span>=<span class="org-string">'du -h --max-depth=1'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">dus</span>=<span class="org-string">'du -ms * | sort -rn'</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">ordered by size</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">make `df' human readable</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -h'</span>
 </pre>
 </div>
 
@@ -2671,9 +2650,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline64" class="outline-4">
-<h4 id="orgheadline64">MCit tools</h4>
-<div class="outline-text-4" id="text-orgheadline64">
+<div id="outline-container-orgheadline65" class="outline-4">
+<h4 id="orgheadline65">MCit tools</h4>
+<div class="outline-text-4" id="text-orgheadline65">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">sp</span>=sendpatch
@@ -2683,9 +2662,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline65" class="outline-3">
-<h3 id="orgheadline65">Postamble</h3>
-<div class="outline-text-3" id="text-orgheadline65">
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66">Postamble</h3>
+<div class="outline-text-3" id="text-orgheadline66">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
@@ -2693,7 +2672,7 @@ worked&#x2026;
 <span class="org-comment-delimiter"># </span><span class="org-comment">ispell-local-dictionary: "en_US"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">.commonshrc ends here</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">commonprofile ends here</span>
 </pre>
 </div>
 </div>

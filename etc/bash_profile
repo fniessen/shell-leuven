@@ -1,4 +1,4 @@
-## .bashrc --- Bourne Again Shell configuration file (for interactive shells)
+## bash_profile --- Bourne Again Shell configuration file (for interactive shells)
 
 # Copyright (C) 2003-2015 Fabrice Niessen
 
@@ -132,16 +132,14 @@ shopt -s cdspell
 
 #** 4.2 or 6.6 Aliases
 
-# source common definitions
-if [ -r "$HOME/.commonshrc" ]; then
-    . $HOME/.commonshrc
-fi
+# Source common settings.
+: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
+. $SHELLRC_LEUVEN/etc/commonprofile
 
 #** 8.6 Programmable Completion
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
-
 
 #** Misc functions
 
@@ -150,7 +148,6 @@ saneperms ()
     find . -type d -print0 | xargs -0 chmod 755
     find . -type f -print0 | xargs -0 chmod ${1:=644}
 }
-
 
 # # search for various types or README file in dir and display them in $PAGER
 # readme ()
@@ -215,4 +212,4 @@ texlist ()
 # sh-shell: bash
 # End:
 
-## .bashrc ends here
+## bash_profile ends here

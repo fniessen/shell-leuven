@@ -1,5 +1,5 @@
 # Hey Emacs, this is a -*- sh -*- file
-## .commonshrc --- Common features between Bash and Z Shell
+## commonprofile --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-2015 Fabrice Niessen
 
@@ -71,6 +71,8 @@ export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
+export TERM=xterm-256color
+
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
     if $(which $editor >& /dev/null); then
@@ -131,7 +133,17 @@ else
 fi
 
 alias df='df -kTh'
+
+# Make `df' human readable.
+alias df='df -h'
+
 alias du='du -kh'
+
+# Make `du' human readable.
+alias du='du -h'
+alias du1='du -h --max-depth=1'
+alias dus='du -ms * | sort -rn'         # Ordered by size.
+
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
 
@@ -145,11 +157,6 @@ alias mv='mv -i'                        # Confirm move over an existing file.
 alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 
-alias -- ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-
 # print PATH with each directory on a new line
 alias path='echo $PATH | sed -e "s/:/\n/g"'
 
@@ -161,11 +168,19 @@ alias mkall="./configure && make && sudo make install"
 # sudo'ers
 alias root="su - root"
 
-# make executable
+# Make executable.
 alias exe='chmod +x'
 
-# chown current dir and subdirs
+# Chown current dir and subdirs.
 alias own='sudo chown -R $USER'
+
+alias -- ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# Directory history.
+alias d='dirs -v'
 
 alias t='tail -f'
 alias p="$PAGER"
@@ -192,9 +207,6 @@ svn_grep_all_rev() {
 }
 
 alias hgrep="history | grep -i"
-
-# Directory history.
-alias dh='dirs -v'
 
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
@@ -261,12 +273,12 @@ keys ()
 
 alias aps='aptitude search'
 
-# use `pkill' (which is pgrep + kill in a single command)
+# Use `pkill' (which is pgrep + kill in a single command).
 
-# show only my processes
+# Show only my processes.
 alias mytop='top -u $USERNAME'
 
-# XXX my traceroute
+# My traceroute.
 if $(which mtr >& /dev/null); then
     alias ping=mtr
 fi
@@ -281,8 +293,10 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 # # 040210 grep
 # alias g='find . -type f -print0 | xargs -0 grep'
 
-# echo my current external IP address
-alias whatismyip='curl -s http://whatismyip.org'
+# Echo my current external IP address.
+if $(which curl >& /dev/null); then
+    alias whatismyip='curl -s http://whatismyip.org'
+fi
 
 # 040319 send files via netcat
 # on sending side:
@@ -482,14 +496,6 @@ case $(uname -s) in
         ;;
 esac
 
-# make `du' human readable
-alias du='du -h'
-alias du1='du -h --max-depth=1'
-alias dus='du -ms * | sort -rn'  # ordered by size
-
-# make `df' human readable
-alias df='df -h'
-
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
@@ -529,4 +535,4 @@ alias sp=sendpatch
 # ispell-local-dictionary: "en_US"
 # End:
 
-# .commonshrc ends here
+# commonprofile ends here
