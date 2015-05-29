@@ -349,73 +349,20 @@ Tramp?)...
 [[ "$-" != *i* ]] && return
 #+end_src
 
-** Variables
+** Command history
 
-*** Search path
-
-Where to look for executable files.
-
-The global search ~PATH~ is defined in the file =/etc/environment=.
-
-#+begin_note
-~PATH~ should already be marked as exported, so reexporting is not needed.
-#+end_note
+Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
-# specify the directories that the shell is to look through to find a
-# command. These directories are searched in the order in which they appear.
-for MAYBE_PATH in "$HOME/bin" \
-                  "$HOME/expect" \
-                  "$HOME/winbin"
-do
-    if [ -d "$MAYBE_PATH" ]; then
-        PATH="$MAYBE_PATH:$PATH"
-    fi
-done
+# History.
+HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
+HISTSIZE=1000
+HISTFILESIZE=1000
+HISTIGNORE="&:[bf]g:exit"
+HISTCONTROL=ignoredups
 #+end_src
 
-By default, the ~root~ shell does not load commands from the current location.  If
-you're ~root~ and if you trust those commands, type ~./whatever-command~ instead.
-
-#+begin_src shell
-# add the current directory as last component in the search path
-# (not to include for root, for security reasons)
-if [ ! "$(id -u)" = "0" ]; then
-    PATH="$PATH:."
-fi
-#+end_src
-
-*** Manpath
-
-#+begin_src shell
-# set MANPATH so it includes user's private man if it exists
-# do the same with MANPATH
-#if [ -d $HOME/man ]; then
-#    MANPATH=$HOME/man:"${MANPATH}"
-#    export MANPATH
-#fi
-
-# colon separated list of directories to search for manual pages
-#ifnset MANPATH "/usr/man"
-    # TODO don't define it like that: does not work under Ubuntu!
-    # See `/etc/manpath.config'
-#+end_src
-
-*** Infopath
-
-#+begin_src shell
-# Info readers (standalone + Emacs Info mode)
-INFOPATH="/usr/share/info:$INFOPATH"
-# include a trailing colon on `INFOPATH' to concatenate the Emacs
-# `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
-#+end_src
-
-*** Prompt
+** Prompt
 
 Appearance of the prompt.
 
@@ -521,19 +468,6 @@ precmd ()
 [ $TERM = "dumb" ] || PROMPT_COMMAND=precmd
 #+end_src
 
-*** Command history
-
-Access and modify commands that you had previously typed at the command line.
-
-#+begin_src shell
-# history
-HISTFILE=$HOME/.bash_history # if paranoiac, `/dev/null'
-HISTSIZE=1000
-HISTFILESIZE=1000
-HISTIGNORE="&:[bf]g:exit"
-HISTCONTROL=ignoredups
-#+end_src
-
 ** Source global rc file (if any)
 
 #+begin_src shell
@@ -551,18 +485,19 @@ sessions.
 ** Default permissions
 
 #+begin_src shell
-# permissions on newly created files
-umask 022 # prevent new dirs and files from being group and world writable
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
 
 if [ "$USERNAME" = "root" ]; then
-    umask 077  # stricter
+    umask 077                           # Stricter.
 fi
 #+end_src
 
 ** Shell options
 
 #+begin_src shell
-# correct minor misspellings of cd pathnames
+# Correct minor misspellings of cd pathnames.
 shopt -s cdspell
 #+end_src
 
@@ -808,36 +743,26 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 #* Code:
 #+end_src
 
-** Variables
-
-*** Search path
+** Command history
 
 #+begin_src shell
-# extend the PATH var
-for MAYBE_PATH in "$HOME/bin" \
-                  "$HOME/expect" \
-                  "$HOME/winbin";
-do
-    # `-d' or `-x'?
-    if [ -e $MAYBE_PATH ]; then
-        PATH=$MAYBE_PATH:$PATH
-    fi
-done
+# History.
+HISTFILE=$HOME/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+
+# Append new history lines instead of overwriting (important for multiple
+# parallel Zsh sessions!).
+setopt appendhistory
+
+# Don't save command more than once when occuring more often.
+setopt HIST_IGNORE_DUPS
+
+# Use the same history file for all sessions.
+setopt SHARE_HISTORY
 #+end_src
 
-*************** TODO Put the CWD (=.=) in PATH
-
-If you add the CWD to your PATH, just do it:
-
-- for *non-root users*,
-- as the *last entry* (so, the current directory is only checked as a last
-  resort).
-
-#+begin_src shell
-PATH=$PATH:.
-#+end_src
-
-*** Prompt
+** Prompt
 
 Zsh expects that every character in ~PS1~ will advance the cursor one space.
 Wrap any non-printing escape sequences in ~%{...%}~, and it should work. So use
@@ -850,7 +775,7 @@ See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are
 #+begin_src shell
 #** 13 (info "(zsh)Prompt Expansion")
 
-# some colors
+# Some colors.
 local BLACK=$'%{\e[1;30m%}'
 local RED=$'%{\e[1;31m%}'
 local green=$'%{\e[0;32m%}'
@@ -858,8 +783,7 @@ local GREEN=$'%{\e[1;32m%}'
 local yellow=$'%{\e[0;33m%}'
 local reset=$'%{\e[0m%}'
 
-# TODO Insert beep when last command has failed
-# custom prompt settings
+# Custom prompt settings.
 PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # ? - exit code of the previous command
     # n - user name
@@ -867,6 +791,9 @@ PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # . - abbreviated pwd
     # ! - su?
 #+end_src
+
+*************** TODO Insert beep when last command has failed
+*************** END
 
 The tricky part was getting the syntax for testing the exit code. The syntax
 is ~%(x.true-string.false-string)~, where ~x~ is some arbitrary testing condition,
@@ -897,7 +824,7 @@ export GIT_PS1_SHOWCOLORHINTS=true
 export RPROMPT=$'$(__git_ps1 "%s")'
 #+end_src
 
-*** Customizing Zsh
+** Customizing Zsh
 
 Oh-my-Zsh...
 
@@ -925,26 +852,7 @@ DEFAULT_USER="Fabrice"
 source ~/.oh-my-zsh/templates/zshrc.zsh-template
 #+end_src
 
-*** Command history
-
-#+begin_src shell
-# history
-HISTFILE=$HOME/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-
-# append new history lines instead of overwriting (important for multiple
-# parallel Zsh sessions!)
-setopt appendhistory
-
-# don't save command more than once when occuring more often
-setopt HIST_IGNORE_DUPS
-
-# Use the same history file for all sessions
-setopt SHARE_HISTORY
-#+end_src
-
-*** Term
+** Term
 
 Terminals:
 - ~dumb~
@@ -1179,11 +1087,11 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 ** Zsh Modules
 
 #+begin_src shell
-## coloring stderr
+# Coloring stderr.
 STDERRRED=$'\e[1;31m'
 zmodload zsh/system
 color_err () {
-    ## sysread & syswrite are part of `zsh/system'
+    # Sysread & syswrite are part of `zsh/system'.
     emulate -LR zsh
     while sysread
     do
@@ -1221,24 +1129,180 @@ setopt notify
 ## .zshrc ends here
 #+end_src
 
-* Common
+* System-wide configuration file
   :PROPERTIES:
   :tangle:   ./src/.commonshrc
   :END:
 
-Everything in common between Bash and Z shell will come here.
+Everything in common between Bash and Z shell will come here, since it is read
+by both shells.
 
 ** Preamble
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
+## .commonshrc --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
 #+end_src
+
+** Paths
+
+*** Search path
+
+Specify the directories that the shell is to look through to find a command.
+These directories are searched in the order in which they appear.
+
+The global search ~PATH~ is defined in the file =/etc/environment=.
+
+#+begin_src shell
+# Extend the PATH var (where to look for executable files).
+for MAYBE_PATH in "$HOME/bin" \
+                  "$HOME/expect" \
+                  "$HOME/winbin";
+do
+    # `-e' or `-x'?
+    if [ -d "$MAYBE_PATH" ]; then
+        PATH="$MAYBE_PATH:$PATH"
+    fi
+done
+#+end_src
+
+#+begin_note
+~PATH~ should already be marked as exported, so reexporting is not needed.
+#+end_note
+
+By default, the ~root~ shell does not load commands from the current location.  If
+you're ~root~ and if you trust those commands, type ~./whatever-command~ instead.
+
+If you add the ~CWD~ (~.~) to your PATH, just do it:
+
+- for *non-root users*,
+- as the *last entry* (so, the current directory is only checked as a last
+  resort).
+
+#+begin_src shell
+# Add the current directory as last component in the search path (not to include
+# for root, for security reasons).
+if [ ! "$(id -u)" = "0" ]; then
+    PATH="$PATH:."
+fi
+#+end_src
+
+*** Manpath
+
+#+begin_src shell
+# set MANPATH so it includes user's private man if it exists
+# do the same with MANPATH
+#if [ -d $HOME/man ]; then
+#    MANPATH=$HOME/man:"${MANPATH}"
+#    export MANPATH
+#fi
+
+# colon separated list of directories to search for manual pages
+#ifnset MANPATH "/usr/man"
+    # TODO don't define it like that: does not work under Ubuntu!
+    # See `/etc/manpath.config'
+#+end_src
+
+*** Infopath
+
+#+begin_src shell
+# Info readers (standalone + Emacs Info mode)
+INFOPATH="/usr/share/info:$INFOPATH"
+# include a trailing colon on `INFOPATH' to concatenate the Emacs
+# `Info-default-directory-list' when searching for info files
+INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
+INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
+INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
+INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
+#+end_src
+
+** Pager
+
+Set the user's preferred text pager (~cat~, ~more~ or ~less~) that will be used by
+programs such as ~man~ or ~git diff~ to display pages.
+
+~less~ is faster than anything else around (with exception of possibly ~more~, but
+this one feels really archaic).
+
+#+begin_src shell
+PAGER="less"
+
+# LANG="en_US.utf8"
+# LC_CTYPE="en_US.utf8"
+# LC_ALL="C"   # fixes the problem of strange characters in the man page
+# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
+#+end_src
+
+With the ~less~ command, you can *scroll up* in the file as well as down; with the
+~more~ command, you can only *scroll down* the file.
+
+#+begin_src shell
+alias more="less"
+#+end_src
+
+*** Less
+
+Man pages colors:
+
+#+begin_src shell
+# Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
+export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
+export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
+                                                   # line at the bottom).
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
+export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
+                                        # `mb' and `md').
+export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
+export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
+# See `terminfo'.
+#+end_src
+
+#+begin_seealso
+[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.
+#+end_seealso
+
+See also
+http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
+highlight man pages.
+
+#+begin_src shell
+# tailoring `less'
+LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+#+end_src
+
+#+begin_note
+If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
+option.
+#+end_note
+
+See
+http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
+for options ~-F~, ~-R~ and ~-s~.
+
+#+begin_note
+Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
+is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
+#+end_note
+
+*** Most
+
+To add a bit of color to your man pages, you can install ~most~.
+
+See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
+
+#+begin_note
+~most~ does not *highlight search results*: when searching using ~/~, it only scrolls
+to the location...
+#+end_note
 
 ** Emacs (default editor)
 
@@ -1309,7 +1373,7 @@ alias et=emacsclient -t                 # New GUI frame.
 alias ec=emacsclient -c                 # New terminal frame.
 #+end_example
 
-** Aliases
+** Plugins
 
 Aliases are abbreviations or alternative names (usually mnemonics) for
 commands. They are commonly used to specify a few options to commands, and
@@ -1320,10 +1384,6 @@ Aliases should usually be kept simple. If not, they should be converted to:
 - shell scripts.
 
 An alias cannot have an argument like ~$1~.
-
-#+begin_src shell
-#* Aliasing
-#+end_src
 
 #+begin_src shell
 # Grep through the aliases.
@@ -1449,6 +1509,11 @@ svn_grep_all_rev() {
 alias hgrep="history | grep -i"
 #+end_src
 
+#+begin_src shell
+# Directory history.
+alias dh='dirs -v'
+#+end_src
+
 *** SSH agent / GPG agent
 
 #+begin_src shell
@@ -1529,6 +1594,57 @@ alias aps='aptitude search'
 #+end_src
 
 *** System admin (NMAP, etc.)
+
+#+begin_src shell
+# use `pkill' (which is pgrep + kill in a single command)
+
+# show only my processes
+alias mytop='top -u $USERNAME'
+#+end_src
+
+#+begin_src shell
+# XXX my traceroute
+if $(which mtr >& /dev/null); then
+    alias ping=mtr
+fi
+
+# hping[2] (run as root!)
+alias myping="hping2 -c 100 -2 -p 7 $1"
+alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
+
+# 030925 compare /proc with ps (against rootkits)
+alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
+
+# # 040210 grep
+# alias g='find . -type f -print0 | xargs -0 grep'
+#+end_src
+
+#+begin_src shell
+# echo my current external IP address
+alias whatismyip='curl -s http://whatismyip.org'
+#+end_src
+
+#+begin_src shell
+# 040319 send files via netcat
+# on sending side:
+#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
+#  send dir* $HOST
+# Info:
+#  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
+#  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
+alias receive='nc -vlp 51330 | tar xzvp'
+#+end_src
+
+#+begin_src shell
+# honor embedded linefeeds when displaying packets
+alias ngrep='ngrep -W byline'
+
+# ngrep -i -w 'user|pass' port 110
+# ngrep -d eth0 -i 'USER|PASS' tcp port 80
+# ngrep google port 80
+# ngrep -i 'rcpt to|mail from' tcp port smtp
+# ngrep -q -t -wi "login" port 23
+#+end_src
 
 #+begin_src shell
 alias ports="netstat -alpe --ip"
@@ -1630,7 +1746,9 @@ rdns ()
 # anonymous wget (using Privoxy and Tor)
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
+#+end_src
 
+#+begin_src shell
 alias off='sudo shutdown -h now'
 #+end_src
 
@@ -1679,13 +1797,7 @@ then
 fi
 #+end_src
 
-*** MCit tools
-
-#+begin_src shell
-alias sp=sendpatch
-#+end_src
-
-** Grep
+*** Grep
 
 #+begin_src shell
 # display the matched pattern in color
@@ -1712,89 +1824,7 @@ worked...
 alias pgrep='pgrep -fl'
 #+end_src
 
-** Pager
-
-Set the user's preferred text pager (~cat~, ~more~ or ~less~) that will be used by
-programs such as ~man~ or ~git diff~ to display pages.
-
-~less~ is faster than anything else around (with exception of possibly ~more~, but
-this one feels really archaic).
-
-#+begin_src shell
-PAGER="less"
-
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"   # fixes the problem of strange characters in the man page
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-#+end_src
-
-With the ~less~ command, you can *scroll up* in the file as well as down; with the
-~more~ command, you can only *scroll down* the file.
-
-#+begin_src shell
-alias more="less"
-#+end_src
-
-*** Less
-
-Man pages colors:
-
-#+begin_src shell
-# Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
-# Less Colors for Man Pages
-export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
-export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
-                                                   # line at the bottom).
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
-export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
-                                        # `mb' and `md').
-export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
-export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
-# See `terminfo'.
-#+end_src
-
-#+begin_seealso
-[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.
-#+end_seealso
-
-See also
-http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
-highlight man pages.
-
-#+begin_src shell
-# tailoring `less'
-LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
-#+end_src
-
-#+begin_note
-If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
-option.
-#+end_note
-
-See
-http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
-for options ~-F~, ~-R~ and ~-s~.
-
-#+begin_note
-Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
-is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
-#+end_note
-
-*** Most
-
-To add a bit of color to your man pages, you can install ~most~.
-
-#+begin_note
-But it does not *highlight search results*: when searching using ~/~, it only
-scrolls to the location...
-#+end_note
-
-See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
-
-** GraphicsMagick
+*** GraphicsMagick
 
 #+begin_src shell
 # GraphicsMagick
@@ -1821,17 +1851,7 @@ gmresize ()
 # find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
 #+end_src
 
-** Others
-
-#+begin_src shell
-# use `pkill' (which is pgrep + kill in a single command)
-
-# show only my processes
-alias mytop='top -u $USERNAME'
-
-# directory history
-alias dh='dirs -v'
-#+end_src
+*** Other things to sort
 
 #+begin_src shell
 # list all files modified in the last 24 hours (last full day)
@@ -1844,50 +1864,6 @@ today ()
     find . -type f -newer /tmp/$$
     rm -f /tmp/$$
 }
-#+end_src
-
-#+begin_src shell
-# XXX my traceroute
-if $(which mtr >& /dev/null); then
-    alias ping=mtr
-fi
-
-# hping[2] (run as root!)
-alias myping="hping2 -c 100 -2 -p 7 $1"
-alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
-
-# 030925 compare /proc with ps (against rootkits)
-alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
-
-# # 040210 grep
-# alias g='find . -type f -print0 | xargs -0 grep'
-#+end_src
-
-#+begin_src shell
-# 040319 send files via netcat
-# on sending side:
-#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
-#  send dir* $HOST
-# Info:
-#  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
-#  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
-alias receive='nc -vlp 51330 | tar xzvp'
-#+end_src
-
-#+begin_src shell
-# honor embedded linefeeds when displaying packets
-alias ngrep='ngrep -W byline'
-
-# ngrep -i -w 'user|pass' port 110
-# ngrep -d eth0 -i 'USER|PASS' tcp port 80
-# ngrep google port 80
-# ngrep -i 'rcpt to|mail from' tcp port smtp
-# ngrep -q -t -wi "login" port 23
-#+end_src
-
-#+begin_src shell
-# echo my current external IP address
-alias whatismyip='curl -s http://whatismyip.org'
 #+end_src
 
 #+begin_src shell
@@ -1948,6 +1924,12 @@ swap ()
     mv -f $tmpfile $2
     return 0
 }
+#+end_src
+
+*** MCit tools
+
+#+begin_src shell
+alias sp=sendpatch
 #+end_src
 
 ** Postamble

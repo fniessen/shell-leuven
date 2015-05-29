@@ -10,44 +10,12 @@
 # if not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
 
-# specify the directories that the shell is to look through to find a
-# command. These directories are searched in the order in which they appear.
-for MAYBE_PATH in "$HOME/bin" \
-                  "$HOME/expect" \
-                  "$HOME/winbin"
-do
-    if [ -d "$MAYBE_PATH" ]; then
-        PATH="$MAYBE_PATH:$PATH"
-    fi
-done
-
-# add the current directory as last component in the search path
-# (not to include for root, for security reasons)
-if [ ! "$(id -u)" = "0" ]; then
-    PATH="$PATH:."
-fi
-
-# set MANPATH so it includes user's private man if it exists
-# do the same with MANPATH
-#if [ -d $HOME/man ]; then
-#    MANPATH=$HOME/man:"${MANPATH}"
-#    export MANPATH
-#fi
-
-# colon separated list of directories to search for manual pages
-#ifnset MANPATH "/usr/man"
-    # TODO don't define it like that: does not work under Ubuntu!
-    # See `/etc/manpath.config'
-
-# Info readers (standalone + Emacs Info mode)
-INFOPATH="/usr/share/info:$INFOPATH"
-# include a trailing colon on `INFOPATH' to concatenate the Emacs
-# `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
-# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
+# History.
+HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
+HISTSIZE=1000
+HISTFILESIZE=1000
+HISTIGNORE="&:[bf]g:exit"
+HISTCONTROL=ignoredups
 
 #*** Controlling the Prompt
 
@@ -145,29 +113,21 @@ precmd ()
 # variable (but don't confuse Tramp)
 [ $TERM = "dumb" ] || PROMPT_COMMAND=precmd
 
-# history
-HISTFILE=$HOME/.bash_history # if paranoiac, `/dev/null'
-HISTSIZE=1000
-HISTFILESIZE=1000
-HISTIGNORE="&:[bf]g:exit"
-HISTCONTROL=ignoredups
-
-#** Source global rc file (if any)
-
 # source global definitions if the session is interactive (to avoid problems
 # like "stdin: is not a tty" when ssh'ing to a remote machine)
 if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
     . /etc/bashrc
 fi
 
-# permissions on newly created files
-umask 022 # prevent new dirs and files from being group and world writable
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
 
 if [ "$USERNAME" = "root" ]; then
-    umask 077  # stricter
+    umask 077                           # Stricter.
 fi
 
-# correct minor misspellings of cd pathnames
+# Correct minor misspellings of cd pathnames.
 shopt -s cdspell
 
 #** 4.2 or 6.6 Aliases

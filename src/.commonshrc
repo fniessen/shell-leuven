@@ -1,10 +1,75 @@
 # Hey Emacs, this is a -*- sh -*- file
-## .commonshrc --- Common features between (Linux and Cygwin) Bash and Z Shell
+## .commonshrc --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-2015 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
+
+# Extend the PATH var (where to look for executable files).
+for MAYBE_PATH in "$HOME/bin" \
+                  "$HOME/expect" \
+                  "$HOME/winbin";
+do
+    # `-e' or `-x'?
+    if [ -d "$MAYBE_PATH" ]; then
+        PATH="$MAYBE_PATH:$PATH"
+    fi
+done
+
+# Add the current directory as last component in the search path (not to include
+# for root, for security reasons).
+if [ ! "$(id -u)" = "0" ]; then
+    PATH="$PATH:."
+fi
+
+# set MANPATH so it includes user's private man if it exists
+# do the same with MANPATH
+#if [ -d $HOME/man ]; then
+#    MANPATH=$HOME/man:"${MANPATH}"
+#    export MANPATH
+#fi
+
+# colon separated list of directories to search for manual pages
+#ifnset MANPATH "/usr/man"
+    # TODO don't define it like that: does not work under Ubuntu!
+    # See `/etc/manpath.config'
+
+# Info readers (standalone + Emacs Info mode)
+INFOPATH="/usr/share/info:$INFOPATH"
+# include a trailing colon on `INFOPATH' to concatenate the Emacs
+# `Info-default-directory-list' when searching for info files
+INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
+INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
+INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
+# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
+INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
+
+PAGER="less"
+
+# LANG="en_US.utf8"
+# LC_CTYPE="en_US.utf8"
+# LC_ALL="C"   # fixes the problem of strange characters in the man page
+# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
+
+alias more="less"
+
+# Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
+export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
+export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
+                                                   # line at the bottom).
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
+export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
+                                        # `mb' and `md').
+export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
+export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
+# See `terminfo'.
+
+# tailoring `less'
+LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
@@ -42,8 +107,6 @@ ec ()
 {
     emacsclient --no-wait "$1"
 }
-
-#* Aliasing
 
 # Grep through the aliases.
 alias agrep='alias | grep -i'
@@ -130,6 +193,9 @@ svn_grep_all_rev() {
 
 alias hgrep="history | grep -i"
 
+# Directory history.
+alias dh='dirs -v'
+
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
 alias keylist="ssh-add -l"      # list all identities
@@ -194,6 +260,47 @@ keys ()
 }
 
 alias aps='aptitude search'
+
+# use `pkill' (which is pgrep + kill in a single command)
+
+# show only my processes
+alias mytop='top -u $USERNAME'
+
+# XXX my traceroute
+if $(which mtr >& /dev/null); then
+    alias ping=mtr
+fi
+
+# hping[2] (run as root!)
+alias myping="hping2 -c 100 -2 -p 7 $1"
+alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
+
+# 030925 compare /proc with ps (against rootkits)
+alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
+
+# # 040210 grep
+# alias g='find . -type f -print0 | xargs -0 grep'
+
+# echo my current external IP address
+alias whatismyip='curl -s http://whatismyip.org'
+
+# 040319 send files via netcat
+# on sending side:
+#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
+#  send dir* $HOST
+# Info:
+#  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
+#  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
+alias receive='nc -vlp 51330 | tar xzvp'
+
+# honor embedded linefeeds when displaying packets
+alias ngrep='ngrep -W byline'
+
+# ngrep -i -w 'user|pass' port 110
+# ngrep -d eth0 -i 'USER|PASS' tcp port 80
+# ngrep google port 80
+# ngrep -i 'rcpt to|mail from' tcp port smtp
+# ngrep -q -t -wi "login" port 23
 
 alias ports="netstat -alpe --ip"
 
@@ -321,8 +428,6 @@ then
     source $HOME/Public/Repositories/org-bash-utils/awk-alias
 fi
 
-alias sp=sendpatch
-
 # display the matched pattern in color
 alias grep='grep --color=auto'
 
@@ -330,32 +435,6 @@ export GREP_COLOR="0;30;43"
 
 # grep through the running processes
 alias pgrep='pgrep -fl'
-
-PAGER="less"
-
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"   # fixes the problem of strange characters in the man page
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-
-alias more="less"
-
-# Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
-# Less Colors for Man Pages
-export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
-export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
-                                                   # line at the bottom).
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
-export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
-                                        # `mb' and `md').
-export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
-export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
-# See `terminfo'.
-
-# tailoring `less'
-LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
 # GraphicsMagick
 alias GIF="gm convert -verbose -interlace LINE"
@@ -380,14 +459,6 @@ gmresize ()
 
 # find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
 
-# use `pkill' (which is pgrep + kill in a single command)
-
-# show only my processes
-alias mytop='top -u $USERNAME'
-
-# directory history
-alias dh='dirs -v'
-
 # list all files modified in the last 24 hours (last full day)
 alias oneday='find . -mtime -1 -print'
 
@@ -398,42 +469,6 @@ today ()
     find . -type f -newer /tmp/$$
     rm -f /tmp/$$
 }
-
-# XXX my traceroute
-if $(which mtr >& /dev/null); then
-    alias ping=mtr
-fi
-
-# hping[2] (run as root!)
-alias myping="hping2 -c 100 -2 -p 7 $1"
-alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
-
-# 030925 compare /proc with ps (against rootkits)
-alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
-
-# # 040210 grep
-# alias g='find . -type f -print0 | xargs -0 grep'
-
-# 040319 send files via netcat
-# on sending side:
-#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
-#  send dir* $HOST
-# Info:
-#  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
-#  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
-alias receive='nc -vlp 51330 | tar xzvp'
-
-# honor embedded linefeeds when displaying packets
-alias ngrep='ngrep -W byline'
-
-# ngrep -i -w 'user|pass' port 110
-# ngrep -d eth0 -i 'USER|PASS' tcp port 80
-# ngrep google port 80
-# ngrep -i 'rcpt to|mail from' tcp port smtp
-# ngrep -q -t -wi "login" port 23
-
-# echo my current external IP address
-alias whatismyip='curl -s http://whatismyip.org'
 
 case $(uname -s) in
     Linux*)
@@ -486,6 +521,8 @@ swap ()
     mv -f $tmpfile $2
     return 0
 }
+
+alias sp=sendpatch
 
 # This is for the sake of Emacs.
 # Local Variables:

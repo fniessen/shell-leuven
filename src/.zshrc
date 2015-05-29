@@ -7,22 +7,24 @@
 
 #* Code:
 
-# extend the PATH var
-for MAYBE_PATH in "$HOME/bin" \
-                  "$HOME/expect" \
-                  "$HOME/winbin";
-do
-    # `-d' or `-x'?
-    if [ -e $MAYBE_PATH ]; then
-        PATH=$MAYBE_PATH:$PATH
-    fi
-done
+# History.
+HISTFILE=$HOME/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
 
-PATH=$PATH:.
+# Append new history lines instead of overwriting (important for multiple
+# parallel Zsh sessions!).
+setopt appendhistory
+
+# Don't save command more than once when occuring more often.
+setopt HIST_IGNORE_DUPS
+
+# Use the same history file for all sessions.
+setopt SHARE_HISTORY
 
 #** 13 (info "(zsh)Prompt Expansion")
 
-# some colors
+# Some colors.
 local BLACK=$'%{\e[1;30m%}'
 local RED=$'%{\e[1;31m%}'
 local green=$'%{\e[0;32m%}'
@@ -30,8 +32,7 @@ local GREEN=$'%{\e[1;32m%}'
 local yellow=$'%{\e[0;33m%}'
 local reset=$'%{\e[0m%}'
 
-# TODO Insert beep when last command has failed
-# custom prompt settings
+# Custom prompt settings.
 PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
     # ? - exit code of the previous command
     # n - user name
@@ -54,21 +55,6 @@ ZSH_THEME="agnoster"
 # ZSH_THEME="zsh2000"
 DEFAULT_USER="Fabrice"
 source ~/.oh-my-zsh/templates/zshrc.zsh-template
-
-# history
-HISTFILE=$HOME/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-
-# append new history lines instead of overwriting (important for multiple
-# parallel Zsh sessions!)
-setopt appendhistory
-
-# don't save command more than once when occuring more often
-setopt HIST_IGNORE_DUPS
-
-# Use the same history file for all sessions
-setopt SHARE_HISTORY
 
 export TERM=xterm-256color
 
@@ -228,11 +214,11 @@ setopt autolist
 # case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-## coloring stderr
+# Coloring stderr.
 STDERRRED=$'\e[1;31m'
 zmodload zsh/system
 color_err () {
-    ## sysread & syswrite are part of `zsh/system'
+    # Sysread & syswrite are part of `zsh/system'.
     emulate -LR zsh
     while sysread
     do
