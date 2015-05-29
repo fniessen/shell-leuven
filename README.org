@@ -1,4 +1,4 @@
-#+TITLE:     Shell configuration files
+#+TITLE:     ShellRC-Leuven
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION:
@@ -10,11 +10,18 @@
 # #+SETUPFILE: bigblow-pirilampo.setup
 #+SETUPFILE: ~/src/org-html-themes/setup/theme-readtheorg-local-abs.setup
 
-* Documentation
+* Summary
 
-[[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]]
+ShellRC-Leuven is a set of configuration files to take advantage of Bash and
+Zsh on Mac OS X, Linux and Windows (with Cygwin).
 
-* Cygwin
+* Getting started
+
+** Prerequisites for Windows
+
+Install [[https://www.cygwin.com/][Cygwin]].
+
+*** Notes
 
 - After Cygwin is installed, modify the System ~PATH~ variable: append
   =C:\cygwin\bin= before ~%SystemRoot%\system32~
@@ -23,7 +30,17 @@
   Cygwin, please check that those directories don't contain =cygwin1.dll= or
   such. That was why I had troubles running ~git~ commands...
 
-** Change your Cygwin ~HOME~ folder
+In =c:/cygwin64/etc/profile=,
+
+- =/usr/local/bin= is appended to the ~PATH~!!
+
+  And, except when root, it is almost always wrong to have =/usr/local/bin= after
+  any system path.
+
+- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
+  when called from =c:/cygwin/Cygwin.bat=!!
+
+*** Change your Cygwin ~HOME~ folder
 
 Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
 of your *home directory*.
@@ -37,9 +54,7 @@ from that field).
 Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
 ~db_home~ setting to =/etc/nsswitch.conf=.
 
-** Packages
-
-ftp://ftp.cygwinports.org/pub/cygwinports/ is the most popular choice.
+*** Packages
 
 *************** TODO See http://www.4thinker.com/cygwin-setup.html
 *************** END
@@ -54,13 +69,13 @@ Install extra packages:
   + [X] ~git~
   + [X] ~subversion~ (for ~svn~ command)
   + [X] ~gdb~
+  + [X] ~make~ (for making info for Git Org mode)
   + [ ] ~autoconf~
   + [ ] ~bzr~
   + [ ] ~cvs~
   + [ ] ~ctags~ (Exuberant Ctags)
   + [ ] ~gcc-core~ (C compiler)
   + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
-  + [ ] ~make~
   + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
 
 - Editors
@@ -85,7 +100,7 @@ Install extra packages:
   + [X] ~R~
 
 - Net
-  + [ ] ~bind-utils~ (for getting ~dig~, ~host~, ~nslookup~, etc.)
+  + [ ] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
   + [ ] ~inetutils~ (for getting ~telnet~ to work with expect)
   + [ ] ~nc~ (see socat)
   + [ ] ~openssh~
@@ -114,6 +129,7 @@ Install extra packages:
   + [ ] ~expect~
 
 - Text
+  + [X] ~texinfo~ (for ~makeinfo~)
   + [ ] ~antiword~
   + [ ] ~aspell~ (Win32 binary has more dictionaries)
   + [ ] ~most~
@@ -122,24 +138,24 @@ Install extra packages:
 
 - Utils
   + [X] ~gnupg~ (~gpg~)
+  + [X] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
+    though you can use ~C-l~ to get the same result)
+  + [X] ~cygutils~ (for ~unix2dos~)
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
-  + [ ] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
-    though you can use ~C-l~ to get the same result)
   + [ ] ~patch~ and ~patchutils~
   + [ ] ~screen~
 
 - X11
   + [ ] ~fontconfig~ (needed by XeTeX)
-  + [ ] ~libXaw7~ (needed by ~xdvi~)
 
 - Web
   + [X] ~curl~
   + [ ] ~w3m~
   + [ ] ~wget~
 
-** GnuPG
+*** GnuPG
 
 When first running ~gpg~:
 
@@ -148,7 +164,7 @@ When first running ~gpg~:
 - Keyring =~/.gnupg/secring.gpg= created
 - Keyring =~/.gnupg/pubring.gpg= created
 
-** Suppress the Cygwin DOS path warning
+*** Suppress the Cygwin DOS path warning
 
 When first running ~M-x ediff-buffers~, I got this Cygwin warning:
 
@@ -163,7 +179,7 @@ Consult the user's guide for more details about POSIX paths:
 Though, setting it in =.bashrc= or something like that does not work. A good
 place to set it is in the global *Windows environment variables*.
 
-** Suppress the annoying "tty option" warning
+*** Suppress the annoying "tty option" warning
 
 #+begin_example
 "tty" option detected in CYGWIN environment variable.
@@ -179,6 +195,39 @@ it looks like you could solve the problem by customizing
 
 Though, downloading (via the anonymous CVS server) the latest source code from
 http://emacs-w3m.namazu.org/ also solves the problem.
+
+** Basic installation
+
+ShellRC-Leuven is installed by running (one of) the following commands in your
+terminal.
+
+1. *Clone the repository:*
+
+   #+begin_src shell
+   git clone git@github.com:fniessen/shellrc-leuven.git ~/.shellrc-leuven
+   #+end_src
+
+2. *Source ShellRC-Leuven configuration files*
+
+   #+begin_src shell
+   . ~/.shellrc-leuven/src/.bashrc
+   #+end_src
+
+   #+begin_src shell
+   . ~/.shellrc-leuven/src/.zshrc
+   #+end_src
+
+   Or...
+
+   #+begin_src shell :results silent
+   if [ -d "$HOME/.shellrc-leuven/src" ]
+   then
+       PATH="$HOME/.shellrc-leuven/src:$PATH"
+   fi
+   #+end_src
+
+Once you open up a new terminal window with Bash or Zsh, it should load with
+ShellRC-Leuven's configuration.
 
 * Startup files
 
@@ -238,18 +287,6 @@ wrong: 0 0 * * 2 apachectl restart
 #+end_src
 
 From https://www.linuxquestions.org/questions/linux-general-1/difference-between-normal-shell-and-login-shell-14983/#post4828786
-
-** Note
-
-In =c:/cygwin64/etc/profile=,
-
-- =/usr/local/bin= is appended to the ~PATH~!!
-
-  And, except when root, it is almost always wrong to have =/usr/local/bin= after
-  any system path.
-
-- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
-  when called from =c:/cygwin/Cygwin.bat=!!
 
 * Bash specific
   :PROPERTIES:
@@ -750,6 +787,8 @@ set completion-ignore-case on
   :PROPERTIES:
   :tangle:   ./src/.zshrc
   :END:
+
+Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
 
 ** Examples
 
@@ -1732,9 +1771,13 @@ LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 #+end_src
 
 #+begin_note
-If you want that ~less~ does not clear the terminal when quitting, use the ~-X~
+If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
 option.
 #+end_note
+
+See
+http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
+for options ~-F~, ~-R~ and ~-s~.
 
 #+begin_note
 Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
@@ -1919,26 +1962,3 @@ swap ()
 # .commonshrc ends here
 #+end_src
 
-* Install environment
-  :PROPERTIES:
-  :tangle:   ./bin/install-sh-files
-  :END:
-
-Symlink the files.
-
-#+begin_src shell :results silent :shebang #!/bin/bash
-ln -f -s $(pwd)/../src/.bashrc        ~/.bashrc
-ln -f -s $(pwd)/../src/.bash_profile  ~/.bash_profile
-ln -f -s $(pwd)/../src/.commonshrc    ~/.commonshrc
-ln -f -s $(pwd)/../src/.inputrc       ~/.inputrc
-ln -f -s $(pwd)/../src/.zshrc         ~/.zshrc
-#+end_src
-
-Or something like...
-
-#+begin_src shell :results silent :shebang #!/bin/bash :tangle no
-if [ -d "$HOME/src/shellrc/src" ]
-then
-    PATH="$HOME/src/shellrc/src:$PATH"
-fi
-#+end_src
