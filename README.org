@@ -254,14 +254,26 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 *Read* [[http://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/][Zsh/Bash startup files loading order]]:
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
+
+#+begin_src shell :tangle ./src/.bash_profile
+# User dependent .bash_profile file
+
+# source the user's .bashrc if it exists
+if [ -f "${HOME}/.bashrc" ] ; then
+  source "${HOME}/.bashrc"
+fi
+#+end_src
+
 - For Zsh, put stuff in =~/.zshrc=, which is always executed.
 
-To recover the default bash configuration files, get their copy from
+To recover the default Bash configuration files, get their copy from
 =/etc/skel=.
 
+#+begin_note
 If you get a couple of "command not found" errors and a corrupt prompt at
 startup, then your =.bashrc= is probably in Windows text format (~\r\n~ line
 endings).  Make sure your editor is in Unix format when creating text files.
+#+end_note
 
 ** What to put where?
 
@@ -309,17 +321,6 @@ Pourquoi ce dernier est-il utile ?  Pense à ceci :
 $ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
 bash: convret: command not found
 $ gm convert !*
-#+end_src
-
-** Profile
-
-#+begin_src shell :tangle ./src/.bash_profile
-# User dependent .bash_profile file
-
-# source the user's .bashrc if it exists
-if [ -f "${HOME}/.bashrc" ] ; then
-  source "${HOME}/.bashrc"
-fi
 #+end_src
 
 ** Preamble
