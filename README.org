@@ -717,6 +717,40 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 #* Code:
 #+end_src
 
+** Oh-my-Zsh Agnoster theme
+
+#+begin_note
+We put Oh-my-Zsh at the very beginning, so that it does not override our own
+settings.
+
+In fact, we should just take the theme, and explicitly disable plugins we're not
+interested in...
+#+end_note
+
+I am fan of ~agnoster~.
+
+Make sure to use a [[https://github.com/Lokaltog/powerline-fonts][patched up font]] though.
+
+#+begin_note
+If you right click them, there should be install option in the menu. Or you can
+drag it straight to Windows Fonts folder
+#+end_note
+
+Good-looking fonts:
+- UbuntuMono
+- DejaVuSansMono
+- DroidSansMono (bad?)
+
+For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
+
+#+begin_src shell
+if [ -r "$HOME/.oh-my-zsh" ]; then
+    ZSH=$HOME/.oh-my-zsh
+    ZSH_THEME="agnoster"
+    . $HOME/.oh-my-zsh/templates/zshrc.zsh-template
+fi
+#+end_src
+
 ** Command history
 
 #+begin_src shell
@@ -746,7 +780,7 @@ Wrap any non-printing escape sequences in ~%{...%}~, and it should work. So use
 See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are-stashed-revisions-on-a-git-repo-whenever
 *************** END
 
-#+begin_src shell
+#+begin_src shell :tangle no
 #** 13 (info "(zsh)Prompt Expansion")
 
 # Some colors.
@@ -795,7 +829,23 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_DESCRIBE_STYLE=branch
 export GIT_PS1_SHOWCOLORHINTS=true
-export RPROMPT=$'$(__git_ps1 "%s")'
+export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+#+end_src
+
+To get a blank line before the prompt, you can write a function to echo a blank
+line and adding it to your ~preexec~ or ~precmd~ hooks.
+
+Technically, it doesn't inset a line after each commands output, but inserts
+a blank line before building the prompt. However, the end result is the
+same.
+
+#+begin_src shell
+function echo_blank() {
+  echo
+}
+
+# preexec_functions+=echo_blank
+precmd_functions+=echo_blank
 #+end_src
 
 ** Aliasing
@@ -817,6 +867,7 @@ alias -g DN2='2> /dev/null' #
 
 #+begin_src shell
 alias -g W='| wc -l' ####
+alias -g C='| wc -l'
 alias -g S='| sort' ###
 alias -g F=' | fmt -' ##
 alias -g VM=/var/log/messages
@@ -836,7 +887,11 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
-alias -- l='ls -lg'
+#+end_src
+
+#+begin_src shell
+# When entering a directory, list the contents.
+cd() { builtin cd "$@" && ls; }
 #+end_src
 
 ** Ledger
@@ -1046,32 +1101,6 @@ setopt notify
 ## zprofile ends here
 #+end_src
 
-** Oh-my-Zsh Agnoster theme
-
-I am fan of ~agnoster~.
-
-Make sure to use a [[https://github.com/Lokaltog/powerline-fonts][patched up font]] though.
-
-#+begin_note
-If you right click them, there should be install option in the menu. Or you can
-drag it straight to Windows Fonts folder
-#+end_note
-
-Good-looking fonts:
-- UbuntuMono
-- DejaVuSansMono
-- DroidSansMono (bad?)
-
-For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
-
-#+begin_src shell
-if [ -r "$HOME/.oh-my-zsh" ]; then
-    ZSH=$HOME/.oh-my-zsh
-    ZSH_THEME="agnoster"
-    . $HOME/.oh-my-zsh/templates/zshrc.zsh-template
-fi
-#+end_src
-
 * System-wide configuration file
   :PROPERTIES:
   :tangle:   ./etc/commonprofile
@@ -1174,6 +1203,7 @@ programs such as ~man~ or ~git diff~ to display pages.
 this one feels really archaic).
 
 #+begin_src shell
+PAGER="less -r"                         # ???
 PAGER="less"
 
 # LANG="en_US.utf8"
@@ -1363,6 +1393,32 @@ alias agrep='alias | grep -i'
 
 *** Common aliases
 
+~ls~ options:
+
+- ~-a~ ::
+     Do not ignore entries starting with ~.~.
+
+- ~-C~ ::
+     List entries by *columns*.
+
+- ~-F~ ::
+     Append indicator (one of ~*/=>@|~) to entries.
+
+- ~-g~ ::
+     Like ~-l~, but do not list owner.
+
+- ~-G~ ::
+     In a long listing, don't print *group* names.
+
+- ~-h~ ::
+     With ~-l~ and/or ~-s~, print *human readable* sizes (e.g., ~1K~ ~234M~ ~2G~).
+
+- ~-l~ ::
+     Use a *long* listing format.
+
+- ~-s~ ::
+     Print the allocated *size* of each file, in blocks.
+
 #+begin_src shell
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 
@@ -1377,18 +1433,29 @@ if [ "$TERM" != "dumb" ]; then
     # fi
 
     alias ls='ls --color=auto'
-    alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
+    alias ll='ls --color=auto -a --group-directories-first -G -h -l'
                                         # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
+
+# alias -- l='ls -lg'
 #+end_src
 
-#+begin_src shell
-alias df='df -kTh'
+~df~ options:
 
+- ~-h~ ::
+     Print sizes in powers of 1024 (e.g., ~1023M~).
+
+- ~-k~ ::
+     Like ~--block-size=1K~.
+
+- ~-T~ ::
+     Print file system type.
+
+#+begin_src shell
 # Make `df' human readable.
-alias df='df -h'
+alias df='df -kTh'
 #+end_src
 
 #+begin_src shell
@@ -1425,8 +1492,9 @@ alias tbz2="tar -jxvf"
 #+end_src
 
 #+begin_src shell
-# print PATH with each directory on a new line
+# Print a more readable PATH (each directory on a new line)
 alias path='echo $PATH | sed -e "s/:/\n/g"'
+alias path='echo -e ${PATH//:/\\n}'
 
 # path
 alias where='type -all'
@@ -1466,6 +1534,7 @@ alias m='man'
 alias s='sudo'
 
 alias j='jobs -l'
+alias l='ls'
 #+end_src
 
 *** Git
@@ -1496,7 +1565,27 @@ svn_grep_all_rev() {
 *** History
 
 #+begin_src shell
-alias hgrep="history | grep -i"
+alias hg="history | grep -i"
+#+end_src
+
+Show the top 10 most used commands in your history.
+
+#+begin_src shell :tangle no
+history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | sort -nr | head -10
+#+end_src
+
+*** Screen
+
+Connect to a host in a new screen tab, with the device name as the tab title.
+
+#+begin_src shell
+function s()
+{
+    screen -t "$@" /usr/bin/ssh "$@"
+}
+
+alias screen="screen -U"
+alias resume='screen -D -R'
 #+end_src
 
 *** SSH agent / GPG agent

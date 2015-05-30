@@ -7,6 +7,12 @@
 
 #* Code:
 
+if [ -r "$HOME/.oh-my-zsh" ]; then
+    ZSH=$HOME/.oh-my-zsh
+    ZSH_THEME="agnoster"
+    . $HOME/.oh-my-zsh/templates/zshrc.zsh-template
+fi
+
 # History.
 HISTFILE=$HOME/.histfile
 HISTSIZE=1000
@@ -22,24 +28,6 @@ setopt HIST_IGNORE_DUPS
 # Use the same history file for all sessions.
 setopt SHARE_HISTORY
 
-#** 13 (info "(zsh)Prompt Expansion")
-
-# Some colors.
-local BLACK=$'%{\e[1;30m%}'
-local RED=$'%{\e[1;31m%}'
-local green=$'%{\e[0;32m%}'
-local GREEN=$'%{\e[1;32m%}'
-local yellow=$'%{\e[0;33m%}'
-local reset=$'%{\e[0m%}'
-
-# Custom prompt settings.
-PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
-    # ? - exit code of the previous command
-    # n - user name
-    # m - machine name
-    # . - abbreviated pwd
-    # ! - su?
-
 . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
 setopt prompt_subst
 export GIT_PS1_SHOWDIRTYSTATE=true
@@ -48,7 +36,14 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_DESCRIBE_STYLE=branch
 export GIT_PS1_SHOWCOLORHINTS=true
-export RPROMPT=$'$(__git_ps1 "%s")'
+export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+
+function echo_blank() {
+  echo
+}
+
+# preexec_functions+=echo_blank
+precmd_functions+=echo_blank
 
 # Command line head / tail shortcuts
 alias -g H='| head' ###
@@ -62,6 +57,7 @@ alias -g DN1='1> /dev/null' #
 alias -g DN2='2> /dev/null' #
 
 alias -g W='| wc -l' ####
+alias -g C='| wc -l'
 alias -g S='| sort' ###
 alias -g F=' | fmt -' ##
 alias -g VM=/var/log/messages
@@ -81,7 +77,9 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
-alias -- l='ls -lg'
+
+# When entering a directory, list the contents.
+cd() { builtin cd "$@" && ls; }
 
 export LEDGER=ledger
 export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
@@ -239,9 +237,3 @@ setopt notify
 # End:
 
 ## zprofile ends here
-
-if [ -r "$HOME/.oh-my-zsh" ]; then
-    ZSH=$HOME/.oh-my-zsh
-    ZSH_THEME="agnoster"
-    . $HOME/.oh-my-zsh/templates/zshrc.zsh-template
-fi

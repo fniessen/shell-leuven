@@ -45,6 +45,7 @@ INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
 # INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
 INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
+PAGER="less -r"                         # ???
 PAGER="less"
 
 # LANG="en_US.utf8"
@@ -126,16 +127,16 @@ if [ "$TERM" != "dumb" ]; then
     # fi
 
     alias ls='ls --color=auto'
-    alias ll="ls --color=auto --all --group-directories-first -l --human-readable --no-group"
+    alias ll='ls --color=auto -a --group-directories-first -G -h -l'
                                         # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
 
-alias df='df -kTh'
+# alias -- l='ls -lg'
 
 # Make `df' human readable.
-alias df='df -h'
+alias df='df -kTh'
 
 alias du='du -kh'
 
@@ -157,8 +158,9 @@ alias mv='mv -i'                        # Confirm move over an existing file.
 alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 
-# print PATH with each directory on a new line
+# Print a more readable PATH (each directory on a new line)
 alias path='echo $PATH | sed -e "s/:/\n/g"'
+alias path='echo -e ${PATH//:/\\n}'
 
 # path
 alias where='type -all'
@@ -188,6 +190,7 @@ alias m='man'
 alias s='sudo'
 
 alias j='jobs -l'
+alias l='ls'
 
 alias g='git'
 
@@ -206,7 +209,15 @@ svn_grep_all_rev() {
     )
 }
 
-alias hgrep="history | grep -i"
+alias hg="history | grep -i"
+
+function s()
+{
+    screen -t "$@" /usr/bin/ssh "$@"
+}
+
+alias screen="screen -U"
+alias resume='screen -D -R'
 
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities
