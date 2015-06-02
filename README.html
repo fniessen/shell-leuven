@@ -1454,11 +1454,11 @@ Useful keybindings:
 </p>
 
 <dl class="org-dl">
-<dt><code>M-q</code></dt><dd>Type another command in the middle of a long command (look at man, etc.).</dd>
+<dt><code>M-q</code></dt><dd>Type another command in the middle of a long command (look at <code>man</code>, etc.).</dd>
 
 <dt><code>M-.</code></dt><dd>Recall the last argument of the previous command, and so on.</dd>
 
-<dt><code>C-r</code></dt><dd>Do an interactive search across all of the history.</dd>
+<dt><code>C-r</code></dt><dd>Do an interactive search across all of the <b>command history</b>.</dd>
 </dl>
 
 <p>
@@ -1473,21 +1473,21 @@ Useful commands:
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 18 (info "(zsh)Zsh Line Editor")</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">behave like Emacs when editing</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Behave like Emacs when editing.</span>
 <span class="org-builtin">bindkey</span> -e
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">mappings for `Ctrl-up/down' for matching commands from the history</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Mappings for `Ctrl-up/down' for matching commands from the history.</span>
 <span class="org-builtin">bindkey</span> <span class="org-string">';5A'</span> history-search-backward
 <span class="org-builtin">bindkey</span> <span class="org-string">';5B'</span> history-search-forward
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">mappings for `Ctrl-left/right' for word moving</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Mappings for `Ctrl-left/right' for word moving.</span>
 <span class="org-builtin">bindkey</span> <span class="org-string">';5C'</span> forward-word
 <span class="org-builtin">bindkey</span> <span class="org-string">';5D'</span> backward-word
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">beep on errors</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Beep on errors.</span>
 <span class="org-builtin">setopt</span> beep
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">making Zsh beep like Bash when backspacing on an empty command line</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Making Zsh beep like Bash when backspacing on an empty command line.</span>
 <span class="org-function-name">backward-delete-char-beep</span> ()
 {
     <span class="org-keyword">if</span> (( <span class="org-variable-name">CURSOR</span> == 0 )); <span class="org-keyword">then</span>
@@ -1509,13 +1509,13 @@ zle -N backward-delete-char-beep
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 19 (info "(zsh)Completion Widgets")</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">load general completion</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Load general completion.</span>
 <span class="org-builtin">autoload</span> -Uz compinit &amp;&amp; compinit
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">display a list of completions when you give an ambiguous choice (like Bash)</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Display a list of completions when you give an ambiguous choice (like Bash).</span>
 <span class="org-builtin">setopt</span> autolist
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Zsh will attempt to complete wildcards by expanding them in the command line</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Zsh will attempt to complete wildcards by expanding them in the command line.</span>
 </pre>
 </div>
 </div>
@@ -1528,7 +1528,7 @@ zle -N backward-delete-char-beep
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 20 (info "(zsh)Completion System")</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">case-insensitive completion</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Case-insensitive completion.</span>
 zstyle <span class="org-string">':completion:*'</span> matcher-list <span class="org-string">'m:{a-zA-Z}={A-Za-z}'</span>
 </pre>
 </div>
@@ -1787,7 +1787,7 @@ Man pages colors:
 
 <div class="seealso">
 <p>
-<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
+<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
 </p>
 
 </div>
@@ -1908,7 +1908,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
+<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>
@@ -2058,14 +2058,22 @@ An alias cannot have an argument like <code>$1</code>.
     <span class="org-comment-delimiter">#     </span><span class="org-comment">eval "$(dircolors -b)"</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">fi</span>
 
-    <span class="org-builtin">alias</span> <span class="org-variable-name">ls</span>=<span class="org-string">'ls --color=auto'</span>
+    <span class="org-builtin">alias</span> <span class="org-variable-name">ls</span>=<span class="org-string">'ls --color=auto -F'</span>
     <span class="org-builtin">alias</span> <span class="org-variable-name">ll</span>=<span class="org-string">'ls --color=auto -a --group-directories-first -G -h -l'</span>
                                         <span class="org-comment-delimiter"># </span><span class="org-comment">Long listing and hidden files.</span>
 <span class="org-keyword">else</span>
     <span class="org-builtin">alias</span> <span class="org-variable-name">ls</span>=<span class="org-string">'ls -CF'</span>
 <span class="org-keyword">fi</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">alias -- l='ls -lg'</span>
+<p>
+Sort of tree:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">dirf</span>=<span class="org-string">'find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'</span>
 </pre>
 </div>
 
@@ -2081,21 +2089,37 @@ An alias cannot have an argument like <code>$1</code>.
 <dt><code>-T</code></dt><dd>Print file system type.</dd>
 </dl>
 
+<p>
+Make <code>df</code> human readable.
+</p>
+
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Make `df' human readable.</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -kTh'</span>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">df</span>=<span class="org-string">'df -kTh'</span>
 </pre>
 </div>
+
+<p>
+Make <code>du</code> human readable.
+</p>
 
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -kh'</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Make `du' human readable.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">du</span>=<span class="org-string">'du -h'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">du1</span>=<span class="org-string">'du -h --max-depth=1'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">dus</span>=<span class="org-string">'du -ms * | sort -rn'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">Ordered by size.</span>
+</pre>
+</div>
+
+<p>
+List all the files in this directory, and sort by human-readable file size.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">sizes</span>=<span class="org-string">"du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"</span>
 </pre>
 </div>
 
@@ -2165,7 +2189,8 @@ scripts don&rsquo;t expect to see modified!
 <div class="outline-text-4" id="text-orgheadline53">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-builtin">alias</span> -- ..=<span class="org-string">'cd ..'</span>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">up</span>=<span class="org-string">'cd ..'</span>
+<span class="org-builtin">alias</span> -- ..=<span class="org-string">'cd ..'</span>
 <span class="org-builtin">alias</span> ...=<span class="org-string">'cd ../..'</span>
 <span class="org-builtin">alias</span> ....=<span class="org-string">'cd ../../..'</span>
 <span class="org-builtin">alias</span> .....=<span class="org-string">'cd ../../../..'</span>
@@ -2266,6 +2291,7 @@ Connect to a host in a new screen tab, with the device name as the tab title.
 
 <span class="org-builtin">alias</span> <span class="org-variable-name">screen</span>=<span class="org-string">"screen -U"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">resume</span>=<span class="org-string">'screen -D -R'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">sr</span>=<span class="org-string">'screen -r'</span>
 </pre>
 </div>
 </div>
@@ -2274,6 +2300,21 @@ Connect to a host in a new screen tab, with the device name as the tab title.
 <div id="outline-container-orgheadline59" class="outline-4">
 <h4 id="orgheadline59">SSH agent / GPG agent</h4>
 <div class="outline-text-4" id="text-orgheadline59">
+<p>
+Most of our servers don&rsquo;t listen to SSH on a public VLAN. I can&rsquo;t be bothered to
+keep a tunnel open on my laptop when away from the office:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">zugzug</span>() { ssh -A -p &lt;non_standard_port&gt; -t &lt;proxy_server&gt; ssh $<span class="org-variable-name">1</span>; }
+</pre>
+</div>
+
+<p>
+While it&rsquo;s a function and not an alias, I find it invaluable.
+</p>
+
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>

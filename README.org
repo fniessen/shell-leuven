@@ -991,13 +991,13 @@ hgrep ()
 Useful keybindings:
 
 - ~M-q~ ::
-     Type another command in the middle of a long command (look at man, etc.).
+     Type another command in the middle of a long command (look at ~man~, etc.).
 
 - ~M-.~ ::
      Recall the last argument of the previous command, and so on.
 
 - ~C-r~ ::
-     Do an interactive search across all of the history.
+     Do an interactive search across all of the *command history*.
 
 Useful commands:
 
@@ -1007,21 +1007,21 @@ Useful commands:
 #+begin_src shell
 #** 18 (info "(zsh)Zsh Line Editor")
 
-# behave like Emacs when editing
+# Behave like Emacs when editing.
 bindkey -e
 
-# mappings for `Ctrl-up/down' for matching commands from the history
+# Mappings for `Ctrl-up/down' for matching commands from the history.
 bindkey ';5A' history-search-backward
 bindkey ';5B' history-search-forward
 
-# mappings for `Ctrl-left/right' for word moving
+# Mappings for `Ctrl-left/right' for word moving.
 bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 
-# beep on errors
+# Beep on errors.
 setopt beep
 
-# making Zsh beep like Bash when backspacing on an empty command line
+# Making Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep ()
 {
     if (( CURSOR == 0 )); then
@@ -1038,13 +1038,13 @@ bindkey "^?" backward-delete-char-beep
 #+begin_src shell
 #** 19 (info "(zsh)Completion Widgets")
 
-# load general completion
+# Load general completion.
 autoload -Uz compinit && compinit
 
-# display a list of completions when you give an ambiguous choice (like Bash)
+# Display a list of completions when you give an ambiguous choice (like Bash).
 setopt autolist
 
-# Zsh will attempt to complete wildcards by expanding them in the command line
+# Zsh will attempt to complete wildcards by expanding them in the command line.
 #+end_src
 
 ** Completion System
@@ -1052,7 +1052,7 @@ setopt autolist
 #+begin_src shell
 #** 20 (info "(zsh)Completion System")
 
-# case-insensitive completion
+# Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 #+end_src
 
@@ -1432,14 +1432,18 @@ if [ "$TERM" != "dumb" ]; then
     #     eval "$(dircolors -b)"
     # fi
 
-    alias ls='ls --color=auto'
+    alias ls='ls --color=auto -F'
     alias ll='ls --color=auto -a --group-directories-first -G -h -l'
                                         # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
+#+end_src
 
-# alias -- l='ls -lg'
+Sort of tree:
+
+#+begin_src shell
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 #+end_src
 
 ~df~ options:
@@ -1453,18 +1457,26 @@ fi
 - ~-T~ ::
      Print file system type.
 
+Make ~df~ human readable.
+
 #+begin_src shell
-# Make `df' human readable.
 alias df='df -kTh'
 #+end_src
+
+Make ~du~ human readable.
 
 #+begin_src shell
 alias du='du -kh'
 
-# Make `du' human readable.
 alias du='du -h'
 alias du1='du -h --max-depth=1'
 alias dus='du -ms * | sort -rn'         # Ordered by size.
+#+end_src
+
+List all the files in this directory, and sort by human-readable file size.
+
+#+begin_src shell
+alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
 #+end_src
 
 #+begin_src shell
@@ -1516,6 +1528,7 @@ alias own='sudo chown -R $USER'
 *** Directories
 
 #+begin_src shell
+alias up='cd ..'
 alias -- ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -1586,9 +1599,19 @@ function s()
 
 alias screen="screen -U"
 alias resume='screen -D -R'
+alias sr='screen -r'
 #+end_src
 
 *** SSH agent / GPG agent
+
+Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
+keep a tunnel open on my laptop when away from the office:
+
+#+begin_src shell
+zugzug() { ssh -A -p <non_standard_port> -t <proxy_server> ssh $1; }
+#+end_src
+
+While it's a function and not an alias, I find it invaluable.
 
 #+begin_src shell
 alias keyon="ssh-add -t 10800"  # add identity

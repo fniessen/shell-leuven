@@ -126,24 +126,24 @@ if [ "$TERM" != "dumb" ]; then
     #     eval "$(dircolors -b)"
     # fi
 
-    alias ls='ls --color=auto'
+    alias ls='ls --color=auto -F'
     alias ll='ls --color=auto -a --group-directories-first -G -h -l'
                                         # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi
 
-# alias -- l='ls -lg'
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
-# Make `df' human readable.
 alias df='df -kTh'
 
 alias du='du -kh'
 
-# Make `du' human readable.
 alias du='du -h'
 alias du1='du -h --max-depth=1'
 alias dus='du -ms * | sort -rn'         # Ordered by size.
+
+alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
 
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
@@ -176,6 +176,7 @@ alias exe='chmod +x'
 # Chown current dir and subdirs.
 alias own='sudo chown -R $USER'
 
+alias up='cd ..'
 alias -- ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -218,6 +219,9 @@ function s()
 
 alias screen="screen -U"
 alias resume='screen -D -R'
+alias sr='screen -r'
+
+zugzug() { ssh -A -p <non_standard_port> -t <proxy_server> ssh $1; }
 
 alias keyon="ssh-add -t 10800"  # add identity
 alias keyoff="ssh-add -D"       # remove all identities

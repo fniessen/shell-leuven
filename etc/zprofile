@@ -163,21 +163,21 @@ hgrep ()
 
 #** 18 (info "(zsh)Zsh Line Editor")
 
-# behave like Emacs when editing
+# Behave like Emacs when editing.
 bindkey -e
 
-# mappings for `Ctrl-up/down' for matching commands from the history
+# Mappings for `Ctrl-up/down' for matching commands from the history.
 bindkey ';5A' history-search-backward
 bindkey ';5B' history-search-forward
 
-# mappings for `Ctrl-left/right' for word moving
+# Mappings for `Ctrl-left/right' for word moving.
 bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 
-# beep on errors
+# Beep on errors.
 setopt beep
 
-# making Zsh beep like Bash when backspacing on an empty command line
+# Making Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep ()
 {
     if (( CURSOR == 0 )); then
@@ -190,17 +190,17 @@ bindkey "^?" backward-delete-char-beep
 
 #** 19 (info "(zsh)Completion Widgets")
 
-# load general completion
+# Load general completion.
 autoload -Uz compinit && compinit
 
-# display a list of completions when you give an ambiguous choice (like Bash)
+# Display a list of completions when you give an ambiguous choice (like Bash).
 setopt autolist
 
-# Zsh will attempt to complete wildcards by expanding them in the command line
+# Zsh will attempt to complete wildcards by expanding them in the command line.
 
 #** 20 (info "(zsh)Completion System")
 
-# case-insensitive completion
+# Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Coloring stderr.
