@@ -488,10 +488,10 @@ gmresize ()
 
 # find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
 
-# list all files modified in the last 24 hours (last full day)
+# List all files modified in the last 24 hours (last full day).
 alias oneday='find . -mtime -1 -print'
 
-# list all files modified today only (since start of day only, i.e. 00:00)
+# List all files modified today only (since start of day only, i.e. 00:00).
 today ()
 {
     touch -t `date +%m%d0000` /tmp/$$

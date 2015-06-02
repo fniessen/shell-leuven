@@ -852,6 +852,8 @@ precmd_functions+=echo_blank
 
 Some global aliases (expand whatever their position).
 
+*** Common aliases
+
 #+begin_src shell
 # Command line head / tail shortcuts
 alias -g H='| head' ###
@@ -870,7 +872,6 @@ alias -g W='| wc -l' ####
 alias -g C='| wc -l'
 alias -g S='| sort' ###
 alias -g F=' | fmt -' ##
-alias -g VM=/var/log/messages
 alias -g A='| awk'
 alias -g A1="| awk '{print \$1}'"
 alias -g A2="| awk '{print \$2}'"
@@ -883,10 +884,20 @@ alias -g A8="| awk '{print \$8}'"
 alias -g A9="| awk '{print \$9}'"
 alias -g ND='$(ls -d *(/om[1]))'        # Newest directory.
 alias -g NF='$(ls *(.om[1]))'           # Newest file.
+#+end_src
 
+#+begin_src shell
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
+#+end_src
+
+*** Directories
+
+#+begin_src shell
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
 #+end_src
 
 #+begin_src shell
@@ -1003,6 +1014,10 @@ Useful commands:
 
 - ~vared VAR~ ::
      Interactively edit variable ~VAR~.
+
+#+begin_note
+See [[file:~/.oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
+#+end_note
 
 #+begin_src shell
 #** 18 (info "(zsh)Zsh Line Editor")
@@ -1953,10 +1968,10 @@ gmresize ()
 *** Other things to sort
 
 #+begin_src shell
-# list all files modified in the last 24 hours (last full day)
+# List all files modified in the last 24 hours (last full day).
 alias oneday='find . -mtime -1 -print'
 
-# list all files modified today only (since start of day only, i.e. 00:00)
+# List all files modified today only (since start of day only, i.e. 00:00).
 today ()
 {
     touch -t `date +%m%d0000` /tmp/$$

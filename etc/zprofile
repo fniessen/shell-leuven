@@ -60,7 +60,6 @@ alias -g W='| wc -l' ####
 alias -g C='| wc -l'
 alias -g S='| sort' ###
 alias -g F=' | fmt -' ##
-alias -g VM=/var/log/messages
 alias -g A='| awk'
 alias -g A1="| awk '{print \$1}'"
 alias -g A2="| awk '{print \$2}'"
@@ -77,6 +76,10 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
 alias h='history 1 | less +G'
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
 
 # When entering a directory, list the contents.
 cd() { builtin cd "$@" && ls; }
