@@ -162,8 +162,8 @@ alias tbz2="tar -jxvf"
 alias path='echo $PATH | sed -e "s/:/\n/g"'
 alias path='echo -e ${PATH//:/\\n}'
 
-# path
-alias where='type -all'
+# Path.
+alias where='type -a'
 
 alias mkall="./configure && make && sudo make install"
 
@@ -195,10 +195,10 @@ alias l='ls'
 
 alias g='git'
 
-# search through files, ignoring .svn directories
+# Search through files, ignoring .svn directories.
 alias svn_find="find . -not \( -name .svn -prune \)"
 
-# function for grep'ing a string in every SVN revision of a file
+# Function for grep'ing a string in every SVN revision of a file.
 # Usage: svn_grep_all_rev PATTERN FILE
 svn_grep_all_rev() {
     svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
@@ -223,28 +223,28 @@ alias sr='screen -r'
 
 zugzug() { ssh -A -p <non_standard_port> -t <proxy_server> ssh $1; }
 
-alias keyon="ssh-add -t 10800"  # add identity
-alias keyoff="ssh-add -D"       # remove all identities
-alias keylist="ssh-add -l"      # list all identities
+alias keyon="ssh-add -t 10800"          # Add identity.
+alias keyoff="ssh-add -D"               # Remove all identities.
+alias keylist="ssh-add -l"              # List all identities.
 
-# gpg
+# gpg.
 searchkey ()
 {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
 }
 
-# get gpg-key from keyserver
+# Get gpg-key from keyserver.
 alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 
 encrypt ()
 {
-    # Use ascii armor
+    # Use ascii armor.
     gpg -ac --no-options "$1"
 }
 
 bencrypt ()
 {
-    # No ascii armor
+    # No ascii armor.
     # Encrypt binary data. jpegs/gifs/vobs/etc.
     gpg -c --no-options "$1"
 }
@@ -282,7 +282,7 @@ pe ()
 
 keys ()
 {
-    # Opens up kgpg keymanager
+    # Opens up kgpg keymanager.
     kgpg -k
 }
 
@@ -302,10 +302,10 @@ fi
 alias myping="hping2 -c 100 -2 -p 7 $1"
 alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
 
-# 030925 compare /proc with ps (against rootkits)
+# 030925 Compare /proc with ps (against rootkits).
 alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
-# # 040210 grep
+# # 040210 Grep.
 # alias g='find . -type f -print0 | xargs -0 grep'
 
 # Echo my current external IP address.
@@ -313,7 +313,7 @@ if $(which curl >& /dev/null); then
     alias whatismyip='curl -s http://whatismyip.org'
 fi
 
-# 040319 send files via netcat
+# 040319 Send files via `netcat'.
 # on sending side:
 #  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
 #  send dir* $HOST
@@ -322,7 +322,7 @@ fi
 #  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
 alias receive='nc -vlp 51330 | tar xzvp'
 
-# honor embedded linefeeds when displaying packets
+# Honor embedded linefeeds when displaying packets.
 alias ngrep='ngrep -W byline'
 
 # ngrep -i -w 'user|pass' port 110
@@ -348,7 +348,7 @@ alias nmap_fast="nmap -F -T5 --top-ports 300"
 #     grep -i open dump-$port-${range////_}.txt
 # }
 
-# localnet - find the local network in CIDR notation
+# localnet - Find the local network in CIDR notation.
 localnet ()
 {
     IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
@@ -360,7 +360,7 @@ localnet ()
     echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
 }
 
-# whoisonline [TARGET] - list hosts that are online
+# whoisonline [TARGET] - List hosts that are online.
 whoisonline ()
 {
     local net
@@ -373,7 +373,7 @@ whoisonline ()
     sudo nmap -sP $net | awk '/Host / && / up/ { print $0; }'
 }
 
-# localps [TARGET] - list open ports on hosts that are online
+# localps [TARGET] - List open ports on hosts that are online.
 localps ()
 {
     local hostip
@@ -397,13 +397,13 @@ localps ()
     done
 }
 
-# watchport HOST PORT - watch TCP port PORT on machine HOST
+# watchport HOST PORT - Watch TCP port PORT on machine HOST.
 watchport ()
 {
     while true; do clear; nmap $1 -PN -p $2; sleep 5; done
 }
 
-# rdns [TARGET] - perform reverse DNS lookups
+# rdns [TARGET] - Perform reverse DNS lookups.
 rdns ()
 {
     local net
@@ -419,14 +419,15 @@ rdns ()
     # lookups to be performed on a specific DNS server.
 }
 
-# anonymous wget (using Privoxy and Tor)
+# Anonymous wget (using Privoxy and Tor).
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
 
 alias off='sudo shutdown -h now'
 
 update_org () {
-    (   # Directory changes made in a subshell do not carry over to the parent shell.
+    (                                   # Directory changes made in a subshell
+                                        # do not carry over to the parent shell.
         cd $HOME/Public/Repositories/org-mode;
         git fetch --all --verbose \
             && git rebase origin \
@@ -465,7 +466,7 @@ export GREP_COLOR="0;30;43"
 # grep through the running processes
 alias pgrep='pgrep -fl'
 
-# GraphicsMagick
+# GraphicsMagick.
 alias GIF="gm convert -verbose -interlace LINE"
 alias thumb="gm convert -geometry 100x100 -interlace LINE -verbose"
 alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
@@ -516,7 +517,7 @@ alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finishe
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
 
-# clean [-r] - remove useless files (recursively)
+# clean [-r] - Remove useless files (recursively).
 clean ()
 {
     if [ "$1" = "-r" ]; then
@@ -528,7 +529,7 @@ clean ()
     fi
 }
 
-# swap FILE1 FILE2 - swap FILE1 and FILE2
+# swap FILE1 FILE2 - Swap FILE1 and FILE2.
 # Useful when you want to try a config file obtained from elsewhere, and also
 # keep the old version.
 swap ()
@@ -547,7 +548,7 @@ alias sp=sendpatch
 
 # This is for the sake of Emacs.
 # Local Variables:
-# ispell-local-dictionary: "en_US"
+# ispell-local-dictionary: "american"
 # End:
 
 # commonprofile ends here

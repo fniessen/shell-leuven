@@ -2195,8 +2195,8 @@ scripts don&rsquo;t expect to see modified!
 <span class="org-builtin">alias</span> <span class="org-variable-name">path</span>=<span class="org-string">'echo $PATH | sed -e "s/:/\n/g"'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">path</span>=<span class="org-string">'echo -e ${PATH//:/\\n}'</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">path</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">where</span>=<span class="org-string">'type -all'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Path.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">where</span>=<span class="org-string">'type -a'</span>
 </pre>
 </div>
 
@@ -2268,10 +2268,10 @@ scripts don&rsquo;t expect to see modified!
 <div class="outline-text-4" id="text-orgheadline58">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">search through files, ignoring .svn directories</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Search through files, ignoring .svn directories.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">svn_find</span>=<span class="org-string">"find . -not \( -name .svn -prune \)"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">function for grep'ing a string in every SVN revision of a file</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Function for grep'ing a string in every SVN revision of a file.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Usage: svn_grep_all_rev PATTERN FILE</span>
 <span class="org-function-name">svn_grep_all_rev</span>() {
     svn log $<span class="org-variable-name">2</span> | perl -n -e <span class="org-string">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
@@ -2350,15 +2350,15 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">add identity</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">keyoff</span>=<span class="org-string">"ssh-add -D"</span>       <span class="org-comment-delimiter"># </span><span class="org-comment">remove all identities</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">keylist</span>=<span class="org-string">"ssh-add -l"</span>      <span class="org-comment-delimiter"># </span><span class="org-comment">list all identities</span>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">keyon</span>=<span class="org-string">"ssh-add -t 10800"</span>          <span class="org-comment-delimiter"># </span><span class="org-comment">Add identity.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">keyoff</span>=<span class="org-string">"ssh-add -D"</span>               <span class="org-comment-delimiter"># </span><span class="org-comment">Remove all identities.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">keylist</span>=<span class="org-string">"ssh-add -l"</span>              <span class="org-comment-delimiter"># </span><span class="org-comment">List all identities.</span>
 </pre>
 </div>
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">gpg</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">gpg.</span>
 <span class="org-function-name">searchkey</span> ()
 {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key <span class="org-string">"$@"</span>;
@@ -2368,7 +2368,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">get gpg-key from keyserver</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Get gpg-key from keyserver.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">getkey</span>=<span class="org-string">'gpg --keyserver keys.gnupg.net --recv-keys'</span>
 </pre>
 </div>
@@ -2377,13 +2377,13 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <pre class="src src-shell"><span class="org-function-name">encrypt</span> ()
 {
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Use ascii armor</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Use ascii armor.</span>
     gpg -ac --no-options <span class="org-string">"$1"</span>
 }
 
 <span class="org-function-name">bencrypt</span> ()
 {
-    <span class="org-comment-delimiter"># </span><span class="org-comment">No ascii armor</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">No ascii armor.</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">Encrypt binary data. jpegs/gifs/vobs/etc.</span>
     gpg -c --no-options <span class="org-string">"$1"</span>
 }
@@ -2421,7 +2421,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <span class="org-function-name">keys</span> ()
 {
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Opens up kgpg keymanager</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Opens up kgpg keymanager.</span>
     kgpg -k
 }
 </pre>
@@ -2463,10 +2463,10 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <span class="org-builtin">alias</span> <span class="org-variable-name">myping</span>=<span class="org-string">"hping2 -c 100 -2 -p 7 $1"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">myping2</span>=<span class="org-string">"hping2 -d 500 -c 100 -2 -p 7 $1"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">030925 compare /proc with ps (against rootkits)</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">030925 Compare /proc with ps (against rootkits).</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">myps</span>=<span class="org-string">"sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment"># 040210 grep</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># 040210 Grep.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">alias g='find . -type f -print0 | xargs -0 grep'</span>
 </pre>
 </div>
@@ -2482,7 +2482,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">040319 send files via netcat</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">040319 Send files via `netcat'.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">on sending side:</span>
 <span class="org-comment-delimiter">#  </span><span class="org-comment">send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}</span>
 <span class="org-comment-delimiter">#  </span><span class="org-comment">send dir* $HOST</span>
@@ -2495,7 +2495,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">honor embedded linefeeds when displaying packets</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Honor embedded linefeeds when displaying packets.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">ngrep</span>=<span class="org-string">'ngrep -W byline'</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">ngrep -i -w 'user|pass' port 110</span>
@@ -2537,7 +2537,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">localnet - find the local network in CIDR notation</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">localnet - Find the local network in CIDR notation.</span>
 <span class="org-function-name">localnet</span> ()
 {
     <span class="org-variable-name">IP_ADDRESS</span>=$(ifconfig | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
@@ -2549,7 +2549,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-builtin">echo</span> $(ipcalc -n -b $<span class="org-variable-name">IP_ADDRESS</span> $<span class="org-variable-name">NETMASK</span> | grep Network | awk <span class="org-string">'{print $2}'</span>)
 }
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">whoisonline [TARGET] - list hosts that are online</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">whoisonline [TARGET] - List hosts that are online.</span>
 <span class="org-function-name">whoisonline</span> ()
 {
     <span class="org-builtin">local</span> net
@@ -2562,7 +2562,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     sudo nmap -sP $<span class="org-variable-name">net</span> | awk <span class="org-string">'/Host / &amp;&amp; / up/ { print $0; }'</span>
 }
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">localps [TARGET] - list open ports on hosts that are online</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">localps [TARGET] - List open ports on hosts that are online.</span>
 <span class="org-function-name">localps</span> ()
 {
     <span class="org-builtin">local</span> hostip
@@ -2586,13 +2586,13 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-keyword">done</span>
 }
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">watchport HOST PORT - watch TCP port PORT on machine HOST</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">watchport HOST PORT - Watch TCP port PORT on machine HOST.</span>
 <span class="org-function-name">watchport</span> ()
 {
     <span class="org-keyword">while </span><span class="org-builtin">true</span>; <span class="org-keyword">do</span> clear; nmap $<span class="org-variable-name">1</span> -PN -p $<span class="org-variable-name">2</span>; sleep 5; <span class="org-keyword">done</span>
 }
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">rdns [TARGET] - perform reverse DNS lookups</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">rdns [TARGET] - Perform reverse DNS lookups.</span>
 <span class="org-function-name">rdns</span> ()
 {
     <span class="org-builtin">local</span> net
@@ -2612,7 +2612,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">anonymous wget (using Privoxy and Tor)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Anonymous wget (using Privoxy and Tor).</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">aget</span>=<span class="org-string">'wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">mirror</span>=<span class="org-string">"wget -v --tries=0 --continue --force-directories --mirror --no-parent"</span>
 </pre>
@@ -2637,7 +2637,8 @@ For branches for which we want to make some development, and keep in track with
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-function-name">update_org</span> () {
-    (   <span class="org-comment-delimiter"># </span><span class="org-comment">Directory changes made in a subshell do not carry over to the parent shell.</span>
+    (                                   <span class="org-comment-delimiter"># </span><span class="org-comment">Directory changes made in a subshell</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">do not carry over to the parent shell.</span>
         <span class="org-builtin">cd</span> $<span class="org-variable-name">HOME</span>/Public/Repositories/org-mode;
         git fetch --all --verbose <span class="org-sh-escaped-newline">\</span>
             &amp;&amp; git rebase origin <span class="org-sh-escaped-newline">\</span>
@@ -2732,7 +2733,7 @@ worked&#x2026;
 <div class="outline-text-4" id="text-orgheadline66">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">GIF</span>=<span class="org-string">"gm convert -verbose -interlace LINE"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">thumb</span>=<span class="org-string">"gm convert -geometry 100x100 -interlace LINE -verbose"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">region</span>=<span class="org-string">'sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'</span>
@@ -2804,7 +2805,7 @@ worked&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">clean [-r] - remove useless files (recursively)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">clean [-r] - Remove useless files (recursively).</span>
 <span class="org-function-name">clean</span> ()
 {
     <span class="org-keyword">if</span> [ <span class="org-string">"$1"</span> = <span class="org-string">"-r"</span> ]; <span class="org-keyword">then</span>
@@ -2816,7 +2817,7 @@ worked&#x2026;
     <span class="org-keyword">fi</span>
 }
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">swap FILE1 FILE2 - swap FILE1 and FILE2</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">swap FILE1 FILE2 - Swap FILE1 and FILE2.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Useful when you want to try a config file obtained from elsewhere, and also</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">keep the old version.</span>
 <span class="org-function-name">swap</span> ()
@@ -2854,7 +2855,7 @@ worked&#x2026;
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables&#58;</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">ispell-local-dictionary: "en_US"</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">ispell-local-dictionary: "american"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">commonprofile ends here</span>
