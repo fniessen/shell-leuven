@@ -68,7 +68,7 @@ export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
 export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 # See `terminfo'.
 
-# tailoring `less'
+# Tailor `less'.
 LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
@@ -148,9 +148,8 @@ alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
 
-# Play safe!
-alias rm='rm -i'                        # Confirm removing file (prevent some
-                                        # accidental mistakes).
+# Play safe!  Prevent some accidental mistakes.
+alias rm='rm -i'                        # Confirm removing file.
 alias cp='cp -i'                        # Confirm copy over an existing file.
 alias mv='mv -i'                        # Confirm move over an existing file.
 
@@ -158,7 +157,7 @@ alias mv='mv -i'                        # Confirm move over an existing file.
 alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 
-# Print a more readable PATH (each directory on a new line)
+# Print a more readable PATH (each directory on a new line).
 alias path='echo $PATH | sed -e "s/:/\n/g"'
 alias path='echo -e ${PATH//:/\\n}'
 
@@ -458,12 +457,14 @@ then
     source $HOME/Public/Repositories/org-bash-utils/awk-alias
 fi
 
-# display the matched pattern in color
+# Display the matched pattern in color.
 alias grep='grep --color=auto'
+alias egrep='grep -E --color=auto'
+alias fgrep='grep -F --color=auto'
 
 export GREP_COLOR="0;30;43"
 
-# grep through the running processes
+# Grep through the running processes.
 alias pgrep='pgrep -fl'
 
 # GraphicsMagick.

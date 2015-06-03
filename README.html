@@ -1833,7 +1833,7 @@ highlight man pages.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">tailoring `less'</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Tailor `less'.</span>
 <span class="org-variable-name">LESS</span>=<span class="org-string">"--quit-at-eof --ignore-case --long-prompt --raw-control-chars"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">export LESS="-P ?c&lt;- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"</span>
 </pre>
@@ -1850,8 +1850,45 @@ option.
 <p>
 See
 <a href="http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off">http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off</a>
-for options <code>-F</code>, <code>-R</code> and <code>-s</code>.
 </p>
+
+<p>
+<code>less</code> options:
+</p>
+
+<dl class="org-dl">
+<dt><code>-e</code> or <code>--quit-at-eof</code></dt><dd>Causes <code>less</code> to automatically exit the second time it reaches end-of-file.
+By default, the only way to exit <code>less</code> is via the <code>q</code> command.</dd>
+
+<dt><code>-F</code></dt><dd>Causes <code>less</code> to automatically exit if the entire file can be displayed on
+the first screen.</dd>
+
+<dt><code>-i</code> or <code>--ignore-case</code></dt><dd>Causes searches to ignore case; that is, uppercase and lowercase are
+considered identical.  This option is ignored if any uppercase letters
+appear in the search pattern; in other words, if a pattern contains
+uppercase letters, then that search does not ignore case.</dd>
+
+<dt><code>-m</code> or <code>--long-prompt</code></dt><dd>Causes less to prompt verbosely (like <code>more</code>), with the percent into the
+file.  By default, <code>less</code> prompts with a colon.</dd>
+
+<dt><code>-M</code> or <code>--LONG-PROMPT</code></dt><dd>Causes <code>less</code> to prompt even more verbosely than <code>more</code>.</dd>
+
+<dt><code>-r</code> or <code>--raw-control-chars</code></dt><dd>Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
+control characters using the caret notation; for example, a control-A
+(octal 001) is displayed as &ldquo;^A&rdquo;.  Warning: when the <code>-r</code> option is used,
+<code>less</code> cannot keep track of the actual appearance of the screen (since this
+depends on how the screen responds to each type of control character).
+Thus, various display problems may result, such as long lines being split
+in the wrong place.</dd>
+
+<dt><code>-R</code> or <code>--RAW-CONTROL-CHARS</code></dt><dd>(Only) ANSI &ldquo;color&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
+the <code>...</code> is zero or more color specification characters, and <code>m</code> ends ANSI
+color escape sequences) are output in &ldquo;raw&rdquo; form.</dd>
+
+<dt><code>-X</code> or <code>--no-init</code></dt><dd>Disables sending the termcap initialization and deinitialization strings to
+the terminal.  This is sometimes desirable if the deinitialization string
+does something unnecessary, like <b>clearing the screen</b>.</dd>
+</dl>
 
 <div class="note">
 <p>
@@ -2165,9 +2202,8 @@ List all the files in this directory, and sort by human-readable file size.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Play safe!</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">rm</span>=<span class="org-string">'rm -i'</span>                        <span class="org-comment-delimiter"># </span><span class="org-comment">Confirm removing file (prevent some</span>
-                                        <span class="org-comment-delimiter"># </span><span class="org-comment">accidental mistakes).</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Play safe!  Prevent some accidental mistakes.</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">rm</span>=<span class="org-string">'rm -i'</span>                        <span class="org-comment-delimiter"># </span><span class="org-comment">Confirm removing file.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">cp</span>=<span class="org-string">'cp -i'</span>                        <span class="org-comment-delimiter"># </span><span class="org-comment">Confirm copy over an existing file.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">mv</span>=<span class="org-string">'mv -i'</span>                        <span class="org-comment-delimiter"># </span><span class="org-comment">Confirm move over an existing file.</span>
 </pre>
@@ -2191,7 +2227,7 @@ scripts don&rsquo;t expect to see modified!
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Print a more readable PATH (each directory on a new line)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Print a more readable PATH (each directory on a new line).</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">path</span>=<span class="org-string">'echo $PATH | sed -e "s/:/\n/g"'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">path</span>=<span class="org-string">'echo -e ${PATH//:/\\n}'</span>
 
@@ -2688,10 +2724,23 @@ nil</div>
 <div id="outline-container-orgheadline65" class="outline-4">
 <h4 id="orgheadline65">Grep</h4>
 <div class="outline-text-4" id="text-orgheadline65">
+<div class="note">
+<p>
+<code>GREP_OPTIONS</code> is dangerous because it applies in scripts that may be relying on
+the exact set of options that they pass to <code>grep</code> (<code>--color=auto</code> is about the only
+safe thing you can put there); it&rsquo;s even officially <b>deprecated</b> since <code>grep</code> 2.21.
+It is better to make <code>grep</code> itself an alias (and also <code>egrep</code> and <code>fgrep</code> if you use
+them).
+</p>
+
+</div>
+
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">display the matched pattern in color</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Display the matched pattern in color.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'grep --color=auto'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">egrep</span>=<span class="org-string">'grep -E --color=auto'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">fgrep</span>=<span class="org-string">'grep -F --color=auto'</span>
 </pre>
 </div>
 
@@ -2707,9 +2756,9 @@ Change the color of <code>grep</code>:
 
 <div class="note">
 <p>
-The colors are defined by the environment variable <code>GREP_COLORS</code>. The deprecated
-environment variable <code>GREP_COLOR</code> is still supported, but its setting does not
-have priority.
+The colors are defined by the environment variable <code>GREP_COLORS</code> (used in <code>grep</code>
+2.5.2 and later versions). The <b>deprecated</b> environment variable <code>GREP_COLOR</code> (used
+in <code>grep</code> 2.5.1) is still supported, but its setting does not have priority.
 </p>
 
 <p>
@@ -2721,7 +2770,7 @@ worked&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">grep through the running processes</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Grep through the running processes.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">pgrep</span>=<span class="org-string">'pgrep -fl'</span>
 </pre>
 </div>

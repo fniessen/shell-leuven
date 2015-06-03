@@ -1262,7 +1262,7 @@ http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
 highlight man pages.
 
 #+begin_src shell
-# tailoring `less'
+# Tailor `less'.
 LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 #+end_src
@@ -1274,7 +1274,48 @@ option.
 
 See
 http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
-for options ~-F~, ~-R~ and ~-s~.
+
+~less~ options:
+
+- ~-e~ or ~--quit-at-eof~ ::
+     Causes ~less~ to automatically exit the second time it reaches end-of-file.
+     By default, the only way to exit ~less~ is via the ~q~ command.
+
+- ~-F~ ::
+     Causes ~less~ to automatically exit if the entire file can be displayed on
+     the first screen.
+
+- ~-i~ or ~--ignore-case~ ::
+     Causes searches to ignore case; that is, uppercase and lowercase are
+     considered identical.  This option is ignored if any uppercase letters
+     appear in the search pattern; in other words, if a pattern contains
+     uppercase letters, then that search does not ignore case.
+
+- ~-m~ or ~--long-prompt~ ::
+     Causes less to prompt verbosely (like ~more~), with the percent into the
+     file.  By default, ~less~ prompts with a colon.
+
+- ~-M~ or ~--LONG-PROMPT~ ::
+     Causes ~less~ to prompt even more verbosely than ~more~.
+
+- ~-r~ or ~--raw-control-chars~ ::
+     Causes "raw" control characters to be displayed.  The default is to display
+     control characters using the caret notation; for example, a control-A
+     (octal 001) is displayed as "^A".  Warning: when the ~-r~ option is used,
+     ~less~ cannot keep track of the actual appearance of the screen (since this
+     depends on how the screen responds to each type of control character).
+     Thus, various display problems may result, such as long lines being split
+     in the wrong place.
+
+- ~-R~ or ~--RAW-CONTROL-CHARS~ ::
+     (Only) ANSI "color" escape sequences (sequences of the form ~ESC[...m~ where
+     the ~...~ is zero or more color specification characters, and ~m~ ends ANSI
+     color escape sequences) are output in "raw" form.
+
+- ~-X~ or ~--no-init~ ::
+     Disables sending the termcap initialization and deinitialization strings to
+     the terminal.  This is sometimes desirable if the deinitialization string
+     does something unnecessary, like *clearing the screen*.
 
 #+begin_note
 Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
@@ -1500,9 +1541,8 @@ alias ff='find . -type f -name'
 #+end_src
 
 #+begin_src shell
-# Play safe!
-alias rm='rm -i'                        # Confirm removing file (prevent some
-                                        # accidental mistakes).
+# Play safe!  Prevent some accidental mistakes.
+alias rm='rm -i'                        # Confirm removing file.
 alias cp='cp -i'                        # Confirm copy over an existing file.
 alias mv='mv -i'                        # Confirm move over an existing file.
 #+end_src
@@ -1519,7 +1559,7 @@ alias tbz2="tar -jxvf"
 #+end_src
 
 #+begin_src shell
-# Print a more readable PATH (each directory on a new line)
+# Print a more readable PATH (each directory on a new line).
 alias path='echo $PATH | sed -e "s/:/\n/g"'
 alias path='echo -e ${PATH//:/\\n}'
 
@@ -1914,9 +1954,19 @@ fi
 
 *** Grep
 
+#+begin_note
+~GREP_OPTIONS~ is dangerous because it applies in scripts that may be relying on
+the exact set of options that they pass to ~grep~ (~--color=auto~ is about the only
+safe thing you can put there); it's even officially *deprecated* since ~grep~ 2.21.
+It is better to make ~grep~ itself an alias (and also ~egrep~ and ~fgrep~ if you use
+them).
+#+end_note
+
 #+begin_src shell
-# display the matched pattern in color
+# Display the matched pattern in color.
 alias grep='grep --color=auto'
+alias egrep='grep -E --color=auto'
+alias fgrep='grep -F --color=auto'
 #+end_src
 
 Change the color of ~grep~:
@@ -1926,16 +1976,16 @@ export GREP_COLOR="0;30;43"
 #+end_src
 
 #+begin_note
-The colors are defined by the environment variable ~GREP_COLORS~. The deprecated
-environment variable ~GREP_COLOR~ is still supported, but its setting does not
-have priority.
+The colors are defined by the environment variable ~GREP_COLORS~ (used in ~grep~
+2.5.2 and later versions). The *deprecated* environment variable ~GREP_COLOR~ (used
+in ~grep~ 2.5.1) is still supported, but its setting does not have priority.
 
 But apparently, this is not the case on my system. ~GREP_COLOR~ is the one that
 worked...
 #+end_note
 
 #+begin_src shell
-# grep through the running processes
+# Grep through the running processes.
 alias pgrep='pgrep -fl'
 #+end_src
 
