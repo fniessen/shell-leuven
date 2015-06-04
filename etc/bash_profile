@@ -19,7 +19,7 @@ HISTCONTROL=ignoredups
 
 #*** Controlling the Prompt
 
-# regular colors
+# Regular colors.
 green="\[\e[0;32m\]"
 yellow="\[\e[0;33m\]"
 
@@ -38,7 +38,7 @@ reset="\[\e[0m\]"
 
 #**** PS4 --- Used by "set -x" to prefix tracing output
 
-# get line numbers when you run with `-x'
+# Get line numbers when you run with `-x'.
 PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 # single quotes (otherwise, this line number is taken)
 
@@ -47,47 +47,47 @@ PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 
 #**** PROMPT_COMMAND
 
-# to be called just before the prompt is printed
+# To be called just before the prompt is printed.
 precmd ()
 {
     RET=$?
 
-    # set a color prompt (unless in Emacs)
+    # Set a color prompt (unless in Emacs).
     case $TERM in
         cygwin|xterm*|rxvt-unicode)
             local color_prompt=yes
             ;;
         dumb)
-            # `M-x shell' under Cygwin Emacs
-            # `M-x eshell' under EmacsW32
-            # Tramp
+            # `M-x shell' under Cygwin Emacs.
+            # `M-x eshell' under EmacsW32.
+            # Tramp.
             local color_prompt=no
             ;;
         emacs)
-            # `M-x shell' under EmacsW32
+            # `M-x shell' under EmacsW32.
             local color_prompt=no
             ;;
         eterm-color)
-            # `M-x term' under Cygwin Emacs
+            # `M-x term' under Cygwin Emacs.
             local color_prompt=no
             ;;
     esac
 
-    # colorful prompt, based on whether the previous command succeeded or not
+    # Colorful prompt, based on whether the previous command succeeded or not.
     if [ $RET -eq 0 ]; then
         HILIT_RET=${GREEN}
     else
         HILIT_RET=${RED}
     fi
 
-    # replace the `$HOME' prefix by `~' in the current directory
+    # Replace the `$HOME' prefix by `~' in the current directory.
     if [ "$HOME" = "${PWD:0:${#HOME}}" ]; then
         myPWD="~${PWD:${#HOME}}"
     else
         myPWD=$PWD
     fi
 
-    # how many characters of the path should be kept
+    # How many characters of the path should be kept.
     local pwd_max_length=15
 
     if [ ${#myPWD} -gt $pwd_max_length ]; then
@@ -95,7 +95,7 @@ precmd ()
         myPWD="...${myPWD:$pwd_offset:$pwd_max_length}"
     fi
 
-    # prompt character
+    # Prompt character.
     if [ "$USERNAME" = "root" ]; then
         local PROMPTCHAR="#"
     else
@@ -109,8 +109,8 @@ precmd ()
     fi
 }
 
-# execute the content of the `PROMPT_COMMAND' just before displaying the `PS1'
-# variable (but don't confuse Tramp)
+# Execute the content of the `PROMPT_COMMAND' just before displaying the `PS1'
+# variable (but don't confuse Tramp).
 [ $TERM = "dumb" ] || PROMPT_COMMAND=precmd
 
 # source global definitions if the session is interactive (to avoid problems
@@ -149,7 +149,7 @@ saneperms ()
     find . -type f -print0 | xargs -0 chmod ${1:=644}
 }
 
-# # search for various types or README file in dir and display them in $PAGER
+# # Search for various types or README file in dir and display them in $PAGER.
 # readme ()
 # {
 #     local files
@@ -163,17 +163,17 @@ saneperms ()
 
 # # Get a file's basename, dirname, extension, etc
 #
-# # get extension; everything after last '.'
+# # Get extension; everything after last '.'.
 # ext=${file##*.}
 #
-# # basename
+# # Basename.
 # basename=`basename "$file"`
-# # everything after last '/'
+# # Everything after last '/'.
 # basename=${file##*/}
 #
-# # dirname
+# # Dirname.
 # dirname=`dirname "$file"`
-# # everything before last '/'
+# # Everything before last '/'.
 # basename=${file%/*}
 
 safetmp ()
@@ -192,7 +192,7 @@ timesync ()
     fi
 }
 
-# immediately opens the first match
+# Immediately opens the first match.
 texman ()
 {
     locate $* | grep pdf | grep texlive | head -1 | xargs open;

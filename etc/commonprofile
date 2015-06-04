@@ -50,7 +50,7 @@ PAGER="less"
 
 # LANG="en_US.utf8"
 # LC_CTYPE="en_US.utf8"
-# LC_ALL="C"   # fixes the problem of strange characters in the man page
+# LC_ALL="C"                              # Fix the problem of strange characters in the man page.
 # XXX These should be set in `/etc/default/locale', via `sudo update-locale'
 
 alias more="less"
@@ -119,7 +119,7 @@ LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 # Enable color support of `ls'.
 if [ "$TERM" != "dumb" ]; then
 
-    # # add my coloration scheme to directory listings
+    # # Add my coloration scheme to directory listings.
     # if [ -f $HOME/.dircolors ]; then
     #     eval "$(dircolors -b $HOME/.dircolors)"
     # else
@@ -197,7 +197,7 @@ alias g='git'
 # Search through files, ignoring .svn directories.
 alias svn_find="find . -not \( -name .svn -prune \)"
 
-# Function for grep'ing a string in every SVN revision of a file.
+# Grep a string in every SVN revision of a file.
 # Usage: svn_grep_all_rev PATTERN FILE
 svn_grep_all_rev() {
     svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
@@ -281,7 +281,7 @@ pe ()
 
 keys ()
 {
-    # Opens up kgpg keymanager.
+    # Open up kgpg keymanager.
     kgpg -k
 }
 
@@ -483,8 +483,8 @@ gmresize ()
     do
         echo "Processing image $i ..."
         gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
-        # obscure but useful string operations
-        # (see http://www.arachnoid.com/linux/shell_programming.html)
+        # Obscure but useful string operations.
+        # (See http://www.arachnoid.com/linux/shell_programming.html.)
     done
 }
 

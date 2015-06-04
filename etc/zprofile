@@ -10,7 +10,9 @@
 if [ -r "$HOME/.oh-my-zsh" ]; then
     ZSH=$HOME/.oh-my-zsh
     ZSH_THEME="agnoster"
-    . $HOME/.oh-my-zsh/templates/zshrc.zsh-template
+    # plugins=(git osx rails ruby github node rbenv npm brew byte)
+    # . $ZSH/oh-my-zsh.sh
+    . $ZSH/templates/zshrc.zsh-template
 fi
 
 # History.
@@ -87,12 +89,12 @@ cd() { builtin cd "$@" && ls; }
 export LEDGER=ledger
 export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
 
-# hledger print [REGEXP]... - show entries in Ledger format
+# hledger print [REGEXP]... - Show entries in Ledger format.
     #! `hledger' is better than `ledger' in the sense that it does output
     #! 2 decimals whatever the figure, and that it does not output trailing
     #! spaces. There is no other difference (not even in indentation).
 
-# other problem with ledger: reports onto 81 columns when using other DATEFMT...
+# Other problem with ledger: reports onto 81 columns when using other DATEFMT...
 
 alias -g LG="\$LEDGER -f \$LEDGER_FILE"
 alias -g DATEFMT='-y %Y/%m/%d'  # for output
@@ -152,7 +154,7 @@ EOF
 
 #** 9 (info "(zsh)Functions")
 
-# hgrep PATTERN - print the history lines matching PATTERN
+# hgrep PATTERN - Print the history lines matching PATTERN.
 hgrep ()
 {
     history 0 | grep $1
@@ -177,10 +179,12 @@ bindkey ';5B' history-search-forward
 bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 
-# Beep on errors.
+# Beep when there's an error with the command text you're typing in (e.g. if you
+# hit tab and there are no matching files) -- not as a result of normal commands
+# returning errors.
 setopt beep
 
-# Making Zsh beep like Bash when backspacing on an empty command line.
+# Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep ()
 {
     if (( CURSOR == 0 )); then
@@ -220,16 +224,16 @@ color_err () {
 
 exec 2> >( color_err )
 
-# change directory given just path
+# Change directory given just path.
 setopt autocd
 
-# use additional pattern matching features
+# Use additional pattern matching features.
 setopt extendedglob
 
-# unmatched patterns cause an error
+# Unmatched patterns cause an error.
 setopt nomatch
 
-# immediately report changes in background job status
+# Immediately report changes in background job status.
 setopt notify
 
 #* Local Variables
