@@ -59,6 +59,8 @@ Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
 *************** TODO See http://www.4thinker.com/cygwin-setup.html
 *************** END
 
+[[http://cygwin.com/cgi-bin2/package-grep.cgi][Cygwin Package Search]]
+
 Install extra packages:
 
 - Archive
@@ -141,6 +143,7 @@ Install extra packages:
   + [X] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
     though you can use ~C-l~ to get the same result)
   + [X] ~cygutils~ (for ~unix2dos~)
+  + [X] ~tig~ (Git browser)
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
@@ -1278,20 +1281,6 @@ See also
 http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
 highlight man pages.
 
-#+begin_src shell
-# Tailor `less'.
-LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
-#+end_src
-
-#+begin_note
-If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
-option.
-#+end_note
-
-See
-http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
-
 ~less~ options:
 
 - ~-e~ or ~--quit-at-eof~ ::
@@ -1318,26 +1307,44 @@ http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how
 - ~-r~ or ~--raw-control-chars~ ::
      Causes "raw" control characters to be displayed.  The default is to display
      control characters using the caret notation; for example, a control-A
-     (octal 001) is displayed as "^A".  Warning: when the ~-r~ option is used,
-     ~less~ cannot keep track of the actual appearance of the screen (since this
-     depends on how the screen responds to each type of control character).
-     Thus, various display problems may result, such as long lines being split
-     in the wrong place.
+     (octal 001) is displayed as "^A".
+
+     #+begin_warning
+     When the ~-r~ option is used, ~less~ cannot keep track of the actual appearance
+     of the screen (since this depends on how the screen responds to each type
+     of control character).  Thus, various display problems may result, such as
+     long lines being split in the wrong place.
+     #+end_warning
 
 - ~-R~ or ~--RAW-CONTROL-CHARS~ ::
      (Only) ANSI "color" escape sequences (sequences of the form ~ESC[...m~ where
      the ~...~ is zero or more color specification characters, and ~m~ ends ANSI
      color escape sequences) are output in "raw" form.
 
+     #+begin_note
+     Without ~--RAW-CONTROL-CHARS~ (or ~--raw-control-chars~), ~less~ outputs the
+     colors as raw escape codes, that is it does not *interpret colors*. With it,
+     ~git diff~ finally shows colors...
+     #+end_note
+
 - ~-X~ or ~--no-init~ ::
-     Disables sending the termcap initialization and deinitialization strings to
+     *Disables* sending the termcap initialization and deinitialization strings to
      the terminal.  This is sometimes desirable if the deinitialization string
      does something unnecessary, like *clearing the screen*.
 
-#+begin_note
-Without ~--raw-control-chars~, ~less~ outputs the colors as raw escape codes, that
-is it does not *interpret colors*. With it, ~git diff~ finally shows colors...
-#+end_note
+     #+begin_note
+     If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
+     option.
+     #+end_note
+
+#+begin_src shell
+# Tailor `less'.
+LESS="-F -i -M -R -X"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+#+end_src
+
+See
+http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
 
 *** Most
 

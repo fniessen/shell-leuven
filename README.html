@@ -210,6 +210,10 @@ Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
 nil</div>
 
 <p>
+<a href="http://cygwin.com/cgi-bin2/package-grep.cgi">Cygwin Package Search</a>
+</p>
+
+<p>
 Install extra packages:
 </p>
 
@@ -325,6 +329,7 @@ Install extra packages:
 <li class="on">&#x2611; <code>ncurses</code> (provides the <code>clear</code> command used by the TeX Live installer,
 though you can use <code>C-l</code> to get the same result)</li>
 <li class="on">&#x2611; <code>cygutils</code> (for <code>unix2dos</code>)</li>
+<li class="on">&#x2611; <code>tig</code> (Git browser)</li>
 <li class="off">&#x2610; <code>fdupes</code></li>
 <li class="off">&#x2610; <code>file</code> to determine file type</li>
 <li class="off">&#x2610; <code>flog</code> (logger, to syslog)</li>
@@ -1526,7 +1531,7 @@ Useful commands:
 
 <div class="note">
 <p>
-See <a href="file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
+See <a href="file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
 </p>
 
 </div>
@@ -1851,7 +1856,7 @@ Man pages colors:
 
 <div class="seealso">
 <p>
-<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
+<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
 </p>
 
 </div>
@@ -1860,27 +1865,6 @@ Man pages colors:
 See also
 <a href="http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting">http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting</a> to
 highlight man pages.
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Tailor `less'.</span>
-<span class="org-variable-name">LESS</span>=<span class="org-string">"--quit-at-eof --ignore-case --long-prompt --raw-control-chars"</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">export LESS="-P ?c&lt;- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"</span>
-</pre>
-</div>
-
-<div class="note">
-<p>
-If you want that <code>less</code> does not <b>clear the terminal</b> when quitting, use the <code>-X</code>
-option.
-</p>
-
-</div>
-
-<p>
-See
-<a href="http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off">http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off</a>
 </p>
 
 <p>
@@ -1904,30 +1888,64 @@ file.  By default, <code>less</code> prompts with a colon.</dd>
 
 <dt><code>-M</code> or <code>--LONG-PROMPT</code></dt><dd>Causes <code>less</code> to prompt even more verbosely than <code>more</code>.</dd>
 
-<dt><code>-r</code> or <code>--raw-control-chars</code></dt><dd>Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
+<dt><code>-r</code> or <code>--raw-control-chars</code></dt><dd><p>
+     Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
 control characters using the caret notation; for example, a control-A
-(octal 001) is displayed as &ldquo;^A&rdquo;.  Warning: when the <code>-r</code> option is used,
-<code>less</code> cannot keep track of the actual appearance of the screen (since this
-depends on how the screen responds to each type of control character).
-Thus, various display problems may result, such as long lines being split
-in the wrong place.</dd>
+(octal 001) is displayed as &ldquo;^A&rdquo;.
+</p>
 
-<dt><code>-R</code> or <code>--RAW-CONTROL-CHARS</code></dt><dd>(Only) ANSI &ldquo;color&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
+<div class="warning">
+<p>
+When the <code>-r</code> option is used, <code>less</code> cannot keep track of the actual appearance
+of the screen (since this depends on how the screen responds to each type
+of control character).  Thus, various display problems may result, such as
+long lines being split in the wrong place.
+</p>
+
+</div></dd>
+
+<dt><code>-R</code> or <code>--RAW-CONTROL-CHARS</code></dt><dd><p>
+     (Only) ANSI &ldquo;color&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
 the <code>...</code> is zero or more color specification characters, and <code>m</code> ends ANSI
-color escape sequences) are output in &ldquo;raw&rdquo; form.</dd>
-
-<dt><code>-X</code> or <code>--no-init</code></dt><dd>Disables sending the termcap initialization and deinitialization strings to
-the terminal.  This is sometimes desirable if the deinitialization string
-does something unnecessary, like <b>clearing the screen</b>.</dd>
-</dl>
+color escape sequences) are output in &ldquo;raw&rdquo; form.
+</p>
 
 <div class="note">
 <p>
-Without <code>--raw-control-chars</code>, <code>less</code> outputs the colors as raw escape codes, that
-is it does not <b>interpret colors</b>. With it, <code>git diff</code> finally shows colors&#x2026;
+Without <code>--RAW-CONTROL-CHARS</code> (or <code>--raw-control-chars</code>), <code>less</code> outputs the
+colors as raw escape codes, that is it does not <b>interpret colors</b>. With it,
+<code>git diff</code> finally shows colors&#x2026;
 </p>
 
+</div></dd>
+
+<dt><code>-X</code> or <code>--no-init</code></dt><dd><p>
+     <b>Disables</b> sending the termcap initialization and deinitialization strings to
+the terminal.  This is sometimes desirable if the deinitialization string
+does something unnecessary, like <b>clearing the screen</b>.
+</p>
+
+<div class="note">
+<p>
+If you want that <code>less</code> does not <b>clear the terminal</b> when quitting, use the <code>-X</code>
+option.
+</p>
+
+</div></dd>
+</dl>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Tailor `less'.</span>
+<span class="org-variable-name">LESS</span>=<span class="org-string">"-F -i -M -R -X"</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">export LESS="-P ?c&lt;- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"</span>
+</pre>
 </div>
+
+<p>
+See
+<a href="http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off">http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off</a>
+</p>
 </div>
 </div>
 
@@ -2009,7 +2027,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
+<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>

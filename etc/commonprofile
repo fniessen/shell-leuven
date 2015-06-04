@@ -69,7 +69,7 @@ export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 # See `terminfo'.
 
 # Tailor `less'.
-LESS="--quit-at-eof --ignore-case --long-prompt --raw-control-chars"
+LESS="-F -i -M -R -X"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
 export TERM=xterm-256color
