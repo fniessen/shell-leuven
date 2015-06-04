@@ -789,17 +789,15 @@ setopt SHARE_HISTORY
 
 ** Prompt
 
-Zsh expects that every character in ~PS1~ will advance the cursor one space.
-Wrap any non-printing escape sequences in ~%{...%}~, and it should work. So use
-~%{\e[31m%}~, etc.
-
-*************** TODO Define colors using ~terminfo~
-See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are-stashed-revisions-on-a-git-repo-whenever
-*************** END
-
 #+begin_src shell :tangle no
 #** 13 (info "(zsh)Prompt Expansion")
+#+end_src
 
+Zsh expects that every character in ~PS1~ will advance the cursor one space.  Wrap
+any non-printing escape sequences in ~%{...%}~, and it should work. So use
+~%{\e[31m%}~, etc.
+
+#+begin_src shell :tangle no
 # Some colors.
 local BLACK=$'%{\e[1;30m%}'
 local RED=$'%{\e[1;31m%}'
@@ -807,47 +805,41 @@ local green=$'%{\e[0;32m%}'
 local GREEN=$'%{\e[1;32m%}'
 local yellow=$'%{\e[0;33m%}'
 local reset=$'%{\e[0m%}'
-
-# Custom prompt settings.
-PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
-    # ? - exit code of the previous command
-    # n - user name
-    # m - machine name
-    # . - abbreviated pwd
-    # ! - su?
 #+end_src
 
-*************** TODO Insert beep when last command has failed
-For Zsh, use ~print $terminfo[bel]~.  For both, use ~tput bel~.
+*************** TODO Define colors using ~terminfo~
+See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are-stashed-revisions-on-a-git-repo-whenever
 *************** END
 
-The tricky part was getting the syntax for testing the exit code. The syntax
-is ~%(x.true-string.false-string)~, where ~x~ is some arbitrary testing condition,
-in this case, ~?~ for exit codes. After the first dot, if the test passes, show
-true-string; if it fails, show false-string after the second dot.
-
-https://github.com/olivierverdier/zsh-git-prompt
+For the prompt, the tricky part was getting the syntax for testing the exit
+code.  The syntax is ~%(x.true-string.false-string)~, where ~x~ is some arbitrary
+testing condition, in this case, ~?~ for exit codes.  After the first dot, if the
+test passes, show ~true-string~; if it fails, show ~false-string~ after the second
+dot.
 
 #+begin_src shell :tangle no
-# Prompt on the right hand side of the screen (Git info).
-. ~/Public/Repositories/git-prompt/zshrc.sh
-RPROMPT='$(git_super_status)'
+# Custom prompt settings.
+PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
+                                        # ? - Exit code of the previous command.
+                                        # n - User name.
+                                        # m - Machine name.
+                                        # . - Abbreviated pwd.
+                                        # ! - su?
 #+end_src
 
-*************** TODO See predefined functions provided by =git-prompt.sh=
-http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with-git-info/
-*************** END
+Insert beep when last command has failed.
+
+#+begin_tip
+For portability and readability, we use the ~tput~ command.
+
+But since it's an external command, we run it once to get the bel sequence, and
+then stick that sequence in the relevant part of our prompt -- for performance,
+to avoid an unnecessary shellout at each prompt evaluation.
+#+end_tip
 
 #+begin_src shell
-. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
-setopt prompt_subst
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWSTASHSTATE=true
-export GIT_PS1_SHOWUNTRACKEDFILES=true
-export GIT_PS1_SHOWUPSTREAM=verbose
-export GIT_PS1_DESCRIBE_STYLE=branch
-export GIT_PS1_SHOWCOLORHINTS=true
-export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+BEL=$(tput bel)
+PROMPT+='%(?::$BEL)'
 #+end_src
 
 To get a blank line before the prompt, you can write a function to echo a blank
@@ -864,6 +856,34 @@ function echo_blank() {
 
 # preexec_functions+=echo_blank
 precmd_functions+=echo_blank
+#+end_src
+
+*** Right prompt with Zsh-Git-prompt
+
+https://github.com/olivierverdier/zsh-git-prompt
+
+#+begin_src shell :tangle no
+# Prompt on the right hand side of the screen (Git info).
+. ~/Public/Repositories/git-prompt/zshrc.sh
+RPROMPT='$(git_super_status)'
+#+end_src
+
+*** Right prompt with Git-prompt
+
+*************** TODO See predefined functions provided by =git-prompt.sh=
+http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with-git-info/
+*************** END
+
+#+begin_src shell
+. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+setopt prompt_subst
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM=verbose
+export GIT_PS1_DESCRIBE_STYLE=branch
+export GIT_PS1_SHOWCOLORHINTS=true
+export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
 #+end_src
 
 ** Aliasing
@@ -1342,7 +1362,8 @@ export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 #+end_src
 
 #+begin_seealso
-[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.
+[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
+information.
 #+end_seealso
 
 See also

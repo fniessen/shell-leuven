@@ -30,6 +30,16 @@ setopt HIST_IGNORE_DUPS
 # Use the same history file for all sessions.
 setopt SHARE_HISTORY
 
+BEL=$(tput bel)
+PROMPT+='%(?::$BEL)'
+
+function echo_blank() {
+  echo
+}
+
+# preexec_functions+=echo_blank
+precmd_functions+=echo_blank
+
 . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
 setopt prompt_subst
 export GIT_PS1_SHOWDIRTYSTATE=true
@@ -39,13 +49,6 @@ export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_DESCRIBE_STYLE=branch
 export GIT_PS1_SHOWCOLORHINTS=true
 export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
-
-function echo_blank() {
-  echo
-}
-
-# preexec_functions+=echo_blank
-precmd_functions+=echo_blank
 
 # Command line head / tail shortcuts
 alias -g H='| head' ###
