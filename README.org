@@ -818,7 +818,7 @@ PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset%(!.#.$) "
 #+end_src
 
 *************** TODO Insert beep when last command has failed
-For Zsh, use ~print $terminfo[bel]~.
+For Zsh, use ~print $terminfo[bel]~.  For both, use ~tput bel~.
 *************** END
 
 The tricky part was getting the syntax for testing the exit code. The syntax
@@ -1231,16 +1231,17 @@ INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
 ** Pager
 
-Set the user's preferred text pager (~cat~, ~more~ or ~less~) that will be used by
-programs such as ~man~ or ~git diff~ to display pages.
+Set the user's preferred *text viewer* (~cat~, ~more~ or ~less~) that will be used by
+programs such as ~man~ or ~git diff~.
 
 ~less~ is faster than anything else around (with exception of possibly ~more~, but
 this one feels really archaic).
 
 #+begin_src shell
-PAGER="less -r"                         # ???
 PAGER="less"
+#+end_src
 
+#+begin_src shell
 # LANG="en_US.utf8"
 # LC_CTYPE="en_US.utf8"
 # LC_ALL="C"                              # Fix the problem of strange characters in the man page.
@@ -1255,6 +1256,73 @@ alias more="less"
 #+end_src
 
 *** Less
+
+~less~ options:
+
+- ~-e~ or ~--quit-at-eof~ ::
+     Causes ~less~ to automatically exit the second time it reaches end-of-file.
+     By default, the only way to exit ~less~ is via the ~q~ command.
+
+- ~-F~ ::
+     Causes ~less~ to automatically *exit if the entire file can be displayed on
+     the first screen*.
+
+     #+begin_warning
+     After quitting so, the screen is reset and you end up not seeing the
+     content; the ~-X~ option does away with that behavior.
+     #+end_warning
+
+- ~-i~ or ~--ignore-case~ ::
+     Causes searches to ignore case; that is, uppercase and lowercase are
+     considered identical.  This option is ignored if any uppercase letters
+     appear in the search pattern; in other words, if a pattern contains
+     uppercase letters, then that search does not ignore case.
+
+- ~-m~ or ~--long-prompt~ ::
+     Causes less to prompt verbosely (like ~more~), with the percent into the
+     file.  By default, ~less~ prompts with a colon.
+
+- ~-M~ or ~--LONG-PROMPT~ ::
+     Causes ~less~ to prompt even more verbosely than ~more~.
+
+- ~-r~ or ~--raw-control-chars~ ::
+     Causes "raw" control characters to be displayed.  The default is to display
+     control characters using the caret notation; for example, a ~control-A~
+     (octal ~001~) is displayed as ~^A~.
+
+     #+begin_warning
+     When the ~-r~ option is used, ~less~ cannot keep track of the actual appearance
+     of the screen (since this depends on how the screen responds to each type
+     of control character).  Thus, various display problems may result, such as
+     long lines being split in the wrong place.
+     #+end_warning
+
+- ~-R~ or ~--RAW-CONTROL-CHARS~ ::
+     (Only) ANSI "*color*" escape sequences (sequences of the form ~ESC[...m~ where
+     the ~...~ is zero or more color specification characters, and ~m~ ends ANSI
+     color escape sequences) are *output* in "raw" form.
+
+     #+begin_note
+     Without ~--RAW-CONTROL-CHARS~ (or ~--raw-control-chars~), ~less~ outputs the
+     colors as raw escape codes, that is it does not *interpret colors*. With it,
+     ~git diff~ finally shows colors...
+     #+end_note
+
+- ~-X~ or ~--no-init~ ::
+     *Disables* sending the termcap initialization and deinitialization strings to
+     the terminal.  This is sometimes desirable if the deinitialization string
+     does something unnecessary, like *clearing the screen*.
+
+     #+begin_note
+     If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
+     option.
+     #+end_note
+
+#+begin_src shell
+# Tailor `less'.
+LESS="-F -i -M -R -X"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+#+end_src
 
 Man pages colors:
 
@@ -1280,71 +1348,6 @@ export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 See also
 http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
 highlight man pages.
-
-~less~ options:
-
-- ~-e~ or ~--quit-at-eof~ ::
-     Causes ~less~ to automatically exit the second time it reaches end-of-file.
-     By default, the only way to exit ~less~ is via the ~q~ command.
-
-- ~-F~ ::
-     Causes ~less~ to automatically exit if the entire file can be displayed on
-     the first screen.
-
-- ~-i~ or ~--ignore-case~ ::
-     Causes searches to ignore case; that is, uppercase and lowercase are
-     considered identical.  This option is ignored if any uppercase letters
-     appear in the search pattern; in other words, if a pattern contains
-     uppercase letters, then that search does not ignore case.
-
-- ~-m~ or ~--long-prompt~ ::
-     Causes less to prompt verbosely (like ~more~), with the percent into the
-     file.  By default, ~less~ prompts with a colon.
-
-- ~-M~ or ~--LONG-PROMPT~ ::
-     Causes ~less~ to prompt even more verbosely than ~more~.
-
-- ~-r~ or ~--raw-control-chars~ ::
-     Causes "raw" control characters to be displayed.  The default is to display
-     control characters using the caret notation; for example, a control-A
-     (octal 001) is displayed as "^A".
-
-     #+begin_warning
-     When the ~-r~ option is used, ~less~ cannot keep track of the actual appearance
-     of the screen (since this depends on how the screen responds to each type
-     of control character).  Thus, various display problems may result, such as
-     long lines being split in the wrong place.
-     #+end_warning
-
-- ~-R~ or ~--RAW-CONTROL-CHARS~ ::
-     (Only) ANSI "color" escape sequences (sequences of the form ~ESC[...m~ where
-     the ~...~ is zero or more color specification characters, and ~m~ ends ANSI
-     color escape sequences) are output in "raw" form.
-
-     #+begin_note
-     Without ~--RAW-CONTROL-CHARS~ (or ~--raw-control-chars~), ~less~ outputs the
-     colors as raw escape codes, that is it does not *interpret colors*. With it,
-     ~git diff~ finally shows colors...
-     #+end_note
-
-- ~-X~ or ~--no-init~ ::
-     *Disables* sending the termcap initialization and deinitialization strings to
-     the terminal.  This is sometimes desirable if the deinitialization string
-     does something unnecessary, like *clearing the screen*.
-
-     #+begin_note
-     If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
-     option.
-     #+end_note
-
-#+begin_src shell
-# Tailor `less'.
-LESS="-F -i -M -R -X"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
-#+end_src
-
-See
-http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off
 
 *** Most
 

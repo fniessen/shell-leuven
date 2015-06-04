@@ -45,7 +45,6 @@ INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
 # INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
 INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
-PAGER="less -r"                         # ???
 PAGER="less"
 
 # LANG="en_US.utf8"
@@ -54,6 +53,10 @@ PAGER="less"
 # XXX These should be set in `/etc/default/locale', via `sudo update-locale'
 
 alias more="less"
+
+# Tailor `less'.
+LESS="-F -i -M -R -X"
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
 # Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
 # Less Colors for Man Pages
@@ -67,10 +70,6 @@ export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
 export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
 export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 # See `terminfo'.
-
-# Tailor `less'.
-LESS="-F -i -M -R -X"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 
 export TERM=xterm-256color
 

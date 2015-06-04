@@ -1253,7 +1253,7 @@ See <a href="http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-
 <div class="inlinetask">
 <b><span class="todo TODO">TODO</span> Insert beep when last command has failed</b><br  />
 <p>
-For Zsh, use <code>print $terminfo[bel]</code>.
+For Zsh, use <code>print $terminfo[bel]</code>.  For both, use <code>tput bel</code>.
 </p>
 </div>
 
@@ -1531,7 +1531,7 @@ Useful commands:
 
 <div class="note">
 <p>
-See <a href="file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
+See <a href="file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
 </p>
 
 </div>
@@ -1797,8 +1797,8 @@ resort).</li>
 <h3 id="orgheadline49">Pager</h3>
 <div class="outline-text-3" id="text-orgheadline49">
 <p>
-Set the user&rsquo;s preferred text pager (<code>cat</code>, <code>more</code> or <code>less</code>) that will be used by
-programs such as <code>man</code> or <code>git diff</code> to display pages.
+Set the user&rsquo;s preferred <b>text viewer</b> (<code>cat</code>, <code>more</code> or <code>less</code>) that will be used by
+programs such as <code>man</code> or <code>git diff</code>.
 </p>
 
 <p>
@@ -1808,10 +1808,13 @@ this one feels really archaic).
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-variable-name">PAGER</span>=<span class="org-string">"less -r"</span>                         <span class="org-comment-delimiter"># </span><span class="org-comment">???</span>
-<span class="org-variable-name">PAGER</span>=<span class="org-string">"less"</span>
+<pre class="src src-shell"><span class="org-variable-name">PAGER</span>=<span class="org-string">"less"</span>
+</pre>
+</div>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">LANG="en_US.utf8"</span>
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">LANG="en_US.utf8"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">LC_CTYPE="en_US.utf8"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">LC_ALL="C"                              # Fix the problem of strange characters in the man page.</span>
 <span class="org-comment-delimiter"># </span><span class="org-leuven-highlight"><span class="org-comment">XXX</span></span><span class="org-comment"> These should be set in `/etc/default/locale', via `sudo update-locale'</span>
@@ -1834,40 +1837,6 @@ With the <code>less</code> command, you can <b>scroll up</b> in the file as well
 <h4 id="orgheadline50">Less</h4>
 <div class="outline-text-4" id="text-orgheadline50">
 <p>
-Man pages colors:
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">Less Colors for Man Pages</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_mb</span>=$<span class="org-string">'\E[01;31m'</span>     <span class="org-comment-delimiter"># </span><span class="org-comment">enter_blink_mode.</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_md</span>=$<span class="org-string">'\E[01;38;5;74m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_bold_mode.</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_so</span>=$<span class="org-string">'\E[38;5;016m\E[48;5;220m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_standout_mode (mode</span>
-                                                   <span class="org-comment-delimiter"># </span><span class="org-comment">line at the bottom).</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_us</span>=$<span class="org-string">'\E[04;38;5;146m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_underline_mode.</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_me</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_attribute_mode (end modes like</span>
-                                        <span class="org-comment-delimiter"># </span><span class="org-comment">`mb' and `md').</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_se</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_standout_mode.</span>
-<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_ue</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_underline_mode.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">See `terminfo'.</span>
-</pre>
-</div>
-
-<div class="seealso">
-<p>
-<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
-</p>
-
-</div>
-
-<p>
-See also
-<a href="http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting">http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting</a> to
-highlight man pages.
-</p>
-
-<p>
 <code>less</code> options:
 </p>
 
@@ -1875,8 +1844,18 @@ highlight man pages.
 <dt><code>-e</code> or <code>--quit-at-eof</code></dt><dd>Causes <code>less</code> to automatically exit the second time it reaches end-of-file.
 By default, the only way to exit <code>less</code> is via the <code>q</code> command.</dd>
 
-<dt><code>-F</code></dt><dd>Causes <code>less</code> to automatically exit if the entire file can be displayed on
-the first screen.</dd>
+<dt><code>-F</code></dt><dd><p>
+     Causes <code>less</code> to automatically <b>exit if the entire file can be displayed on
+the first screen</b>.
+</p>
+
+<div class="warning">
+<p>
+After quitting so, the screen is reset and you end up not seeing the
+content; the <code>-X</code> option does away with that behavior.
+</p>
+
+</div></dd>
 
 <dt><code>-i</code> or <code>--ignore-case</code></dt><dd>Causes searches to ignore case; that is, uppercase and lowercase are
 considered identical.  This option is ignored if any uppercase letters
@@ -1890,8 +1869,8 @@ file.  By default, <code>less</code> prompts with a colon.</dd>
 
 <dt><code>-r</code> or <code>--raw-control-chars</code></dt><dd><p>
      Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
-control characters using the caret notation; for example, a control-A
-(octal 001) is displayed as &ldquo;^A&rdquo;.
+control characters using the caret notation; for example, a <code>control-A</code>
+(octal <code>001</code>) is displayed as <code>^A</code>.
 </p>
 
 <div class="warning">
@@ -1905,9 +1884,9 @@ long lines being split in the wrong place.
 </div></dd>
 
 <dt><code>-R</code> or <code>--RAW-CONTROL-CHARS</code></dt><dd><p>
-     (Only) ANSI &ldquo;color&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
+     (Only) ANSI &ldquo;<b>color</b>&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
 the <code>...</code> is zero or more color specification characters, and <code>m</code> ends ANSI
-color escape sequences) are output in &ldquo;raw&rdquo; form.
+color escape sequences) are <b>output</b> in &ldquo;raw&rdquo; form.
 </p>
 
 <div class="note">
@@ -1943,8 +1922,37 @@ option.
 </div>
 
 <p>
-See
-<a href="http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off">http://superuser.com/questions/106637/less-command-clearing-screen-upon-exit-how-to-switch-it-off</a>
+Man pages colors:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Less Colors for Man Pages</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_mb</span>=$<span class="org-string">'\E[01;31m'</span>     <span class="org-comment-delimiter"># </span><span class="org-comment">enter_blink_mode.</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_md</span>=$<span class="org-string">'\E[01;38;5;74m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_bold_mode.</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_so</span>=$<span class="org-string">'\E[38;5;016m\E[48;5;220m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_standout_mode (mode</span>
+                                                   <span class="org-comment-delimiter"># </span><span class="org-comment">line at the bottom).</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_us</span>=$<span class="org-string">'\E[04;38;5;146m'</span> <span class="org-comment-delimiter"># </span><span class="org-comment">enter_underline_mode.</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_me</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_attribute_mode (end modes like</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">`mb' and `md').</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_se</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_standout_mode.</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">LESS_TERMCAP_ue</span>=$<span class="org-string">'\E[0m'</span>         <span class="org-comment-delimiter"># </span><span class="org-comment">exit_underline_mode.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">See `terminfo'.</span>
+</pre>
+</div>
+
+<div class="seealso">
+<p>
+<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.
+</p>
+
+</div>
+
+<p>
+See also
+<a href="http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting">http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting</a> to
+highlight man pages.
 </p>
 </div>
 </div>
@@ -2027,7 +2035,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
+<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>
