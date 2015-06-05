@@ -1329,6 +1329,16 @@ same.
 <span class="org-variable-name">precmd_functions</span>+=echo_blank
 </pre>
 </div>
+
+<p>
+Don&rsquo;t confuse Tramp:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">[ $<span class="org-variable-name">TERM</span> = <span class="org-string">"dumb"</span> ] || <span class="org-variable-name">PROMPT</span>=<span class="org-string">"&gt; "</span>
+</pre>
+</div>
 </div>
 
 <div id="outline-container-orgheadline32" class="outline-4">
@@ -1369,6 +1379,16 @@ same.
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_DESCRIBE_STYLE</span>=branch
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWCOLORHINTS</span>=true
 <span class="org-builtin">export</span> <span class="org-variable-name">RPROMPT</span>=$<span class="org-string">'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'</span>
+</pre>
+</div>
+
+<p>
+Don&rsquo;t confuse Tramp:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">[ $<span class="org-variable-name">TERM</span> = <span class="org-string">"dumb"</span> ] || <span class="org-variable-name">RPROMPT</span>=<span class="org-string">""</span>
 </pre>
 </div>
 </div>

@@ -862,6 +862,12 @@ function echo_blank() {
 precmd_functions+=echo_blank
 #+end_src
 
+Don't confuse Tramp:
+
+#+begin_src shell
+[ $TERM = "dumb" ] || PROMPT="> "
+#+end_src
+
 *** Right prompt with Zsh-Git-prompt
 
 https://github.com/olivierverdier/zsh-git-prompt
@@ -888,6 +894,12 @@ export GIT_PS1_SHOWUPSTREAM=verbose
 export GIT_PS1_DESCRIBE_STYLE=branch
 export GIT_PS1_SHOWCOLORHINTS=true
 export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+#+end_src
+
+Don't confuse Tramp:
+
+#+begin_src shell
+[ $TERM = "dumb" ] || RPROMPT=""
 #+end_src
 
 ** Aliasing
