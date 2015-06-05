@@ -1398,8 +1398,6 @@ with accented file names in the repository).
 export LANG=C.UTF-8
 #+end_src
 
-XXX These should be set in =/etc/default/locale=, via ~sudo update-locale~?
-
 ** Term
 
 Terminals:
@@ -1408,11 +1406,11 @@ Terminals:
 - ~emacs~
 - ~screen~
 - ~xterm~
-- ~xterm-256color~ (choose this if Emacs looks ugly in a terminal)
+- ~xterm-256color~
 - ~eterm-color~
 
-Set the terminal type explicitly to get a nice 256 color palette (instead of the
-default 8 colors):
+Set the terminal type explicitly to get a nice *256 color* palette (instead of the
+ugly default 8 colors):
 
 #+begin_src shell
 export TERM=xterm-256color
