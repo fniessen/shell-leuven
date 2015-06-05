@@ -158,6 +158,14 @@ Install extra packages:
   + [ ] ~w3m~
   + [ ] ~wget~
 
+*** Terminal emulators
+
+For a better Emacs experience than with the Cygwin console, use:
+
+- MinTTY
+- (u)rxvt
+- xterm
+
 *** GnuPG
 
 When first running ~gpg~:
@@ -1398,9 +1406,8 @@ with accented file names in the repository).
 export LANG=C.UTF-8
 #+end_src
 
-** Term
+** Terminal types
 
-Terminals:
 - ~dumb~
 - ~cygwin~
 - ~emacs~
@@ -1409,7 +1416,7 @@ Terminals:
 - ~xterm-256color~
 - ~eterm-color~
 
-Set the terminal type explicitly to get a nice *256 color* palette (instead of the
+Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
 ugly default 8 colors):
 
 #+begin_src shell
