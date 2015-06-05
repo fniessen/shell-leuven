@@ -7,7 +7,7 @@
 
 #* Code:
 
-# if not running interactively, don't do anything
+# If not running interactively, don't do anything.
 [[ "$-" != *i* ]] && return
 
 # History.
@@ -105,7 +105,7 @@ leuven-before-prompt ()
 # variable.
 case "$TERM" in
     "dumb")
-        # No fancy multi-line prompt for Tramp (see `tramp-terminal-type').
+        # No fancy multi-line prompt for TRAMP (see `tramp-terminal-type').
         # Don't confuse it!
         PS1="> "
         ;;

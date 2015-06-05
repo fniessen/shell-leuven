@@ -360,11 +360,10 @@ $ gm convert !*
 #* Code:
 #+end_src
 
-I think the following is important for tools such as ~rsync~ (and Emacs
-Tramp?)...
+Prevent "stdin is not a tty" errors when using ~ssh~ (or ~rsync~):
 
 #+begin_src shell
-# if not running interactively, don't do anything
+# If not running interactively, don't do anything.
 [[ "$-" != *i* ]] && return
 #+end_src
 
@@ -478,7 +477,7 @@ leuven-before-prompt ()
 # variable.
 case "$TERM" in
     "dumb")
-        # No fancy multi-line prompt for Tramp (see `tramp-terminal-type').
+        # No fancy multi-line prompt for TRAMP (see `tramp-terminal-type').
         # Don't confuse it!
         PS1="> "
         ;;
@@ -862,7 +861,7 @@ function echo_blank() {
 precmd_functions+=echo_blank
 #+end_src
 
-Don't confuse Tramp:
+Don't confuse TRAMP:
 
 #+begin_src shell
 [ $TERM = "dumb" ] || PROMPT="> "
@@ -896,7 +895,7 @@ export GIT_PS1_SHOWCOLORHINTS=true
 export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
 #+end_src
 
-Don't confuse Tramp:
+Don't confuse TRAMP:
 
 #+begin_src shell
 [ $TERM = "dumb" ] || RPROMPT=""

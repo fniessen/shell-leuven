@@ -674,13 +674,12 @@ $ gm convert !*
 </div>
 
 <p>
-I think the following is important for tools such as <code>rsync</code> (and Emacs
-Tramp?)&#x2026;
+Prevent &ldquo;stdin is not a tty&rdquo; errors when using <code>ssh</code> (or <code>rsync</code>):
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">if not running interactively, don't do anything</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">If not running interactively, don't do anything.</span>
 [[ <span class="org-string">"$-"</span> != *i* ]] &amp;&amp; <span class="org-keyword">return</span>
 </pre>
 </div>
@@ -812,7 +811,7 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 <span class="org-comment-delimiter"># </span><span class="org-comment">variable.</span>
 <span class="org-keyword">case</span> <span class="org-string">"$TERM"</span><span class="org-keyword"> in</span>
     <span class="org-string">"dumb"</span>)
-        <span class="org-comment-delimiter"># </span><span class="org-comment">No fancy multi-line prompt for Tramp (see `tramp-terminal-type').</span>
+        <span class="org-comment-delimiter"># </span><span class="org-comment">No fancy multi-line prompt for TRAMP (see `tramp-terminal-type').</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">Don't confuse it!</span>
         <span class="org-variable-name">PS1</span>=<span class="org-string">"&gt; "</span>
         ;;
@@ -1331,7 +1330,7 @@ same.
 </div>
 
 <p>
-Don&rsquo;t confuse Tramp:
+Don&rsquo;t confuse TRAMP:
 </p>
 
 <div class="org-src-container">
@@ -1383,7 +1382,7 @@ Don&rsquo;t confuse Tramp:
 </div>
 
 <p>
-Don&rsquo;t confuse Tramp:
+Don&rsquo;t confuse TRAMP:
 </p>
 
 <div class="org-src-container">
