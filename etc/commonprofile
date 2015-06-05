@@ -47,11 +47,6 @@ INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
 PAGER="less"
 
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"                              # Fix the problem of strange characters in the man page.
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-
 alias more="less"
 
 # Tailor `less'.
@@ -70,6 +65,8 @@ export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
 export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
 export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
 # See `terminfo'.
+
+export LANG=C.UTF-8
 
 export TERM=xterm-256color
 

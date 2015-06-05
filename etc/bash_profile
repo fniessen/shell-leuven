@@ -48,27 +48,19 @@ PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 #**** PROMPT_COMMAND
 
 # To be called just before the prompt is printed.
-precmd ()
+leuven-before-prompt ()
 {
     RET=$?
 
     # Set a color prompt (unless in Emacs).
     case $TERM in
         cygwin|xterm*|rxvt-unicode)
-            local color_prompt=yes
-            ;;
-        dumb)
             # `M-x shell' under Cygwin Emacs.
-            # `M-x eshell' under EmacsW32.
-            # Tramp.
-            local color_prompt=no
+            # `M-x term' under Cygwin Emacs.
+            local color_prompt=yes
             ;;
         emacs)
             # `M-x shell' under EmacsW32.
-            local color_prompt=no
-            ;;
-        eterm-color)
-            # `M-x term' under Cygwin Emacs.
             local color_prompt=no
             ;;
     esac
@@ -96,7 +88,7 @@ precmd ()
     fi
 
     # Prompt character.
-    if [ "$USERNAME" = "root" ]; then
+    if [ "$(id -u)" = "0" ]; then
         local PROMPTCHAR="#"
     else
         local PROMPTCHAR="$"
@@ -110,11 +102,20 @@ precmd ()
 }
 
 # Execute the content of the `PROMPT_COMMAND' just before displaying the `PS1'
-# variable (but don't confuse Tramp).
-[ $TERM = "dumb" ] || PROMPT_COMMAND=precmd
+# variable.
+case "$TERM" in
+    "dumb")
+        # No fancy multi-line prompt for Tramp (see `tramp-terminal-type').
+        # Don't confuse it!
+        PS1="> "
+        ;;
+    *)
+        PROMPT_COMMAND=leuven-before-prompt
+        ;;
+esac
 
-# source global definitions if the session is interactive (to avoid problems
-# like "stdin: is not a tty" when ssh'ing to a remote machine)
+# Source global definitions if the session is interactive (to avoid problems
+# like "stdin: is not a tty" when ssh'ing to a remote machine).
 if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
     . /etc/bashrc
 fi
@@ -122,15 +123,12 @@ fi
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
-
-if [ "$USERNAME" = "root" ]; then
+if [ "$(id -u)" = "0" ]; then
     umask 077                           # Stricter.
 fi
 
 # Correct minor misspellings of cd pathnames.
 shopt -s cdspell
-
-#** 4.2 or 6.6 Aliases
 
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
@@ -140,8 +138,6 @@ shopt -s cdspell
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
-
-#** Misc functions
 
 saneperms ()
 {

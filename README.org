@@ -421,27 +421,19 @@ PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 #**** PROMPT_COMMAND
 
 # To be called just before the prompt is printed.
-precmd ()
+leuven-before-prompt ()
 {
     RET=$?
 
     # Set a color prompt (unless in Emacs).
     case $TERM in
         cygwin|xterm*|rxvt-unicode)
-            local color_prompt=yes
-            ;;
-        dumb)
             # `M-x shell' under Cygwin Emacs.
-            # `M-x eshell' under EmacsW32.
-            # Tramp.
-            local color_prompt=no
+            # `M-x term' under Cygwin Emacs.
+            local color_prompt=yes
             ;;
         emacs)
             # `M-x shell' under EmacsW32.
-            local color_prompt=no
-            ;;
-        eterm-color)
-            # `M-x term' under Cygwin Emacs.
             local color_prompt=no
             ;;
     esac
@@ -469,7 +461,7 @@ precmd ()
     fi
 
     # Prompt character.
-    if [ "$USERNAME" = "root" ]; then
+    if [ "$(id -u)" = "0" ]; then
         local PROMPTCHAR="#"
     else
         local PROMPTCHAR="$"
@@ -483,15 +475,24 @@ precmd ()
 }
 
 # Execute the content of the `PROMPT_COMMAND' just before displaying the `PS1'
-# variable (but don't confuse Tramp).
-[ $TERM = "dumb" ] || PROMPT_COMMAND=precmd
+# variable.
+case "$TERM" in
+    "dumb")
+        # No fancy multi-line prompt for Tramp (see `tramp-terminal-type').
+        # Don't confuse it!
+        PS1="> "
+        ;;
+    ,*)
+        PROMPT_COMMAND=leuven-before-prompt
+        ;;
+esac
 #+end_src
 
 ** Source global rc file (if any)
 
 #+begin_src shell
-# source global definitions if the session is interactive (to avoid problems
-# like "stdin: is not a tty" when ssh'ing to a remote machine)
+# Source global definitions if the session is interactive (to avoid problems
+# like "stdin: is not a tty" when ssh'ing to a remote machine).
 if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
     . /etc/bashrc
 fi
@@ -507,8 +508,7 @@ sessions.
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
-
-if [ "$USERNAME" = "root" ]; then
+if [ "$(id -u)" = "0" ]; then
     umask 077                           # Stricter.
 fi
 #+end_src
@@ -534,29 +534,29 @@ functions called in an interactive shell!).
 In general, it should not do more than *change the default options of a command*.
 
 #+begin_src shell
-#** 4.2 or 6.6 Aliases
-
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
 . $SHELLRC_LEUVEN/etc/commonprofile
 #+end_src
 
-** Next
+** Miscellaneous
 
 #+begin_src shell
 #** 8.6 Programmable Completion
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
+#+end_src
 
-#** Misc functions
-
+#+begin_src shell
 saneperms ()
 {
     find . -type d -print0 | xargs -0 chmod 755
     find . -type f -print0 | xargs -0 chmod ${1:=644}
 }
+#+end_src
 
+#+begin_src shell
 # # Search for various types or README file in dir and display them in $PAGER.
 # readme ()
 # {
@@ -605,7 +605,9 @@ timesync ()
         echo "Must be root"
     fi
 }
+#+end_src
 
+#+begin_src shell
 # Immediately opens the first match.
 texman ()
 {
@@ -645,6 +647,8 @@ the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 Zsh doesn't use the =inputrc= file.
 #+end_note
 
+See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
+
 #+begin_src shell :noweb yes
 ## .inputrc --- my Readline Init File
 
@@ -678,7 +682,7 @@ $if mode=emacs
 "\e[1;5A": history-search-backward
 "\e[1;5B": history-search-forward
 
-# Mappings for `Ctrl-left/right' for word moving.
+# <C-left/right> to move by whole words
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
 
@@ -851,7 +855,7 @@ same.
 
 #+begin_src shell
 function echo_blank() {
-  echo
+    echo
 }
 
 # preexec_functions+=echo_blank
@@ -1261,13 +1265,6 @@ this one feels really archaic).
 PAGER="less"
 #+end_src
 
-#+begin_src shell
-# LANG="en_US.utf8"
-# LC_CTYPE="en_US.utf8"
-# LC_ALL="C"                              # Fix the problem of strange characters in the man page.
-# XXX These should be set in `/etc/default/locale', via `sudo update-locale'
-#+end_src
-
 With the ~less~ command, you can *scroll up* in the file as well as down; with the
 ~more~ command, you can only *scroll down* the file.
 
@@ -1380,6 +1377,17 @@ See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
 ~most~ does not *highlight search results*: when searching using ~/~, it only scrolls
 to the location...
 #+end_note
+
+** Misc
+
+You may need to manually set your language environment (among others, for ~svn~
+with accented file names in the repository).
+
+#+begin_src shell
+export LANG=C.UTF-8
+#+end_src
+
+XXX These should be set in =/etc/default/locale=, via ~sudo update-locale~?
 
 ** Term
 

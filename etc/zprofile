@@ -34,7 +34,7 @@ BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 
 function echo_blank() {
-  echo
+    echo
 }
 
 # preexec_functions+=echo_blank
