@@ -230,8 +230,7 @@ ShellRC-Leuven is installed by doing the following:
    Or...
 
    #+begin_src shell :results silent
-   if [ -d "$HOME/.shellrc-leuven/src" ]
-   then
+   if [ -d "$HOME/.shellrc-leuven/src" ]; then
        PATH="$HOME/.shellrc-leuven/src:$PATH"
    fi
    #+end_src
@@ -282,7 +281,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
-if [ -f "${HOME}/.bashrc" ] ; then
+if [ -f "${HOME}/.bashrc" ]; then
   source "${HOME}/.bashrc"
 fi
 #+end_src
@@ -468,7 +467,7 @@ leuven-before-prompt ()
     fi
 
     # Prompt character.
-    if [ "$(id -u)" = "0" ]; then
+    if [[ $EUID -eq 0 ]]; then
         local PROMPTCHAR="#"
     else
         local PROMPTCHAR="$"
@@ -515,7 +514,7 @@ sessions.
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
-if [ "$(id -u)" = "0" ]; then
+if [[ $EUID -eq 0 ]]; then
     umask 077                           # Stricter.
 fi
 #+end_src
@@ -606,7 +605,7 @@ safetmp ()
 #+begin_src shell
 timesync ()
 {
-    if [ $(id -u) = 0 ]; then
+    if [[ $EUID -eq 0 ]]; then
         ntpdate -u swisstime.ethz.ch
     else
         echo "Must be root"
@@ -673,14 +672,13 @@ $include /etc/inputrc
 set convert-meta on
 
 # Behave like Emacs when editing.
-set editing-mode emacs
-    # Ctrl-a/e      Start/End of line
-    # Ctrl-f/b      Forward/Backward one character
-    # Ctrl-d        Delete one character
-    # Ctrl-k        Kill line
-    # Ctrl-p/n      Previous/Next command in history
-    # Ctrl-r        Search for command in history
-    # Ctrl-i/TAB    File name completion
+set editing-mode emacs                  # Ctrl-a/e      Start/End of line.
+                                        # Ctrl-f/b      Forward/Backward one character.
+                                        # Ctrl-d        Delete one character.
+                                        # Ctrl-k        Kill line.
+                                        # Ctrl-p/n      Previous/Next command in history.
+                                        # Ctrl-r        Search for command in history.
+                                        # Ctrl-i/TAB    File name completion.
 
 # Some defaults / modifications for the Emacs mode.
 $if mode=emacs
@@ -689,7 +687,7 @@ $if mode=emacs
 "\e[1;5A": history-search-backward
 "\e[1;5B": history-search-forward
 
-# <C-left/right> to move by whole words
+# <C-left/right> to move by whole words.
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
 
@@ -1236,8 +1234,8 @@ If you add the ~CWD~ (~.~) to your PATH, just do it:
 
 #+begin_src shell
 # Add the current directory as last component in the search path (not to include
-# for root, for security reasons).
-if [ ! "$(id -u)" = "0" ]; then
+# for `root', for security reasons).
+if [[ $EUID -ne 0 ]]; then
     PATH="$PATH:."
 fi
 #+end_src
@@ -1787,7 +1785,7 @@ pe ()
     echo "         Passphrase Encryption Program";
     echo "--------------------------------------------------"; echo "";
     which $EDITOR &>/dev/null
-    if [ $? != "0" ]; then
+    if [ "$?" != "0" ]; then
         echo "It appears that you do not have a text editor set in your .bashrc file.";
         echo "What editor would you like to use ? " ;
         read EDITOR ; echo "";
@@ -2016,8 +2014,7 @@ org_test () {
 #+end_src
 
 #+begin_src shell
-if [ -d "$HOME/Public/Repositories/org-bash-utils" ]
-then
+if [ -d "$HOME/Public/Repositories/org-bash-utils" ]; then
     PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
     source $HOME/Public/Repositories/org-bash-utils/org-alias
     source $HOME/Public/Repositories/org-bash-utils/awk-alias

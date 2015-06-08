@@ -88,7 +88,7 @@ leuven-before-prompt ()
     fi
 
     # Prompt character.
-    if [ "$(id -u)" = "0" ]; then
+    if [[ $EUID -eq 0 ]]; then
         local PROMPTCHAR="#"
     else
         local PROMPTCHAR="$"
@@ -123,7 +123,7 @@ fi
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
-if [ "$(id -u)" = "0" ]; then
+if [[ $EUID -eq 0 ]]; then
     umask 077                           # Stricter.
 fi
 
@@ -181,7 +181,7 @@ safetmp ()
 
 timesync ()
 {
-    if [ $(id -u) = 0 ]; then
+    if [[ $EUID -eq 0 ]]; then
         ntpdate -u swisstime.ethz.ch
     else
         echo "Must be root"

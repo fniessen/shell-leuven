@@ -477,8 +477,7 @@ Or&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-keyword">if</span> [ -d <span class="org-string">"$HOME/.shellrc-leuven/src"</span> ]
-<span class="org-keyword">then</span>
+<pre class="src src-shell"><span class="org-keyword">if</span> [ -d <span class="org-string">"$HOME/.shellrc-leuven/src"</span> ]; <span class="org-keyword">then</span>
     <span class="org-variable-name">PATH</span>=<span class="org-string">"$HOME/.shellrc-leuven/src:$PATH"</span>
 <span class="org-keyword">fi</span>
 </pre>
@@ -568,7 +567,7 @@ We just let <code>.profile</code> also read <code>.bashrc</code> and put everyth
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">User dependent .bash_profile file</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Source the user's .bashrc if it exists.</span>
-<span class="org-keyword">if</span> [ -f <span class="org-string">"${HOME}/.bashrc"</span> ] ; <span class="org-keyword">then</span>
+<span class="org-keyword">if</span> [ -f <span class="org-string">"${HOME}/.bashrc"</span> ]; <span class="org-keyword">then</span>
   <span class="org-builtin">source</span> <span class="org-string">"${HOME}/.bashrc"</span>
 <span class="org-keyword">fi</span>
 </pre>
@@ -810,7 +809,7 @@ Note <code>\[...\]</code> used by the shell to count proper length.
     <span class="org-keyword">fi</span>
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Prompt character.</span>
-    <span class="org-keyword">if</span> [ <span class="org-string">"$(id -u)"</span> = <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -eq 0 ]]; <span class="org-keyword">then</span>
         <span class="org-builtin">local</span> <span class="org-variable-name">PROMPTCHAR</span>=<span class="org-string">"#"</span>
     <span class="org-keyword">else</span>
         <span class="org-builtin">local</span> <span class="org-variable-name">PROMPTCHAR</span>=<span class="org-string">"$"</span>
@@ -869,7 +868,7 @@ sessions.
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Permissions on newly created files.</span>
 <span class="org-builtin">umask</span> 022                               <span class="org-comment-delimiter"># </span><span class="org-comment">Prevent new dirs and files from being</span>
                                         <span class="org-comment-delimiter"># </span><span class="org-comment">group and world writable.</span>
-<span class="org-keyword">if</span> [ <span class="org-string">"$(id -u)"</span> = <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
+<span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -eq 0 ]]; <span class="org-keyword">then</span>
     <span class="org-builtin">umask</span> 077                           <span class="org-comment-delimiter"># </span><span class="org-comment">Stricter.</span>
 <span class="org-keyword">fi</span>
 </pre>
@@ -994,7 +993,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 
 <pre class="src src-shell"><span class="org-function-name">timesync</span> ()
 {
-    <span class="org-keyword">if</span> [ $(id -u) = 0 ]; <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -eq 0 ]]; <span class="org-keyword">then</span>
         ntpdate -u swisstime.ethz.ch
     <span class="org-keyword">else</span>
         <span class="org-builtin">echo</span> <span class="org-string">"Must be root"</span>
@@ -1077,14 +1076,13 @@ $<span class="org-variable-name">include</span> /etc/inputrc
 <span class="org-builtin">set</span> convert-meta on
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Behave like Emacs when editing.</span>
-<span class="org-builtin">set</span> editing-mode emacs
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-a/e      Start/End of line</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-f/b      Forward/Backward one character</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-d        Delete one character</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-k        Kill line</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-p/n      Previous/Next command in history</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-r        Search for command in history</span>
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-i/TAB    File name completion</span>
+<span class="org-builtin">set</span> editing-mode emacs                  <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-a/e      Start/End of line.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-f/b      Forward/Backward one character.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-d        Delete one character.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-k        Kill line.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-p/n      Previous/Next command in history.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-r        Search for command in history.</span>
+                                        <span class="org-comment-delimiter"># </span><span class="org-comment">Ctrl-i/TAB    File name completion.</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Some defaults / modifications for the Emacs mode.</span>
 $<span class="org-variable-name">if</span> <span class="org-variable-name">mode</span>=emacs
@@ -1093,7 +1091,7 @@ $<span class="org-variable-name">if</span> <span class="org-variable-name">mode<
 <span class="org-string">"\e[1;5A"</span>: history-search-backward
 <span class="org-string">"\e[1;5B"</span>: history-search-forward
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">&lt;C-left/right&gt; to move by whole words</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">&lt;C-left/right&gt; to move by whole words.</span>
 <span class="org-string">"\e[1;5C"</span>: forward-word
 <span class="org-string">"\e[1;5D"</span>: backward-word
 
@@ -1620,7 +1618,7 @@ Useful commands:
 
 <div class="note">
 <p>
-See <a href="file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
+See <a href="file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
 </p>
 
 </div>
@@ -1832,8 +1830,8 @@ resort).</li>
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Add the current directory as last component in the search path (not to include</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">for root, for security reasons).</span>
-<span class="org-keyword">if</span> [ <span class="org-negation-char">!</span> <span class="org-string">"$(id -u)"</span> = <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">for `root', for security reasons).</span>
+<span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -ne 0 ]]; <span class="org-keyword">then</span>
     <span class="org-variable-name">PATH</span>=<span class="org-string">"$PATH:."</span>
 <span class="org-keyword">fi</span>
 </pre>
@@ -2024,7 +2022,7 @@ Man pages colors:
 
 <div class="seealso">
 <p>
-<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.  See <a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">mintty Manual Reference Pages</a> for more
+<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.  See <a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">mintty Manual Reference Pages</a> for more
 information.
 </p>
 
@@ -2129,7 +2127,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
+<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>
@@ -2589,7 +2587,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-builtin">echo</span> <span class="org-string">"         Passphrase Encryption Program"</span>;
     <span class="org-builtin">echo</span> <span class="org-string">"--------------------------------------------------"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
     <span class="org-builtin">which</span> $<span class="org-variable-name">EDITOR</span> &amp;&gt;/dev/null
-    <span class="org-keyword">if</span> [ $<span class="org-variable-name">?</span> != <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> [ <span class="org-string">"$?"</span> != <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
         <span class="org-builtin">echo</span> <span class="org-string">"It appears that you do not have a text editor set in your .bashrc file."</span>;
         <span class="org-builtin">echo</span> <span class="org-string">"What editor would you like to use ? "</span> ;
         <span class="org-builtin">read</span> EDITOR ; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
@@ -2861,8 +2859,7 @@ nil</div>
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-keyword">if</span> [ -d <span class="org-string">"$HOME/Public/Repositories/org-bash-utils"</span> ]
-<span class="org-keyword">then</span>
+<pre class="src src-shell"><span class="org-keyword">if</span> [ -d <span class="org-string">"$HOME/Public/Repositories/org-bash-utils"</span> ]; <span class="org-keyword">then</span>
     <span class="org-variable-name">PATH</span>=<span class="org-string">"$HOME/Public/Repositories/org-bash-utils:$PATH"</span>
     <span class="org-builtin">source</span> $<span class="org-variable-name">HOME</span>/Public/Repositories/org-bash-utils/org-alias
     <span class="org-builtin">source</span> $<span class="org-variable-name">HOME</span>/Public/Repositories/org-bash-utils/awk-alias
