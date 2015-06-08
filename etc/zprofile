@@ -152,27 +152,9 @@ EOF
     rm ${LEDGER_FILE}
 }
 
-# cat file.ledger | sed -e 's/@check/;@check/' | xargs bean-web
-
-# Use wrapper scripts around gpg with armor on (The --armor option means ascii
-# versus binary). You'll have to enter a password every time you want to run
-# ledger.
-
-#** 9 (info "(zsh)Functions")
-
-# hgrep PATTERN - Print the history lines matching PATTERN.
-hgrep ()
-{
-    history 0 | grep $1
-}
-
-#** 17 (info "(zsh)Shell Builtin Commands")
-
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
 . $SHELLRC_LEUVEN/etc/commonprofile
-
-#** 18 (info "(zsh)Zsh Line Editor")
 
 # Behave like Emacs when editing.
 bindkey -e
@@ -201,17 +183,11 @@ backward-delete-char-beep ()
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
 
-#** 19 (info "(zsh)Completion Widgets")
-
 # Load general completion.
 autoload -Uz compinit && compinit
 
 # Display a list of completions when you give an ambiguous choice (like Bash).
 setopt autolist
-
-# Zsh will attempt to complete wildcards by expanding them in the command line.
-
-#** 20 (info "(zsh)Completion System")
 
 # Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'

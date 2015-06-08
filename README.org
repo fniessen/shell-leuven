@@ -797,10 +797,6 @@ setopt SHARE_HISTORY
 
 ** Prompt
 
-#+begin_src shell :tangle no
-#** 13 (info "(zsh)Prompt Expansion")
-#+end_src
-
 Zsh expects that every character in ~PS1~ will advance the cursor one space.  Wrap
 any non-printing escape sequences in ~%{...%}~, and it should work. So use
 ~%{\e[31m%}~, etc.
@@ -1025,7 +1021,9 @@ EOF
     esac
     rm ${LEDGER_FILE}
 }
+#+end_src
 
+#+begin_src shell :tangle no
 # cat file.ledger | sed -e 's/@check/;@check/' | xargs bean-web
 
 # Use wrapper scripts around gpg with armor on (The --armor option means ascii
@@ -1033,29 +1031,15 @@ EOF
 # ledger.
 #+end_src
 
-** Functions
-
-#+begin_src shell
-#** 9 (info "(zsh)Functions")
-
-# hgrep PATTERN - Print the history lines matching PATTERN.
-hgrep ()
-{
-    history 0 | grep $1
-}
-#+end_src
-
 ** Source common file
 
 #+begin_src shell
-#** 17 (info "(zsh)Shell Builtin Commands")
-
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
 . $SHELLRC_LEUVEN/etc/commonprofile
 #+end_src
 
-** Line Editor
+** Zsh line editor
 
 Useful keybindings:
 
@@ -1078,8 +1062,6 @@ See [[file:~/.oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
 #+end_note
 
 #+begin_src shell
-#** 18 (info "(zsh)Zsh Line Editor")
-
 # Behave like Emacs when editing.
 bindkey -e
 
@@ -1108,25 +1090,21 @@ zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
 #+end_src
 
-** Completion Widgets
+** 19. Completion Widgets
+
+Zsh will attempt to complete wildcards by expanding them in the command line.
 
 #+begin_src shell
-#** 19 (info "(zsh)Completion Widgets")
-
 # Load general completion.
 autoload -Uz compinit && compinit
 
 # Display a list of completions when you give an ambiguous choice (like Bash).
 setopt autolist
-
-# Zsh will attempt to complete wildcards by expanding them in the command line.
 #+end_src
 
-** Completion System
+** 20. Completion System
 
 #+begin_src shell
-#** 20 (info "(zsh)Completion System")
-
 # Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 #+end_src
@@ -1701,6 +1679,8 @@ svn_grep_all_rev() {
 #+end_src
 
 *** History
+
+Print the history lines matching a pattern.
 
 #+begin_src shell
 alias hg="history | grep -i"
