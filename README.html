@@ -934,32 +934,6 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-function-name">saneperms</span> ()
-{
-    find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod ${<span class="org-variable-name">1</span>:=644}
-}
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Search for various types or README file in dir and display them in $PAGER.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">readme ()</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">{</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">local files</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">if (($#files)); then</span>
-<span class="org-comment-delimiter">#         </span><span class="org-comment">$PAGER $files</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">else</span>
-<span class="org-comment-delimiter">#         </span><span class="org-comment">print 'No README files.'</span>
-<span class="org-comment-delimiter">#     </span><span class="org-comment">fi</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">}</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Get a file's basename, dirname, extension, etc</span>
 <span class="org-comment-delimiter">#</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment"># Get extension; everything after last '.'.</span>
@@ -976,45 +950,6 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 <span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file%/*}</span>
 </pre>
 </div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-function-name">safetmp</span> ()
-{
-    test -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
-    test -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
-    <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(hostname).$(date +%s).$<span class="org-variable-name">$</span>
-}
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-function-name">timesync</span> ()
-{
-    <span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -eq 0 ]]; <span class="org-keyword">then</span>
-        ntpdate -u swisstime.ethz.ch
-    <span class="org-keyword">else</span>
-        <span class="org-builtin">echo</span> <span class="org-string">"Must be root"</span>
-    <span class="org-keyword">fi</span>
-}
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Immediately opens the first match.</span>
-<span class="org-function-name">texman</span> ()
-{
-    locate $<span class="org-variable-name">*</span> | grep pdf | grep texlive | head -1 | xargs open;
-}
-
-<span class="org-function-name">texlist</span> ()
-{
-    locate $<span class="org-variable-name">*</span> | grep <span class="org-string">"\(pdf\|dvi\)"</span> | grep <span class="org-string">"\ (texlive\|gwTeX\)"</span>;
-}
-</pre>
-</div>
 </div>
 </div>
 
@@ -1027,7 +962,7 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables&#58;</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">mode: shell-script</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">mode: sh</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">mode: outline-minor</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">sh-shell: bash</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
@@ -1712,7 +1647,7 @@ zmodload zsh/system
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables&#58;</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">mode: shell-script</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">mode: sh</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">mode: outline-minor</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
@@ -3021,6 +2956,71 @@ worked&#x2026;
     mv -f $<span class="org-variable-name">2</span> $<span class="org-variable-name">1</span>
     mv -f $<span class="org-variable-name">tmpfile</span> $<span class="org-variable-name">2</span>
     <span class="org-keyword">return</span> 0
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">saneperms</span> ()
+{
+    find . -type d -print0 | xargs -0 chmod 755
+    find . -type f -print0 | xargs -0 chmod ${<span class="org-variable-name">1</span>:=644}
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Search for various types or README file in dir and display them in $PAGER.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">readme ()</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">{</span>
+<span class="org-comment-delimiter">#     </span><span class="org-comment">local files</span>
+<span class="org-comment-delimiter">#     </span><span class="org-comment">files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))</span>
+<span class="org-comment-delimiter">#     </span><span class="org-comment">if (($#files)); then</span>
+<span class="org-comment-delimiter">#         </span><span class="org-comment">$PAGER $files</span>
+<span class="org-comment-delimiter">#     </span><span class="org-comment">else</span>
+<span class="org-comment-delimiter">#         </span><span class="org-comment">print 'No README files.'</span>
+<span class="org-comment-delimiter">#     </span><span class="org-comment">fi</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">safetmp</span> ()
+{
+    test -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
+    test -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
+    <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(hostname).$(date +%s).$<span class="org-variable-name">$</span>
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-function-name">timesync</span> ()
+{
+    <span class="org-keyword">if</span> [[ $<span class="org-variable-name">EUID</span> -eq 0 ]]; <span class="org-keyword">then</span>
+        ntpdate -u swisstime.ethz.ch
+    <span class="org-keyword">else</span>
+        <span class="org-builtin">echo</span> <span class="org-string">"Must be root"</span>
+    <span class="org-keyword">fi</span>
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Immediately opens the first match.</span>
+<span class="org-function-name">texman</span> ()
+{
+    locate $<span class="org-variable-name">*</span> | grep pdf | grep texlive | head -1 | xargs open;
+}
+
+<span class="org-function-name">texlist</span> ()
+{
+    locate $<span class="org-variable-name">*</span> | grep <span class="org-string">"\(pdf\|dvi\)"</span> | grep <span class="org-string">"\ (texlive\|gwTeX\)"</span>;
 }
 </pre>
 </div>

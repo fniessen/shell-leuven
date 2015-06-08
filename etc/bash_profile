@@ -139,24 +139,6 @@ shopt -s cdspell
 complete -A helptopic help
 complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
 
-saneperms ()
-{
-    find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod ${1:=644}
-}
-
-# # Search for various types or README file in dir and display them in $PAGER.
-# readme ()
-# {
-#     local files
-#     files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
-#     if (($#files)); then
-#         $PAGER $files
-#     else
-#         print 'No README files.'
-#     fi
-# }
-
 # # Get a file's basename, dirname, extension, etc
 #
 # # Get extension; everything after last '.'.
@@ -172,38 +154,11 @@ saneperms ()
 # # Everything before last '/'.
 # basename=${file%/*}
 
-safetmp ()
-{
-    test -d $HOME || exit 1
-    test -d $HOME/tmp || mkdir $HOME/tmp
-    echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
-}
-
-timesync ()
-{
-    if [[ $EUID -eq 0 ]]; then
-        ntpdate -u swisstime.ethz.ch
-    else
-        echo "Must be root"
-    fi
-}
-
-# Immediately opens the first match.
-texman ()
-{
-    locate $* | grep pdf | grep texlive | head -1 | xargs open;
-}
-
-texlist ()
-{
-    locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
-}
-
 #* Local Variables
 
 # This is for the sake of Emacs.
 # Local Variables:
-# mode: shell-script
+# mode: sh
 # mode: outline-minor
 # sh-shell: bash
 # End:

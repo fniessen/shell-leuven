@@ -555,28 +555,6 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 #+end_src
 
 #+begin_src shell
-saneperms ()
-{
-    find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod ${1:=644}
-}
-#+end_src
-
-#+begin_src shell
-# # Search for various types or README file in dir and display them in $PAGER.
-# readme ()
-# {
-#     local files
-#     files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
-#     if (($#files)); then
-#         $PAGER $files
-#     else
-#         print 'No README files.'
-#     fi
-# }
-#+end_src
-
-#+begin_src shell
 # # Get a file's basename, dirname, extension, etc
 #
 # # Get extension; everything after last '.'.
@@ -593,39 +571,6 @@ saneperms ()
 # basename=${file%/*}
 #+end_src
 
-#+begin_src shell
-safetmp ()
-{
-    test -d $HOME || exit 1
-    test -d $HOME/tmp || mkdir $HOME/tmp
-    echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
-}
-#+end_src
-
-#+begin_src shell
-timesync ()
-{
-    if [[ $EUID -eq 0 ]]; then
-        ntpdate -u swisstime.ethz.ch
-    else
-        echo "Must be root"
-    fi
-}
-#+end_src
-
-#+begin_src shell
-# Immediately opens the first match.
-texman ()
-{
-    locate $* | grep pdf | grep texlive | head -1 | xargs open;
-}
-
-texlist ()
-{
-    locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
-}
-#+end_src
-
 ** Postamble
 
 #+begin_src shell
@@ -633,7 +578,7 @@ texlist ()
 
 # This is for the sake of Emacs.
 # Local Variables:
-# mode: shell-script
+# mode: sh
 # mode: outline-minor
 # sh-shell: bash
 # End:
@@ -1148,7 +1093,7 @@ setopt notify
 
 # This is for the sake of Emacs.
 # Local Variables:
-# mode: shell-script
+# mode: sh
 # mode: outline-minor
 # End:
 
@@ -2137,6 +2082,61 @@ swap ()
     mv -f $2 $1
     mv -f $tmpfile $2
     return 0
+}
+#+end_src
+
+#+begin_src shell
+saneperms ()
+{
+    find . -type d -print0 | xargs -0 chmod 755
+    find . -type f -print0 | xargs -0 chmod ${1:=644}
+}
+#+end_src
+
+#+begin_src shell
+# # Search for various types or README file in dir and display them in $PAGER.
+# readme ()
+# {
+#     local files
+#     files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
+#     if (($#files)); then
+#         $PAGER $files
+#     else
+#         print 'No README files.'
+#     fi
+# }
+#+end_src
+
+#+begin_src shell
+safetmp ()
+{
+    test -d $HOME || exit 1
+    test -d $HOME/tmp || mkdir $HOME/tmp
+    echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
+}
+#+end_src
+
+#+begin_src shell
+timesync ()
+{
+    if [[ $EUID -eq 0 ]]; then
+        ntpdate -u swisstime.ethz.ch
+    else
+        echo "Must be root"
+    fi
+}
+#+end_src
+
+#+begin_src shell
+# Immediately opens the first match.
+texman ()
+{
+    locate $* | grep pdf | grep texlive | head -1 | xargs open;
+}
+
+texlist ()
+{
+    locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
 }
 #+end_src
 

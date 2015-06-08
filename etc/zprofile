@@ -222,7 +222,7 @@ setopt notify
 
 # This is for the sake of Emacs.
 # Local Variables:
-# mode: shell-script
+# mode: sh
 # mode: outline-minor
 # End:
 
