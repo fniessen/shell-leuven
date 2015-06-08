@@ -977,14 +977,6 @@ EOF
 # ledger.
 #+end_src
 
-** Source common file
-
-#+begin_src shell
-# Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
-#+end_src
-
 ** Zsh line editor
 
 Useful keybindings:
@@ -1087,6 +1079,14 @@ setopt nomatch
 
 # Immediately report changes in background job status.
 setopt notify
+#+end_src
+
+** Source common file
+
+#+begin_src shell
+# Source common settings.
+: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
+. $SHELLRC_LEUVEN/etc/commonprofile
 #+end_src
 
 #+begin_src shell

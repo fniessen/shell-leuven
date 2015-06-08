@@ -152,10 +152,6 @@ EOF
     rm ${LEDGER_FILE}
 }
 
-# Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
-
 # Behave like Emacs when editing.
 bindkey -e
 
@@ -217,6 +213,10 @@ setopt nomatch
 
 # Immediately report changes in background job status.
 setopt notify
+
+# Source common settings.
+: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
+. $SHELLRC_LEUVEN/etc/commonprofile
 
 #* Local Variables
 

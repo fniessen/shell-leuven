@@ -79,12 +79,12 @@
 </ul>
 </li>
 <li><a href="#orgheadline38">Ledger</a></li>
-<li><a href="#orgheadline39">Source common file</a></li>
-<li><a href="#orgheadline40">Zsh line editor</a></li>
-<li><a href="#orgheadline41">19. Completion Widgets</a></li>
-<li><a href="#orgheadline42">20. Completion System</a></li>
-<li><a href="#orgheadline43">Zsh Modules</a></li>
-<li><a href="#orgheadline44">Others</a></li>
+<li><a href="#orgheadline39">Zsh line editor</a></li>
+<li><a href="#orgheadline40">19. Completion Widgets</a></li>
+<li><a href="#orgheadline41">20. Completion System</a></li>
+<li><a href="#orgheadline42">Zsh Modules</a></li>
+<li><a href="#orgheadline43">Others</a></li>
+<li><a href="#orgheadline44">Source common file</a></li>
 </ul>
 </li>
 <li><a href="#orgheadline45">System-wide configuration file</a>
@@ -1498,21 +1498,8 @@ Some global aliases (expand whatever their position).
 </div>
 
 <div id="outline-container-orgheadline39" class="outline-3">
-<h3 id="orgheadline39">Source common file</h3>
+<h3 id="orgheadline39">Zsh line editor</h3>
 <div class="outline-text-3" id="text-orgheadline39">
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
-: ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
-. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline40" class="outline-3">
-<h3 id="orgheadline40">Zsh line editor</h3>
-<div class="outline-text-3" id="text-orgheadline40">
 <p>
 Useful keybindings:
 </p>
@@ -1573,9 +1560,9 @@ zle -N backward-delete-char-beep
 </div>
 </div>
 
-<div id="outline-container-orgheadline41" class="outline-3">
-<h3 id="orgheadline41">19. Completion Widgets</h3>
-<div class="outline-text-3" id="text-orgheadline41">
+<div id="outline-container-orgheadline40" class="outline-3">
+<h3 id="orgheadline40">19. Completion Widgets</h3>
+<div class="outline-text-3" id="text-orgheadline40">
 <p>
 Zsh will attempt to complete wildcards by expanding them in the command line.
 </p>
@@ -1592,9 +1579,9 @@ Zsh will attempt to complete wildcards by expanding them in the command line.
 </div>
 </div>
 
-<div id="outline-container-orgheadline42" class="outline-3">
-<h3 id="orgheadline42">20. Completion System</h3>
-<div class="outline-text-3" id="text-orgheadline42">
+<div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41">20. Completion System</h3>
+<div class="outline-text-3" id="text-orgheadline41">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Case-insensitive completion.</span>
@@ -1604,9 +1591,9 @@ zstyle <span class="org-string">':completion:*'</span> matcher-list <span class=
 </div>
 </div>
 
-<div id="outline-container-orgheadline43" class="outline-3">
-<h3 id="orgheadline43">Zsh Modules</h3>
-<div class="outline-text-3" id="text-orgheadline43">
+<div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42">Zsh Modules</h3>
+<div class="outline-text-3" id="text-orgheadline42">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Coloring stderr.</span>
@@ -1627,9 +1614,9 @@ zmodload zsh/system
 </div>
 </div>
 
-<div id="outline-container-orgheadline44" class="outline-3">
-<h3 id="orgheadline44">Others</h3>
-<div class="outline-text-3" id="text-orgheadline44">
+<div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43">Others</h3>
+<div class="outline-text-3" id="text-orgheadline43">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Change directory given just path.</span>
@@ -1643,6 +1630,19 @@ zmodload zsh/system
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Immediately report changes in background job status.</span>
 <span class="org-builtin">setopt</span> notify
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44">Source common file</h3>
+<div class="outline-text-3" id="text-orgheadline44">
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
+: ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
+. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
 </pre>
 </div>
 
