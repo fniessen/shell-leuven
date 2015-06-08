@@ -49,13 +49,13 @@
 <li><a href="#orgheadline16">Bash specific</a>
 <ul>
 <li><a href="#orgheadline17">Preamble</a></li>
-<li><a href="#orgheadline18">Command history</a></li>
-<li><a href="#orgheadline19">Prompt</a></li>
-<li><a href="#orgheadline20">Source global rc file (if any)</a></li>
+<li><a href="#orgheadline18">Source global rc file (if any)</a></li>
+<li><a href="#orgheadline19">Command history</a></li>
+<li><a href="#orgheadline20">Prompt</a></li>
 <li><a href="#orgheadline21">Default permissions</a></li>
 <li><a href="#orgheadline22">Shell options</a></li>
-<li><a href="#orgheadline23">Source common file</a></li>
-<li><a href="#orgheadline24">Miscellaneous</a></li>
+<li><a href="#orgheadline23">Miscellaneous</a></li>
+<li><a href="#orgheadline24">Source common file</a></li>
 <li><a href="#orgheadline25">Postamble</a></li>
 <li><a href="#orgheadline26">InputRC</a></li>
 </ul>
@@ -688,7 +688,8 @@ $ gm convert !*
 </div>
 
 <p>
-Prevent &ldquo;stdin is not a tty&rdquo; errors when using <code>ssh</code> (or <code>rsync</code>):
+Prevent &ldquo;stdin is not a tty&rdquo; errors when <code>ssh</code>&rsquo;ing to a remote machine (or using
+<code>rsync</code>):
 </p>
 
 <div class="org-src-container">
@@ -701,8 +702,28 @@ Prevent &ldquo;stdin is not a tty&rdquo; errors when using <code>ssh</code> (or 
 </div>
 
 <div id="outline-container-orgheadline18" class="outline-3">
-<h3 id="orgheadline18">Command history</h3>
+<h3 id="orgheadline18">Source global rc file (if any)</h3>
 <div class="outline-text-3" id="text-orgheadline18">
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source global definitions only if the session is interactive.</span>
+<span class="org-keyword">if</span> ([ $(expr index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
+    . /etc/bashrc
+<span class="org-keyword">fi</span>
+</pre>
+</div>
+
+<p>
+A common cause is <code>mesg y</code> in <code>/etc/bashrc</code> on the remote machine, hence the user
+has to try avoiding sourcing it (on the <b>remote</b> machine) in non-interactive
+sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">Command history</h3>
+<div class="outline-text-3" id="text-orgheadline19">
 <p>
 Access and modify commands that you had previously typed at the command line.
 </p>
@@ -720,9 +741,9 @@ Access and modify commands that you had previously typed at the command line.
 </div>
 </div>
 
-<div id="outline-container-orgheadline19" class="outline-3">
-<h3 id="orgheadline19">Prompt</h3>
-<div class="outline-text-3" id="text-orgheadline19">
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20">Prompt</h3>
+<div class="outline-text-3" id="text-orgheadline20">
 <p>
 Appearance of the prompt.
 </p>
@@ -733,39 +754,20 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">*** Controlling the Prompt</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** Controlling the Prompt</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Regular colors.</span>
 <span class="org-variable-name">green</span>=<span class="org-string">"\[\e[0;32m\]"</span>
 <span class="org-variable-name">yellow</span>=<span class="org-string">"\[\e[0;33m\]"</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">bold colors</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Bold colors.</span>
 <span class="org-variable-name">BLACK</span>=<span class="org-string">"\[\e[1;30m\]"</span>
 <span class="org-variable-name">RED</span>=<span class="org-string">"\[\e[1;31m\]"</span>
 <span class="org-variable-name">GREEN</span>=<span class="org-string">"\[\e[1;32m\]"</span>
 
 <span class="org-variable-name">reset</span>=<span class="org-string">"\[\e[0m\]"</span>
 
-<span class="org-comment-delimiter">#</span><span class="org-comment">**** PS1 --- Default interaction prompt</span>
-
-<span class="org-comment-delimiter">#</span><span class="org-comment">**** PS2 --- Continuation interactive prompt</span>
-
-<span class="org-comment-delimiter">#</span><span class="org-comment">**** PS3 --- Prompt used by "select" inside shell script</span>
-
-<span class="org-comment-delimiter">#</span><span class="org-comment">**** PS4 --- Used by "set -x" to prefix tracing output</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">Get line numbers when you run with `-x'.</span>
-<span class="org-variable-name">PS4</span>=<span class="org-string">'+'</span>${<span class="org-variable-name">green</span>}<span class="org-string">'[$0:${LINENO}]+ '</span>${<span class="org-variable-name">reset</span>}
-<span class="org-comment-delimiter"># </span><span class="org-comment">single quotes (otherwise, this line number is taken)</span>
-
-<span class="org-comment-delimiter"># </span><span class="org-comment">If you are looking at performance issues, put `$SECONDS' in the PS4 prompt</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">as well</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">**** PROMPT_COMMAND</span>
+<span class="org-comment-delimiter">#</span><span class="org-comment">*** PROMPT_COMMAND + PS1 --- Default interaction prompt</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">To be called just before the prompt is printed.</span>
 <span class="org-function-name">leuven-before-prompt</span> ()
@@ -833,29 +835,32 @@ Note <code>\[...\]</code> used by the shell to count proper length.
         <span class="org-variable-name">PROMPT_COMMAND</span>=leuven-before-prompt
         ;;
 <span class="org-keyword">esac</span>
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline20" class="outline-3">
-<h3 id="orgheadline20">Source global rc file (if any)</h3>
-<div class="outline-text-3" id="text-orgheadline20">
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source global definitions if the session is interactive (to avoid problems</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">like "stdin: is not a tty" when ssh'ing to a remote machine).</span>
-<span class="org-keyword">if</span> ([ $(expr index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
-    . /etc/bashrc
-<span class="org-keyword">fi</span>
+
+<span class="org-comment-delimiter">#</span><span class="org-comment">*** PS2 --- Continuation interactive prompt</span>
+
+<span class="org-comment-delimiter">#</span><span class="org-comment">*** PS3 --- Prompt used by "select" inside shell script</span>
+
+<span class="org-comment-delimiter">#</span><span class="org-comment">*** PS4 --- Used by "set -x" to prefix tracing output</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Get line numbers when you run with `-x'.</span>
+<span class="org-variable-name">PS4</span>=<span class="org-string">'+'</span>${<span class="org-variable-name">green</span>}<span class="org-string">'[$0:${LINENO}]+ '</span>${<span class="org-variable-name">reset</span>}
 </pre>
 </div>
 
+<div class="note">
 <p>
-A common cause is <code>mesg y</code> in <code>/etc/bashrc</code> on the remote machine, hence the user
-has to try avoiding sourcing it (on the <b>remote</b> machine) in non-interactive
-sessions.
+Single quotes around <code>LINENO</code> in <code>PS4</code>; otherwise, <b>this</b> line number is taken&#x2026;
 </p>
+
+</div>
+
+<div class="tip">
+<p>
+If you are looking at performance issues, put <code>$SECONDS</code> in the PS4 prompt as
+well.
+</p>
+
+</div>
 </div>
 </div>
 
@@ -888,8 +893,41 @@ shopt -s cdspell
 </div>
 
 <div id="outline-container-orgheadline23" class="outline-3">
-<h3 id="orgheadline23">Source common file</h3>
+<h3 id="orgheadline23">Miscellaneous</h3>
 <div class="outline-text-3" id="text-orgheadline23">
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 8.6 Programmable Completion</span>
+
+complete -A helptopic help
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Get a file's basename, dirname, extension, etc</span>
+<span class="org-comment-delimiter">#</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># Get extension; everything after last '.'.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">ext=${file##*.}</span>
+<span class="org-comment-delimiter">#</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># Basename.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">basename=`basename "$file"`</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># Everything after last '/'.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file##*/}</span>
+<span class="org-comment-delimiter">#</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># Dirname.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">dirname=`dirname "$file"`</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment"># Everything before last '/'.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file%/*}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24">Source common file</h3>
+<div class="outline-text-3" id="text-orgheadline24">
 <p>
 <code>commonprofile</code> contains miscellaneous settings common to Bash and Zsh.
 </p>
@@ -915,39 +953,6 @@ In general, it should not do more than <b>change the default options of a comman
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
 : ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
 . $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgheadline24" class="outline-3">
-<h3 id="orgheadline24">Miscellaneous</h3>
-<div class="outline-text-3" id="text-orgheadline24">
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 8.6 Programmable Completion</span>
-
-complete -A helptopic help
-complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
-</pre>
-</div>
-
-<div class="org-src-container">
-
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Get a file's basename, dirname, extension, etc</span>
-<span class="org-comment-delimiter">#</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Get extension; everything after last '.'.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">ext=${file##*.}</span>
-<span class="org-comment-delimiter">#</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Basename.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">basename=`basename "$file"`</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Everything after last '/'.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file##*/}</span>
-<span class="org-comment-delimiter">#</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Dirname.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">dirname=`dirname "$file"`</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment"># Everything before last '/'.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">basename=${file%/*}</span>
 </pre>
 </div>
 </div>
@@ -1701,7 +1706,9 @@ The global search <code>PATH</code> is defined in the file <code>/etc/environmen
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Extend the PATH var (where to look for executable files).</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* PATH</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Extend the PATH var (where to look for executable files).</span>
 <span class="org-keyword">for</span> MAYBE_PATH<span class="org-keyword"> in</span> <span class="org-string">"$HOME/bin"</span> <span class="org-sh-escaped-newline">\</span>
                   <span class="org-string">"$HOME/expect"</span> <span class="org-sh-escaped-newline">\</span>
                   <span class="org-string">"$HOME/winbin"</span>;
@@ -1753,7 +1760,9 @@ resort).</li>
 <div class="outline-text-4" id="text-orgheadline48">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">set MANPATH so it includes user's private man if it exists</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* MANPATH</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">set MANPATH so it includes user's private man if it exists</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">do the same with MANPATH</span>
 <span class="org-comment-delimiter">#</span><span class="org-comment">if [ -d $HOME/man ]; then</span>
 <span class="org-comment-delimiter">#    </span><span class="org-comment">MANPATH=$HOME/man:"${MANPATH}"</span>
@@ -1774,7 +1783,9 @@ resort).</li>
 <div class="outline-text-4" id="text-orgheadline49">
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Info readers (standalone + Emacs Info mode)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* INFOPATH</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Info readers (standalone + Emacs Info mode)</span>
 <span class="org-variable-name">INFOPATH</span>=<span class="org-string">"/usr/share/info:$INFOPATH"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">include a trailing colon on `INFOPATH' to concatenate the Emacs</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">`Info-default-directory-list' when searching for info files</span>
@@ -3046,7 +3057,6 @@ worked&#x2026;
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables&#58;</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">ispell-local-dictionary: "american"</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">End:</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">commonprofile ends here</span>

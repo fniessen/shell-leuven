@@ -367,12 +367,26 @@ $ gm convert !*
 #* Code:
 #+end_src
 
-Prevent "stdin is not a tty" errors when using ~ssh~ (or ~rsync~):
+Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
+~rsync~):
 
 #+begin_src shell
 # If not running interactively, don't do anything.
 [[ "$-" != *i* ]] && return
 #+end_src
+
+** Source global rc file (if any)
+
+#+begin_src shell
+# Source global definitions only if the session is interactive.
+if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
+    . /etc/bashrc
+fi
+#+end_src
+
+A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the user
+has to try avoiding sourcing it (on the *remote* machine) in non-interactive
+sessions.
 
 ** Command history
 
@@ -394,37 +408,20 @@ Appearance of the prompt.
 Note ~\[...\]~ used by the shell to count proper length.
 
 #+begin_src shell
-#*** Controlling the Prompt
+#** Controlling the Prompt
 
 # Regular colors.
 green="\[\e[0;32m\]"
 yellow="\[\e[0;33m\]"
 
-# bold colors
+# Bold colors.
 BLACK="\[\e[1;30m\]"
 RED="\[\e[1;31m\]"
 GREEN="\[\e[1;32m\]"
 
 reset="\[\e[0m\]"
 
-#**** PS1 --- Default interaction prompt
-
-#**** PS2 --- Continuation interactive prompt
-
-#**** PS3 --- Prompt used by "select" inside shell script
-
-#**** PS4 --- Used by "set -x" to prefix tracing output
-
-# Get line numbers when you run with `-x'.
-PS4='+'${green}'[$0:${LINENO}]+ '${reset}
-# single quotes (otherwise, this line number is taken)
-
-# If you are looking at performance issues, put `$SECONDS' in the PS4 prompt
-# as well
-#+end_src
-
-#+begin_src shell
-#**** PROMPT_COMMAND
+#*** PROMPT_COMMAND + PS1 --- Default interaction prompt
 
 # To be called just before the prompt is printed.
 leuven-before-prompt ()
@@ -492,21 +489,25 @@ case "$TERM" in
         PROMPT_COMMAND=leuven-before-prompt
         ;;
 esac
+
+#*** PS2 --- Continuation interactive prompt
+
+#*** PS3 --- Prompt used by "select" inside shell script
+
+#*** PS4 --- Used by "set -x" to prefix tracing output
+
+# Get line numbers when you run with `-x'.
+PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 #+end_src
 
-** Source global rc file (if any)
+#+begin_note
+Single quotes around ~LINENO~ in ~PS4~; otherwise, *this* line number is taken...
+#+end_note
 
-#+begin_src shell
-# Source global definitions if the session is interactive (to avoid problems
-# like "stdin: is not a tty" when ssh'ing to a remote machine).
-if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
-    . /etc/bashrc
-fi
-#+end_src
-
-A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the user
-has to try avoiding sourcing it (on the *remote* machine) in non-interactive
-sessions.
+#+begin_tip
+If you are looking at performance issues, put ~$SECONDS~ in the PS4 prompt as
+well.
+#+end_tip
 
 ** Default permissions
 
@@ -526,32 +527,13 @@ fi
 shopt -s cdspell
 #+end_src
 
-** Source common file
-
-=commonprofile= contains miscellaneous settings common to Bash and Zsh.
-
-An *alias* is a simple string substitution.
-
-#+begin_note
-By default, it is *not expanded in non-interactive shells* (scripts, and even
-functions called in an interactive shell!).
-#+end_note
-
-In general, it should not do more than *change the default options of a command*.
-
-#+begin_src shell
-# Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
-#+end_src
-
 ** Miscellaneous
 
 #+begin_src shell
 #** 8.6 Programmable Completion
 
 complete -A helptopic help
-complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 #+end_src
 
 #+begin_src shell
@@ -569,6 +551,25 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 # dirname=`dirname "$file"`
 # # Everything before last '/'.
 # basename=${file%/*}
+#+end_src
+
+** Source common file
+
+=commonprofile= contains miscellaneous settings common to Bash and Zsh.
+
+An *alias* is a simple string substitution.
+
+#+begin_note
+By default, it is *not expanded in non-interactive shells* (scripts, and even
+functions called in an interactive shell!).
+#+end_note
+
+In general, it should not do more than *change the default options of a command*.
+
+#+begin_src shell
+# Source common settings.
+: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
+. $SHELLRC_LEUVEN/etc/commonprofile
 #+end_src
 
 ** Postamble
@@ -1130,6 +1131,8 @@ These directories are searched in the order in which they appear.
 The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
+#* PATH
+
 # Extend the PATH var (where to look for executable files).
 for MAYBE_PATH in "$HOME/bin" \
                   "$HOME/expect" \
@@ -1166,6 +1169,8 @@ fi
 *** Manpath
 
 #+begin_src shell
+#* MANPATH
+
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
 #if [ -d $HOME/man ]; then
@@ -1182,6 +1187,8 @@ fi
 *** Infopath
 
 #+begin_src shell
+#* INFOPATH
+
 # Info readers (standalone + Emacs Info mode)
 INFOPATH="/usr/share/info:$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
@@ -2151,7 +2158,6 @@ alias sp=sendpatch
 #+begin_src shell
 # This is for the sake of Emacs.
 # Local Variables:
-# ispell-local-dictionary: "american"
 # End:
 
 # commonprofile ends here

@@ -6,6 +6,8 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
 
+#* PATH
+
 # Extend the PATH var (where to look for executable files).
 for MAYBE_PATH in "$HOME/bin" \
                   "$HOME/expect" \
@@ -23,6 +25,8 @@ if [[ $EUID -ne 0 ]]; then
     PATH="$PATH:."
 fi
 
+#* MANPATH
+
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
 #if [ -d $HOME/man ]; then
@@ -34,6 +38,8 @@ fi
 #ifnset MANPATH "/usr/man"
     # TODO don't define it like that: does not work under Ubuntu!
     # See `/etc/manpath.config'
+
+#* INFOPATH
 
 # Info readers (standalone + Emacs Info mode)
 INFOPATH="/usr/share/info:$INFOPATH"
@@ -589,7 +595,6 @@ alias sp=sendpatch
 
 # This is for the sake of Emacs.
 # Local Variables:
-# ispell-local-dictionary: "american"
 # End:
 
 # commonprofile ends here

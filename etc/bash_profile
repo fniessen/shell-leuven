@@ -10,6 +10,11 @@
 # If not running interactively, don't do anything.
 [[ "$-" != *i* ]] && return
 
+# Source global definitions only if the session is interactive.
+if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
+    . /etc/bashrc
+fi
+
 # History.
 HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
 HISTSIZE=1000
@@ -17,35 +22,20 @@ HISTFILESIZE=1000
 HISTIGNORE="&:[bf]g:exit"
 HISTCONTROL=ignoredups
 
-#*** Controlling the Prompt
+#** Controlling the Prompt
 
 # Regular colors.
 green="\[\e[0;32m\]"
 yellow="\[\e[0;33m\]"
 
-# bold colors
+# Bold colors.
 BLACK="\[\e[1;30m\]"
 RED="\[\e[1;31m\]"
 GREEN="\[\e[1;32m\]"
 
 reset="\[\e[0m\]"
 
-#**** PS1 --- Default interaction prompt
-
-#**** PS2 --- Continuation interactive prompt
-
-#**** PS3 --- Prompt used by "select" inside shell script
-
-#**** PS4 --- Used by "set -x" to prefix tracing output
-
-# Get line numbers when you run with `-x'.
-PS4='+'${green}'[$0:${LINENO}]+ '${reset}
-# single quotes (otherwise, this line number is taken)
-
-# If you are looking at performance issues, put `$SECONDS' in the PS4 prompt
-# as well
-
-#**** PROMPT_COMMAND
+#*** PROMPT_COMMAND + PS1 --- Default interaction prompt
 
 # To be called just before the prompt is printed.
 leuven-before-prompt ()
@@ -114,11 +104,14 @@ case "$TERM" in
         ;;
 esac
 
-# Source global definitions if the session is interactive (to avoid problems
-# like "stdin: is not a tty" when ssh'ing to a remote machine).
-if ([ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]); then
-    . /etc/bashrc
-fi
+#*** PS2 --- Continuation interactive prompt
+
+#*** PS3 --- Prompt used by "select" inside shell script
+
+#*** PS4 --- Used by "set -x" to prefix tracing output
+
+# Get line numbers when you run with `-x'.
+PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
@@ -130,14 +123,10 @@ fi
 # Correct minor misspellings of cd pathnames.
 shopt -s cdspell
 
-# Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
-
 #** 8.6 Programmable Completion
 
 complete -A helptopic help
-complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup rexec
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 
 # # Get a file's basename, dirname, extension, etc
 #
@@ -153,6 +142,10 @@ complete -A hostname ssh telnet nmap rlogin ftp ping host traceroute nslookup re
 # dirname=`dirname "$file"`
 # # Everything before last '/'.
 # basename=${file%/*}
+
+# Source common settings.
+: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
+. $SHELLRC_LEUVEN/etc/commonprofile
 
 #* Local Variables
 
