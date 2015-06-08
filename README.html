@@ -2455,8 +2455,16 @@ Print the history lines matching a pattern.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">hg</span>=<span class="org-string">"history | grep -i"</span>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">hgrep</span>=<span class="org-string">"history | grep -i"</span>
 </pre>
+</div>
+
+<div class="warning">
+<p>
+We can&rsquo;t call this alias <code>hg</code> as that conflicts with the Mercurial prompt of the
+Agnoster theme (checking for the presence of the <code>hg</code> command).
+</p>
+
 </div>
 
 <p>

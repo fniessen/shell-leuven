@@ -205,7 +205,7 @@ svn_grep_all_rev() {
     )
 }
 
-alias hg="history | grep -i"
+alias hgrep="history | grep -i"
 
 function s()
 {

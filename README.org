@@ -1683,8 +1683,13 @@ svn_grep_all_rev() {
 Print the history lines matching a pattern.
 
 #+begin_src shell
-alias hg="history | grep -i"
+alias hgrep="history | grep -i"
 #+end_src
+
+#+begin_warning
+We can't call this alias ~hg~ as that conflicts with the Mercurial prompt of the
+Agnoster theme (checking for the presence of the ~hg~ command).
+#+end_warning
 
 Show the top 10 most used commands in your history.
 
