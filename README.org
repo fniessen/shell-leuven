@@ -870,7 +870,7 @@ precmd_functions+=echo_blank
 Don't confuse TRAMP:
 
 #+begin_src shell
-[ $TERM = "dumb" ] || PROMPT="> "
+[ "$TERM" = "dumb" ] && PROMPT="> "
 #+end_src
 
 *** Right prompt with Zsh-Git-prompt
@@ -904,7 +904,7 @@ export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
 Don't confuse TRAMP:
 
 #+begin_src shell
-[ $TERM = "dumb" ] || RPROMPT=""
+[ "$TERM" = "dumb" ] && RPROMPT=""
 #+end_src
 
 ** Aliasing
@@ -1171,6 +1171,7 @@ setopt notify
 
 # This is for the sake of Emacs.
 # Local Variables:
+# mode: shell-script
 # mode: outline-minor
 # End:
 

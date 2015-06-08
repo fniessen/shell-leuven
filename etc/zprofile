@@ -40,7 +40,7 @@ function echo_blank() {
 # preexec_functions+=echo_blank
 precmd_functions+=echo_blank
 
-[ $TERM = "dumb" ] || PROMPT="> "
+[ "$TERM" = "dumb" ] && PROMPT="> "
 
 . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
 setopt prompt_subst
@@ -52,7 +52,7 @@ export GIT_PS1_DESCRIBE_STYLE=branch
 export GIT_PS1_SHOWCOLORHINTS=true
 export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
 
-[ $TERM = "dumb" ] || RPROMPT=""
+[ "$TERM" = "dumb" ] && RPROMPT=""
 
 # Command line head / tail shortcuts
 alias -g H='| head' ###
@@ -247,6 +247,7 @@ setopt notify
 
 # This is for the sake of Emacs.
 # Local Variables:
+# mode: shell-script
 # mode: outline-minor
 # End:
 
