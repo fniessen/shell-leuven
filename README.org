@@ -1463,6 +1463,9 @@ alias agrep='alias | grep -i'
 - ~-g~ ::
      Like ~-l~, but do not list owner.
 
+- ~--group-directories-first~ ::
+     Group directories before files.
+
 - ~-G~ ::
      In a long listing, don't print *group* names.
 
