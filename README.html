@@ -254,7 +254,7 @@ Install extra packages:
 
 <li>Graphics
 <ul class="org-ul">
-<li class="off">&#x2610; <code>ghostscript</code> (needed by various utilities)</li>
+<li class="on">&#x2611; <code>ghostscript</code> (needed by various utilities &#x2013; <code>texlive</code> for example)</li>
 <li class="off">&#x2610; <code>gnuplot</code></li>
 </ul></li>
 
@@ -292,14 +292,25 @@ Install extra packages:
 <li class="off">&#x2610; <code>perl</code></li>
 </ul></li>
 
-<li>Ruby
+<li>Publishing
 <ul class="org-ul">
-<li class="off">&#x2610; <code>ruby</code></li>
+<li class="on">&#x2611; <code>texlive</code> (= TeX only, not LaTeX!  It requires <code>fontconfig</code> and <code>ghostscript</code>)</li>
+<li class="on">&#x2611; <code>texlive-collection-latex</code></li>
+<li class="on">&#x2611; <code>texlive-collection-latexextra</code> (for <code>draftwatermark.sty</code>, etc.)</li>
+<li class="on">&#x2611; <code>texlive-collection-genericrecommended</code> (for <code>ulem.sty</code>, etc.)</li>
+<li class="on">&#x2611; <code>texlive-collection-fontsrecommended</code> (for <code>marvosym.sty</code>, etc.)</li>
+<li class="on">&#x2611; <code>texlive-collection-science</code> (for <code>siunitx.sty</code>, etc.)</li>
+<li class="on">&#x2611; <code>texlive-collection-binextra</code> (for <code>latexmk</code>)</li>
 </ul></li>
 
 <li>Python
 <ul class="org-ul">
 <li class="on">&#x2611; <code>python</code></li>
+</ul></li>
+
+<li>Ruby
+<ul class="org-ul">
+<li class="off">&#x2610; <code>ruby</code></li>
 </ul></li>
 
 <li>Shells
@@ -323,7 +334,8 @@ Install extra packages:
 <ul class="org-ul">
 <li class="on">&#x2611; <code>texinfo</code> (for <code>makeinfo</code>)</li>
 <li class="off">&#x2610; <code>antiword</code></li>
-<li class="off">&#x2610; <code>aspell</code> (Win32 binary has more dictionaries)</li>
+<li class="off">&#x2610; <code>aspell</code> (Note that the Win32 binary has <b>much</b> more dictionaries! Use that
+one instead&#x2026;)</li>
 <li class="off">&#x2610; <code>most</code></li>
 <li class="off">&#x2610; <code>opensp</code> (for <code>nsgmls</code> validator)</li>
 <li class="off">&#x2610; <code>tidy</code></li>
@@ -1026,7 +1038,7 @@ $<span class="org-variable-name">include</span> /etc/inputrc
 <span class="org-comment-delimiter"># </span><span class="org-comment">Some defaults / modifications for the Emacs mode.</span>
 $<span class="org-variable-name">if</span> <span class="org-variable-name">mode</span>=emacs
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Mappings for `Ctrl-up/down' for matching commands from the history.</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">&lt;C-up/down&gt; for searching matching commands from the history.</span>
 <span class="org-string">"\e[1;5A"</span>: history-search-backward
 <span class="org-string">"\e[1;5B"</span>: history-search-forward
 
@@ -1391,7 +1403,7 @@ Some global aliases (expand whatever their position).
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> -- <span class="org-variable-name">cdwd</span>=<span class="org-string">'cd `pwd`'</span>
 <span class="org-builtin">alias</span> -- <span class="org-variable-name">cwd</span>=<span class="org-string">'echo $cwd'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">h</span>=<span class="org-string">'history 1 | less +G'</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">alias h='history 1 | less +G'</span>
 </pre>
 </div>
 </div>
@@ -2059,11 +2071,14 @@ Right now, I have instead hard-coded the path to Emacs in the
     <span class="org-keyword">if</span> $(<span class="org-builtin">which</span> $<span class="org-variable-name">editor</span> &gt;&amp; /dev/null); <span class="org-keyword">then</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">Set EDITOR.</span>
         <span class="org-keyword">case</span> $<span class="org-variable-name">editor</span><span class="org-keyword"> in</span>
-            <span class="org-comment-delimiter"># </span><span class="org-comment">emacsclient*)</span>
-            <span class="org-comment-delimiter">#     </span><span class="org-comment"># # doesn't bother waiting for a response</span>
-            <span class="org-comment-delimiter">#     </span><span class="org-comment"># export EDITOR="$editor --no-wait"</span>
-            <span class="org-comment-delimiter">#     </span><span class="org-comment">export EDITOR="$editor -t"</span>
-            <span class="org-comment-delimiter">#     </span><span class="org-comment">;;</span>
+            emacsclient*)
+                <span class="org-comment-delimiter"># </span><span class="org-comment"># doesn't bother waiting for a response</span>
+                <span class="org-comment-delimiter"># </span><span class="org-comment">export EDITOR="$editor --no-wait"</span>
+
+                <span class="org-comment-delimiter"># </span><span class="org-comment">If the Emacs server is not running, run `emacs --daemon' to</span>
+                <span class="org-comment-delimiter"># </span><span class="org-comment">start Emacs in daemon mode, and try to connect to it.</span>
+                <span class="org-builtin">export</span> <span class="org-variable-name">EDITOR</span>=<span class="org-string">"$editor -a ''"</span>
+                ;;
             *)
                 <span class="org-builtin">export</span> <span class="org-variable-name">EDITOR</span>=<span class="org-string">"$editor"</span>
                 ;;

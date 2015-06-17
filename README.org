@@ -86,7 +86,7 @@ Install extra packages:
   + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
 
 - Graphics
-  + [ ] ~ghostscript~ (needed by various utilities)
+  + [X] ~ghostscript~ (needed by various utilities -- ~texlive~ for example)
   + [ ] ~gnuplot~
 
 - Interpreters
@@ -113,11 +113,20 @@ Install extra packages:
 - Perl
   + [ ] ~perl~
 
-- Ruby
-  + [ ] ~ruby~
+- Publishing
+  + [X] ~texlive~ (= TeX only, not LaTeX!  It requires ~fontconfig~ and ~ghostscript~)
+  + [X] ~texlive-collection-latex~
+  + [X] ~texlive-collection-latexextra~ (for =draftwatermark.sty=, etc.)
+  + [X] ~texlive-collection-genericrecommended~ (for =ulem.sty=, etc.)
+  + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
+  + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
+  + [X] ~texlive-collection-binextra~ (for ~latexmk~)
 
 - Python
   + [X] ~python~
+
+- Ruby
+  + [ ] ~ruby~
 
 - Shells
   + [X] ~zsh
@@ -133,7 +142,8 @@ Install extra packages:
 - Text
   + [X] ~texinfo~ (for ~makeinfo~)
   + [ ] ~antiword~
-  + [ ] ~aspell~ (Win32 binary has more dictionaries)
+  + [ ] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
+    one instead...)
   + [ ] ~most~
   + [ ] ~opensp~ (for ~nsgmls~ validator)
   + [ ] ~tidy~
@@ -629,7 +639,7 @@ set editing-mode emacs                  # Ctrl-a/e      Start/End of line.
 # Some defaults / modifications for the Emacs mode.
 $if mode=emacs
 
-# Mappings for `Ctrl-up/down' for matching commands from the history.
+# <C-up/down> for searching matching commands from the history.
 "\e[1;5A": history-search-backward
 "\e[1;5B": history-search-forward
 
@@ -889,7 +899,7 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 #+begin_src shell
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
-alias h='history 1 | less +G'
+# alias h='history 1 | less +G'
 #+end_src
 
 *** Directories
@@ -1376,11 +1386,14 @@ for editor in emacsclientw emacsclient emacs; do
     if $(which $editor >& /dev/null); then
         # Set EDITOR.
         case $editor in
-            # emacsclient*)
-            #     # # doesn't bother waiting for a response
-            #     # export EDITOR="$editor --no-wait"
-            #     export EDITOR="$editor -t"
-            #     ;;
+            emacsclient*)
+                # # doesn't bother waiting for a response
+                # export EDITOR="$editor --no-wait"
+
+                # If the Emacs server is not running, run `emacs --daemon' to
+                # start Emacs in daemon mode, and try to connect to it.
+                export EDITOR="$editor -a ''"
+                ;;
             ,*)
                 export EDITOR="$editor"
                 ;;
