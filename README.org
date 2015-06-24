@@ -121,7 +121,7 @@ Install extra packages:
   + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
   + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
   + [X] ~texlive-collection-binextra~ (for ~latexmk~)
-
+  + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
 - Python
   + [X] ~python~
 
@@ -338,7 +338,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Bash specific
   :PROPERTIES:
-  :tangle:   ./etc/bash_profile
+  :header-args: :tangle ./etc/bash_profile
   :END:
 
 Le ~!~ en shell permet plein de trucs sympa.
@@ -599,7 +599,7 @@ In general, it should not do more than *change the default options of a command*
 
 ** InputRC
    :PROPERTIES:
-   :tangle:   ./src/.inputrc
+   :header-args: :tangle ./src/.inputrc
    :END:
 
 This file controls the behavior of line input editing for programs that use
@@ -673,7 +673,7 @@ set completion-ignore-case on
 
 * Zsh specific
   :PROPERTIES:
-  :tangle:   ./etc/zprofile
+  :header-args: :tangle ./etc/zprofile
   :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -830,7 +830,7 @@ https://github.com/olivierverdier/zsh-git-prompt
 
 #+begin_src shell :tangle no
 # Prompt on the right hand side of the screen (Git info).
-. ~/Public/Repositories/git-prompt/zshrc.sh
+. ~/Public/Repositories/zsh-git-prompt/zshrc.sh
 RPROMPT='$(git_super_status)'
 #+end_src
 
@@ -841,7 +841,8 @@ http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with
 *************** END
 
 #+begin_src shell
-. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+# . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+. "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"
 setopt prompt_subst
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
@@ -1113,7 +1114,7 @@ setopt notify
 
 * System-wide configuration file
   :PROPERTIES:
-  :tangle:   ./etc/commonprofile
+  :header-args: :tangle ./etc/commonprofile
   :END:
 
 Everything in common between Bash and Z shell will come here, since it is read

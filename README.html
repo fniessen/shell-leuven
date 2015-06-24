@@ -301,8 +301,8 @@ Install extra packages:
 <li class="on">&#x2611; <code>texlive-collection-fontsrecommended</code> (for <code>marvosym.sty</code>, etc.)</li>
 <li class="on">&#x2611; <code>texlive-collection-science</code> (for <code>siunitx.sty</code>, etc.)</li>
 <li class="on">&#x2611; <code>texlive-collection-binextra</code> (for <code>latexmk</code>)</li>
+<li class="on">&#x2611; <code>texlive-collection-langfrench</code> (for <code>frenchb</code>)</li>
 </ul></li>
-
 <li>Python
 <ul class="org-ul">
 <li class="on">&#x2611; <code>python</code></li>
@@ -1308,7 +1308,7 @@ Don&rsquo;t confuse TRAMP:
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Prompt on the right hand side of the screen (Git info).</span>
-. ~/Public/Repositories/git-prompt/zshrc.sh
+. ~/Public/Repositories/zsh-git-prompt/zshrc.sh
 <span class="org-variable-name">RPROMPT</span>=<span class="org-string">'$(git_super_status)'</span>
 </pre>
 </div>
@@ -1327,7 +1327,8 @@ Don&rsquo;t confuse TRAMP:
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. <span class="org-string">"/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"</span>
+. <span class="org-string">"/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"</span>
 <span class="org-builtin">setopt</span> prompt_subst
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWDIRTYSTATE</span>=true
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWSTASHSTATE</span>=true
@@ -1534,7 +1535,7 @@ Useful commands:
 
 <div class="note">
 <p>
-See <a href="file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file:///cygdrive/d/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
+See <a href="file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh</a> for extra key bindings.
 </p>
 
 </div>
@@ -1954,7 +1955,7 @@ Man pages colors:
 
 <div class="seealso">
 <p>
-<a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.  See <a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">mintty Manual Reference Pages</a> for more
+<a href="file://d:/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.  See <a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">mintty Manual Reference Pages</a> for more
 information.
 </p>
 
@@ -2059,7 +2060,7 @@ Be sure one of these <b>editors</b> is <b>in your search path</b>!
 <div class="warning">
 <p>
 Right now, I have instead hard-coded the path to Emacs in the
-<a href="file:///cygdrive/d/Users/fni/bin/emacsclient">file:///cygdrive/d/Users/fni/bin/emacsclient</a> script.
+<a href="file://d:/Users/fni/bin/emacsclient">file://d:/Users/fni/bin/emacsclient</a> script.
 </p>
 
 </div>
