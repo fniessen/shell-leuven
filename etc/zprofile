@@ -41,7 +41,8 @@ precmd_functions+=echo_blank
 
 [ "$TERM" = "dumb" ] && PROMPT="> "
 
-. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+# . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
+. "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"
 setopt prompt_subst
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
@@ -83,7 +84,7 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
-alias h='history 1 | less +G'
+# alias h='history 1 | less +G'
 
 alias -g ...='../..'
 alias -g ....='../../..'
