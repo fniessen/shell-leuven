@@ -81,11 +81,14 @@ for editor in emacsclientw emacsclient emacs; do
     if $(which $editor >& /dev/null); then
         # Set EDITOR.
         case $editor in
-            # emacsclient*)
-            #     # # doesn't bother waiting for a response
-            #     # export EDITOR="$editor --no-wait"
-            #     export EDITOR="$editor -t"
-            #     ;;
+            emacsclient*)
+                # # doesn't bother waiting for a response
+                # export EDITOR="$editor --no-wait"
+
+                # If the Emacs server is not running, run `emacs --daemon' to
+                # start Emacs in daemon mode, and try to connect to it.
+                export EDITOR="$editor -a ''"
+                ;;
             *)
                 export EDITOR="$editor"
                 ;;
