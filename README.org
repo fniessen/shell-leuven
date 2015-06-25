@@ -72,6 +72,7 @@ Install extra packages:
   + [X] ~subversion~ (for ~svn~ command)
   + [X] ~gdb~
   + [X] ~make~ (for making info for Git Org mode)
+  + [X] ~patch~ and ~patchutils~
   + [ ] ~autoconf~
   + [ ] ~bzr~
   + [ ] ~cvs~
@@ -157,7 +158,6 @@ Install extra packages:
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
-  + [ ] ~patch~ and ~patchutils~
   + [ ] ~screen~
 
 - X11
