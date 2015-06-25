@@ -47,8 +47,7 @@ For similar collections, see:
 
 * Shell functions
   :PROPERTIES:
-  :shebang:  #!/bin/bash
-  :tangle:   src/shellutils
+  :header-args: :tangle src/shellutils :shebang #!/bin/bash
   :END:
 
 Only use alphanumeric characters and the underscore for function names.
@@ -104,13 +103,10 @@ pname () {
 #+end_src
 
 * Shell scripts
-  :PROPERTIES:
-  :shebang:  #!/bin/bash
-  :END:
 
 ** Send an email
    :PROPERTIES:
-   :tangle:   src/mail
+   :header-args: :tangle src/mail :shebang #!/bin/bash
    :END:
 
 Send a mail to one or more people.
