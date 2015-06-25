@@ -240,8 +240,8 @@ ShellRC-Leuven is installed by doing the following:
    Or...
 
    #+begin_src shell :results silent
-   if [ -d "$HOME/.shellrc-leuven/src" ]; then
-       PATH="$HOME/.shellrc-leuven/src:$PATH"
+   if [ -d "$HOME/.shellrc-leuven/etc" ]; then
+       PATH="$HOME/.shellrc-leuven/etc:$PATH"
    fi
    #+end_src
 
@@ -287,7 +287,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
 
-#+begin_src shell :tangle ./src/.bash_profile
+#+begin_src shell :tangle ./etc/.bash_profile
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
@@ -599,7 +599,7 @@ In general, it should not do more than *change the default options of a command*
 
 ** InputRC
    :PROPERTIES:
-   :header-args: :tangle ./src/.inputrc
+   :header-args: :tangle ./etc/.inputrc
    :END:
 
 This file controls the behavior of line input editing for programs that use
@@ -1204,11 +1204,7 @@ fi
 INFOPATH="/usr/share/info:$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
 # `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
 # INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 #+end_src
 
 ** Pager

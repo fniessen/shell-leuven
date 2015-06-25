@@ -45,11 +45,7 @@ fi
 INFOPATH="/usr/share/info:$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
 # `Info-default-directory-list' when searching for info files
-INFOPATH="$HOME/src/emacs-w3m/doc:$INFOPATH"
-INFOPATH="$HOME/src/gnus/texi:$INFOPATH"
-INFOPATH="$HOME/Downloads/emacs/site-lisp/auctex-11.86/doc:$INFOPATH"
 # INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
-INFOPATH="$HOME/Public/Repositories/org-mode/doc:$INFOPATH"
 
 PAGER="less"
 
