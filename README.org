@@ -510,9 +510,14 @@ esac
 PS4='+'${green}'[$0:${LINENO}]+ '${reset}
 #+end_src
 
-#+begin_note
+#+begin_warning
+When you invoke the *shell from Emacs*, it is a *non-interactive* session, which
+might get different settings.
+#+end_warning
+
+#+begin_tip
 Single quotes around ~LINENO~ in ~PS4~; otherwise, *this* line number is taken...
-#+end_note
+#+end_tip
 
 #+begin_tip
 If you are looking at performance issues, put ~$SECONDS~ in the PS4 prompt as
@@ -823,6 +828,11 @@ Don't confuse TRAMP:
 #+begin_src shell
 [ "$TERM" = "dumb" ] && PROMPT="> "
 #+end_src
+
+#+begin_warning
+When you invoke the *shell from Emacs*, it is a *non-interactive* session, which
+might get different settings.
+#+end_warning
 
 *** Right prompt with Zsh-Git-prompt
 

@@ -859,7 +859,15 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 </pre>
 </div>
 
-<div class="note">
+<div class="warning">
+<p>
+When you invoke the <b>shell from Emacs</b>, it is a <b>non-interactive</b> session, which
+might get different settings.
+</p>
+
+</div>
+
+<div class="tip">
 <p>
 Single quotes around <code>LINENO</code> in <code>PS4</code>; otherwise, <b>this</b> line number is taken&#x2026;
 </p>
@@ -1295,6 +1303,14 @@ Don&rsquo;t confuse TRAMP:
 
 <pre class="src src-shell">[ <span class="org-string">"$TERM"</span> = <span class="org-string">"dumb"</span> ] &amp;&amp; <span class="org-variable-name">PROMPT</span>=<span class="org-string">"&gt; "</span>
 </pre>
+</div>
+
+<div class="warning">
+<p>
+When you invoke the <b>shell from Emacs</b>, it is a <b>non-interactive</b> session, which
+might get different settings.
+</p>
+
 </div>
 </div>
 
