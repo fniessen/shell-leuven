@@ -8,6 +8,91 @@
 <title>ShellRC-Leuven</title>
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Fabrice Niessen" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
 <link rel="stylesheet" type="text/css" href="d:/Users/fni/src/org-html-themes/styles/readtheorg/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="d:/Users/fni/src/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -303,7 +388,9 @@ Install extra packages:
 <li class="on">&#x2611; <code>texlive-collection-science</code> (for <code>siunitx.sty</code>, etc.)</li>
 <li class="on">&#x2611; <code>texlive-collection-binextra</code> (for <code>latexmk</code>)</li>
 <li class="on">&#x2611; <code>texlive-collection-langfrench</code> (for <code>frenchb</code>)</li>
+<li class="on">&#x2611; <code>texlive-collection-fontsextra</code> (for <code>libertine.sty</code>)</li>
 </ul></li>
+
 <li>Python
 <ul class="org-ul">
 <li class="on">&#x2611; <code>python</code></li>
@@ -472,13 +559,13 @@ ShellRC-Leuven is installed by doing the following:
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. ~/.shellrc-leuven/etc/bash_profile
+<pre class="src src-shell"><span class="org-builtin">.</span> ~/.shellrc-leuven/etc/bash_profile
 </pre>
 </div>
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. ~/.shellrc-leuven/etc/zprofile
+<pre class="src src-shell"><span class="org-builtin">.</span> ~/.shellrc-leuven/etc/zprofile
 </pre>
 </div>
 
@@ -614,7 +701,7 @@ env variables in there, because sub-shells will inherit the env vars. Then make
 
 <div class="org-src-container">
 
-<pre class="src src-shell">. .bashrc
+<pre class="src src-shell"><span class="org-builtin">.</span> .bashrc
 </pre>
 </div>
 
@@ -719,8 +806,8 @@ Prevent &ldquo;stdin is not a tty&rdquo; errors when <code>ssh</code>&rsquo;ing 
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source global definitions only if the session is interactive.</span>
-<span class="org-keyword">if</span> ([ $(expr index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
-    . /etc/bashrc
+<span class="org-keyword">if</span> ([ $(<span class="org-sh-quoted-exec">expr</span> index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
+    <span class="org-builtin">.</span> /etc/bashrc
 <span class="org-keyword">fi</span>
 </pre>
 </div>
@@ -906,7 +993,7 @@ well.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Correct minor misspellings of cd pathnames.</span>
-shopt -s cdspell
+<span class="org-builtin">shopt</span> -s cdspell
 </pre>
 </div>
 </div>
@@ -919,8 +1006,8 @@ shopt -s cdspell
 
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 8.6 Programmable Completion</span>
 
-complete -A helptopic help
-complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+<span class="org-builtin">complete</span> -A helptopic help
+<span class="org-builtin">complete</span> -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 </pre>
 </div>
 
@@ -972,7 +1059,7 @@ In general, it should not do more than <b>change the default options of a comman
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
 : ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
-. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
+<span class="org-builtin">.</span> $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
 </pre>
 </div>
 </div>
@@ -1170,7 +1257,7 @@ For Consolas, use: <a href="https://github.com/runsisi/consolas-font-for-powerli
     <span class="org-variable-name">ZSH</span>=$<span class="org-variable-name">HOME</span>/.oh-my-zsh
     <span class="org-variable-name">ZSH_THEME</span>=<span class="org-string">"agnoster"</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">plugins=(git osx rails ruby github node rbenv npm brew byte)</span>
-    . $<span class="org-variable-name">ZSH</span>/oh-my-zsh.sh
+    <span class="org-builtin">.</span> $<span class="org-variable-name">ZSH</span>/oh-my-zsh.sh
 <span class="org-keyword">fi</span>
 </pre>
 </div>
@@ -1189,13 +1276,13 @@ For Consolas, use: <a href="https://github.com/runsisi/consolas-font-for-powerli
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Append new history lines instead of overwriting (important for multiple</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">parallel Zsh sessions!).</span>
-<span class="org-builtin">setopt</span> appendhistory
+setopt appendhistory
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Don't save command more than once when occuring more often.</span>
-<span class="org-builtin">setopt</span> HIST_IGNORE_DUPS
+setopt HIST_IGNORE_DUPS
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Use the same history file for all sessions.</span>
-<span class="org-builtin">setopt</span> SHARE_HISTORY
+setopt SHARE_HISTORY
 </pre>
 </div>
 </div>
@@ -1268,7 +1355,7 @@ to avoid an unnecessary shellout at each prompt evaluation.
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-variable-name">BEL</span>=$(tput bel)
+<pre class="src src-shell"><span class="org-variable-name">BEL</span>=$(<span class="org-sh-quoted-exec">tput</span> bel)
 <span class="org-variable-name">PROMPT</span>+=<span class="org-string">'%(?::$BEL)'</span>
 </pre>
 </div>
@@ -1324,8 +1411,8 @@ might get different settings.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Prompt on the right hand side of the screen (Git info).</span>
-. ~/Public/Repositories/zsh-git-prompt/zshrc.sh
-<span class="org-variable-name">RPROMPT</span>=<span class="org-string">'$(git_super_status)'</span>
+<span class="org-builtin">.</span> ~/Public/Repositories/zsh-git-prompt/zshrc.sh
+<span class="org-variable-name">RPROMPT</span>=<span class="org-string">'$(</span><span class="org-sh-quoted-exec">git_super_status</span><span class="org-string">)'</span>
 </pre>
 </div>
 </div>
@@ -1344,15 +1431,15 @@ might get different settings.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">. "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"</span>
-. <span class="org-string">"/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"</span>
-<span class="org-builtin">setopt</span> prompt_subst
+<span class="org-builtin">.</span> <span class="org-string">"/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"</span>
+setopt prompt_subst
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWDIRTYSTATE</span>=true
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWSTASHSTATE</span>=true
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWUNTRACKEDFILES</span>=true
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWUPSTREAM</span>=verbose
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_DESCRIBE_STYLE</span>=branch
 <span class="org-builtin">export</span> <span class="org-variable-name">GIT_PS1_SHOWCOLORHINTS</span>=true
-<span class="org-builtin">export</span> <span class="org-variable-name">RPROMPT</span>=$<span class="org-string">'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'</span>
+<span class="org-builtin">export</span> <span class="org-variable-name">RPROMPT</span>=$<span class="org-string">'%{$fg[magenta]%}■%{$reset_color%} $(</span><span class="org-sh-quoted-exec">__git_ps1</span><span class="org-string"> "%s")'</span>
 </pre>
 </div>
 
@@ -1411,8 +1498,8 @@ Some global aliases (expand whatever their position).
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A7</span>=<span class="org-string">"| awk '{print \$7}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A8</span>=<span class="org-string">"| awk '{print \$8}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A9</span>=<span class="org-string">"| awk '{print \$9}'"</span>
-<span class="org-builtin">alias</span> -g <span class="org-variable-name">ND</span>=<span class="org-string">'$(ls -d *(/om[1]))'</span>        <span class="org-comment-delimiter"># </span><span class="org-comment">Newest directory.</span>
-<span class="org-builtin">alias</span> -g <span class="org-variable-name">NF</span>=<span class="org-string">'$(ls *(.om[1]))'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">Newest file.</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">ND</span>=<span class="org-string">'$(</span><span class="org-sh-quoted-exec">ls</span><span class="org-string"> -d *(/om[1]))'</span>        <span class="org-comment-delimiter"># </span><span class="org-comment">Newest directory.</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">NF</span>=<span class="org-string">'$(</span><span class="org-sh-quoted-exec">ls</span><span class="org-string"> *(.om[1]))'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">Newest file.</span>
 </pre>
 </div>
 
@@ -1480,8 +1567,8 @@ Some global aliases (expand whatever their position).
 {
     <span class="org-keyword">if</span> [ $<span class="org-variable-name">#</span> -lt 1 ]; <span class="org-keyword">then</span>
         cat &lt;&lt; EOF 1&gt;&amp;2
-<span class="org-sh-heredoc">Usage: $(basename $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
-<span class="org-sh-heredoc">    or $(basename $0) FILE   (if LEDGER=beancount)</span>
+<span class="org-sh-heredoc">Usage: $(</span><span class="org-sh-quoted-exec">basename</span><span class="org-sh-heredoc"> $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
+<span class="org-sh-heredoc">    or $(</span><span class="org-sh-quoted-exec">basename</span><span class="org-sh-heredoc"> $0) FILE   (if LEDGER=beancount)</span>
 <span class="org-sh-heredoc">EOF</span>
     <span class="org-keyword">fi</span>
 
@@ -1559,31 +1646,31 @@ See <a href="file://d:/Users/fni/.oh-my-zsh/lib/key-bindings.zsh">file://d:/User
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Behave like Emacs when editing.</span>
-<span class="org-builtin">bindkey</span> -e
+bindkey -e
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Mappings for `Ctrl-up/down' for matching commands from the history.</span>
-<span class="org-builtin">bindkey</span> <span class="org-string">';5A'</span> history-search-backward
-<span class="org-builtin">bindkey</span> <span class="org-string">';5B'</span> history-search-forward
+bindkey <span class="org-string">';5A'</span> history-search-backward
+bindkey <span class="org-string">';5B'</span> history-search-forward
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Mappings for `Ctrl-left/right' for word moving.</span>
-<span class="org-builtin">bindkey</span> <span class="org-string">';5C'</span> forward-word
-<span class="org-builtin">bindkey</span> <span class="org-string">';5D'</span> backward-word
+bindkey <span class="org-string">';5C'</span> forward-word
+bindkey <span class="org-string">';5D'</span> backward-word
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Beep when there's an error with the command text you're typing in (e.g. if you</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">hit tab and there are no matching files) -- not as a result of normal commands</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">returning errors.</span>
-<span class="org-builtin">setopt</span> beep
+setopt beep
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Make Zsh beep like Bash when backspacing on an empty command line.</span>
 <span class="org-function-name">backward-delete-char-beep</span> ()
 {
-    <span class="org-keyword">if</span> (( <span class="org-variable-name">CURSOR</span> == 0 )); <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> (( CURSOR == 0 )); <span class="org-keyword">then</span>
         zle beep
     <span class="org-keyword">fi</span>
     zle backward-delete-char
 }
 zle -N backward-delete-char-beep
-<span class="org-builtin">bindkey</span> <span class="org-string">"^?"</span> backward-delete-char-beep
+bindkey <span class="org-string">"^?"</span> backward-delete-char-beep
 </pre>
 </div>
 </div>
@@ -1599,10 +1686,10 @@ Zsh will attempt to complete wildcards by expanding them in the command line.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Load general completion.</span>
-<span class="org-builtin">autoload</span> -Uz compinit &amp;&amp; compinit
+autoload -Uz compinit &amp;&amp; compinit
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Display a list of completions when you give an ambiguous choice (like Bash).</span>
-<span class="org-builtin">setopt</span> autolist
+setopt autolist
 </pre>
 </div>
 </div>
@@ -1649,16 +1736,16 @@ zmodload zsh/system
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Change directory given just path.</span>
-<span class="org-builtin">setopt</span> autocd
+setopt autocd
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Use additional pattern matching features.</span>
-<span class="org-builtin">setopt</span> extendedglob
+setopt extendedglob
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Unmatched patterns cause an error.</span>
-<span class="org-builtin">setopt</span> nomatch
+setopt nomatch
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Immediately report changes in background job status.</span>
-<span class="org-builtin">setopt</span> notify
+setopt notify
 </pre>
 </div>
 </div>
@@ -1671,7 +1758,7 @@ zmodload zsh/system
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
 : ${<span class="org-variable-name">SHELLRC_LEUVEN</span>:=<span class="org-string">"$HOME/src/shellrc-leuven"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">Necessary to use $HOME!</span>
-. $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
+<span class="org-builtin">.</span> $<span class="org-variable-name">SHELLRC_LEUVEN</span>/etc/commonprofile
 </pre>
 </div>
 
@@ -1753,6 +1840,23 @@ The global search <code>PATH</code> is defined in the file <code>/etc/environmen
 <div class="note">
 <p>
 <code>PATH</code> should already be marked as exported, so reexporting is not needed.
+</p>
+
+<p>
+Run <code>export</code> to see a list of exported variables (names marked to be passed to
+child processes in the environment).
+</p>
+
+<p>
+Since <code>env</code> is an independent executable (<code>/usr/bin/env</code>), it only sees the
+variables that the shell passes to it, or <b><i>exported</i> environment variables</b>
+(which are passed on to every executed program).
+</p>
+
+<p>
+<code>set</code> on the other hand is a <i>built-in</i> shell command, it also <b>sees local shell
+variables</b> (which are only accessible from the current shell) &#x2013; including shell
+functions.
 </p>
 
 </div>
@@ -2081,7 +2185,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Find a suitable editor.</span>
 <span class="org-keyword">for</span> editor<span class="org-keyword"> in</span> emacsclientw emacsclient emacs; <span class="org-keyword">do</span>
-    <span class="org-keyword">if</span> $(<span class="org-builtin">which</span> $<span class="org-variable-name">editor</span> &gt;&amp; /dev/null); <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> $<span class="org-variable-name">editor</span> &gt;&amp; /dev/null); <span class="org-keyword">then</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">Set EDITOR.</span>
         <span class="org-keyword">case</span> $<span class="org-variable-name">editor</span><span class="org-keyword"> in</span>
             emacsclient*)
@@ -2222,9 +2326,9 @@ An alias cannot have an argument like <code>$1</code>.
 
     <span class="org-comment-delimiter"># </span><span class="org-comment"># Add my coloration scheme to directory listings.</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">if [ -f $HOME/.dircolors ]; then</span>
-    <span class="org-comment-delimiter">#     </span><span class="org-comment">eval "$(dircolors -b $HOME/.dircolors)"</span>
+    <span class="org-comment-delimiter">#     </span><span class="org-comment">eval "$(</span><span class="org-sh-quoted-exec">dircolors</span><span class="org-comment"> -b $HOME/.dircolors)"</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">else</span>
-    <span class="org-comment-delimiter">#     </span><span class="org-comment">eval "$(dircolors -b)"</span>
+    <span class="org-comment-delimiter">#     </span><span class="org-comment">eval "$(</span><span class="org-sh-quoted-exec">dircolors</span><span class="org-comment"> -b)"</span>
     <span class="org-comment-delimiter"># </span><span class="org-comment">fi</span>
 
     <span class="org-builtin">alias</span> <span class="org-variable-name">ls</span>=<span class="org-string">'ls --color=auto -F'</span>
@@ -2411,9 +2515,9 @@ scripts don&rsquo;t expect to see modified!
 <span class="org-function-name">svn_grep_all_rev</span>() {
     svn log $<span class="org-variable-name">2</span> | perl -n -e <span class="org-string">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
         <span class="org-keyword">while </span><span class="org-builtin">read</span> revision; <span class="org-keyword">do</span>
-            printf <span class="org-string">"\e[0;33m%s\e[0m\n"</span> <span class="org-string">"Revision $revision:"</span>
+            <span class="org-builtin">printf</span> <span class="org-string">"\e[0;33m%s\e[0m\n"</span> <span class="org-string">"Revision $revision:"</span>
             svn cat -r $<span class="org-variable-name">revision</span> $<span class="org-variable-name">2</span> | grep $<span class="org-variable-name">1</span>
-            printf <span class="org-string">"\n"</span>
+            <span class="org-builtin">printf</span> <span class="org-string">"\n"</span>
         <span class="org-keyword">done</span>
     )
 }
@@ -2548,7 +2652,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     clear
     <span class="org-builtin">echo</span> <span class="org-string">"         Passphrase Encryption Program"</span>;
     <span class="org-builtin">echo</span> <span class="org-string">"--------------------------------------------------"</span>; <span class="org-builtin">echo</span> <span class="org-string">""</span>;
-    <span class="org-builtin">which</span> $<span class="org-variable-name">EDITOR</span> &amp;&gt;/dev/null
+    which $<span class="org-variable-name">EDITOR</span> &amp;&gt;/dev/null
     <span class="org-keyword">if</span> [ <span class="org-string">"$?"</span> != <span class="org-string">"0"</span> ]; <span class="org-keyword">then</span>
         <span class="org-builtin">echo</span> <span class="org-string">"It appears that you do not have a text editor set in your .bashrc file."</span>;
         <span class="org-builtin">echo</span> <span class="org-string">"What editor would you like to use ? "</span> ;
@@ -2602,7 +2706,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">My traceroute.</span>
-<span class="org-keyword">if</span> $(<span class="org-builtin">which</span> mtr &gt;&amp; /dev/null); <span class="org-keyword">then</span>
+<span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> mtr &gt;&amp; /dev/null); <span class="org-keyword">then</span>
     <span class="org-builtin">alias</span> <span class="org-variable-name">ping</span>=mtr
 <span class="org-keyword">fi</span>
 
@@ -2621,7 +2725,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Echo my current external IP address.</span>
-<span class="org-keyword">if</span> $(<span class="org-builtin">which</span> curl &gt;&amp; /dev/null); <span class="org-keyword">then</span>
+<span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> curl &gt;&amp; /dev/null); <span class="org-keyword">then</span>
     <span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
 <span class="org-keyword">fi</span>
 </pre>
@@ -2687,13 +2791,13 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">localnet - Find the local network in CIDR notation.</span>
 <span class="org-function-name">localnet</span> ()
 {
-    <span class="org-variable-name">IP_ADDRESS</span>=$(ifconfig | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
+    <span class="org-variable-name">IP_ADDRESS</span>=$(<span class="org-sh-quoted-exec">ifconfig</span> | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
     <span class="org-comment-delimiter"># </span><span class="org-comment">we could use `nm-tool' from `network-manager'</span>
 
-    <span class="org-variable-name">NETMASK</span>=$(ifconfig | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*Mask:\([0-9.]*\).*/\1/"</span>)
+    <span class="org-variable-name">NETMASK</span>=$(<span class="org-sh-quoted-exec">ifconfig</span> | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*Mask:\([0-9.]*\).*/\1/"</span>)
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">calculate network value</span>
-    <span class="org-builtin">echo</span> $(ipcalc -n -b $<span class="org-variable-name">IP_ADDRESS</span> $<span class="org-variable-name">NETMASK</span> | grep Network | awk <span class="org-string">'{print $2}'</span>)
+    <span class="org-builtin">echo</span> $(<span class="org-sh-quoted-exec">ipcalc</span> -n -b $<span class="org-variable-name">IP_ADDRESS</span> $<span class="org-variable-name">NETMASK</span> | grep Network | awk <span class="org-string">'{print $2}'</span>)
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">whoisonline [TARGET] - List hosts that are online.</span>
@@ -2703,7 +2807,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-keyword">if</span> [ -n <span class="org-string">"$1"</span> ]; <span class="org-keyword">then</span>
         <span class="org-variable-name">net</span>=<span class="org-string">"$1"</span>
     <span class="org-keyword">else</span>
-        <span class="org-variable-name">net</span>=$(localnet)
+        <span class="org-variable-name">net</span>=$(<span class="org-sh-quoted-exec">localnet</span>)
     <span class="org-keyword">fi</span>
     <span class="org-builtin">echo</span> <span class="org-string">"Discovering online hosts in $net..."</span>
     sudo nmap -sP $<span class="org-variable-name">net</span> | awk <span class="org-string">'/Host / &amp;&amp; / up/ { print $0; }'</span>
@@ -2721,14 +2825,14 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-keyword">if</span> [ -n <span class="org-string">"$1"</span> ]; <span class="org-keyword">then</span>
         <span class="org-variable-name">net</span>=<span class="org-string">"$1"</span>
     <span class="org-keyword">else</span>
-        <span class="org-variable-name">net</span>=$(localnet)
+        <span class="org-variable-name">net</span>=$(<span class="org-sh-quoted-exec">localnet</span>)
     <span class="org-keyword">fi</span>
 
-    <span class="org-keyword">for</span> hostip<span class="org-keyword"> in</span> $(nmap -sP $<span class="org-variable-name">net</span> | grep -E <span class="org-string">'Host .* up'</span> | cut -d <span class="org-string">" "</span> -f2-2);
+    <span class="org-keyword">for</span> hostip<span class="org-keyword"> in</span> $(<span class="org-sh-quoted-exec">nmap</span> -sP $<span class="org-variable-name">net</span> | grep -E <span class="org-string">'Host .* up'</span> | cut -d <span class="org-string">" "</span> -f2-2);
     <span class="org-keyword">do</span>
-        <span class="org-variable-name">t1</span>=$(ping -c 4 $<span class="org-variable-name">hostip</span> | grep -e PING | cut -d <span class="org-string">" "</span> -f1-2 | cut -d <span class="org-string">" "</span> -f2-4) ;
-        <span class="org-variable-name">t2</span>=$(ping -c 4 $<span class="org-variable-name">hostip</span> | grep -e rtt | cut -d <span class="org-string">"/"</span> -f5-5) ;
-        <span class="org-variable-name">t3</span>=$(sudo nmap -sS $<span class="org-variable-name">hostip</span> | grep <span class="org-string">" open "</span>) ;
+        <span class="org-variable-name">t1</span>=$(<span class="org-sh-quoted-exec">ping</span> -c 4 $<span class="org-variable-name">hostip</span> | grep -e PING | cut -d <span class="org-string">" "</span> -f1-2 | cut -d <span class="org-string">" "</span> -f2-4) ;
+        <span class="org-variable-name">t2</span>=$(<span class="org-sh-quoted-exec">ping</span> -c 4 $<span class="org-variable-name">hostip</span> | grep -e rtt | cut -d <span class="org-string">"/"</span> -f5-5) ;
+        <span class="org-variable-name">t3</span>=$(<span class="org-sh-quoted-exec">sudo</span> nmap -sS $<span class="org-variable-name">hostip</span> | grep <span class="org-string">" open "</span>) ;
         <span class="org-builtin">echo</span> -e $<span class="org-variable-name">t1</span> <span class="org-string">" "</span> $<span class="org-variable-name">t2</span> <span class="org-string">"ms\n"</span> $<span class="org-variable-name">t3</span> <span class="org-string">"\n"</span>;
     <span class="org-keyword">done</span>
 }
@@ -2736,7 +2840,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <span class="org-comment-delimiter"># </span><span class="org-comment">watchport HOST PORT - Watch TCP port PORT on machine HOST.</span>
 <span class="org-function-name">watchport</span> ()
 {
-    <span class="org-keyword">while </span><span class="org-builtin">true</span>; <span class="org-keyword">do</span> clear; nmap $<span class="org-variable-name">1</span> -PN -p $<span class="org-variable-name">2</span>; sleep 5; <span class="org-keyword">done</span>
+    <span class="org-keyword">while</span> true; <span class="org-keyword">do</span> clear; nmap $<span class="org-variable-name">1</span> -PN -p $<span class="org-variable-name">2</span>; sleep 5; <span class="org-keyword">done</span>
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">rdns [TARGET] - Perform reverse DNS lookups.</span>
@@ -2746,7 +2850,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
     <span class="org-keyword">if</span> [ -n <span class="org-string">"$1"</span> ]; <span class="org-keyword">then</span>
       <span class="org-variable-name">net</span>=<span class="org-string">"$1"</span>
     <span class="org-keyword">else</span>
-      <span class="org-variable-name">net</span>=$(localnet)
+      <span class="org-variable-name">net</span>=$(<span class="org-sh-quoted-exec">localnet</span>)
     <span class="org-keyword">fi</span>
     <span class="org-builtin">echo</span> <span class="org-string">"Performing reverse DNS lookups in $net..."</span>
     nmap -R -sL $<span class="org-variable-name">net</span> |<span class="org-sh-escaped-newline">\</span>
@@ -2796,7 +2900,7 @@ For branches for which we want to make some development, and keep in track with
             &amp;&amp; <span class="org-builtin">echo</span> DON<span class="org-string">\'</span>T make doc <span class="org-sh-escaped-newline">\</span>
             &amp;&amp; make info <span class="org-sh-escaped-newline">\</span>
             &amp;&amp; sudo make install-info <span class="org-sh-escaped-newline">\</span>
-            &amp;&amp; printf <span class="org-string">"Running org_test, please wait (this can take a while)...\n"</span> <span class="org-sh-escaped-newline">\</span>
+            &amp;&amp; <span class="org-builtin">printf</span> <span class="org-string">"Running org_test, please wait (this can take a while)...\n"</span> <span class="org-sh-escaped-newline">\</span>
             &amp;&amp; org_test 2&gt;&amp;1 &gt;/dev/null | tail -n 3
     )
 }
@@ -2903,9 +3007,9 @@ worked&#x2026;
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">GIF</span>=<span class="org-string">"gm convert -verbose -interlace LINE"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">thumb</span>=<span class="org-string">"gm convert -geometry 100x100 -interlace LINE -verbose"</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">region</span>=<span class="org-string">'sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">screenshot</span>=<span class="org-string">'sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'</span>
-<span class="org-builtin">alias</span> <span class="org-variable-name">window</span>=<span class="org-string">'sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">region</span>=<span class="org-string">'sleep 3; gm import selection$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> "+%Y%m%d%H%M%S").jpg'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">screenshot</span>=<span class="org-string">'sleep 5; gm import -window root screen$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> "+%Y%m%d%H%M%S").jpg'</span>
+<span class="org-builtin">alias</span> <span class="org-variable-name">window</span>=<span class="org-string">'sleep 3; gm import -frame window$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> "+%Y%m%d%H%M%S").jpg'</span>
 
 <span class="org-function-name">gmresize</span> ()
 {
@@ -2915,7 +3019,7 @@ worked&#x2026;
     <span class="org-keyword">for</span> i<span class="org-keyword"> in</span> $<span class="org-variable-name">FILES</span>
     <span class="org-keyword">do</span>
         <span class="org-builtin">echo</span> <span class="org-string">"Processing image $i ..."</span>
-        gm convert -scale $<span class="org-variable-name">SCALE</span> <span class="org-string">"$i"</span> $(basename <span class="org-string">"$i"</span> .${<span class="org-variable-name">i</span>##*.})-$<span class="org-variable-name">SCALE</span>.${<span class="org-variable-name">i</span>##*.}
+        gm convert -scale $<span class="org-variable-name">SCALE</span> <span class="org-string">"$i"</span> $(<span class="org-sh-quoted-exec">basename</span> <span class="org-string">"$i"</span> .${<span class="org-variable-name">i</span>##*.})-$<span class="org-variable-name">SCALE</span>.${<span class="org-variable-name">i</span>##*.}
         <span class="org-comment-delimiter"># </span><span class="org-comment">Obscure but useful string operations.</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">(See http://www.arachnoid.com/linux/shell_programming.html.)</span>
     <span class="org-keyword">done</span>
@@ -2947,7 +3051,7 @@ worked&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-keyword">case</span> $(uname -s) <span class="org-keyword">in</span>
+<pre class="src src-shell"><span class="org-keyword">case</span> $(<span class="org-sh-quoted-exec">uname</span> -s) <span class="org-keyword">in</span>
     Linux*)
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpnup</span>=<span class="org-string">'sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &amp;'</span>  <span class="org-comment-delimiter"># </span><span class="org-comment">--daemon'</span>
         <span class="org-builtin">alias</span> <span class="org-variable-name">vpndown</span>=<span class="org-string">'sudo kill -INT `cat /tmp/openvpn.pid`'</span>
@@ -3031,9 +3135,9 @@ worked&#x2026;
 
 <pre class="src src-shell"><span class="org-function-name">safetmp</span> ()
 {
-    test -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
-    test -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
-    <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(hostname).$(date +%s).$<span class="org-variable-name">$</span>
+    <span class="org-builtin">test</span> -d $<span class="org-variable-name">HOME</span> || <span class="org-keyword">exit</span> 1
+    <span class="org-builtin">test</span> -d $<span class="org-variable-name">HOME</span>/tmp || mkdir $<span class="org-variable-name">HOME</span>/tmp
+    <span class="org-builtin">echo</span> $<span class="org-variable-name">HOME</span>/tmp/safetmp.$(<span class="org-sh-quoted-exec">hostname</span>)<span class="org-builtin">.</span>$(<span class="org-sh-quoted-exec">date</span> +%s)<span class="org-builtin">.</span>$<span class="org-variable-name">$</span>
 }
 </pre>
 </div>

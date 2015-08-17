@@ -6,7 +6,7 @@
 #+LANGUAGE:  en
 #+OPTIONS:   num:nil ^:{}
 
-#+PROPERTY:  eval no
+#+PROPERTY:  header-args :eval no
 # #+SETUPFILE: bigblow-pirilampo.setup
 #+SETUPFILE: ~/src/org-html-themes/setup/theme-readtheorg-local-abs.setup
 
@@ -123,6 +123,8 @@ Install extra packages:
   + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
   + [X] ~texlive-collection-binextra~ (for ~latexmk~)
   + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
+  + [X] ~texlive-collection-fontsextra~ (for =libertine.sty=)
+
 - Python
   + [X] ~python~
 
@@ -338,7 +340,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Bash specific
   :PROPERTIES:
-  :header-args: :tangle ./etc/bash_profile
+  :header-args+: :tangle ./etc/bash_profile
   :END:
 
 Le ~!~ en shell permet plein de trucs sympa.
@@ -604,7 +606,7 @@ In general, it should not do more than *change the default options of a command*
 
 ** InputRC
    :PROPERTIES:
-   :header-args: :tangle ./etc/.inputrc
+   :header-args+: :tangle ./etc/.inputrc
    :END:
 
 This file controls the behavior of line input editing for programs that use
@@ -678,7 +680,7 @@ set completion-ignore-case on
 
 * Zsh specific
   :PROPERTIES:
-  :header-args: :tangle ./etc/zprofile
+  :header-args+: :tangle ./etc/zprofile
   :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -1124,7 +1126,7 @@ setopt notify
 
 * System-wide configuration file
   :PROPERTIES:
-  :header-args: :tangle ./etc/commonprofile
+  :header-args+: :tangle ./etc/commonprofile
   :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
@@ -1168,6 +1170,17 @@ done
 
 #+begin_note
 ~PATH~ should already be marked as exported, so reexporting is not needed.
+
+Run ~export~ to see a list of exported variables (names marked to be passed to
+child processes in the environment).
+
+Since ~env~ is an independent executable (=/usr/bin/env=), it only sees the
+variables that the shell passes to it, or */exported/ environment variables*
+(which are passed on to every executed program).
+
+~set~ on the other hand is a /built-in/ shell command, it also *sees local shell
+variables* (which are only accessible from the current shell) -- including shell
+functions.
 #+end_note
 
 By default, the ~root~ shell does not load commands from the current location.  If
