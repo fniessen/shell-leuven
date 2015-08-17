@@ -5,7 +5,7 @@
 #+KEYWORDS:
 #+LANGUAGE:  en
 
-#+PROPERTY:  eval no
+#+PROPERTY:  header-args :eval no
 #+SETUPFILE: bigblow-pirilampo.setup
 
 #+name: current-time
@@ -47,7 +47,7 @@ For similar collections, see:
 
 * Shell functions
   :PROPERTIES:
-  :header-args: :tangle src/shellutils :shebang #!/bin/bash
+  :header-args+: :tangle src/shellutils :shebang #!/bin/bash
   :END:
 
 Only use alphanumeric characters and the underscore for function names.
@@ -106,7 +106,7 @@ pname () {
 
 ** Send an email
    :PROPERTIES:
-   :header-args: :tangle src/mail :shebang #!/bin/bash
+   :header-args+: :tangle src/mail :shebang #!/bin/bash
    :END:
 
 Send a mail to one or more people.
