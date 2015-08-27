@@ -103,8 +103,8 @@ Install extra packages:
   + [X] ~R~
 
 - Net
-  + [ ] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
-  + [ ] ~inetutils~ (for getting ~telnet~ to work with expect)
+  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
+  + [X] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
   + [ ] ~nc~ (see socat)
   + [ ] ~openssh~
   + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
