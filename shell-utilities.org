@@ -20,6 +20,10 @@
 The shell utilities are core shell functions and scripts which I wrote when
 doing my day-to-day tasks.  Over time, this will become a *powerful toolkit*.
 
+#+begin_note
+Library of Babel needs the ~#+name~ field to "ingest" a code block.
+#+end_note
+
 ** See also
 
 For similar collections, see:

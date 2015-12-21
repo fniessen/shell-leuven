@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Shell utilities</title>
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="Fabrice Niessen" />
+<meta name="generator" content="Org-mode" />
+<meta name="author" content="Fabrice Niessen" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -185,6 +185,13 @@
 The shell utilities are core shell functions and scripts which I wrote when
 doing my day-to-day tasks.  Over time, this will become a <b>powerful toolkit</b>.
 </p>
+
+<div class="note">
+<p>
+Library of Babel needs the <code>#+name</code> field to &ldquo;ingest&rdquo; a code block.
+</p>
+
+</div>
 </div>
 </div>
 
@@ -391,7 +398,7 @@ The following options shall be supported:
 <pre class="src src-shell"><span class="org-function-name">Help</span> ()
 {
     cat &lt;&lt; EOF
-<span class="org-sh-heredoc">This is $CMD, version: 20150817.2257.</span>
+<span class="org-sh-heredoc">This is $CMD, version: 20151221.1046.</span>
 
 <span class="org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
 <span class="org-sh-heredoc">Send simple mail.</span>
