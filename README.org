@@ -109,7 +109,8 @@ Install extra packages:
   + [ ] ~openssh~
   + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
   + [ ] ~rsync~
-  + [ ] ~socat~ (see nc)
+  + [X] ~sitecopy~
+  + [ ] ~socat~ (see ~nc~)
 
 - Perl
   + [ ] ~perl~
@@ -1976,6 +1977,46 @@ update_org () {
 
 *************** TODO Don't regenerate autoloads, doc, etc. if nothing new was pulled
 
+Other example (from Suvayu Ali):
+
+#+begin_src shell :tangle no
+function update_org() {
+    pushd ~/build/org-mode  # my Org repo and install directory
+    local dorebase=$(git rev-list origin/master..master|wc -l)
+    git stash
+    git checkout master
+    if [[ $dorebase -gt 0 ]]; then
+        git pull --rebase --stat
+    else
+        git pull
+    fi
+
+    if [ $? == 0 ]; then
+        echo "+++ Check if merged successfully. +++"
+        echo "==> Want to continue?"
+        select yesorno in "Yes" "No"; do
+            case $yesorno in
+                Yes)
+                    echo "+++ Building Org-mode $(git branch|egrep '\*')    +++";
+                    make compile autoloads info "$@" &> log
+                    [ $? -ne 0 ] && echo "+++ Build failed                  +++" && break;
+                    echo "+++ Installing Info files         +++";
+                    make install-info
+                    break;;
+                No)
+                    echo "Aborting on user command.";
+                    break;;
+                *)
+                    echo "==> Choose Yes or No by typing 1 or 2."
+            esac
+        done
+    else
+        echo "Merge failed, aborting."
+    fi
+    popd
+}
+#+end_src
+
 #+begin_src shell
 org_test () {
     (
@@ -2034,6 +2075,14 @@ worked...
 #+begin_src shell
 # Grep through the running processes.
 alias pgrep='pgrep -fl'
+#+end_src
+
+*** Ag, the Silver Searcher
+
+#+begin_src shell :tangle no
+if (( $+commands[ag] )) ; then alias grep='ag' fi
+[[ -s $(which ag) ]] && alias grep='ag'
+if $(which ag >& /dev/null); then alias grep='ag' fi
 #+end_src
 
 *** GraphicsMagick
@@ -2198,4 +2247,3 @@ alias sp=sendpatch
 
 # commonprofile ends here
 #+end_src
-

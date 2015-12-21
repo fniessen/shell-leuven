@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ShellRC-Leuven</title>
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="Fabrice Niessen" />
+<meta name="generator" content="Org-mode" />
+<meta name="author" content="Fabrice Niessen" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -93,12 +93,6 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="d:/Users/fni/src/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="d:/Users/fni/src/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="d:/Users/fni/src/org-html-themes/styles/lib/js/jquery.stickytableheaders.js"></script>
-<script type="text/javascript" src="d:/Users/fni/src/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
 </head>
 <body>
 <div id="content">
@@ -205,12 +199,13 @@
 <li><a href="#orgheadline67">System admin (NMAP, etc.)</a></li>
 <li><a href="#orgheadline68">Org</a></li>
 <li><a href="#orgheadline69">Grep</a></li>
-<li><a href="#orgheadline70">GraphicsMagick</a></li>
-<li><a href="#orgheadline71">Other things to sort</a></li>
-<li><a href="#orgheadline72">MCit tools</a></li>
+<li><a href="#orgheadline70">Ag, the Silver Searcher</a></li>
+<li><a href="#orgheadline71">GraphicsMagick</a></li>
+<li><a href="#orgheadline72">Other things to sort</a></li>
+<li><a href="#orgheadline73">MCit tools</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline73">Postamble</a></li>
+<li><a href="#orgheadline74">Postamble</a></li>
 </ul>
 </li>
 </ul>
@@ -370,7 +365,8 @@ Install extra packages:
 <li class="off">&#x2610; <code>openssh</code></li>
 <li class="off">&#x2610; <code>ping</code> (Note: Allow to &ldquo;Run this program as an administrator&rdquo;)</li>
 <li class="off">&#x2610; <code>rsync</code></li>
-<li class="off">&#x2610; <code>socat</code> (see nc)</li>
+<li class="on">&#x2611; <code>sitecopy</code></li>
+<li class="off">&#x2610; <code>socat</code> (see <code>nc</code>)</li>
 </ul></li>
 
 <li>Perl
@@ -2911,6 +2907,50 @@ For branches for which we want to make some development, and keep in track with
 <b><span class="todo TODO">TODO</span> Don&rsquo;t regenerate autoloads, doc, etc. if nothing new was pulled</b><br  />
 nil</div>
 
+<p>
+Other example (from Suvayu Ali):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-keyword">function</span> <span class="org-function-name">update_org</span>() {
+    <span class="org-builtin">pushd</span> ~/build/org-mode  <span class="org-comment-delimiter"># </span><span class="org-comment">my Org repo and install directory</span>
+    <span class="org-builtin">local</span> <span class="org-variable-name">dorebase</span>=$(<span class="org-sh-quoted-exec">git</span> rev-list origin/master..master|wc -l)
+    git stash
+    git checkout master
+    <span class="org-keyword">if</span> [[ $<span class="org-variable-name">dorebase</span> -gt 0 ]]; <span class="org-keyword">then</span>
+        git pull --rebase --stat
+    <span class="org-keyword">else</span>
+        git pull
+    <span class="org-keyword">fi</span>
+
+    <span class="org-keyword">if</span> [ $<span class="org-variable-name">?</span> == 0 ]; <span class="org-keyword">then</span>
+        <span class="org-builtin">echo</span> <span class="org-string">"+++ Check if merged successfully. +++"</span>
+        <span class="org-builtin">echo</span> <span class="org-string">"==&gt; Want to continue?"</span>
+        <span class="org-keyword">select</span> yesorno<span class="org-keyword"> in</span> <span class="org-string">"Yes"</span> <span class="org-string">"No"</span>; <span class="org-keyword">do</span>
+            <span class="org-keyword">case</span> $<span class="org-variable-name">yesorno</span><span class="org-keyword"> in</span>
+                Yes)
+                    <span class="org-builtin">echo</span> <span class="org-string">"+++ Building Org-mode $(</span><span class="org-sh-quoted-exec">git</span><span class="org-string"> branch|egrep '\*')    +++"</span>;
+                    make compile autoloads info <span class="org-string">"$@"</span> &amp;&gt; log
+                    [ $<span class="org-variable-name">?</span> -ne 0 ] &amp;&amp; <span class="org-builtin">echo</span> <span class="org-string">"+++ Build failed                  +++"</span> &amp;&amp; <span class="org-keyword">break</span>;
+                    <span class="org-builtin">echo</span> <span class="org-string">"+++ Installing Info files         +++"</span>;
+                    make install-info
+                    <span class="org-keyword">break</span>;;
+                No)
+                    <span class="org-builtin">echo</span> <span class="org-string">"Aborting on user command."</span>;
+                    <span class="org-keyword">break</span>;;
+                *)
+                    <span class="org-builtin">echo</span> <span class="org-string">"==&gt; Choose Yes or No by typing 1 or 2."</span>
+            <span class="org-keyword">esac</span>
+        <span class="org-keyword">done</span>
+    <span class="org-keyword">else</span>
+        <span class="org-builtin">echo</span> <span class="org-string">"Merge failed, aborting."</span>
+    <span class="org-keyword">fi</span>
+    <span class="org-builtin">popd</span>
+}
+</pre>
+</div>
+
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-function-name">org_test</span> () {
@@ -3000,8 +3040,21 @@ worked&#x2026;
 </div>
 
 <div id="outline-container-orgheadline70" class="outline-4">
-<h4 id="orgheadline70">GraphicsMagick</h4>
+<h4 id="orgheadline70">Ag, the Silver Searcher</h4>
 <div class="outline-text-4" id="text-orgheadline70">
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-keyword">if</span> (( $+commands[ag] )) ; <span class="org-keyword">then </span><span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'ag'</span> fi
+[[ -s $(<span class="org-sh-quoted-exec">which</span> ag) ]] &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'ag'</span>
+<span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> ag &gt;&amp; /dev/null); <span class="org-keyword">then </span><span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'ag'</span> fi
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline71" class="outline-4">
+<h4 id="orgheadline71">GraphicsMagick</h4>
+<div class="outline-text-4" id="text-orgheadline71">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick.</span>
@@ -3031,9 +3084,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline71" class="outline-4">
-<h4 id="orgheadline71">Other things to sort</h4>
-<div class="outline-text-4" id="text-orgheadline71">
+<div id="outline-container-orgheadline72" class="outline-4">
+<h4 id="orgheadline72">Other things to sort</h4>
+<div class="outline-text-4" id="text-orgheadline72">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">List all files modified in the last 24 hours (last full day).</span>
@@ -3172,9 +3225,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline72" class="outline-4">
-<h4 id="orgheadline72">MCit tools</h4>
-<div class="outline-text-4" id="text-orgheadline72">
+<div id="outline-container-orgheadline73" class="outline-4">
+<h4 id="orgheadline73">MCit tools</h4>
+<div class="outline-text-4" id="text-orgheadline73">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">sp</span>=sendpatch
@@ -3184,9 +3237,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgheadline73" class="outline-3">
-<h3 id="orgheadline73">Postamble</h3>
-<div class="outline-text-3" id="text-orgheadline73">
+<div id="outline-container-orgheadline74" class="outline-3">
+<h3 id="orgheadline74">Postamble</h3>
+<div class="outline-text-3" id="text-orgheadline74">
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
