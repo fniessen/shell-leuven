@@ -13,7 +13,7 @@ EOF
 Help ()
 {
     cat << EOF
-This is $CMD, version: 20141020.1618.
+This is $CMD, version: 20151224.1256.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
