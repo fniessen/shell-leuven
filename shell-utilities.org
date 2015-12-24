@@ -51,7 +51,7 @@ For similar collections, see:
 
 * Shell functions
   :PROPERTIES:
-  :header-args+: :tangle src/shellutils :shebang #!/bin/bash
+  :header-args+: :tangle bin/shellutils :shebang #!/bin/bash
   :END:
 
 Only use alphanumeric characters and the underscore for function names.
@@ -107,10 +107,13 @@ pname () {
 #+end_src
 
 * Shell scripts
+  :PROPERTIES:
+  :header-args+: :shebang #!/bin/bash
+  :END:
 
 ** Send an email
    :PROPERTIES:
-   :header-args+: :tangle src/mail :shebang #!/bin/bash
+   :header-args+: :tangle bin/mail :shebang #!/bin/bash
    :END:
 
 Send a mail to one or more people.
@@ -342,6 +345,9 @@ cecho "$@"
 #+end_src
 
 * VC
+  :PROPERTIES:
+  :header-args+: :shebang #!/bin/bash
+  :END:
 
 http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each
 
@@ -368,13 +374,31 @@ find -type d -printf "%f" -exec  sh -c "cd \"{}\" && git pull"  \;
 
 See http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-update/
 
+** Ignore files from the command line
+
+Add a file (or a file glob pattern) to ignore without deleting the previous
+value of the ~svn:ignore~ property... from the command line.
+
+#+begin_src shell :tangle bin/svnignore
+# Usage: svnignore admin/notes/\*.tex
+
+target="$1"
+targetdirectory=$(dirname $target)
+targetfilepattern=$(basename $target)
+
+svnignores=$(svn propget svn:ignore "$targetdirectory")
+svnignores="$svnignores"$'\n'"$targetfilepattern"
+printf "Ignore '$targetfilepattern'\n"
+svn propset svn:ignore "$svnignores" "$targetdirectory"
+#+end_src
+
 * Web security assessments
 
 ** HTTP
 
 From Hacking Exposed Web Applications:
 
-#+begin_src shell :tangle ~/bin/getit.sh
+#+begin_src shell :tangle bin/getit.sh
 #!/bin/sh
 # mike's getit.sh script
 if [ -z $1 ]; then
@@ -399,7 +423,7 @@ getit.sh www.victim.com /index.html | grep -i "input type"
 
 ** HTTPS
 
-#+begin_src shell :tangle ~/bin/sgetit.sh
+#+begin_src shell :tangle bin/sgetit.sh
 #!/bin/sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
@@ -423,7 +447,7 @@ method, look in the dumpfile ~/tmp/bannergrab~ and look for
 =<script>alert(123)</script>= if you can find that back you got yourself a
 vulnerable server.
 
-#+begin_src shell :tangle ~/bin/nc_bgrab
+#+begin_src shell :tangle bin/nc_bgrab
 #!/bin/sh
 
 range="10.10.10.";

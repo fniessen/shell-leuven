@@ -149,21 +149,25 @@
 <li><a href="#orgheadline25">3.2. Echo text in color</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline27">4. VC</a></li>
-<li><a href="#orgheadline30">5. Web security assessments</a>
+<li><a href="#orgheadline28">4. VC</a>
 <ul>
-<li><a href="#orgheadline28">5.1. HTTP</a></li>
-<li><a href="#orgheadline29">5.2. HTTPS</a></li>
+<li><a href="#orgheadline27">4.1. Ignore files from the command line</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline37">6. Netcat</a>
+<li><a href="#orgheadline31">5. Web security assessments</a>
 <ul>
-<li><a href="#orgheadline31">6.1. Scan only certain ports</a></li>
-<li><a href="#orgheadline32">6.2. DNS</a></li>
-<li><a href="#orgheadline33">6.3. Spoof source IP address</a></li>
-<li><a href="#orgheadline34">6.4. Socat</a></li>
-<li><a href="#orgheadline35">6.5. Packet forger</a></li>
-<li><a href="#orgheadline36">6.6. Lauching attacks via Tor</a></li>
+<li><a href="#orgheadline29">5.1. HTTP</a></li>
+<li><a href="#orgheadline30">5.2. HTTPS</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline38">6. Netcat</a>
+<ul>
+<li><a href="#orgheadline32">6.1. Scan only certain ports</a></li>
+<li><a href="#orgheadline33">6.2. DNS</a></li>
+<li><a href="#orgheadline34">6.3. Spoof source IP address</a></li>
+<li><a href="#orgheadline35">6.4. Socat</a></li>
+<li><a href="#orgheadline36">6.5. Packet forger</a></li>
+<li><a href="#orgheadline37">6.6. Lauching attacks via Tor</a></li>
 </ul>
 </li>
 </ul>
@@ -332,7 +336,9 @@ The following is supposed to work on Linux, but doesn&rsquo;t on Cygwin.
 <div id="outline-container-orgheadline26" class="outline-2">
 <h2 id="orgheadline26"><span class="section-number-2">3</span> Shell scripts</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-orgheadline24" class="outline-3">
+</div>
+
+<div id="outline-container-orgheadline24" class="outline-3">
 <h3 id="orgheadline24"><span class="section-number-3">3.1</span> Send an email</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
@@ -398,7 +404,7 @@ The following options shall be supported:
 <pre class="src src-shell"><span class="org-function-name">Help</span> ()
 {
     cat &lt;&lt; EOF
-<span class="org-sh-heredoc">This is $CMD, version: 20151221.1046.</span>
+<span class="org-sh-heredoc">This is $CMD, version: 20151224.1256.</span>
 
 <span class="org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
 <span class="org-sh-heredoc">Send simple mail.</span>
@@ -651,8 +657,8 @@ cecho <span class="org-string">"$@"</span>
 </div>
 </div>
 
-<div id="outline-container-orgheadline27" class="outline-2">
-<h2 id="orgheadline27"><span class="section-number-2">4</span> VC</h2>
+<div id="outline-container-orgheadline28" class="outline-2">
+<h2 id="orgheadline28"><span class="section-number-2">4</span> VC</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <a href="http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each">http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each</a>
@@ -687,13 +693,38 @@ If you need it to be recursive:
 See <a href="http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-update/">http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-update/</a>
 </p>
 </div>
+
+<div id="outline-container-orgheadline27" class="outline-3">
+<h3 id="orgheadline27"><span class="section-number-3">4.1</span> Ignore files from the command line</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Add a file (or a file glob pattern) to ignore without deleting the previous
+value of the <code>svn:ignore</code> property&#x2026; from the command line.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Usage: svnignore admin/notes/\*.tex</span>
+
+<span class="org-variable-name">target</span>=<span class="org-string">"$1"</span>
+<span class="org-variable-name">targetdirectory</span>=$(<span class="org-sh-quoted-exec">dirname</span> $<span class="org-variable-name">target</span>)
+<span class="org-variable-name">targetfilepattern</span>=$(<span class="org-sh-quoted-exec">basename</span> $<span class="org-variable-name">target</span>)
+
+<span class="org-variable-name">svnignores</span>=$(<span class="org-sh-quoted-exec">svn</span> propget svn:ignore <span class="org-string">"$targetdirectory"</span>)
+<span class="org-variable-name">svnignores</span>=<span class="org-string">"$svnignores"</span>$<span class="org-string">'\n'"$targetfilepattern"</span>
+<span class="org-builtin">printf</span> <span class="org-string">"Ignore '$targetfilepattern'\n"</span>
+svn propset svn:ignore <span class="org-string">"$svnignores"</span> <span class="org-string">"$targetdirectory"</span>
+</pre>
+</div>
+</div>
+</div>
 </div>
 
-<div id="outline-container-orgheadline30" class="outline-2">
-<h2 id="orgheadline30"><span class="section-number-2">5</span> Web security assessments</h2>
+<div id="outline-container-orgheadline31" class="outline-2">
+<h2 id="orgheadline31"><span class="section-number-2">5</span> Web security assessments</h2>
 <div class="outline-text-2" id="text-5">
-</div><div id="outline-container-orgheadline28" class="outline-3">
-<h3 id="orgheadline28"><span class="section-number-3">5.1</span> HTTP</h3>
+</div><div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29"><span class="section-number-3">5.1</span> HTTP</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 From Hacking Exposed Web Applications:
@@ -732,8 +763,8 @@ nc -vv $<span class="org-variable-name">1</span> 80
 </div>
 </div>
 
-<div id="outline-container-orgheadline29" class="outline-3">
-<h3 id="orgheadline29"><span class="section-number-3">5.2</span> HTTPS</h3>
+<div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30"><span class="section-number-3">5.2</span> HTTPS</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 
@@ -757,8 +788,8 @@ openssl s_client -quiet -connect $<span class="org-variable-name">1</span>:443 2
 </div>
 </div>
 
-<div id="outline-container-orgheadline37" class="outline-2">
-<h2 id="orgheadline37"><span class="section-number-2">6</span> Netcat</h2>
+<div id="outline-container-orgheadline38" class="outline-2">
+<h2 id="orgheadline38"><span class="section-number-2">6</span> Netcat</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Here is a script which will port scan and banner grab automatically with
@@ -811,8 +842,8 @@ cmd.exe</code> option which disappeared, etc.
 </p>
 </div>
 
-<div id="outline-container-orgheadline31" class="outline-3">
-<h3 id="orgheadline31"><span class="section-number-3">6.1</span> Scan only certain ports</h3>
+<div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32"><span class="section-number-3">6.1</span> Scan only certain ports</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
 
@@ -822,8 +853,8 @@ cmd.exe</code> option which disappeared, etc.
 </div>
 </div>
 
-<div id="outline-container-orgheadline32" class="outline-3">
-<h3 id="orgheadline32"><span class="section-number-3">6.2</span> DNS</h3>
+<div id="outline-container-orgheadline33" class="outline-3">
+<h3 id="orgheadline33"><span class="section-number-3">6.2</span> DNS</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
 
@@ -834,8 +865,8 @@ nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
 </div>
 </div>
 
-<div id="outline-container-orgheadline33" class="outline-3">
-<h3 id="orgheadline33"><span class="section-number-3">6.3</span> Spoof source IP address</h3>
+<div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34"><span class="section-number-3">6.3</span> Spoof source IP address</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 <code>-s</code> option to Netcat: does not work under Cygwin&#x2026;
@@ -843,8 +874,8 @@ nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
 </div>
 </div>
 
-<div id="outline-container-orgheadline34" class="outline-3">
-<h3 id="orgheadline34"><span class="section-number-3">6.4</span> Socat</h3>
+<div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35"><span class="section-number-3">6.4</span> Socat</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 Learning socat in terms of netcat: <a href="http://jdimpson.livejournal.com/6534.html">http://jdimpson.livejournal.com/6534.html</a>
@@ -880,8 +911,8 @@ post (e.g. SSL).
 </div>
 </div>
 
-<div id="outline-container-orgheadline35" class="outline-3">
-<h3 id="orgheadline35"><span class="section-number-3">6.5</span> Packet forger</h3>
+<div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36"><span class="section-number-3">6.5</span> Packet forger</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 SendIP
@@ -889,8 +920,8 @@ SendIP
 </div>
 </div>
 
-<div id="outline-container-orgheadline36" class="outline-3">
-<h3 id="orgheadline36"><span class="section-number-3">6.6</span> Lauching attacks via Tor</h3>
+<div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37"><span class="section-number-3">6.6</span> Lauching attacks via Tor</h3>
 <div class="outline-text-3" id="text-6-6">
 <p>
 <a href="http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html">http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html</a>
