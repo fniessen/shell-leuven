@@ -133,7 +133,7 @@ Install extra packages:
   + [ ] ~ruby~
 
 - Shells
-  + [X] ~zsh
+  + [X] ~zsh~
   + [ ] ~rxvt~
 
 - System
@@ -156,7 +156,7 @@ Install extra packages:
   + [X] ~gnupg~ (~gpg~)
   + [X] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
     though you can use ~C-l~ to get the same result)
-  + [X] ~cygutils~ (for ~unix2dos~)
+  + [X] ~cygutils~ or ~cygutils-extra~ (for ~unix2dos~)
   + [X] ~tig~ (Git browser)
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
@@ -255,6 +255,29 @@ ShellRC-Leuven's configuration.
 
 If you'd like to change the install directory with the ~ZSH~ environment variable,
 either by running export ZSH=/your/path before installing,
+
+* About portability
+
+To look for existing commands, don't use ~which~ (because it is not in POSIX so
+its output format is unspecified, and it complains when nothing is found instead
+of being silent):
+
+#+begin_src shell
+if $(which ag >& /dev/null); then alias grep='ag'; fi
+#+end_src
+
+As well, don't use the non-portable ~(())~ and ~[[]]~ constructs:
+
+#+begin_src shell
+if (( $+commands[ag] )) ; then alias grep='ag'; fi
+[[ -s $(which ag) ]] && alias grep='ag'
+#+end_src
+
+Instead use:
+
+#+begin_src shell
+type ag > /dev/null && alias grep=ag
+#+end_src
 
 * Startup files
 
@@ -1404,7 +1427,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+begin_src shell
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(which $editor >& /dev/null); then
+    if $(type $editor >& /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -1758,7 +1781,7 @@ pe ()
     clear
     echo "         Passphrase Encryption Program";
     echo "--------------------------------------------------"; echo "";
-    which $EDITOR &>/dev/null
+    type $EDITOR &>/dev/null
     if [ "$?" != "0" ]; then
         echo "It appears that you do not have a text editor set in your .bashrc file.";
         echo "What editor would you like to use ? " ;
@@ -1800,9 +1823,7 @@ alias mytop='top -u $USERNAME'
 
 #+begin_src shell
 # My traceroute.
-if $(which mtr >& /dev/null); then
-    alias ping=mtr
-fi
+type mtr >& /dev/null && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -1817,9 +1838,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
 #+begin_src shell
 # Echo my current external IP address.
-if $(which curl >& /dev/null); then
-    alias whatismyip='curl -s http://whatismyip.org'
-fi
+type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 #+end_src
 
 #+begin_src shell
@@ -1941,6 +1960,9 @@ rdns ()
 #+end_src
 
 #+begin_src shell
+# Resume getting a partially-downloaded file.
+alias wget='wget -c'
+
 # Anonymous wget (using Privoxy and Tor).
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
@@ -2079,10 +2101,10 @@ alias pgrep='pgrep -fl'
 
 *** Ag, the Silver Searcher
 
+[[https://blog.kowalczyk.info/software/the-silver-searcher-for-windows.html][The Silver Searcher windows port]]
+
 #+begin_src shell :tangle no
-if (( $+commands[ag] )) ; then alias grep='ag' fi
-[[ -s $(which ag) ]] && alias grep='ag'
-if $(which ag >& /dev/null); then alias grep='ag' fi
+type ag >& /dev/null && alias grep=ag
 #+end_src
 
 *** GraphicsMagick

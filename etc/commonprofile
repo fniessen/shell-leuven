@@ -74,7 +74,7 @@ export TERM=xterm-256color
 
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(which $editor >& /dev/null); then
+    if $(type $editor >& /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -262,7 +262,7 @@ pe ()
     clear
     echo "         Passphrase Encryption Program";
     echo "--------------------------------------------------"; echo "";
-    which $EDITOR &>/dev/null
+    type $EDITOR &>/dev/null
     if [ "$?" != "0" ]; then
         echo "It appears that you do not have a text editor set in your .bashrc file.";
         echo "What editor would you like to use ? " ;
@@ -294,9 +294,7 @@ alias aps='aptitude search'
 alias mytop='top -u $USERNAME'
 
 # My traceroute.
-if $(which mtr >& /dev/null); then
-    alias ping=mtr
-fi
+type mtr >& /dev/null && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -309,9 +307,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 # alias g='find . -type f -print0 | xargs -0 grep'
 
 # Echo my current external IP address.
-if $(which curl >& /dev/null); then
-    alias whatismyip='curl -s http://whatismyip.org'
-fi
+type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 
 # 040319 Send files via `netcat'.
 # on sending side:
@@ -418,6 +414,9 @@ rdns ()
     # You could add "--dns-servers x.x.x.x" after the "-sL" if you need the
     # lookups to be performed on a specific DNS server.
 }
+
+# Resume getting a partially-downloaded file.
+alias wget='wget -c'
 
 # Anonymous wget (using Privoxy and Tor).
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
