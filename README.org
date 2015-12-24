@@ -154,8 +154,8 @@ Install extra packages:
 
 - Utils
   + [X] ~gnupg~ (~gpg~)
-  + [X] ~ncurses~ (provides the ~clear~ command used by the TeX Live installer,
-    though you can use ~C-l~ to get the same result)
+  + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
+    installer, though you can use ~C-l~ to get the same result)
   + [X] ~cygutils~ or ~cygutils-extra~ (for ~unix2dos~)
   + [X] ~tig~ (Git browser)
   + [ ] ~fdupes~
@@ -318,7 +318,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 # Source the user's .bashrc if it exists.
 if [ -f "${HOME}/.bashrc" ]; then
-  source "${HOME}/.bashrc"
+  . "${HOME}/.bashrc"
 fi
 #+end_src
 
@@ -865,9 +865,11 @@ might get different settings.
 https://github.com/olivierverdier/zsh-git-prompt
 
 #+begin_src shell :tangle no
-# Prompt on the right hand side of the screen (Git info).
-. ~/Public/Repositories/zsh-git-prompt/zshrc.sh
-RPROMPT='$(git_super_status)'
+# Prompt on the right hand side of the screen (Git info), if it exists.
+if [ -f "${HOME}/Public/Repositories/zsh-git-prompt/zshrc.sh" ]; then
+  . "${HOME}/Public/Repositories/zsh-git-prompt/zshrc.sh"
+  RPROMPT='$(git_super_status)'
+fi
 #+end_src
 
 *** Right prompt with Git-prompt
@@ -878,15 +880,18 @@ http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with
 
 #+begin_src shell
 # . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
-. "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"
-setopt prompt_subst
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWSTASHSTATE=true
-export GIT_PS1_SHOWUNTRACKEDFILES=true
-export GIT_PS1_SHOWUPSTREAM=verbose
-export GIT_PS1_DESCRIBE_STYLE=branch
-export GIT_PS1_SHOWCOLORHINTS=true
-export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+
+if [ -f "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh" ]; then
+  . "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"
+  setopt prompt_subst
+  export GIT_PS1_SHOWDIRTYSTATE=true
+  export GIT_PS1_SHOWSTASHSTATE=true
+  export GIT_PS1_SHOWUNTRACKEDFILES=true
+  export GIT_PS1_SHOWUPSTREAM=verbose
+  export GIT_PS1_DESCRIBE_STYLE=branch
+  export GIT_PS1_SHOWCOLORHINTS=true
+  export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+fi
 #+end_src
 
 Don't confuse TRAMP:
@@ -1133,7 +1138,7 @@ setopt notify
 #+begin_src shell
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
+. $SHELLRC_LEUVEN/etc/commonprofile     # Error displayed if not found.
 #+end_src
 
 #+begin_src shell
