@@ -51,14 +51,16 @@ No trailing backslash!
 Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
 of your *home directory*.
 
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+~db_home~ setting (comment the example line) to =/etc/nsswitch.conf=.
+
+#+begin_note
 If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
 you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
 editing your user's entry in that file. Your ~HOME~ directory is the penultimate
 element on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
 from that field).
-
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-~db_home~ setting to =/etc/nsswitch.conf=.
+#+end_note
 
 *** Packages
 

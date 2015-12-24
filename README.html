@@ -296,6 +296,12 @@ of your <b>home directory</b>.
 </p>
 
 <p>
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+<code>db_home</code> setting (comment the example line) to <code>/etc/nsswitch.conf</code>.
+</p>
+
+<div class="note">
+<p>
 If you installed Cygwin prior to 1.7.34 or have run its <code>mkpasswd</code> utility so that
 you have an <code>/etc/passwd</code> file, you can change your Cygwin <code>HOME</code> directory by
 editing your user&rsquo;s entry in that file. Your <code>HOME</code> directory is the penultimate
@@ -303,10 +309,7 @@ element on your user&rsquo;s line in <code>/etc/passwd</code> (the <code>HOME</c
 from that field).
 </p>
 
-<p>
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-<code>db_home</code> setting to <code>/etc/nsswitch.conf</code>.
-</p>
+</div>
 </div>
 </div>
 
