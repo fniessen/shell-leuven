@@ -220,7 +220,7 @@ setopt notify
 
 # Source common settings.
 : ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
+. $SHELLRC_LEUVEN/etc/commonprofile     # Error displayed if not found.
 
 #* Local Variables
 

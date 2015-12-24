@@ -21,14 +21,16 @@ Zsh on Mac OS X, Linux and Windows (with Cygwin).
 
 Install [[https://www.cygwin.com/][Cygwin]].
 
-*** Notes
+*** ~PATH~
 
-- After Cygwin is installed, modify the System ~PATH~ variable: append
-  =C:\cygwin\bin= before ~%SystemRoot%\system32~
+After Cygwin is installed, modify the System ~PATH~ variable: prepend it with
+=C:\cygwin64\bin= (before ~%SystemRoot%\system32~).
 
-- If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
-  Cygwin, please check that those directories don't contain =cygwin1.dll= or
-  such. That was why I had troubles running ~git~ commands...
+#+begin_warning
+If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
+Cygwin, please check that those directories don't contain =cygwin1.dll= or
+such. That was why I had troubles running ~git~ commands...
+#+end_warning
 
 In =c:/cygwin64/etc/profile=,
 
@@ -39,6 +41,10 @@ In =c:/cygwin64/etc/profile=,
 
 - ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
   when called from =c:/cygwin/Cygwin.bat=!!
+
+*** Add an ~HOME~ environment variable
+
+No trailing backslash!
 
 *** Change your Cygwin ~HOME~ folder
 
