@@ -1,0 +1,11 @@
+#!/bin/bash
+# Usage: svnignore admin/notes/\*.tex
+
+target="$1"
+targetdirectory=$(dirname $target)
+targetfilepattern=$(basename $target)
+
+svnignores=$(svn propget svn:ignore "$targetdirectory")
+svnignores="$svnignores"$'\n'"$targetfilepattern"
+printf "Ignore '$targetfilepattern'\n"
+svn propset svn:ignore "$svnignores" "$targetdirectory"
