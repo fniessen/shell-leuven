@@ -123,7 +123,7 @@ alias lastmonth='LG reg TLM'
 Ledger ()
 {
     if [ $# -lt 1 ]; then
-        cat << EOF 1>&2
+        cat << EOF > /dev/stderr
 Usage: $(basename $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]
     or $(basename $0) FILE   (if LEDGER=beancount)
 EOF

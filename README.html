@@ -632,7 +632,7 @@ of being silent):
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> ag &gt;&amp; /dev/null); <span class="org-keyword">then </span><span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'ag'</span>; <span class="org-keyword">fi</span>
+<pre class="src src-shell"><span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">which</span> ag 2&gt;&amp;1 /dev/null); <span class="org-keyword">then </span><span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=<span class="org-string">'ag'</span>; <span class="org-keyword">fi</span>
 </pre>
 </div>
 
@@ -1630,7 +1630,7 @@ Some global aliases (expand whatever their position).
 <span class="org-function-name">Ledger</span> ()
 {
     <span class="org-keyword">if</span> [ $<span class="org-variable-name">#</span> -lt 1 ]; <span class="org-keyword">then</span>
-        cat &lt;&lt; EOF 1&gt;&amp;2
+        cat &lt;&lt; EOF &gt; /dev/stderr
 <span class="org-sh-heredoc">Usage: $(</span><span class="org-sh-quoted-exec">basename</span><span class="org-sh-heredoc"> $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
 <span class="org-sh-heredoc">    or $(</span><span class="org-sh-quoted-exec">basename</span><span class="org-sh-heredoc"> $0) FILE   (if LEDGER=beancount)</span>
 <span class="org-sh-heredoc">EOF</span>
@@ -2249,7 +2249,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Find a suitable editor.</span>
 <span class="org-keyword">for</span> editor<span class="org-keyword"> in</span> emacsclientw emacsclient emacs; <span class="org-keyword">do</span>
-    <span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">type</span> $<span class="org-variable-name">editor</span> &gt;&amp; /dev/null); <span class="org-keyword">then</span>
+    <span class="org-keyword">if</span> $(<span class="org-sh-quoted-exec">type</span> $<span class="org-variable-name">editor</span> 2&gt;&amp;1 /dev/null); <span class="org-keyword">then</span>
         <span class="org-comment-delimiter"># </span><span class="org-comment">Set EDITOR.</span>
         <span class="org-keyword">case</span> $<span class="org-variable-name">editor</span><span class="org-keyword"> in</span>
             emacsclient*)
@@ -2770,7 +2770,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">My traceroute.</span>
-<span class="org-builtin">type</span> mtr &gt;&amp; /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">ping</span>=mtr
+<span class="org-builtin">type</span> mtr 2&gt;&amp;1 /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">ping</span>=mtr
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">hping[2] (run as root!)</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">myping</span>=<span class="org-string">"hping2 -c 100 -2 -p 7 $1"</span>
@@ -2787,7 +2787,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <div class="org-src-container">
 
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Echo my current external IP address.</span>
-<span class="org-builtin">type</span> curl &gt;&amp; /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
+<span class="org-builtin">type</span> curl 2&gt;&amp;1 /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">whatismyip</span>=<span class="org-string">'curl -s http://whatismyip.org'</span>
 </pre>
 </div>
 
@@ -3115,7 +3115,7 @@ worked&#x2026;
 
 <div class="org-src-container">
 
-<pre class="src src-shell"><span class="org-builtin">type</span> ag &gt;&amp; /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=ag
+<pre class="src src-shell"><span class="org-builtin">type</span> ag 2&gt;&amp;1 /dev/null &amp;&amp; <span class="org-builtin">alias</span> <span class="org-variable-name">grep</span>=ag
 </pre>
 </div>
 </div>

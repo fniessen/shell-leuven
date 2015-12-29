@@ -74,7 +74,7 @@ export TERM=xterm-256color
 
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(type $editor >& /dev/null); then
+    if $(type $editor 2>&1 /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -294,7 +294,7 @@ alias aps='aptitude search'
 alias mytop='top -u $USERNAME'
 
 # My traceroute.
-type mtr >& /dev/null && alias ping=mtr
+type mtr 2>&1 /dev/null && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -307,7 +307,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 # alias g='find . -type f -print0 | xargs -0 grep'
 
 # Echo my current external IP address.
-type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
+type curl 2>&1 /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 
 # 040319 Send files via `netcat'.
 # on sending side:

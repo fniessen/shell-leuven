@@ -271,7 +271,7 @@ its output format is unspecified, and it complains when nothing is found instead
 of being silent):
 
 #+begin_src shell
-if $(which ag >& /dev/null); then alias grep='ag'; fi
+if $(which ag 2>&1 /dev/null); then alias grep='ag'; fi
 #+end_src
 
 As well, don't use the non-portable ~(())~ and ~[[]]~ constructs:
@@ -995,7 +995,7 @@ alias lastmonth='LG reg TLM'
 Ledger ()
 {
     if [ $# -lt 1 ]; then
-        cat << EOF 1>&2
+        cat << EOF > /dev/stderr
 Usage: $(basename $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]
     or $(basename $0) FILE   (if LEDGER=beancount)
 EOF
@@ -1440,7 +1440,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+begin_src shell
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(type $editor >& /dev/null); then
+    if $(type $editor 2>&1 /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -1836,7 +1836,7 @@ alias mytop='top -u $USERNAME'
 
 #+begin_src shell
 # My traceroute.
-type mtr >& /dev/null && alias ping=mtr
+type mtr 2>&1 /dev/null && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -1851,7 +1851,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
 #+begin_src shell
 # Echo my current external IP address.
-type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
+type curl 2>&1 /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 #+end_src
 
 #+begin_src shell
@@ -2117,7 +2117,7 @@ alias pgrep='pgrep -fl'
 [[https://blog.kowalczyk.info/software/the-silver-searcher-for-windows.html][The Silver Searcher windows port]]
 
 #+begin_src shell :tangle no
-type ag >& /dev/null && alias grep=ag
+type ag 2>&1 /dev/null && alias grep=ag
 #+end_src
 
 *** GraphicsMagick
