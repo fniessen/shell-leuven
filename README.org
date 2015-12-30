@@ -1042,7 +1042,9 @@ EOF
 Useful keybindings:
 
 - ~M-q~ ::
-     Type another command in the middle of a long command (look at ~man~, etc.).
+     Type another command in the middle of a long command (look at ~man~, etc.):
+     you can push the current command to the buffer stack, and after executing
+     another command, you can see the top of the stack popped.
 
 - ~M-.~ ::
      Recall the last argument of the previous command, and so on.
