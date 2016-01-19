@@ -210,6 +210,10 @@ svn_grep_all_rev() {
     )
 }
 
+alias svnlog="svn log | perl -l40pe 's/^-+/\n/'"
+alias svnshow="svn diff -c"
+alias svnwhatchanged="svn log -v"
+
 alias hgrep="history | grep -i"
 
 function s()

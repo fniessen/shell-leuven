@@ -1725,6 +1725,14 @@ svn_grep_all_rev() {
 }
 #+end_src
 
+See [[file:~/src/git-config/SVN.org][SVN aliases]] for more information about these:
+
+#+begin_src shell
+alias svnlog="svn log | perl -l40pe 's/^-+/\n/'"
+alias svnshow="svn diff -c"
+alias svnwhatchanged="svn log -v"
+#+end_src
+
 *** History
 
 Print the history lines matching a pattern.
