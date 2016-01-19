@@ -836,7 +836,7 @@ $ gm convert !*
 
 <pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">bash_profile --- Bourne Again Shell configuration file (for interactive shells)</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2003-2015 Fabrice Niessen</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2003-2016 Fabrice Niessen</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Keywords: bash, dotfile, config</span>
@@ -1167,7 +1167,7 @@ See <a href="https://code.google.com/p/mintty/wiki/Tips#Readline_configuration">
 
 <pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">.inputrc --- my Readline Init File</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2005-2015 Fabrice Niessen</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2005-2016 Fabrice Niessen</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Keywords: readline, dotfile, config</span>
@@ -1254,7 +1254,7 @@ Documentation: <a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">Zsh Ref
 
 <pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">zprofile --- Z Shell configuration file (for interactive shells)</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2015 Fabrice Niessen</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2016 Fabrice Niessen</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Keywords: zsh, dotfile, config</span>
@@ -1552,6 +1552,7 @@ Some global aliases (expand whatever their position).
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">C</span>=<span class="org-string">'| wc -l'</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">S</span>=<span class="org-string">'| sort'</span> <span class="org-comment-delimiter">###</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">F</span>=<span class="org-string">' | fmt -'</span> <span class="org-comment-delimiter">##</span>
+
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A</span>=<span class="org-string">'| awk'</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A1</span>=<span class="org-string">"| awk '{print \$1}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A2</span>=<span class="org-string">"| awk '{print \$2}'"</span>
@@ -1562,6 +1563,25 @@ Some global aliases (expand whatever their position).
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A7</span>=<span class="org-string">"| awk '{print \$7}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A8</span>=<span class="org-string">"| awk '{print \$8}'"</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">A9</span>=<span class="org-string">"| awk '{print \$9}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C1</span>=<span class="org-string">"| awk -F, '{print \$1}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C2</span>=<span class="org-string">"| awk -F, '{print \$2}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C3</span>=<span class="org-string">"| awk -F, '{print \$3}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C4</span>=<span class="org-string">"| awk -F, '{print \$4}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C5</span>=<span class="org-string">"| awk -F, '{print \$5}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C6</span>=<span class="org-string">"| awk -F, '{print \$6}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C7</span>=<span class="org-string">"| awk -F, '{print \$7}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C8</span>=<span class="org-string">"| awk -F, '{print \$8}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">C9</span>=<span class="org-string">"| awk -F, '{print \$9}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T1</span>=<span class="org-string">"| awk -F $'\t' '{print \$1}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T2</span>=<span class="org-string">"| awk -F $'\t' '{print \$2}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T3</span>=<span class="org-string">"| awk -F $'\t' '{print \$3}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T4</span>=<span class="org-string">"| awk -F $'\t' '{print \$4}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T5</span>=<span class="org-string">"| awk -F $'\t' '{print \$5}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T6</span>=<span class="org-string">"| awk -F $'\t' '{print \$6}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T7</span>=<span class="org-string">"| awk -F $'\t' '{print \$7}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T8</span>=<span class="org-string">"| awk -F $'\t' '{print \$8}'"</span>
+<span class="org-builtin">alias</span> -g <span class="org-variable-name">T9</span>=<span class="org-string">"| awk -F $'\t' '{print \$9}'"</span>
+
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">ND</span>=<span class="org-string">'$(</span><span class="org-sh-quoted-exec">ls</span><span class="org-string"> -d *(/om[1]))'</span>        <span class="org-comment-delimiter"># </span><span class="org-comment">Newest directory.</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">NF</span>=<span class="org-string">'$(</span><span class="org-sh-quoted-exec">ls</span><span class="org-string"> *(.om[1]))'</span>           <span class="org-comment-delimiter"># </span><span class="org-comment">Newest file.</span>
 </pre>
@@ -1862,7 +1882,7 @@ by both shells.
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Hey Emacs, this is a -*- sh -*- file</span>
 <span class="org-comment-delimiter">## </span><span class="org-comment">commonprofile --- Common features between Bash and Z Shell</span>
 
-<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2015 Fabrice Niessen</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">Copyright (C) 2009-2016 Fabrice Niessen</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Author: Fabrice Niessen &lt;(concat "fniessen" at-sign "pirilampo.org")&gt;</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Keywords: bash, zsh, dotfile, config</span>
