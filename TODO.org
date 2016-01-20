@@ -1,7 +1,6 @@
 #+TITLE:     TODO.org
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+Time-stamp: <2016-01-20 Wed 22:36>
 #+DESCRIPTION:
 #+KEYWORDS:
 #+LANGUAGE:  en
