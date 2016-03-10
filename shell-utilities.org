@@ -64,7 +64,7 @@ The exit status follows the conventions for programs such as =grep=, =cmp=, and
 #+begin_src shell
 die () {
     printf "$(basename $0): $@\n" > /dev/stderr
-    exit 2                              # an error occurred
+    exit 2                              # An error occurred.
 }
 #+end_src
 
@@ -91,7 +91,8 @@ counterpart -- to avoid problems of spurious ~\r~ added to the output.
 files_cygwin_executables_p () {
     for x in $@
     do
-        [ "$(command -v $x)" = "/usr/bin/$x" ] || die "$x is not a Cygwin executable."
+        [ "$(command -v $x)" = "/usr/bin/$x" ] \
+            || die "$x is not a Cygwin executable."
     done
 }
 #+end_src
@@ -402,8 +403,8 @@ From Hacking Exposed Web Applications:
 #!/bin/sh
 # mike's getit.sh script
 if [ -z $1 ]; then
-echo -e "\n\tUsage: $0 <host> <URL>"
-exit
+    echo -e "\n\tUsage: $0 <host> <URL>"
+    exit
 fi
 echo -e "GET $2 HTTP/1.0\n\n" | \
 nc -vv $1 80
@@ -427,8 +428,8 @@ getit.sh www.victim.com /index.html | grep -i "input type"
 #!/bin/sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
-echo -e "\n\tUsage: $0 <SSL host> <URL>"
-exit
+    echo -e "\n\tUsage: $0 <SSL host> <URL>"
+    exit
 fi
 echo -e "GET $2 HTTP/1.0\n\n" | \
 openssl s_client -quiet -connect $1:443 2>/dev/null
