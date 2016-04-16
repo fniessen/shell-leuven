@@ -1473,7 +1473,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+begin_src shell
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(which $editor 2>&1 /dev/null); then
+    if $(type $editor >& /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -1885,7 +1885,7 @@ alias mytop='top -u $USERNAME'
 
 #+begin_src shell
 # My traceroute.
-type mtr 2>&1 /dev/null && alias ping=mtr
+type mtr >& /dev/null && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -1900,7 +1900,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
 #+begin_src shell
 # Echo my current external IP address.
-type curl 2>&1 /dev/null && alias whatismyip='curl -s http://whatismyip.org'
+type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 #+end_src
 
 #+begin_src shell
