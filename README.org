@@ -72,22 +72,23 @@ from that field).
 Install extra packages:
 
 - Archive
-  + [ ] ~zip~ used by the "Org to ODT" exporter
   + [ ] ~unzip~
+  + [ ] ~zip~ used by the "Org to ODT" exporter
 
 - Devel
-  + [X] ~git~
-  + [X] ~subversion~ (for ~svn~ command)
-  + [X] ~gdb~
-  + [X] ~make~ (for making info for Git Org mode)
-  + [X] ~patch~ and ~patchutils~
   + [ ] ~autoconf~
   + [ ] ~bzr~
-  + [ ] ~cvs~
   + [ ] ~ctags~ (Exuberant Ctags)
+  + [ ] ~cvs~
   + [ ] ~gcc-core~ (C compiler)
   + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
+  + [X] ~gdb~
+  + [X] ~git~
+  + [X] ~make~ (for making info for Git Org mode)
   + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
+  + [X] ~patch~
+  + [X] ~patchutils~
+  + [X] ~subversion~ (for ~svn~ command)
 
 - Editors
   + [X] ~emacs~
@@ -111,29 +112,29 @@ Install extra packages:
   + [X] ~R~
 
 - Net
-  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
   + [X] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
+  + [X] ~curl~
+  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
   + [ ] ~nc~ (see socat)
   + [ ] ~openssh~
   + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
   + [ ] ~rsync~
   + [X] ~sitecopy~
   + [ ] ~socat~ (see ~nc~)
-  + [X] ~curl~
 
 - Perl
   + [ ] ~perl~
 
 - Publishing
   + [X] ~texlive~ (= TeX only, not LaTeX!  It requires ~fontconfig~ and ~ghostscript~)
+  + [X] ~texlive-collection-binextra~ (for ~latexmk~)
+  + [X] ~texlive-collection-fontsextra~ (for =libertine.sty=)
+  + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
+  + [X] ~texlive-collection-genericrecommended~ (for =ulem.sty=, etc.)
+  + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
   + [X] ~texlive-collection-latex~
   + [X] ~texlive-collection-latexextra~ (for =draftwatermark.sty=, etc.)
-  + [X] ~texlive-collection-genericrecommended~ (for =ulem.sty=, etc.)
-  + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
   + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
-  + [X] ~texlive-collection-binextra~ (for ~latexmk~)
-  + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
-  + [X] ~texlive-collection-fontsextra~ (for =libertine.sty=)
 
 - Python
   + [X] ~python~
@@ -142,8 +143,8 @@ Install extra packages:
   + [ ] ~ruby~
 
 - Shells
-  + [X] ~zsh~
   + [ ] ~rxvt~
+  + [X] ~zsh~
 
 - System
   + [ ] ~procps~ (to get ~top~)
@@ -153,32 +154,31 @@ Install extra packages:
   + [ ] ~expect~
 
 - Text
-  + [X] ~texinfo~ (for ~makeinfo~)
   + [ ] ~antiword~
   + [ ] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
     one instead...)
   + [ ] ~most~
   + [ ] ~opensp~ (for ~nsgmls~ validator)
+  + [X] ~texinfo~ (for ~makeinfo~)
   + [ ] ~tidy~
 
 - Utils
-  + [X] ~gnupg~ (~gpg~)
-  + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
-    installer, though you can use ~C-l~ to get the same result)
   + [X] ~cygutils~ or ~cygutils-extra~ (for ~unix2dos~)
-  + [X] ~tig~ (Git browser)
-  + [ ] ~sgrep~ (installs the XPath command ~xmllint~, with ~libxml2~)
-  + [X] ~xmlstarlet~
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
+  + [X] ~gnupg~ (~gpg~)
+  + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
+    installer, though you can use ~C-l~ to get the same result)
   + [ ] ~screen~
+  + [ ] ~sgrep~ (installs the XPath command ~xmllint~, with ~libxml2~)
+  + [X] ~tig~ (Git browser)
+  + [X] ~xmlstarlet~
 
 - X11
   + [ ] ~fontconfig~ (needed by XeTeX)
 
 - Web
-  + [ ] ~w3m~
   + [ ] ~wget~
 
 *** Terminal emulators
@@ -212,23 +212,6 @@ Consult the user's guide for more details about POSIX paths:
 
 Though, setting it in =.bashrc= or something like that does not work. A good
 place to set it is in the global *Windows environment variables*.
-
-*** Suppress the annoying "tty option" warning
-
-#+begin_example
-"tty" option detected in CYGWIN environment variable.
-CYGWIN=tty is no longer supported.  Please remove it from your
-CYGWIN environment variable and use a terminal emulator like mintty,
-xterm, or rxvt.
-#+end_example
-
-This is not a Cygwin problem: ~Emacs-w3m~ used to set the ~CYGWIN~ environment
-variable in =w3m.el=. Just edit that file and remove the setting. Alternatively,
-it looks like you could solve the problem by customizing
-~w3m-command-environment~.
-
-Though, downloading (via the anonymous CVS server) the latest source code from
-http://emacs-w3m.namazu.org/ also solves the problem.
 
 ** Basic installation
 
