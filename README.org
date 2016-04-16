@@ -1473,7 +1473,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+begin_src shell
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(type $editor 2>&1 /dev/null); then
+    if $(which $editor 2>&1 /dev/null); then
         # Set EDITOR.
         case $editor in
             emacsclient*)
