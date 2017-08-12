@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Config file for GNU Screen</title>
+<!-- 2017-08-12 Sat 11:28 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Fabrice Niessen" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="file:///D:/Users/fni/2-Output/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="file:///D:/Users/fni/2-Output/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="file:///D:/Users/fni/2-Output/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="file:///D:/Users/fni/2-Output/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Config file for GNU Screen</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Tasks</a>
+<ul>
+<li><a href="#sec-1-1">1.1. <span class="todo TODO">TODO</span> Screen config such as </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Doc</a>
+<ul>
+<li><a href="#sec-2-1">2.1. <span class="todo TODO">TODO</span> Review</a></li>
+<li><a href="#sec-2-2">2.2. Problems with Cygwin .screenrc file resolved!</a></li>
+<li><a href="#sec-2-3">2.3. tmux (vs screen)</a></li>
+<li><a href="#sec-2-4">2.4. GNU screen</a></li>
+<li><a href="#sec-2-5">2.5. Screen</a></li>
+<li><a href="#sec-2-6">2.6. Other alternatives</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Mine</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Overview</a></li>
+<li><a href="#sec-3-2">3.2. Getting Started</a></li>
+<li><a href="#sec-3-3">3.3. Invoking Screen</a></li>
+<li><a href="#sec-3-4">3.4. Customization</a></li>
+<li><a href="#sec-3-5">3.5. Commands</a></li>
+<li><a href="#sec-3-6">3.6. New Window</a>
+<ul>
+<li><a href="#sec-3-6-1">3.6.1. Shell</a></li>
+<li><a href="#sec-3-6-2">3.6.2. Term</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-7">3.7. Selecting</a></li>
+<li><a href="#sec-3-8">3.8. Session Management</a></li>
+<li><a href="#sec-3-9">3.9. Regions</a></li>
+<li><a href="#sec-3-10">3.10. Window Settings</a></li>
+<li><a href="#sec-3-11">3.11. Virtual Terminal</a></li>
+<li><a href="#sec-3-12">3.12. Copy and Paste</a></li>
+<li><a href="#sec-3-13">3.13. Subprocess Execution</a></li>
+<li><a href="#sec-3-14">3.14. Key Binding</a>
+<ul>
+<li><a href="#sec-3-14-1">3.14.1. Command Character</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-15">3.15. Flow Control</a></li>
+<li><a href="#sec-3-16">3.16. Termcap</a></li>
+<li><a href="#sec-3-17">3.17. Message Line</a>
+<ul>
+<li><a href="#sec-3-17-1">3.17.1. Hardware Status Line</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-18">3.18. Logging</a></li>
+<li><a href="#sec-3-19">3.19. Startup</a></li>
+<li><a href="#sec-3-20">3.20. Miscellaneous</a></li>
+<li><a href="#sec-3-21">3.21. String Escapes</a></li>
+<li><a href="#sec-3-22">3.22. Environment</a></li>
+<li><a href="#sec-3-23">3.23. Files</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Source</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Tasks</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Screen config such as <img src="http://grml.org/screenshots/cdrec.png" alt="cdrec.png" /></h3>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Doc</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+See:
+</p>
+<ul class="org-ul">
+<li><a href="http://www.math.fu-berlin.de/~guckes/screen/">Screen Pages</a>
+</li>
+<li><a href="http://www.math.fu-berlin.de/~guckes/screen/commands.txt">Commands List (from the manual to screen-3.7.6)</a>
+</li>
+<li><a href="http://www.yahoogroups.com/group/gnu-screen/">MailingList</a>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> <span class="todo TODO">TODO</span> Review</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li><a href="http://webcache.googleusercontent.com/search?q=cache:mPWjDqGRkt4J:psung.blogspot.com/2008/10/stupid-screen-tricks.html+.emacs+key+magit-status&cd=5&hl=en&ct=clnk&client=pub-3990508616942374">http://webcache.googleusercontent.com/search?q=cache:mPWjDqGRkt4J:psung.blogspot.com/2008/10/stupid-screen-tricks.html+.emacs+key+magit-status&cd=5&hl=en&ct=clnk&client=pub-3990508616942374</a>
+</li>
+<li><a href="http://www.foogazi.com/2006/08/25/ssh-screen-easy-admining/">http://www.foogazi.com/2006/08/25/ssh-screen-easy-admining/</a>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Problems with Cygwin .screenrc file resolved!</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+I've been fighting with my <code>.screenrc</code> file in Cygwin for quite some time&#x2026;  I'd
+configure settings and either they wouldn't take (such as turning off
+startup<sub>message</sub>) or I'd get strange errors like Unrecognized command ''.
+</p>
+
+<p>
+It turns out that my <code>.screenrc</code> file had dos line endings&#x2026; running dos2unix
+fixed it!
+</p>
+
+<pre class="example">
+dos2unix .screenrc
+</pre>
+
+<p>
+I post this hoping that somebody else will stumble across this when they're
+struggling with similar problems. :-)
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> tmux (vs screen)</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2011-04-07 Thu]</span></span>
+</p>
+
+<p>
+tmux is a terminal multiplexer: it enables a number of terminals (or windows),
+each running a separate program, to be created, accessed, and controlled from
+a single screen. tmux may be detached from a screen and continue running in
+the background, then later reattached.
+</p>
+
+<p>
+From <a href="http://tmux.sourceforge.net/">tmux</a>
+</p>
+
+<p>
+tmux is a modern gnu screen.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> GNU screen</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+&gt; 2. Should I start another emacs instance just for blorgit?
+</p>
+
+<p>
+I tend to run it on a remote server, in which case I run it inside of gnu
+screen which allows for a persistent graphical session to Emacs even if I'm
+disconnected from the server. (see
+<a href="http://orgmode.org/worg/blorgit.php#sec-3_5">http://orgmode.org/worg/blorgit.php#sec-3_5</a>)
+</p>
+
+<p>
+From <a href="http://mid.gmane.org/87d3quuzlx.fsf@gmail.com">Email from Eric Schulte: Re: Re: blorgit build</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Screen</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Screen is an application that is really worth making it work. You just
+dettach/reattach your session at home/work/wherever and never stop what you
+are doing.
+</p>
+
+<p>
+From <a href="http://groups.google.com/groups/search?as_umsgid=inn7ak$bpc$1%2540speranza.aioe.org">Email from Lake Shore Dr: Re: emacs and screen</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Other alternatives</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Byobu: Like Screen, but Better
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Mine</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Overview</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Preliminary information.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Getting Started</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+An introduction to screen.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Invoking Screen</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Command line options for screen.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Customization</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+The <code>.screenrc</code> file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Commands</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+List all of the commands.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> New Window</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Running a program in a new window.
+</p>
+</div>
+
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1"><span class="section-number-4">3.6.1</span> Shell</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<p>
+Parameters for shell windows.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"># command to be used to create a new shell
+shell bash
+shell zsh
+</pre>
+</div>
+
+<p>
+This makes it possible to use a <b>different shell inside screen</b> than the one set
+as the default login shell!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-6-2" class="outline-4">
+<h4 id="sec-3-6-2"><span class="section-number-4">3.6.2</span> Term</h4>
+<div class="outline-text-4" id="text-3-6-2">
+<p>
+To me, <code>term "xterm-256color"~ (with double quotes) gives the right value of
+the ~$TERM</code> variable:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">term "xterm-256color"
+</pre>
+</div>
+
+<p>
+Make <code>screen</code> aware that it is running in a 256 color capable xterm:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"># terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# erase background with current bg color
+defbce "on"
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Selecting</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+Selecting a window to display.
+</p>
+
+<p>
+Using <code>C-tab</code> to switch session in GNU Screen
+</p>
+
+<p>
+The <code>C-tab</code> and <code>C-S-tab</code> key combinations can be used to switch session in GNU
+Screen. In order to do do, their use as shortcuts for switching MinTTY windows
+needs to be disabled on the Keys page of the options, and their keycodes need to
+be mapped in <code>~/.screenrc</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">bindkey "^[[1;5I" next
+bindkey "^[[1;6I" prev
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Session Management</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+Suspend/detach, grant access, connect sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Regions</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+Split-screen commands.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">caption always "%{= kw}%?%-Lw%?%{+b kw}%n*%t%f %?(%u)%?%{= kw}%?%+Lw%?"
+caption always "%{+b kr}%H%{ky} %-=%{kb}[%Y-%m-%d %D %c]"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> Window Settings</h3>
+<div class="outline-text-3" id="text-3-10">
+<p>
+Titles, logging, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> Virtual Terminal</h3>
+<div class="outline-text-3" id="text-3-11">
+<p>
+Controlling the screen VT100 emulation.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">vbell off # turn on audible bell
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-12" class="outline-3">
+<h3 id="sec-3-12"><span class="section-number-3">3.12</span> Copy and Paste</h3>
+<div class="outline-text-3" id="text-3-12">
+<p>
+Exchanging text between windows and sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-13" class="outline-3">
+<h3 id="sec-3-13"><span class="section-number-3">3.13</span> Subprocess Execution</h3>
+<div class="outline-text-3" id="text-3-13">
+<p>
+I/O filtering with exec.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-14" class="outline-3">
+<h3 id="sec-3-14"><span class="section-number-3">3.14</span> Key Binding</h3>
+<div class="outline-text-3" id="text-3-14">
+<p>
+Binding commands to keys.
+</p>
+</div>
+
+<div id="outline-container-sec-3-14-1" class="outline-4">
+<h4 id="sec-3-14-1"><span class="section-number-4">3.14.1</span> Command Character</h4>
+<div class="outline-text-4" id="text-3-14-1">
+<p>
+Key binding which Emacs users can give up in Emacs (when run in a screen
+terminal):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"># set the default command characters
+escape ^zz
+</pre>
+</div>
+
+<p>
+(or <code>^p</code>, but annoying to loose in the shell itself)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-15" class="outline-3">
+<h3 id="sec-3-15"><span class="section-number-3">3.15</span> Flow Control</h3>
+<div class="outline-text-3" id="text-3-15">
+<p>
+Trap or pass flow control characters.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-16" class="outline-3">
+<h3 id="sec-3-16"><span class="section-number-3">3.16</span> Termcap</h3>
+<div class="outline-text-3" id="text-3-16">
+<p>
+Tweaking your terminal's termcap entry.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell"># disable using the alternate screen
+termcapinfo xterm ti@:te@
+# otherwise, use ^A ESC to scroll back, using PgUp/PgDn
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-17" class="outline-3">
+<h3 id="sec-3-17"><span class="section-number-3">3.17</span> Message Line</h3>
+<div class="outline-text-3" id="text-3-17">
+<p>
+The screen message line.
+</p>
+</div>
+
+<div id="outline-container-sec-3-17-1" class="outline-4">
+<h4 id="sec-3-17-1"><span class="section-number-4">3.17.1</span> Hardware Status Line</h4>
+<div class="outline-text-4" id="text-3-17-1">
+<div class="org-src-container">
+
+<pre class="src src-shell"># contents of the hardstatus line
+hardstatus alwayslastline "%{+b kr}%H %{ky} %-=%{kb} [%Y-%m-%d %D %c]"
+hardstatus alwayslastline "%{= Wk}%-w%{= Bw}%n %t%{-}%+w %-="
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-18" class="outline-3">
+<h3 id="sec-3-18"><span class="section-number-3">3.18</span> Logging</h3>
+<div class="outline-text-3" id="text-3-18">
+<p>
+Keeping a record of your session.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-19" class="outline-3">
+<h3 id="sec-3-19"><span class="section-number-3">3.19</span> Startup</h3>
+<div class="outline-text-3" id="text-3-19">
+<p>
+Functions only useful at screen startup.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-20" class="outline-3">
+<h3 id="sec-3-20"><span class="section-number-3">3.20</span> Miscellaneous</h3>
+<div class="outline-text-3" id="text-3-20">
+<p>
+Various other commands.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-21" class="outline-3">
+<h3 id="sec-3-21"><span class="section-number-3">3.21</span> String Escapes</h3>
+<div class="outline-text-3" id="text-3-21">
+<p>
+Inserting current information into strings
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-22" class="outline-3">
+<h3 id="sec-3-22"><span class="section-number-3">3.22</span> Environment</h3>
+<div class="outline-text-3" id="text-3-22">
+<p>
+Environment variables used by screen.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-23" class="outline-3">
+<h3 id="sec-3-23"><span class="section-number-3">3.23</span> Files</h3>
+<div class="outline-text-3" id="text-3-23">
+<p>
+Files used by screen.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Source</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+
+<pre class="src src-shell"># http://www.softpanorama.org/Utilities/Screen/screenrc_examples.shtml
+
+# written by:         Sven Guckes
+
+
+# STARTUP of programs in an extra window:
+# ===============================================================
+# Uncomment one/some following lines to automatically let
+# SCREEN start some programs in the given window numbers:
+screen -t bash    0 /bin/bash
+#screen -t mutt     1 mutt
+screen -t EDIT      2 /usr/bin/emacs
+screen -t GOOGLE    3 w3m http://www.google.com
+# screen -t NEWS      4 slrn
+screen -t WWW       5 w3m http://www.mygooglest.com/fni
+#
+# ===============================================================
+# VARIABLES - Boolean values (on/off)
+# ===============================================================
+  autodetach          on            # default: on
+  crlf                off           # default: off
+  deflogin            off           # default: on
+# defsilence          off           # default: off
+  hardcopy_append     on            # default: off
+# nethack             on            # default: off
+  startup_message     off           # default: on
+# termcap  xterm      'AF=\E[3%dm:AB=\E[4%dm'
+# terminfo xterm      'AF=\E[3%p1%dm:AB=\E[4%p1%dm'
+# Matthias Kopfermann       [020222]:
+  termcapinfo linux "ve=\E[?25h\E[?17;0;64c" # red
+  vbell               off           # default: ???
+#
+# ===============================================================
+# VARIABLES - Number values
+# ===============================================================
+  defscrollback       3000          # default: 100
+# msgminwait          3             # default: 1
+  silencewait         15            # default: 30
+#
+# ===============================================================
+# VARIABLES - Paths and Files (esp. programs)
+# ===============================================================
+# bufferfile: The file to use for commands
+#             "readbuf" ('&lt;') and  "writebuf" ('&gt;'):
+# bufferfile          $HOME/.screen_exchange
+#
+# hardcopydir:  The directory which contains all hardcopies.
+# hardcopydir         ~/.hardcopy
+# hardcopydir         ~/.screen
+#
+# ===============================================================
+# VARIABLES - Strings
+# ===============================================================
+
+# some notes on COLOR before explaining its use in
+# the commands caption, hardstatus, and sorendition.
+#
+# COLOR:  colors codes are combinations of
+# [attribute modifier] [color description]
+# the manual talks of "attribute/color modifiers".
+# see the manual, section "STRING ESCAPES".
+#
+# Color table:
+# 0 Black           .  leave color unchanged
+# 1 Red             b  blue
+# 2 Green           c  cyan
+# 3 Brown / yellow  d  default color
+# 4 Blue            g  green         b  bold
+# 5 Purple          k  blacK         B  blinking
+# 6 Cyan            m  magenta       d  dim
+# 7 White           r  red           r  reverse
+# 8 unused/illegal  w  white         s  standout
+# 9 transparent     y  yellow        u  underline
+#
+# note: "dim" is not mentioned in the manual.
+#
+# ===========================================
+# CAPTION - shows a "caption" for the window.
+# ===========================================
+# a "caption" is another line which can show information -
+# in addition to the hardstatus line.
+#
+# use caption to show window list:
+caption always "%{= kw}%?%-Lw%?%{+b kw}%n*%t%f %?(%u)%?%{= kw}%?%+Lw%?"
+
+
+# caption always '%{= wb}%50=%n%f %t%{= wb}'
+# this basically just shows the current window number and title
+# on its own; the "%50=" displays it in the middle of the line.
+#
+# caption always "%&gt;%{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?%&lt;"
+# caption always "%-Lw%{= BW}%50&gt;%n%f* %t%{-}%+Lw%&lt;"
+# caption always "%?%F%{.RW}%?%3n %t%? [%h]%?"
+# caption always "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+#
+#  caption always "%{kG}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kG}%?%+Lw%?"
+#
+# "push right border: current time with seconds and current date"
+# caption always "%=%c:%s %Y-%m-%d"
+#
+# Prints the window names and highlight the current window in yellow.
+# On the right there is the time in green and the date in yellow.
+#
+caption always "%?%{+b kw}%-Lw%?%{yK}%n*%f %t%?(%u)%?%?%{wk}%+Lw%? %{gk}%=%c %{yk}%d/%M/%Y"
+
+# ===============================
+# Hardstatus Line and sorendition
+# ===============================
+#
+# Prints the window names and highlight the current window in yellow.
+# On the right there is the time in green and the date in yellow.
+#
+#hardstatus alwayslastline "%?%{wk}%-Lw%?%{yK}%n*%f %t%?(%u)%?%?%{wk}%+Lw%? %{gk}%=%c %{yk}%d/%M/%Y"
+hardstatus alwayslastline "%{+b kr}[ %H ] %{ky} Load: %l %-=%{kb} %c  %d.%m.%Y"
+
+hardstatus string '%{= kg}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %d %M %c ]%{W}'
+
+
+
+#hardstatus alwayslastline "%{+b kr}[ %H ] %{kw} Load: %l %-=%  %{kb} %c:%s  %d.%m.%Y "
+
+
+# Colorize the "messages" and "text marking":
+# Example:  Blue bg, white fg
+ sorendition gK
+#
+# ===============================================================
+# Messages
+# ===============================================================
+# There are two kinds of messages:  "activity" and "bell"
+# They are also the names of the commands that set the
+# respective messages.  In every message there can be "meta
+# strings" which are replaced by values.  A meta string starts
+# with a percent sign and is then followed by one of the
+# following letters: aAdDmMnstwWyY The meta strings refer to
+# the current date and time or to a window title or number:
+# %t - title
+# %n - number (a single % still works)
+# %d - day
+# %D - weekday name
+# %m - month
+# %M - month name
+# %y - year (2 digit)
+# %Y - year (4 digit)
+# %w - hour:minutes (24h format)
+# %W - hour:minutes (12h format)
+# %s - seconds
+# %a - am/pm
+# %A - AM/PM
+# Older versions of screen used a single '%' character
+# for window titles - but since version 3.7 this is
+# obsoleted by '%n' and will vanish in future releases!
+# So please update your screenrc to meet this convention!
+#
+# ===============================================================
+# "~" stands for the "bell" character
+#
+# activity:   This message *includes* a "beep" with '~'.
+  activity            "activity in %n (%t) [%w:%s]~"
+#
+# bell:       This message *includes* a "beep" with '~'.
+  bell                "bell   in %n (%t) [%w:%s]~"
+#
+# pow_detach_msg:     Message shown when session
+#                     gets power detached.
+  pow_detach_msg      "BYE"
+#
+# vbell_msg:          Message shown when the
+#                     "virtual bell" rings.
+  vbell_msg           " *beep* "
+#
+# ==============================================================
+#  BIND bind - defaults
+# ==============================================================
+# The "bind" command assign keys to (internal) commands
+# SCREEN checks all the keys you type; you type the key
+# which is known as the "command character" then SCREEN
+# eats this key, too, and checks whether this key is
+# "bound" to a command.  If so then SCREEN will execute it.
+#
+# The command "bind" allows you to chose which keys
+# will be assigned to the commands.
+#
+# Some commands are bound to several keys -
+# usually to both some letter and its corresponding
+# control key combination, eg the command
+# "(create) screen" is bound to both 'c' and '^C'.
+#
+# The following list shows the default bindings:
+#
+# break     ^B b
+# clear     C
+# colon     :
+# copy      ^[ [
+# detach    ^D d
+# digraph   ^V
+# displays  *
+# dumptermcap .
+# fit       F
+# flow      ^F f
+# focus     ^I
+# hardcopy  h
+# help      ?
+# history   { }
+# info      i
+# kill      K k
+# lastmsg   ^M m
+# license   ,
+# log       H
+# login     L
+# meta      x
+# monitor   M
+# next      ^@ ^N sp n
+# number    N
+# only      Q
+# other     ^X
+# pow_break B
+# pow_detach  D
+# prev      ^H ^P p ^?
+# quit      \
+# readbuf   &lt;
+# redisplay ^L l
+# remove    X
+# removebuf =
+# reset     Z
+# screen    ^C c
+# select    " '
+# silence   _
+# split     S
+# suspend   ^Z z
+# time      ^T t
+# title     A
+# vbell     ^G
+# version   v
+# width     W
+# windows   ^W w
+# wrap      ^R r
+# writebuf  &gt;
+# xoff      ^S s
+# xon       ^Q q
+# ^]  paste .
+# - select -
+# 0 select 0
+# 1 select 1
+# 2 select 2
+# 3 select 3
+# 4 select 4
+# 5 select 5
+# 6 select 6
+# 7 select 7
+# 8 select 8
+# 9 select 9
+# I login on
+# O login off
+# ] paste .
+#
+# FAQ: So many keys are bound to some command already -
+#    which keys are unbound yet? Which are free for binding?
+# A: SCREEN does not have a command to show you
+#    a table of currently unbound keys - sorry!
+#    You simply have to read this setup file. ;-)
+#
+#    Summary:  Here is a table of the keys
+#    which are not bound by default:
+#    unbound:  -B--E-G--J-L---P-R-TUV--Y-
+#      bound:  A-CD-F-HI-K-MNO-Q-S---WX-Z
+#
+# And here are the default bind commands if you need them:
+#
+# bind A title
+# bind C clear
+# bind D pow_detach
+# bind F fit
+# bind H log
+# bind I login on
+# bind K kill
+# bind L login
+# bind M monitor
+# bind N number
+# bind O login off
+# bind Q only
+# bind S split
+# bind W width
+# bind X remove
+# bind Z reset
+#
+# I suggest that you don't change the bidnings for
+# 'H' ("log") and 'M' ("monitor") as they are really
+# useful and you might want to use them a lot;
+# in this case it is recommended to use
+# the defaults to avoid confusion.
+# personally, I use 'A' ("title") quite often, too.
+#
+# If you are using "split windows" already
+# (this is not available in the latest user release yet)
+# then you will also use the command
+# associated with the keys FQSX a lot, too -
+# so don't change their bindings!
+#
+# Anyway, I have bound the unbound uppercase letters
+# to start programs in windows directly, ie without
+# starting a new window with a shell within first.
+# This simply saves shells and thus saves RAM -
+# and also avoids that the title of a windows is
+# the name of your shell.  Also, you need not "exit"
+# from a shell when you are done with some program:
+#
+# ==============================================================
+# BIND and the Services:
+# ==============================================================
+# I am using the uppercase letters to start programs/services:
+#
+ bind A title  # default!
+#
+# BUUG - Berlin Unix User Group - read some news about Unix
+#  bind B screen -t 'buug' 4 links www.buug.de
+#
+# CHEM - LinuxTag event in Chemnitz -- 2002-03-09 + 2002-03-10
+#  bind C screen -t 'CHEM' 9 links www.tu-chemnitz.de/linux/tag/
+# NOTE:  This overrides the default binding for the "clear" command.
+#
+# DICT - Dictionary English&lt;-&gt;German
+# bind D pow_detach !
+#  bind D screen -t 'DICT' 4 links dict.tu-chemnitz.de
+# Note: this overrides the default binding for the
+# command "pow_detach".  I hardly ever use that one.
+#
+# MUTT - Email User Agent
+#  bind E screen -t 'mail' 0 mutt
+# I use email quite a lot - so window #0 is reserved for that.
+# see also:  http://www.math.fu-berlin.de/~guckes/mutt/
+#
+# FTP - File Transfer "Program"
+# bind F fit # default!
+# bind F screen -t 'ftp' 9 ncftp
+# see also:  http://www.math.fu-berlin.de/~guckes/ncftp/
+#
+# GOOGLE - Web Search Engine
+  bind ^g  screen -t 'Google' links www.google.com
+#
+# HEISE - IT NewsTicker
+# bind H log # default!
+#  bind H screen -t HeiseTicker links www.heise.de
+# NOTE: This overrides the default binding of the "hardcopy" command!
+#
+# IRC - International Relay Chat
+# bind I screen -t 'irc'  5 irc
+# bind I screen -t 'icq'  9 micq
+# see also:  http://www.math.fu-berlin.de/~guckes/irc/
+#
+# see also: http://www.math.fu-berlin.de/~guckes/berlinale/
+#
+# LYNX - web browser
+# bind L screen -t 'lynx' 4 lynx  http://www.math.fu-berlin.de/~guckes/
+# see also:  http://www.math.fu-berlin.de/~guckes/lynx/
+#
+# see also:  http://www.math.fu-berlin.de/~guckes/links/
+# bind L screen -t 'WWW'  4 links http://www.math.fu-berlin.de/~guckes/
+#
+# bind L screen -t 'WWW'  4 links http://www.lug-camp-2002.de/programm.html
+# bind L screen -t 'WWW'  4 links http://www.mdlug.de/index.php/linuxtag2002/vortraege/v12.inc?menu=0|4|
+# bind L screen -t 'WWW'  4 links http://www.mdlug.de/index.php/linuxtag2002/programm.inc?menu=0|4|&amp;nomfc=1
+#
+ bind M monitor # default!
+#
+# NN - newsreader
+# bind N screen -t 'nn' 3 nn
+# see also:  http://www.math.fu-berlin.de/~guckes/nn/
+# Get some news about the weather... (dont ask ;-)
+#  bind N screen -t 'Nepal'  links http://www.wunderground.com/global/stations/44454.html
+# bind N screen -t 'Nepal'  links http://www.wunderground.com/global/stations/10382.html
+#
+# Paste - use 'P' instead of ']':
+  bind P paste .
+# The character ']' is hard to type on german keyboards,
+# as it requires the use of a yet another meta character "AltGR".
+# I prefer to use 'P' for "paste" because it is a letter
+# which is available at the same position both with the
+# US keyboards and keyboards with "Kraut layout" -
+# which I call" Krautboards", by the way. ;-)
+# bind ] paste . # default!
+#
+#    Register page at NetMind's Service:
+#  bind R screen links http://www.netmind.com/URL-minder/new/register.html
+#
+#
+# SLRN - newsreader
+#  bind S screen -t 'slrn' 3 slrn -n -C -k0
+# see also:  http://www.slrn.org  http://slrn.sourceforge.net
+# and      http://www.math.fu-berlin.de/~guckes/slrn/
+#
+# VIM - editor
+  bind V screen -t 'vim' 0 vim
+# Editing comes with email quite naturally -
+# so I have reserved window #1 for this.
+# http://www.math.fu-berlin.de/~guckes/vim/
+# http://www.vim.org/ (which is just a mirror)
+#
+#    X - a fast way to lock the current screen.
+#  bind X lockscreen
+#
+# bind Y exec !!! echo -n http://www.math.fu-berlin.de/~guckes/
+#  bind Y stuff http://www.math.fu-berlin.de/~guckes/
+# This pastes the address of my homepage to the process
+# in the current window.  very nice - saves some typing.
+# and you don't have to have the functionality of
+# "abbreviating" in the processes themselves. :-)
+#
+# my binds
+#
+#  bind ^w screen -t 'watch' $HOME/.screen/scripts/tetherwatch
+#  bind ^c screen -t 'capture' $HOME/.screen/scripts/tethercapture
+#  bind ^r screen -t 'output'  $HOME/.screen/scripts/tetherout
+#  bind ^o screen -t 'output-short' $HOME/.screen/scripts/tetherout.short
+#  bind ^t screen -t 'sysinfo' top
+
+#bind ^N screen -t 'news' links www.debian.de/News/weekly/index.de.html
+#bind ^M screen -t w3m cm.adrenalin.de
+#bind ^L screen -t watch -n 5 tail -45 /var/log/sysloc
+bind ^Y screen -t log watch -n 5 rail -40 /var/log/syslog
+
+#
+#
+# ===============================================================
+# BIND Examples:
+# ===============================================================
+# You can also paste the values of
+# SCREEN's environment variables:
+# bind E stuff $EMAIL
+# bind U stuff $URL
+# bind I stuff $ICQ
+#
+# ===============================================================
+# BINDKEY:
+# ===============================================================
+# [TODO briefly explain the difference between BIND and BINDKEY]
+#
+# Use the function keys F7 and F8
+# to cycle backwards/forwards in
+# the list of existing windows:
+#  bindkey -k k7 prev
+#  bindkey -k k8 next
+#
+# make the "kb" send a backspace (CTRL-H:)
+# bindkey -d kb stuff ^H
+# WARNING:  this does not work as advertised.
+# it eats the "kb" when typing "dankbar" for example. :-(
+#
+#
+# ===============================================================
+# Key bindings  (TODO)
+# ===============================================================
+# Remove some default key bindings by binding
+# them to "nothing" (empty right-hand-side):
+#
+# bind .  dumptermcap # default
+  bind .
+# bind ^\ quit      # default
+  bind ^\
+# bind \\ quit      # default
+  bind \\
+# bind h  hardcopy  # default
+# bind h
+# bind ^h ???       # default
+# bind ^h
+# bind }  history   # default
+# bind }
+#
+#
+# ===============================================================
+# At the very end... show the current version and say hello :-)
+# ===============================================================
+# Briefly show the version number of this starting screen session - but only
+# for *one* second:
+  msgwait 1
+  version
+# change back to showing messages for duration of two seconds:
+  msgwait 2
+#
+# Welcome the user:
+  echo "welcome :-)"
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Fabrice Niessen</p>
+<p class="date">Created: 2017-08-12 Sat 11:28</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+# command to be used to create a new shell
+shell bash
+shell zsh
+
+term "xterm-256color"
+
+# terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# erase background with current bg color
+defbce "on"
+
+caption always "%{= kw}%?%-Lw%?%{+b kw}%n*%t%f %?(%u)%?%{= kw}%?%+Lw%?"
+caption always "%{+b kr}%H%{ky} %-=%{kb}[%Y-%m-%d %D %c]"
+
+vbell off # turn on audible bell
+
+# set the default command characters
+escape ^zz
+
+# disable using the alternate screen
+termcapinfo xterm ti@:te@
+# otherwise, use ^A ESC to scroll back, using PgUp/PgDn
+
+# contents of the hardstatus line
+hardstatus alwayslastline "%{+b kr}%H %{ky} %-=%{kb} [%Y-%m-%d %D %c]"
+hardstatus alwayslastline "%{= Wk}%-w%{= Bw}%n %t%{-}%+w %-="
