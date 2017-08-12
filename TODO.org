@@ -13,10 +13,6 @@
 
 http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
-** TODO Rename this project on GitHub as Shellrc-plus-utils ou Shellutils
-
-And leuven?
-
 ** TODO Follow coding conventions
 
 http://wiki.bash-hackers.org/scripting/style
