@@ -1,4 +1,4 @@
-#+TITLE:     ShellRC-Leuven
+#+TITLE:     ShellRC
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION:
@@ -7,19 +7,42 @@
 #+OPTIONS:   num:nil ^:{}
 
 #+PROPERTY:  header-args :eval no
-# #+SETUPFILE: bigblow-pirilampo.setup
-#+SETUPFILE: ~/src/org-html-themes/setup/theme-readtheorg-local-abs.setup
+#+SETUPFILE: ~/.dotfiles/org/theme-readtheorg.setup
+
+Look at https://github.com/jlevy/the-art-of-command-line!
 
 * Summary
 
-ShellRC-Leuven is a set of configuration files to take advantage of Bash and
-Zsh on Mac OS X, Linux and Windows (with Cygwin).
+ShellRC is a set of configuration files to take advantage of Bash and Zsh on Mac
+OS X, Linux and Windows (with Cygwin).
+
+* COMMENT Tasks
+
+** TODO Test performance of branch name and merge status in Bash prompt
+
+Should go to local or global bash profile:
+
+#+begin_src shell
+function parse_git_dirty {
+    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+}
+function parse_git_branch {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+}
+export PS1='\u@\h \[\033[0;36m\]\w \[\033[0;32m\]$(parse_git_branch)\[\033[0m\]$ '
+#+end_src
+
+** TODO Look at shell scripts
+
+https://bitbucket.org/ambrevar/dotfiles/src/ac47e01e1b25942d5a3f83616a91f9eab6382823/.scripts/?at=master
+
+(pdfscan, etc.)
 
 * Getting started
 
 ** Prerequisites for Windows
 
-Install [[https://www.cygwin.com/][Cygwin]].
+Install [[https://www.cygwin.com/][Cygwin]] (http://mirrors.kernel.org).
 
 *** ~PATH~
 
@@ -71,20 +94,27 @@ from that field).
 
 Install extra packages:
 
+#+begin_src shell
+alias cyg-get="/cygdrive/c/cygwin64/setup-x86_64.exe -q -P"
+#+end_src
+
 - Archive
-  + [ ] ~unzip~
-  + [ ] ~zip~ used by the "Org to ODT" exporter
+  + [X] ~unzip~
+  + [X] ~zip~ (used by the "Org to ODT" exporter)
+
+- Database
+  + [X] ~freetds~ (for ~tsql~)
 
 - Devel
   + [ ] ~autoconf~
   + [ ] ~bzr~
   + [ ] ~ctags~ (Exuberant Ctags)
-  + [ ] ~cvs~
   + [ ] ~gcc-core~ (C compiler)
   + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
   + [X] ~gdb~
   + [X] ~git~
   + [X] ~make~ (for making info for Git Org mode)
+  + [X] ~meld~ (for diffing)
   + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
   + [X] ~patch~
   + [X] ~patchutils~
@@ -98,6 +128,8 @@ Install extra packages:
 - Graphics
   + [X] ~ghostscript~ (needed by various utilities -- ~texlive~ for example)
   + [ ] ~gnuplot~
+  + [X] ~graphviz~ (~dot~)
+  + [X] ~poppler~ (for ~pdftotext~)
 
 - Interpreters
   + [ ] ~m4~
@@ -155,23 +187,26 @@ Install extra packages:
 
 - Text
   + [ ] ~antiword~
-  + [ ] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
-    one instead...)
+  + [X] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
+    one instead if you need "nl" language...)
   + [ ] ~most~
   + [ ] ~opensp~ (for ~nsgmls~ validator)
   + [X] ~texinfo~ (for ~makeinfo~)
   + [ ] ~tidy~
 
 - Utils
-  + [X] ~cygutils~ or ~cygutils-extra~ (for ~unix2dos~)
+  + [X] ~colordiff~ (for ~svn~)
+  + [ ] ~dos2unix~
   + [ ] ~fdupes~
   + [ ] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
-  + [X] ~gnupg~ (~gpg~)
+  + [X] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
+    the Win32 driver which is adviced!)
   + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
     installer, though you can use ~C-l~ to get the same result)
   + [ ] ~screen~
   + [ ] ~sgrep~ (installs the XPath command ~xmllint~, with ~libxml2~)
+  + [X] ~the_silver_searcher~ (ag)
   + [X] ~tig~ (Git browser)
   + [X] ~xmlstarlet~
 
@@ -180,6 +215,16 @@ Install extra packages:
 
 - Web
   + [ ] ~wget~
+
+Many Unix commands have already newer and more feature-rich
+replacements:
+
+- df :: pydf
+- less :: most
+- tail :: multitail
+- top :: htop
+- tracepath :: mtr
+- traceroute :: mtr
 
 *** Terminal emulators
 
@@ -215,34 +260,35 @@ place to set it is in the global *Windows environment variables*.
 
 ** Basic installation
 
-ShellRC-Leuven is installed by doing the following:
+ShellRC is installed by doing the following:
 
 1. *Clone the repository:*
 
    #+begin_src shell
-   git clone git@github.com:fniessen/shellrc-leuven.git ~/.shellrc-leuven
+   git clone git@github.com:fniessen/dotfiles.git ~/.dotfiles
+   ~/.dotfiles/install
    #+end_src
 
-2. *Source ShellRC-Leuven configuration files*
+2. *Source ShellRC configuration files*
 
    #+begin_src shell
-   . ~/.shellrc-leuven/etc/bash_profile
+   . ./bash_profile
    #+end_src
 
    #+begin_src shell
-   . ~/.shellrc-leuven/etc/zprofile
+   . .zprofile
    #+end_src
 
    Or...
 
    #+begin_src shell :results silent
-   if [ -d "$HOME/.shellrc-leuven/etc" ]; then
-       PATH="$HOME/.shellrc-leuven/etc:$PATH"
+   if [ -d "$HOME/.dotfiles/files" ]; then
+       PATH="$HOME/.dotfiles/files:$PATH"
    fi
    #+end_src
 
 Once you open up a new terminal window with Bash or Zsh, it should load with
-ShellRC-Leuven's configuration.
+ShellRC's configuration.
 
 ** Custom directory
 
@@ -306,7 +352,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
 
-#+begin_src shell :tangle ./etc/.bash_profile
+#+begin_src shell :tangle ../../home/.bash_profile
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
@@ -315,10 +361,13 @@ if [ -f "${HOME}/.bashrc" ]; then
 fi
 #+end_src
 
-- For Zsh, put stuff in =~/zprofile=, which is always executed.
+- For Zsh, put stuff in =~/.zprofile=, which is always executed.
 
 To recover the default Bash configuration files, get their copy from
 =/etc/skel=.
+
+See http://blog.flowblok.id.au/2013-02/shell-startup-scripts.html for a Dotty
+graph of the files...
 
 #+begin_note
 If you get a couple of "command not found" errors and a corrupt prompt at
@@ -355,9 +404,9 @@ From https://www.linuxquestions.org/questions/linux-general-1/difference-between
 
 See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
-* Bash specific
+* Configuration related to Bash
   :PROPERTIES:
-  :header-args+: :tangle ./etc/bash_profile
+  :header-args+: :tangle ../../home/.bashrc
   :END:
 
 Le ~!~ en shell permet plein de trucs sympa.
@@ -397,12 +446,14 @@ $ gm convert !*
 #+end_src
 
 Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
-~rsync~):
+~scp~, ~rcp~ or ~rsync~):
 
 #+begin_src shell
 # If not running interactively, don't do anything.
 [[ "$-" != *i* ]] && return
 #+end_src
+
+it's important to refrain from outputting anything in those cases.
 
 ** Source global rc file (if any)
 
@@ -436,19 +487,39 @@ Appearance of the prompt.
 
 Note ~\[...\]~ used by the shell to count proper length.
 
+#+begin_src shell :tangle no
+if tput setaf 1 &> /dev/null; then
+    tput sgr0
+    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+      MAGENTA=$(tput setaf 9)
+      ORANGE=$(tput setaf 172)
+      GREEN=$(tput setaf 190)
+      PURPLE=$(tput setaf 141)
+      WHITE=$(tput setaf 256)
+    else
+      MAGENTA=$(tput setaf 5)
+      ORANGE=$(tput setaf 4)
+      GREEN=$(tput setaf 2)
+      PURPLE=$(tput setaf 1)
+      WHITE=$(tput setaf 7)
+    fi
+    BOLD=$(tput bold)
+    RESET=$(tput sgr0)
+#+end_src
+
 #+begin_src shell
 #** Controlling the Prompt
 
 # Regular colors.
-green=$(tput setaf 2)
-yellow=$(tput setaf 3)
+green="\[$(tput setaf 2)\]"
+yellow="\[$(tput setaf 3)\]"
 
 # Bold colors.
-BLACK=$(tput setaf 0; tput bold)
-RED=$(tput setaf 1; tput bold)
-GREEN=$(tput setaf 2; tput bold)
+BLACK="\[$(tput setaf 0; tput bold)\]"
+RED="\[$(tput setaf 1; tput bold)\]"
+GREEN="\[$(tput setaf 2; tput bold)\]"
 
-reset_color=$(tput sgr0)
+reset_color="\[$(tput sgr0)\]"
 
 #*** PROMPT_COMMAND + PS1 --- Default interaction prompt
 
@@ -500,7 +571,7 @@ leuven-before-prompt ()
     fi
 
     if [ "$color_prompt" = "yes" ]; then
-        PS1="${green}\u@\h${BLACK}:${yellow}${myPWD}${HILIT_RET} ${RET}${reset_color}${PROMPTCHAR} "
+        PS1="${green}\u@\h${BLACK}:${reset_color}${yellow}${myPWD}${HILIT_RET} ${RET}${reset_color}${PROMPTCHAR} "
     else
         PS1="\u@\h:${myPWD} ${RET}${PROMPTCHAR} "
     fi
@@ -589,7 +660,7 @@ complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 
 ** Source common file
 
-=commonprofile= contains miscellaneous settings common to Bash and Zsh.
+=.shellrc= contains miscellaneous settings common to Bash and Zsh.
 
 An *alias* is a simple string substitution.
 
@@ -602,8 +673,7 @@ In general, it should not do more than *change the default options of a command*
 
 #+begin_src shell
 # Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile
+. ${HOME}/.shellrc                      # Error displayed if not found.
 #+end_src
 
 ** Postamble
@@ -623,7 +693,7 @@ In general, it should not do more than *change the default options of a command*
 
 ** InputRC
    :PROPERTIES:
-   :header-args+: :tangle ./etc/.inputrc
+   :header-args+: :tangle ../../home/.inputrc
    :END:
 
 This file controls the behavior of line input editing for programs that use
@@ -695,9 +765,9 @@ set completion-ignore-case on
 ## .inputrc ends here
 #+end_src
 
-* Zsh specific
+* Configuration related to Zsh
   :PROPERTIES:
-  :header-args+: :tangle ./etc/zprofile
+  :header-args+: :tangle ../../home/.zshrc
   :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -711,7 +781,7 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 ** Preamble
 
 #+begin_src shell :noweb yes
-## zprofile --- Z Shell configuration file (for interactive shells)
+## .zshrc --- Z Shell configuration file (for interactive shells)
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
@@ -719,6 +789,11 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 # Keywords: zsh, dotfile, config
 
 #* Code:
+#+end_src
+
+#+begin_src shell
+# Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
+PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
 #+end_src
 
 ** Oh-my-Zsh Agnoster theme
@@ -733,10 +808,105 @@ interested in...
 
 I am fan of ~agnoster~.
 
-Make sure to use a [[https://github.com/Lokaltog/powerline-fonts][patched up font]] though.
+*** Solarized
+
+https://github.com/altercation/solarized/issues/90
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+    ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
+    # ZSH_THEME="random"
+    ZSH_THEME="agnoster"
+    HIST_STAMPS="yyyy-mm-dd"
+    plugins=(git svn osx xcode zshmarks history history-substring-search)
+    . $ZSH/oh-my-zsh.sh
+
+    # source ~/.dotfiles/plugins/solarized/mintty-solarized-dark.sh
+    source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
+
+# XXX Test for Mintty
+
+    # echo -ne '\e]4;8;#404040\a'   # bold black (i.e. dark grey)
+    # echo -ne '\e]4;9;#FF4040\a'   # bold red
+    # echo -ne '\e]4;10;#40FF40\a'  # bold green
+    # echo -ne '\e]4;11;#FFFF40\a'  # bold yellow
+    # echo -ne '\e]4;12;#6060FF\a'  # bold blue
+    # echo -ne '\e]4;13;#FF40FF\a'  # bold magenta
+    # echo -ne '\e]4;14;#40FFFF\a'  # bold cyan
+fi
+#+end_src
+
+http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
+
+*** Solarized Theme
+
+Karlin Fox ported the Solarized theme to MinTTY (the terminal which comes by
+default with Cygwin), and it is available at [[https://github.com/karlin/mintty-colors-solarized][karlin/mintty-colors-solarized]].
+
+#+begin_src shell :tangle no
+git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plugins/solarized
+echo 'source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh' >> ~/.zshrc # for light, replace dark with light
+#+end_src
+
+*** Agnoster Theme Adaption for SVN
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+
+    prompt_svn() {
+        local rev branch
+        if in_svn; then
+            rev=$(svn_get_rev_nr)
+            branch=$(svn_get_branch_name)
+            if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
+                prompt_segment yellow black
+                echo -n "$rev@$branch"
+                echo -n " ±"
+            else
+                prompt_segment green black
+                echo -n "$rev@$branch"
+            fi
+        fi
+    }
+
+    build_prompt() {
+        RETVAL=$?
+        prompt_status
+        prompt_context
+        prompt_dir
+        prompt_git
+        prompt_svn
+        prompt_end
+    }
+
+    # source ~/.dotfiles/plugins/oh-my-zsh/plugins/svn/svn.plugin.zsh
+fi
+#+end_src
+
+*** Zsh Syntax Highlighting
+
+#+begin_src shell :tangle no
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+#+end_src
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/zsh-syntax-highlighting" ]; then
+    source ~/.dotfiles/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+#+end_src
+
+** Powerline-patched fonts
+
+*Powerline patched* versions of the most popular mono *fonts* are available at
+[[https://github.com/powerline/fonts][powerline/fonts]].
+
+Make sure to change the font of MinTTY:
+
+- Right click the title bar of the Terminal, click Options.
+- Change your font to a Powerline patched font you installed.
 
 #+begin_note
-If you right click them, there should be install option in the menu. Or you can
+If you right-click them, there should be install option in the menu. Or you can
 drag it straight to Windows Fonts folder
 #+end_note
 
@@ -746,15 +916,6 @@ Good-looking fonts:
 - DroidSansMono (bad?)
 
 For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
-
-#+begin_src shell
-if [ -r "$HOME/.oh-my-zsh" ]; then
-    ZSH=$HOME/.oh-my-zsh
-    ZSH_THEME="agnoster"
-    # plugins=(git osx rails ruby github node rbenv npm brew byte)
-    . $ZSH/oh-my-zsh.sh
-fi
-#+end_src
 
 ** Command history
 
@@ -773,6 +934,88 @@ setopt HIST_IGNORE_DUPS
 
 # Use the same history file for all sessions.
 setopt SHARE_HISTORY
+
+# Change directory given just path.
+setopt autocd
+
+# Beep when there's an error with the command text you're typing in (e.g. if you
+# hit tab and there are no matching files) -- not as a result of normal commands
+# returning errors.
+setopt beep
+
+# Use additional pattern matching features.
+setopt extendedglob
+
+# Unmatched patterns cause an error.
+setopt nomatch
+
+# Immediately report changes in background job status.
+setopt notify
+#+end_src
+
+** Zsh line editor
+
+Useful keybindings:
+
+- ~M-q~ ::
+     Type another command in the middle of a long command (look at ~man~, etc.):
+     you can push the current command to the buffer stack, and after executing
+     another command, you can see the top of the stack popped.
+
+- ~M-.~ ::
+     Recall the last argument of the previous command, and so on.
+
+- ~C-r~ ::
+     Do an interactive search across all of the *command history*.
+
+Useful commands:
+
+- ~vared VAR~ ::
+     Interactively edit variable ~VAR~.
+
+#+begin_note
+See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
+#+end_note
+
+#+begin_src shell
+# Behave like Emacs when editing.
+bindkey -e
+
+# Mappings for `Ctrl-up/down' for matching commands from the history.
+bindkey ';5A' history-search-backward
+bindkey ';5B' history-search-forward
+
+# Mappings for `Ctrl-left/right' for word moving.
+bindkey ';5C' forward-word
+bindkey ';5D' backward-word
+
+# Make Zsh beep like Bash when backspacing on an empty command line.
+backward-delete-char-beep ()
+{
+    if (( CURSOR == 0 )); then
+        zle beep
+    fi
+    zle backward-delete-char
+}
+zle -N backward-delete-char-beep
+bindkey "^?" backward-delete-char-beep
+#+end_src
+
+** Completion Widgets
+
+Zsh will attempt to complete wildcards by expanding them in the command line.
+
+#+begin_src shell
+# zstyle :compinstall filename '/cygdrive/d/Users/fni/.zshrc'
+
+# Load general completion.
+autoload -Uz compinit
+# compinit                                # Security check (insecure directories)!
+#+end_src
+
+#+begin_src shell
+# Display a list of completions when you give an ambiguous choice (like Bash).
+setopt autolist
 #+end_src
 
 ** Prompt
@@ -824,12 +1067,13 @@ to avoid an unnecessary shellout at each prompt evaluation.
 #+begin_src shell
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
+# Does not work on Bash on Ubuntu on Windows.
 #+end_src
 
 To get a blank line before the prompt, you can write a function to echo a blank
 line and adding it to your ~preexec~ or ~precmd~ hooks.
 
-Technically, it doesn't inset a line after each commands output, but inserts
+Technically, it doesn't insert a line after each commands output, but inserts
 a blank line before building the prompt. However, the end result is the
 same.
 
@@ -871,11 +1115,11 @@ fi
 http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with-git-info/
 *************** END
 
-#+begin_src shell
+#+begin_src shell :tangle no
 # . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
 
-if [ -f "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh" ]; then
-  . "/cygdrive/d/Users/fni/.oh-my-zsh/plugins/gitfast/git-prompt.sh"
+if [ -f "$ZSH/plugins/gitfast/git-prompt.sh" ]; then
+  . "$ZSH/plugins/gitfast/git-prompt.sh"
   setopt prompt_subst
   export GIT_PS1_SHOWDIRTYSTATE=true
   export GIT_PS1_SHOWSTASHSTATE=true
@@ -966,13 +1210,17 @@ alias -- cwd='echo $cwd'
 # alias h='history 1 | less +G'
 #+end_src
 
-*** Directories
+*** Git
+
+Git last week / month / year:
 
 #+begin_src shell
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
+alias -g GLWEEK=' --since=1.week.ago'
+alias -g GLMONTH=' --since=1.month.ago'
+alias -g GLYEAR=' --since=1.year.ago'
 #+end_src
+
+*** Directories
 
 #+begin_src shell
 # When entering a directory, list the contents.
@@ -1050,77 +1298,19 @@ EOF
 # versus binary). You'll have to enter a password every time you want to run
 # ledger.
 #+end_src
-
-** Zsh line editor
-
-Useful keybindings:
-
-- ~M-q~ ::
-     Type another command in the middle of a long command (look at ~man~, etc.):
-     you can push the current command to the buffer stack, and after executing
-     another command, you can see the top of the stack popped.
-
-- ~M-.~ ::
-     Recall the last argument of the previous command, and so on.
-
-- ~C-r~ ::
-     Do an interactive search across all of the *command history*.
-
-Useful commands:
-
-- ~vared VAR~ ::
-     Interactively edit variable ~VAR~.
-
-#+begin_note
-See [[file:~/.oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
-#+end_note
-
-#+begin_src shell
-# Behave like Emacs when editing.
-bindkey -e
-
-# Mappings for `Ctrl-up/down' for matching commands from the history.
-bindkey ';5A' history-search-backward
-bindkey ';5B' history-search-forward
-
-# Mappings for `Ctrl-left/right' for word moving.
-bindkey ';5C' forward-word
-bindkey ';5D' backward-word
-
-# Beep when there's an error with the command text you're typing in (e.g. if you
-# hit tab and there are no matching files) -- not as a result of normal commands
-# returning errors.
-setopt beep
-
-# Make Zsh beep like Bash when backspacing on an empty command line.
-backward-delete-char-beep ()
-{
-    if (( CURSOR == 0 )); then
-        zle beep
-    fi
-    zle backward-delete-char
-}
-zle -N backward-delete-char-beep
-bindkey "^?" backward-delete-char-beep
-#+end_src
-
-** 19. Completion Widgets
-
-Zsh will attempt to complete wildcards by expanding them in the command line.
-
-#+begin_src shell
-# Load general completion.
-autoload -Uz compinit && compinit
-
-# Display a list of completions when you give an ambiguous choice (like Bash).
-setopt autolist
-#+end_src
-
+1
 ** 20. Completion System
 
 #+begin_src shell
 # Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+#+end_src
+
+Launch Windows applications from CLI (with ~start~ script -- see
+https://github.com/babun/babun/issues/299#issuecomment-123925935):
+
+#+begin_src shell
+compdef '_files -g "*"' start
 #+end_src
 
 ** Zsh Modules
@@ -1141,28 +1331,18 @@ color_err () {
 exec 2> >( color_err )
 #+end_src
 
-** Others
-
-#+begin_src shell
-# Change directory given just path.
-setopt autocd
-
-# Use additional pattern matching features.
-setopt extendedglob
-
-# Unmatched patterns cause an error.
-setopt nomatch
-
-# Immediately report changes in background job status.
-setopt notify
-#+end_src
-
 ** Source common file
 
 #+begin_src shell
 # Source common settings.
-: ${SHELLRC_LEUVEN:="$HOME/src/shellrc-leuven"} # Necessary to use $HOME!
-. $SHELLRC_LEUVEN/etc/commonprofile     # Error displayed if not found.
+. ${HOME}/.shellrc                      # Error displayed if not found.
+#+end_src
+
+#+begin_src shell
+# Enable overriding.
+if [ -f ${HOME}/.zshrc_local ]; then
+    source ${HOME}/.zshrc_local
+fi
 #+end_src
 
 #+begin_src shell
@@ -1174,12 +1354,12 @@ setopt notify
 # mode: outline-minor
 # End:
 
-## zprofile ends here
+## .zshrc ends here
 #+end_src
 
-* System-wide configuration file
+* Configuration related to both shells
   :PROPERTIES:
-  :header-args+: :tangle ./etc/commonprofile
+  :header-args+: :tangle ../../home/.shellrc
   :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
@@ -1189,7 +1369,7 @@ by both shells.
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## commonprofile --- Common features between Bash and Z Shell
+## .shellrc --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
@@ -1210,15 +1390,27 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 #* PATH
 
 # Extend the PATH var (where to look for executable files).
-for MAYBE_PATH in "$HOME/bin" \
-                  "$HOME/expect" \
-                  "$HOME/winbin";
+for MAYBE_PATH in "${HOME}/.dotfiles/bin" \
+                  "${HOME}/.dotfiles/expect";
 do
     # `-e' or `-x'?
     if [ -d "$MAYBE_PATH" ]; then
         PATH="$MAYBE_PATH:$PATH"
     fi
 done
+
+# Extend the PATH var (where to look for executable files).  For Cygwin only.
+case $(uname -s) in
+    CYGWIN*)
+        for MAYBE_CYG_PATH in "${HOME}/.dotfiles/winbin";
+        do
+            # `-e' or `-x'?
+            if [ -d "$MAYBE_CYG_PATH" ]; then
+                PATH="$MAYBE_CYG_PATH:$PATH"
+            fi
+        done
+        ;;
+esac
 #+end_src
 
 #+begin_note
@@ -1252,6 +1444,21 @@ if [[ $EUID -ne 0 ]]; then
     PATH="$PATH:."
 fi
 #+end_src
+
+*** Cdpath
+
+Much like the ~PATH~ environment variable defines a search order for the
+executable you want, ~CDPATH~ provides a selection of directories which will be
+checked for the folder you are trying to ~cd~ into.
+
+#+begin_src shell
+# Search current directory, home directory, and Tomcat folder
+export CDPATH=".:~:/cygdrive/d/Dev/Tools/Tomcat"
+#+end_src
+
+#+begin_tip
+To go to the directory ~1-Clients~, for example, simply type ~c~.
+#+end_tip
 
 *** Manpath
 
@@ -1408,6 +1615,24 @@ See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
 to the location...
 #+end_note
 
+** Display
+
+#+begin_src shell
+export DISPLAY=:0.0
+#+end_src
+
+** Alert
+
+Add an "alert" alias for long running commands.
+
+Use like so:
+
+: sleep 10; alert
+
+#+begin_src shell
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+#+end_src
+
 ** Misc
 
 You may need to manually set your language environment (among others, for ~svn~
@@ -1430,9 +1655,30 @@ export LANG=C.UTF-8
 Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
 ugly default 8 colors):
 
-#+begin_src shell
+#+begin_src shell :tangle no
 export TERM=xterm-256color
 #+end_src
+
+#+begin_tip
+In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
+the shell, as opposed to dotfiles related to the terminal emulator program.
+This is because a shell may be used with multiple terminal emulators, and
+setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
+The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
+something like =~/.minttyrc=.
+#+end_tip
+
+Initialize the terminal according to the type of terminal in the environmental
+variable ~TERM~.
+
+#+begin_src shell
+tput init
+#+end_src
+
+#+begin_note
+This command should be included in everyone's =.profile= after the environmental
+variable ~TERM~ has been exported.
+#+end_note
 
 #+begin_seealso
 Use the script ~colortest~ (on Linux distros) to output the default colors.
@@ -1463,9 +1709,10 @@ for editor in emacsclientw emacsclient emacs; do
                 # # doesn't bother waiting for a response
                 # export EDITOR="$editor --no-wait"
 
+                # From the man page for emacsclient(1):
                 # If the Emacs server is not running, run `emacs --daemon' to
                 # start Emacs in daemon mode, and try to connect to it.
-                export EDITOR="$editor -a ''"
+                export EDITOR="$editor --alternate-editor=''"
                 ;;
             ,*)
                 export EDITOR="$editor"
@@ -1479,11 +1726,16 @@ done
 #+end_src
 
 #+begin_src shell :tangle no
-alias e="emacsclient -a emacs -n"       # -n is essential part
+alias e="emacsclient --alternate-editor=emacs --no-wait" # --no-wait is an essential part.
+alias e="emacsclient --tty --alternate-editor=''"
+#+end_src
+
+#+begin_src shell
+alias ek="emacsclient -e '(kill-emacs)'"
 #+end_src
 
 #+begin_note
-Shouldn't we alias ~EDITOR~ to ~emacs -nw~?
+Shouldn't we alias ~EDITOR~ to ~emacs --tty~?
 #+end_note
 
 #+begin_src shell
@@ -1512,9 +1764,18 @@ ec ()
 I connect to the server with either a terminal or a GUI client like this:
 
 #+begin_example
-alias et=emacsclient -t                 # New GUI frame.
-alias ec=emacsclient -c                 # New terminal frame.
+alias et=emacsclient --tty              # New GUI frame.
+alias ec=emacsclient --create-frame     # New terminal frame.
 #+end_example
+
+A good way to start emacsclient is with this line:
+
+#+begin_example
+alias e="emacsclient --no-wait --alternate-editor=\"\" --create-frame"
+#+end_example
+
+You may also set the environment variables =EDITOR= and/or =VISUAL=, but then you
+better omit the "=--no-wait=" option.
 
 ** Plugins
 
@@ -1566,6 +1827,9 @@ alias agrep='alias | grep -i'
 
 #+begin_src shell
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+
+# Make `ls' produce ISO 8601 format.
+export TIME_STYLE=long-iso
 
 # Enable color support of `ls'.
 if [ "$TERM" != "dumb" ]; then
@@ -1674,9 +1938,15 @@ alias own='sudo chown -R $USER'
 #+begin_src shell
 alias up='cd ..'
 alias -- ..='cd ..'
+
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias .....='cd ../../../..'
+
+# Aliases '-' to 'cd -'.
+alias -- -='cd -'
 
 # Directory history.
 alias d='dirs -v'
@@ -1698,7 +1968,19 @@ alias l='ls'
 
 #+begin_src shell
 alias g='git'
+# alias gitroot="cd $(git rev-parse --show-toplevel)" # Conflict with Oh-My-ZShell?
 #+end_src
+
+http://jonas.nitro.dk/tig/manual.html
+
+#+begin_src shell
+alias tigs='tig status'                 # Use it all of the time!
+alias tigb='tig blame'
+alias tigall='tig --all'
+alias tigreleases='tig --all --simplify-by-decoration'
+#+end_src
+
+http://stackoverflow.com/tags/tig/hot
 
 *** SVN
 
@@ -1719,7 +2001,7 @@ svn_grep_all_rev() {
 }
 #+end_src
 
-See [[file:~/src/git-config/SVN.org][SVN aliases]] for more information about these:
+See [[file:~/.dotfiles/topic/gitconfig/SVN.org][SVN aliases]] for more information about these:
 
 #+begin_src shell
 alias svnlog="svn log | perl -l40pe 's/^-+/\n/'"
@@ -1758,7 +2040,7 @@ history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | 
 
 Connect to a host in a new screen tab, with the device name as the tab title.
 
-#+begin_src shell
+#+begin_src shell :tangle no
 function s()
 {
     screen -t "$@" /usr/bin/ssh "$@"
@@ -1770,6 +2052,9 @@ alias sr='screen -r'
 #+end_src
 
 *** SSH agent / GPG agent
+    :PROPERTIES:
+    :header-args+: :tangle no
+    :END:
 
 Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
 keep a tunnel open on my laptop when away from the office:
@@ -1852,12 +2137,18 @@ keys ()
 #+end_src
 
 *** Debian
+    :PROPERTIES:
+    :header-args+: :tangle no
+    :END:
 
 #+begin_src shell
 alias aps='aptitude search'
 #+end_src
 
 *** System admin (NMAP, etc.)
+    :PROPERTIES:
+    :header-args+: :tangle no
+    :END:
 
 #+begin_src shell
 # Use `pkill' (which is pgrep + kill in a single command).
@@ -1906,6 +2197,8 @@ alias ngrep='ngrep -W byline'
 # ngrep google port 80
 # ngrep -i 'rcpt to|mail from' tcp port smtp
 # ngrep -q -t -wi "login" port 23
+
+alias sniff='sudo ngrep -d "enp6s0" -t "^(GET|POST) " "tcp and port 80"'
 #+end_src
 
 #+begin_src shell
@@ -1929,6 +2222,41 @@ alias nmap_fast="nmap -F -T5 --top-ports 300"
 #     sudo nmap -sT -p $port -P0 -v -T 4 -oG dump-$port-${range////_}.txt $range
 #     grep -i open dump-$port-${range////_}.txt
 # }
+#+end_src
+
+#+begin_src shell :tangle no
+inpath() { [[ -x "$(which "$1" 2>/dev/null)" ]]; }
+
+inpath nmap && {
+    # -- [ nmap ] ---------------------------------------------------
+    #  -sS - TCP SYN scan
+    #  -v - verbose
+    #  -T1 - timing of scan. Options are paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)
+    #  -sF - FIN scan (can sneak through non-stateful firewalls)
+    #  -PE - ICMP echo discovery probe
+    #  -PP - timestamp discovery probe
+    #  -PY - SCTP init ping
+    #  -g - use given number as source port
+    #  -A - enable OS detection, version detection, script scanning, and traceroute (aggressive)
+    #  -O - enable OS detection
+    #  -sA - TCP ACK scan
+    #  -F - fast scan
+    #  --script=vulscan - also access vulnerabilities in target
+    alias nmap_open_ports="nmap --open"
+    alias nmap_list_interfaces="nmap --iflist"
+    alias nmap_slow="nmap -sS -v -T1"
+    alias nmap_fin="nmap -sF -v"
+    alias nmap_full="nmap -sS -T4 -PE -PP -PS80,443 -PY -g 53 -A -p1-65535 -v"
+    alias nmap_check_for_firewall="nmap -sA -p1-65535 -v -T4"
+    alias nmap_ping_through_firewall="nmap -PS -PA"
+    alias nmap_fast="nmap -F -T5 --version-light --top-ports 300"
+    alias nmap_detect_versions="nmap -sV -p1-65535 -O --osscan-guess -T4 -Pn"
+    alias nmap_check_for_vulns="nmap --script=vulscan"
+    alias nmap_full_udp="nmap -sS -sU -T4 -A -v -PE -PS22,25,80 -PA21,23,80,443,3389 "
+    alias nmap_traceroute="nmap -sP -PE -PS22,25,80 -PA21,23,80,3389 -PU -PO --traceroute "
+    alias nmap_full_with_scripts="sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all "
+    alias nmap_web_safe_osscan="sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy "
+}
 #+end_src
 
 #+begin_src shell
@@ -2210,7 +2538,7 @@ esac
 
 #+begin_src shell
 export GS_OPTIONS="-sPAPERSIZE=a4"
-alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./finished.pdf" # pdfjoin
+alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf" # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
 #+end_src
@@ -2305,6 +2633,24 @@ texlist ()
 alias sp=sendpatch
 #+end_src
 
+*** Extra
+
+#+begin_src shell :tangle no
+# Convert a picture to a favicon.
+alias make-favicon="convert -colors 256 -resize 16x16 "
+
+function console {
+    if [[ $# > 0 ]]; then
+        query=$(echo "$*" | tr -s ' ' '|')
+        tail -f /var/log/system.log|grep -i --color=auto -E "$query"
+    else
+        tail -f /var/log/system.log
+    fi
+}
+#+end_src
+
+** NMAP
+
 ** Postamble
 
 #+begin_src shell
@@ -2312,5 +2658,32 @@ alias sp=sendpatch
 # Local Variables:
 # End:
 
-# commonprofile ends here
+# .shellrc ends here
+#+end_src
+
+* Java
+
+- Download Ant and add its =/bin= directory to ~PATH~.
+
+- Add =C:\Program Files\Java\jdk1.7.0_80= to ~JAVA_HOME~ and add ~%JAVA_HOME%/bin~
+  to ~PATH~.
+
+* FAQ
+
+** How to fix "zsh compinit: insecure directories"?
+
+Stripping these directories of the group write permission:
+
+#+begin_src shell
+compaudit | xargs chmod g-w
+#+end_src
+
+will do the trick, see [[http://www.wezm.net/technical/2008/09/zsh-cygwin-and-insecure-directories/][zsh, Cygwin and Insecure Directories]].
+
+** How to run Emacs without shwoing a terminal window?
+
+Use the ~run~ command:
+
+#+begin_src shell
+C:\cygwin64\bin\run.exe /usr/bin/emacs
 #+end_src
