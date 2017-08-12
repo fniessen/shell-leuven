@@ -49,10 +49,38 @@ For similar collections, see:
 - Diff
 - Iconv
 
+* Shell aliases
+
+** Find all of the distinct file extensions in a folder hierarchy
+
+Recursive version:
+
+#+begin_src shell
+alias file_ext=$'find . -type f -name "*.*" | awk -F. \'!a[$NF]++{print $NF}\''
+#+end_src
+
+Recursive version:
+
+#+begin_src shell
+find . -type f | sed -e 's/.*\.//' | sed -e 's/.*\///' | sort -u
+#+end_src
+
+If you want totals (how may times the extension was seen):
+
+#+begin_src shell
+find . -type f | sed -e 's/.*\.//' | sed -e 's/.*\///' | sort | uniq -c | sort -rn
+#+end_src
+
+Non-recursive (single folder):
+
+#+begin_src shell
+for f in *.*; do printf "%s\n" "${f##*.}"; done | sort -u
+#+end_src
+
 * Shell functions
-  :PROPERTIES:
-  :header-args+: :tangle bin/shellutils :shebang #!/bin/bash
-  :END:
+:PROPERTIES:
+:header-args+: :tangle ~/.dotfiles/bin/shellutils :shebang #!/usr/bin/env bash
+:END:
 
 Only use alphanumeric characters and the underscore for function names.
 
@@ -108,14 +136,14 @@ pname () {
 #+end_src
 
 * Shell scripts
-  :PROPERTIES:
-  :header-args+: :shebang #!/bin/bash
-  :END:
+:PROPERTIES:
+:header-args+: :shebang #!/usr/bin/env bash
+:END:
 
 ** Send an email
-   :PROPERTIES:
-   :header-args+: :tangle bin/mail :shebang #!/bin/bash
-   :END:
+:PROPERTIES:
+:header-args+: :tangle ~/.dotfiles/bin/mail :shebang #!/usr/bin/env bash
+:END:
 
 Send a mail to one or more people.
 
@@ -160,7 +188,9 @@ This is $CMD, version: <<current-time()>>.
 
 Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
-Example: $CMD -s 'Disk failure' bill@example.com < /tmp/message
+Examples:
+    $CMD -s 'Disk failure' bill@example.com < /tmp/message
+    print "This is the body." | $CMD -s 'Other subject' bill@example.com
 
 Options:
   -s  Specify subject on command line
@@ -251,7 +281,7 @@ SUBJECT="none"
 ATTFILES=""                             # files to be attached
 CC=""
 BCC=""
-FROM="<$(whoami)@$(echo $(hostname) | tr '[:upper:]' '[:lower:]')>"
+FROM="<$(whoami)@$(echo $(hostname).com | tr '[:upper:]' '[:lower:]')>"
 : ${SMTP:="smtp"}                       # set var if not already set
 BODY="--"                               # stdin.txt
 
@@ -316,7 +346,7 @@ blat -to "$MAILTO" \
 
 ** Echo text in color
 
-#+begin_src shell :tangle ~/bin/cecho
+#+begin_src shell :tangle ~/.dotfiles/bin/cecho
 cecho () {
     black="\e[30m"
     red="\e[31m"
@@ -345,10 +375,95 @@ cecho () {
 cecho "$@"
 #+end_src
 
+** Find duplicates
+
+*** findup -- find DUPlicate files
+
+See fdupes from Cygwin?
+
+fdupes -S /etc
+
+Sample outputs:
+
+#+begin_example
+1533 bytes each:
+/etc/vimrc
+/etc/virc
+#+end_example
+
+*** findsn -- find Same Name (problems with clashing names)
+
+find (files) with duplicate or conflicting names.
+Usage: findsn [-A -c -C] [[-r] [-f] paths(s) ...]
+
+#+begin_src shell :tangle no
+find . -type f | sort | uniq -c | grep -v "^[ \t]*1 "
+#+end_src
+
+#+begin_src shell :tangle no
+#!/usr/bin/env bash
+
+find -type f > names.lst
+
+> names.out
+
+TAB=`echo -ne "\t"`
+while read name
+do
+    bn="$( basename "$name" )"
+    name2="$( grep "$bn" names.lst | grep -v "$name" )"
+    if [ "$name2" != "" ]
+    then
+                        if !(grep -q "^${name}${TAB}" names.out); then
+                                size=`stat --format=%s "$name"`
+                                size2=`stat --format=%s "$name2"`
+                                echo -e "$name${TAB}$size" >> names.out
+                                echo -e "$name2${TAB}$size" >> names.out
+                        fi
+    fi
+done < names.lst
+
+cat names.out
+rm -f names.lst
+#+end_src
+
+#+begin_src shell :tangle ~/.dotfiles/bin/findsn
+# Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
+# If no command-line parameter (path to begin from) is specified, then the
+# default is to begin from the current (.) directory.
+cd path=$1
+: ${path:=.}
+printf "Building file list...\n" > /dev/stderr
+fullList=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF,$0}' | sort +0 -1)
+fileNames=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF}' | sort | uniq -d)
+for EACH in $fileNames; do
+    echo "$fullList" | grep -wE "^$EACH "
+    echo ""
+done
+exit 0
+#+end_src
+
+** Utils
+
+#+begin_src shell :tangle ~/.dotfiles/bin/strip-dashes
+# Strip lines with dashes.
+sed "s/NULL//g"
+#+end_src
+
+#+begin_src shell :tangle ~/.dotfiles/bin/delete-2nd-line
+# Delete the second line.
+sed -e '2d'
+#+end_src
+
+#+begin_src shell :tangle ~/.dotfiles/bin/replace-null
+# Replace NULL value by empty string.
+sed "s/NULL//g"
+#+end_src
+
 * VC
-  :PROPERTIES:
-  :header-args+: :shebang #!/bin/bash
-  :END:
+:PROPERTIES:
+:header-args+: :shebang #!/usr/bin/env bash
+:END:
 
 http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each
 
@@ -380,7 +495,7 @@ See http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-
 Add a file (or a file glob pattern) to ignore without deleting the previous
 value of the ~svn:ignore~ property... from the command line.
 
-#+begin_src shell :tangle bin/svnignore
+#+begin_src shell :tangle ~/.dotfiles/bin/svnignore
 # Usage: svnignore admin/notes/\*.tex
 
 target="$1"
@@ -399,7 +514,7 @@ svn propset svn:ignore "$svnignores" "$targetdirectory"
 
 From Hacking Exposed Web Applications:
 
-#+begin_src shell :tangle bin/getit.sh
+#+begin_src shell :tangle ~/.dotfiles/bin/getit.sh
 #!/bin/sh
 # mike's getit.sh script
 if [ -z $1 ]; then
@@ -424,7 +539,7 @@ getit.sh www.victim.com /index.html | grep -i "input type"
 
 ** HTTPS
 
-#+begin_src shell :tangle bin/sgetit.sh
+#+begin_src shell :tangle ~/.dotfiles/bin/sgetit.sh
 #!/bin/sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
@@ -448,7 +563,7 @@ method, look in the dumpfile ~/tmp/bannergrab~ and look for
 =<script>alert(123)</script>= if you can find that back you got yourself a
 vulnerable server.
 
-#+begin_src shell :tangle bin/nc_bgrab
+#+begin_src shell :tangle ~/.dotfiles/bin/nc_bgrab
 #!/bin/sh
 
 range="10.10.10.";
