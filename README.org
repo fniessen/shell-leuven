@@ -2475,7 +2475,8 @@ alias pgrep='pgrep -fl'
 *** Ripgrep
 
 #+begin_src shell
-alias rg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold' --colors 'line:style:nobold'"
+alias rg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold'"
+alias srg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold' --sort-files"
 #+end_src
 
 *** Ag, the Silver Searcher
