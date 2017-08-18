@@ -2472,6 +2472,12 @@ worked...
 alias pgrep='pgrep -fl'
 #+end_src
 
+*** Ripgrep
+
+#+begin_src shell
+alias rg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold' --colors 'line:style:nobold'"
+#+end_src
+
 *** Ag, the Silver Searcher
 
 [[https://blog.kowalczyk.info/software/the-silver-searcher-for-windows.html][The Silver Searcher windows port]]
