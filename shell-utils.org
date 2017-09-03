@@ -460,6 +460,24 @@ sed -e '2d'
 sed "s/NULL//g"
 #+end_src
 
+* Findup
+:PROPERTIES:
+:header-args+: :tangle ~/.dotfiles/bin/findup :shebang #!/usr/bin/env bash
+:END:
+
+Search for the specified file(s) in the directory tree upwards, up to ~/~.
+
+Usage:
+: findup -name 'x*'
+
+#+begin_src shell
+set -e
+while [[ $PWD != / ]]; do
+    find "$PWD"/ -maxdepth 1 -mindepth 1 "$@"
+    cd ..
+done
+#+end_src
+
 * VC
 :PROPERTIES:
 :header-args+: :shebang #!/usr/bin/env bash
