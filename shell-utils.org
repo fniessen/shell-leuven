@@ -9,7 +9,7 @@
 #+SETUPFILE: bigblow-pirilampo.setup
 
 #+name: current-time
-#+begin_src emacs-lisp :eval yes :results silent :tangle no
+#+begin_src emacs-lisp :eval yes :results value silent :tangle no
 (format-time-string "%Y%m%d.%H%M")
 #+end_src
 
@@ -476,6 +476,66 @@ while [[ $PWD != / ]]; do
     find "$PWD"/ -maxdepth 1 -mindepth 1 "$@"
     cd ..
 done
+#+end_src
+
+* Remove lines from file which appear in another file
+
+** Comm
+
+Compare two *sorted* files line by line.
+
+#+begin_src shell
+# Print lines in file1 not in file2, and vice versa.
+comm -3 <(sort file1) <(sort file2)
+#+end_src
+
+The ~comm~ (with ~sort~) method take a long time on large files.
+
+** AWK
+
+Alternatively, an AWK solution to remove common lines between 2 files without
+sorting -- *much faster* than ~sort~, and keeps the original order of the
+=from-this.txt= file:
+
+#+begin_src shell
+awk 'NR == FNR { a[$0]++; next } { if (! a[$0]) print }' exclude-these.txt from-this.txt
+#+end_src
+
+#+begin_note
+In Awk, ~FNR~ refers to the record number (typically the line number) in the
+current file and ~NR~ refers to the total record number. This means that the
+condition ~NR==FNR~ is only true for the first file, as ~FNR~ resets back to 1 for
+the first line of each file but ~NR~ keeps on increasing.
+
+This pattern is typically used to perform actions on only the first file. The
+next inside the block means any further commands are skipped, so they are only
+run on files other than the first.
+#+end_note
+
+If you're doing this with huge files, then the *memory constraints* of loading
+a huge file into an associative array are going to be prohibitive.
+
+** Diff
+
+The downside of the above solutions is that it doesn't take line order into
+account and if your input has duplicate lines in different places you might not
+get what you expect.
+
+The solution to that is to use a real comparison tool such as ~diff~. You could do
+this by creating a diff file with the context value at 100% of the lines in the
+file, then parsing it for just the lines that would be removed if converting
+file =from-this.txt= to file =exclude-these.txt=. /(This command also removes the
+diff formatting after it gets the right lines.)/
+
+#+begin_src shell
+diff -U $(wc -l < from-this.txt) from-this.txt exclude-these.txt | sed -n 's/^-//p'
+#+end_src
+
+Example:
+
+#+begin_src shell
+awk 'NR == FNR { a[$0]++; next } { if (! a[$0]) print }' dupes-standard.txt dupes-custo.txt
+diff -U $(wc -l < dupes-custo.txt) dupes-custo.txt dupes-standard.txt | sed -n 's/^-//p'
 #+end_src
 
 * VC
