@@ -135,6 +135,19 @@ pname () {
 }
 #+end_src
 
+** Find recent files
+
+It recursively finds all files containing the pattern of the first argument
+passed to the command (~fr <pattern>~) and sorts them with the most recent one
+last.
+
+#+begin_src shell
+fr () {
+    find ./ -iname "*"$@"*" -printf "%T@ %Td-%Tb-%TY %Tk:%TM %p\n" | sort -n |
+    cut -d " " -f 2- | grep -i "$@";
+}
+#+end_src
+
 * Shell scripts
 :PROPERTIES:
 :header-args+: :shebang #!/usr/bin/env bash
@@ -377,7 +390,7 @@ cecho "$@"
 
 ** Find duplicates
 
-*** findup -- find DUPlicate files
+*** finddup -- find DUPlicate files
 
 See fdupes from Cygwin?
 
@@ -503,11 +516,11 @@ awk 'NR == FNR { a[$0]++; next } { if (! a[$0]) print }' exclude-these.txt from-
 
 #+begin_note
 In Awk, ~FNR~ refers to the record number (typically the line number) in the
-current file and ~NR~ refers to the total record number. This means that the
+current file and ~NR~ refers to the total record number.  This means that the
 condition ~NR==FNR~ is only true for the first file, as ~FNR~ resets back to 1 for
 the first line of each file but ~NR~ keeps on increasing.
 
-This pattern is typically used to perform actions on only the first file. The
+This pattern is typically used to perform actions on only the first file.  The
 next inside the block means any further commands are skipped, so they are only
 run on files other than the first.
 #+end_note
@@ -518,13 +531,13 @@ a huge file into an associative array are going to be prohibitive.
 ** Diff
 
 The downside of the above solutions is that it doesn't take line order into
-account and if your input has duplicate lines in different places you might not
-get what you expect.
+account and, if your input has duplicate lines in different places, you might
+not get what you expect.
 
-The solution to that is to use a real comparison tool such as ~diff~. You could do
-this by creating a diff file with the context value at 100% of the lines in the
-file, then parsing it for just the lines that would be removed if converting
-file =from-this.txt= to file =exclude-these.txt=. /(This command also removes the
+The solution to that is to use a real comparison tool such as ~diff~.  You could
+do this by creating a diff file with the context value at 100% of the lines in
+the file, then parsing it for just the lines that would be removed if converting
+file =from-this.txt= to file =exclude-these.txt=.  /(This command also removes the
 diff formatting after it gets the right lines.)/
 
 #+begin_src shell
@@ -537,6 +550,73 @@ Example:
 awk 'NR == FNR { a[$0]++; next } { if (! a[$0]) print }' dupes-standard.txt dupes-custo.txt
 diff -U $(wc -l < dupes-custo.txt) dupes-custo.txt dupes-standard.txt | sed -n 's/^-//p'
 #+end_src
+
+* Recursively run chmod -x?
+
+There is no (good) reason ever for pictures to be executable.
+
+Just run this command to fix them:
+
+#+begin_src sh :tangle ~/.dotfiles/bin/chmod-x
+# find /space/music -name "*.jpg" -exec chmod -x {} +
+
+echo "Remove exe perm"
+find . -name "*.DTD"       -exec chmod -x {} +
+find . -name "*.R"         -exec chmod -x {} +
+find . -name "*.Txt"       -exec chmod -x {} +
+find . -name "*.VWAPFLOW"  -exec chmod -x {} +
+find . -name "*.VWPPFLOW"  -exec chmod -x {} +
+find . -name "*.asa"       -exec chmod -x {} +
+find . -name "*.asp"       -exec chmod -x {} +
+find . -name "*.css"       -exec chmod -x {} +
+find . -name "*.csv"       -exec chmod -x {} +
+find . -name "*.dtd"       -exec chmod -x {} +
+find . -name "*.gif"       -exec chmod -x {} +
+find . -name "*.gitignore" -exec chmod -x {} +
+find . -name "*.htm"       -exec chmod -x {} +
+find . -name "*.html"      -exec chmod -x {} +
+find . -name "*.idx"       -exec chmod -x {} +
+find . -name "*.m"         -exec chmod -x {} +
+find . -name "*.md5"       -exec chmod -x {} +
+find . -name "*.org"       -exec chmod -x {} +
+find . -name "*.pack"      -exec chmod -x {} +
+find . -name "*.pdf"       -exec chmod -x {} +
+find . -name "*.pid"       -exec chmod -x {} +
+find . -name "*.png"       -exec chmod -x {} +
+find . -name "*.sample"    -exec chmod -x {} +
+find . -name "*.sql"       -exec chmod -x {} +
+find . -name "*.tex"       -exec chmod -x {} +
+find . -name "*.txt"       -exec chmod -x {} +
+find . -name "*.xls"       -exec chmod -x {} +
+find . -name "*.xml"       -exec chmod -x {} +
+#+end_src
+
+Bonus:
+
+#+begin_src sh :tangle no
+find /space/music -type d -exec chmod o-w {} +
+find /space/music -type d -exec chmod 755 {} +
+#+end_src
+
+Explanation:
+
+Most of the command line is self-explanatory. The only part that need some
+insight is the ending. ~{}~ is replaced by the name of the files (resp directory)
+found that match the filter. Usually, the find command is ended with a protected
+semicolon ~\;~.
+
+However, this isn't efficient as the command is run once for each
+file/directory.
+
+There is a well known workaround that pipes ~find~ output to ~xargs~ which
+concatenates the file names up to the maximum command line allowed but then
+there is an issue when the path contains spaces, which is more and more common
+even in the Unix/Linux world.
+
+Again a workaround based on GNU specific extensions allows to properly handle
+these case. I choose a simpler approach using a POSIX (read portable) way to
+have find building itself the long command lines, i.e. ~{}~ is replaced by a suite
+of file names up to the maximum number allowed.
 
 * VC
 :PROPERTIES:
