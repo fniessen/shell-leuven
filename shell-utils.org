@@ -553,6 +553,18 @@ diff -U $(wc -l < dupes-custo.txt) dupes-custo.txt dupes-standard.txt | sed -n '
 
 * Recursively run chmod -x?
 
+** Convert the files with 755 permissions to 644
+
+#+begin_src sh :tangle no
+find . -type f -perm 755 -exec chmod 644 {} \;
+#+end_src
+
+#+begin_note
+You could use ~+~ instead of ~\;~ to reduce the number of subprocesses created.
+#+end_note
+
+** Pictures, etc.
+
 There is no (good) reason ever for pictures to be executable.
 
 Just run this command to fix them:
