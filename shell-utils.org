@@ -456,6 +456,10 @@ done
 exit 0
 #+end_src
 
+*** grep2 -- Find all AXVW files with two strings (Show AXVW files with both matches only)
+
+(See Utilities.)
+
 ** Utils
 
 #+begin_src shell :tangle ~/.dotfiles/bin/strip-dashes
