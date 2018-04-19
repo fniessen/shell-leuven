@@ -114,7 +114,7 @@ alias cyg-get="/cygdrive/c/cygwin64/setup-x86_64.exe -q -P"
   + [X] ~gdb~
   + [X] ~git~
   + [X] ~make~ (for making info for Git Org mode)
-  + [X] ~meld~ (for diffing)
+  + [X] ~meld~ (for diffing -- requires ~xinit~)
   + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
   + [X] ~patch~
   + [X] ~patchutils~
@@ -212,6 +212,8 @@ alias cyg-get="/cygdrive/c/cygwin64/setup-x86_64.exe -q -P"
 
 - X11
   + [ ] ~fontconfig~ (needed by XeTeX)
+  + [X] ~xinit~ (needed by ~meld~)
+    See [[id:02ba0b6b-f205-42e2-a801-4271aa4691eb][Display]].
 
 - Web
   + [ ] ~wget~
@@ -810,7 +812,8 @@ I am fan of ~agnoster~.
 
 *** Solarized
 
-https://github.com/altercation/solarized/issues/90
+- [[https://github.com/altercation/solarized/issues/90][How should bold/bright be handled by terminal emulators?]]
+- [[https://github.com/mintty/mintty/issues/683][Solarized bold colors are gray]]
 
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
@@ -824,15 +827,40 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     # source ~/.dotfiles/plugins/solarized/mintty-solarized-dark.sh
     source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
 
-# XXX Test for Mintty
+# XXX Test for MinTTY
+    if [ -d /cygdrive/c/ ]; then
+        echo -ne '\e]4;8;#404040\a'   # bold blk
+        echo -ne '\e]4;9;#FF4040\a'   # bold red
+        echo -ne '\e]4;10;#40FF40\a'  # bold grn
+        echo -ne '\e]4;11;#FFFF40\a'  # bold yel
+        echo -ne '\e]4;12;#6060FF\a'  # bold blu
+        echo -ne '\e]4;13;#FF40FF\a'  # bold mag
+        echo -ne '\e]4;14;#40FFFF\a'  # bold cyn
+        echo -ne '\e]4;15;#FFFFFF\a'  # bold wht?
 
-    # echo -ne '\e]4;8;#404040\a'   # bold black (i.e. dark grey)
-    # echo -ne '\e]4;9;#FF4040\a'   # bold red
-    # echo -ne '\e]4;10;#40FF40\a'  # bold green
-    # echo -ne '\e]4;11;#FFFF40\a'  # bold yellow
-    # echo -ne '\e]4;12;#6060FF\a'  # bold blue
-    # echo -ne '\e]4;13;#FF40FF\a'  # bold magenta
-    # echo -ne '\e]4;14;#40FFFF\a'  # bold cyan
+        # From: https://github.com/altercation/ethanschoonover.com/tree/master/projects/solarized/osx-terminal.app-colors-solarized
+# Col Hex
+        # echo -ne '\e]4;8;#002B36\a'   # bold blk
+        # echo -ne '\e]4;9;#CB4B16\a'   # bold red
+        # echo -ne '\e]4;10;#586E75\a'  # bold grn
+        # echo -ne '\e]4;11;#657B83\a'  # bold yel
+        # echo -ne '\e]4;12;#839496\a'  # bold blu
+        # echo -ne '\e]4;13;#6C71C4\a'  # bold mag
+        # echo -ne '\e]4;14;#93A1A1\a'  # bold cyn
+        # echo -ne '\e]4;15;#FDF6E3\a'  # bold wht
+
+        # From: https://github.com/altercation/ethanschoonover.com/tree/master/projects/solarized/osx-terminal.app-colors-solarized
+# Col Xterm/Hex
+        # echo -ne '\e]4;8;#1C1C1C\a'   # bold blk
+        # echo -ne '\e]4;9;#D75F00\a'   # bold red
+        # echo -ne '\e]4;10;#585858\a'  # bold grn
+        # echo -ne '\e]4;11;#626262\a'  # bold yel
+        # echo -ne '\e]4;12;#808080\a'  # bold blu
+        # echo -ne '\e]4;13;#5F5FAF\a'  # bold mag
+        # echo -ne '\e]4;14;#8A8A8A\a'  # bold cyn
+        # echo -ne '\e]4;15;#FFFFD7\a'  # bold wht
+
+    fi
 fi
 #+end_src
 
@@ -1616,8 +1644,16 @@ to the location...
 #+end_note
 
 ** Display
+:PROPERTIES:
+:ID:       02ba0b6b-f205-42e2-a801-4271aa4691eb
+:END:
 
 #+begin_src shell
+# Start x11 server.
+startxwin >/dev/null 2>&1 &
+# To check that have the package xinit installed, try 'startxwin' without redirecting anything.
+
+# Set DISPLAY environment variable.
 export DISPLAY=:0.0
 #+end_src
 
@@ -1672,7 +1708,7 @@ Initialize the terminal according to the type of terminal in the environmental
 variable ~TERM~.
 
 #+begin_src shell
-tput init
+# tput init                             # This resets the Solarized color theme!!!
 #+end_src
 
 #+begin_note
@@ -1968,7 +2004,15 @@ alias l='ls'
 
 #+begin_src shell
 alias g='git'
+#+end_src
+
+Go to the top of your Git repo.
+
+#+begin_src shell
 # alias gitroot="cd $(git rev-parse --show-toplevel)" # Conflict with Oh-My-ZShell?
+
+# Good alias that will not blow up cd if you aren't in a Git directory.
+alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
 #+end_src
 
 http://jonas.nitro.dk/tig/manual.html
@@ -2004,9 +2048,21 @@ svn_grep_all_rev() {
 See [[file:~/.dotfiles/topic/gitconfig/SVN.org][SVN aliases]] for more information about these:
 
 #+begin_src shell
-alias svnlog="svn log | perl -l40pe 's/^-+/\n/'"
-alias svnshow="svn diff -c"
-alias svnwhatchanged="svn log -v"
+alias svn-log="svn log | perl -l40pe 's/^-+/\n/' | less"
+#+end_src
+
+#+begin_src shell
+alias svn-show="svn diff -c"
+
+# svn-showtool 123 path/to/file
+function svn-showtool {
+    svn diff --diff-cmd='meld' -c $1 $2
+}
+#+end_src
+
+#+begin_src shell
+# svn-whatchanged path/to/file
+alias svn-whatchanged="svn log -v"
 #+end_src
 
 **** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
