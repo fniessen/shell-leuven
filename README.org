@@ -1649,8 +1649,8 @@ to the location...
 :END:
 
 #+begin_src shell
-# Start x11 server.
-startxwin >/dev/null 2>&1 &
+# Start x11 server (if a process instance is not already running).
+ps eax | grep XWin || startxwin >/dev/null 2>&1 &
 # To check that have the package xinit installed, try 'startxwin' without redirecting anything.
 
 # Set DISPLAY environment variable.
