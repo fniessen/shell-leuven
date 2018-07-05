@@ -836,7 +836,7 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         echo -ne '\e]4;12;#6060FF\a'  # bold blu
         echo -ne '\e]4;13;#FF40FF\a'  # bold mag
         echo -ne '\e]4;14;#40FFFF\a'  # bold cyn
-        echo -ne '\e]4;15;#FFFFFF\a'  # bold wht?
+        echo -ne '\e]4;15;#FFFFFF\a'  # bold wht
 
         # From: https://github.com/altercation/ethanschoonover.com/tree/master/projects/solarized/osx-terminal.app-colors-solarized
 # Col Hex
@@ -859,12 +859,34 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         # echo -ne '\e]4;13;#5F5FAF\a'  # bold mag
         # echo -ne '\e]4;14;#8A8A8A\a'  # bold cyn
         # echo -ne '\e]4;15;#FFFFD7\a'  # bold wht
-
     fi
 fi
 #+end_src
 
 http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
+
+**** TODO MinTTY Solarized
+
+https://github.com/oumu/mintty-color-schemes
+
+#+begin_src shell :tangle no
+# This resets the Solarized colors...
+echo -ne '\e]4;0;#000000\a'   # black
+echo -ne '\e]4;1;#BF0000\a'   # red
+echo -ne '\e]4;2;#00BF00\a'   # green
+echo -ne '\e]4;3;#BFBF00\a'   # yellow
+echo -ne '\e]4;4;#0000BF\a'   # blue
+echo -ne '\e]4;5;#BF00BF\a'   # magenta
+echo -ne '\e]4;6;#00BFBF\a'   # cyan
+echo -ne '\e]4;7;#BFBFBF\a'   # white (light grey really)
+#+end_src
+
+https://github.com/mintty/mintty/wiki/Tips
+http://mintty.github.io/mintty.1.html#CONFIGURATION
+https://stackoverflow.com/questions/24229406/how-to-get-vim-on-cygwin-to-display-right-colors
+
+See great (more portable) stuff at
+https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh!
 
 *** Solarized Theme
 
@@ -874,6 +896,15 @@ default with Cygwin), and it is available at [[https://github.com/karlin/mintty-
 #+begin_src shell :tangle no
 git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plugins/solarized
 echo 'source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh' >> ~/.zshrc # for light, replace dark with light
+#+end_src
+
+**** TODO Git branch info
+
+#+begin_src shell
+function parse_git_branch ()
+{
+   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
 #+end_src
 
 *** Agnoster Theme Adaption for SVN
@@ -2030,11 +2061,11 @@ http://stackoverflow.com/tags/tig/hot
 
 #+begin_src shell
 # Search through files, ignoring .svn directories.
-alias svn_find="find . -not \( -name .svn -prune \)"
+alias svn-find="find . -not \( -name .svn -prune \)"
 
 # Grep a string in every SVN revision of a file.
-# Usage: svn_grep_all_rev PATTERN FILE
-svn_grep_all_rev() {
+# Usage: svn-grep-all-rev PATTERN FILE
+svn-grep-all-rev() {
     svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
         while read revision; do
             printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
@@ -2061,8 +2092,22 @@ function svn-showtool {
 #+end_src
 
 #+begin_src shell
-# svn-whatchanged path/to/file
+# svn-whatchanged [path/to/file]
 alias svn-whatchanged="svn log -v"
+#+end_src
+
+#+begin_src shell
+# svn-logfile path/to/file
+function svn-logfile {
+    svn log -q $1 | grep "^r"
+}
+#+end_src
+
+#+begin_src shell
+# svn-logfile-p path/to/file
+function svn-logfile-p {
+    svn log --diff $1 | less
+}
 #+end_src
 
 **** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
