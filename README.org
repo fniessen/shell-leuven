@@ -900,7 +900,7 @@ echo 'source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.s
 
 **** TODO Git branch info
 
-#+begin_src shell
+#+begin_src shell :tangle no
 function parse_git_branch ()
 {
    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
@@ -2074,6 +2074,17 @@ svn-grep-all-rev() {
         done
     )
 }
+#+end_src
+
+#+begin_src shell
+# SVN repository path
+alias svn-remote-url="svn info | egrep '^URL: (.*)' | sed s/URL\:\ //"
+#+end_src
+
+This alias can be used as:
+
+#+begin_src shell :tangle no
+svn COMMAND $(svn-remote-url)               # svn-remote-url is full RepoURL for used WC
 #+end_src
 
 See [[file:~/.dotfiles/topic/gitconfig/SVN.org][SVN aliases]] for more information about these:
