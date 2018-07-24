@@ -67,7 +67,6 @@
   pre.src-fortran:before { content: 'Fortran'; }
   pre.src-gnuplot:before { content: 'gnuplot'; }
   pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
   pre.src-java:before { content: 'Java'; }
   pre.src-js:before { content: 'Javascript'; }
   pre.src-latex:before { content: 'LaTeX'; }
@@ -187,99 +186,106 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc325ffa">1. Context</a>
+<li><a href="#org8adc783">1. Context</a>
 <ul>
-<li><a href="#orgd83d8c4">1.1. Description</a></li>
-<li><a href="#org8b0561e">1.2. See also</a></li>
-<li><a href="#orgf24fed7">1.3. Coding style</a></li>
-<li><a href="#org32440e3">1.4. Prerequisites</a></li>
+<li><a href="#org270db41">1.1. Description</a></li>
+<li><a href="#orge0d5b07">1.2. See also</a></li>
+<li><a href="#org89ba29e">1.3. Coding style</a></li>
+<li><a href="#orge3a6ac5">1.4. Prerequisites</a></li>
 </ul>
 </li>
-<li><a href="#org979706a">2. Shell aliases</a>
+<li><a href="#org9bdfd4f">2. Shell aliases</a>
 <ul>
-<li><a href="#org7e369ec">2.1. Find all of the distinct file extensions in a folder hierarchy</a></li>
+<li><a href="#org17db2a6">2.1. Find all of the distinct file extensions in a folder hierarchy</a></li>
 </ul>
 </li>
-<li><a href="#orgceb2ffa">3. Shell functions</a>
+<li><a href="#orgd371526">3. Shell functions</a>
 <ul>
-<li><a href="#org4068aeb">3.1. Exit with an error</a></li>
-<li><a href="#orge4e44b9">3.2. Check for executable files</a></li>
-<li><a href="#org655b405">3.3. Check for Cygwin executable files</a></li>
-<li><a href="#orgf224f19">3.4. Find the name of the parent process</a></li>
+<li><a href="#org1abde64">3.1. Exit with an error</a></li>
+<li><a href="#orge1ba680">3.2. Check for executable files</a></li>
+<li><a href="#orgd431235">3.3. Check for Cygwin executable files</a></li>
+<li><a href="#org0a84cd2">3.4. Find the name of the parent process</a></li>
+<li><a href="#orgfce5f89">3.5. Find recent files</a></li>
 </ul>
 </li>
-<li><a href="#org2be47ba">4. Shell scripts</a>
+<li><a href="#org5bd32b6">4. Shell scripts</a>
 <ul>
-<li><a href="#org7cc3a50">4.1. Send an email</a>
+<li><a href="#orgf3f54a8">4.1. Send an email</a>
 <ul>
-<li><a href="#org428def3">4.1.1. Name</a></li>
-<li><a href="#org4f45fa8">4.1.2. Synopsis</a></li>
-<li><a href="#org609b53e">4.1.3. Description</a></li>
-<li><a href="#org9bb02e9">4.1.4. Options</a></li>
-<li><a href="#org6126281">4.1.5. Stdin</a></li>
-<li><a href="#orgb1cdddd">4.1.6. Input files</a></li>
-<li><a href="#org8a7658f">4.1.7. Environment variables</a></li>
-<li><a href="#org4eb2165">4.1.8. Stdout</a></li>
-<li><a href="#org699a703">4.1.9. Stderr</a></li>
-<li><a href="#orgb176df2">4.1.10. Output files</a></li>
-<li><a href="#org890b2e6">4.1.11. Exit status</a></li>
-<li><a href="#org580a2d2">4.1.12. Examples</a></li>
-<li><a href="#orge86fca0">4.1.13. Code</a></li>
+<li><a href="#orgd19b589">4.1.1. Name</a></li>
+<li><a href="#orgd050b51">4.1.2. Synopsis</a></li>
+<li><a href="#orgb0c8249">4.1.3. Description</a></li>
+<li><a href="#org0e3036f">4.1.4. Options</a></li>
+<li><a href="#orgd188de1">4.1.5. Stdin</a></li>
+<li><a href="#org056ebb2">4.1.6. Input files</a></li>
+<li><a href="#org0626161">4.1.7. Environment variables</a></li>
+<li><a href="#org723eab6">4.1.8. Stdout</a></li>
+<li><a href="#org8af6b67">4.1.9. Stderr</a></li>
+<li><a href="#org336878f">4.1.10. Output files</a></li>
+<li><a href="#orgdf9c932">4.1.11. Exit status</a></li>
+<li><a href="#org5d95663">4.1.12. Examples</a></li>
+<li><a href="#org2d53be2">4.1.13. Code</a></li>
 </ul>
 </li>
-<li><a href="#orgad9ad45">4.2. Echo text in color</a></li>
-<li><a href="#org6d8025c">4.3. Find duplicates</a>
+<li><a href="#org84a29ed">4.2. Echo text in color</a></li>
+<li><a href="#org43f32a1">4.3. Find duplicates</a>
 <ul>
-<li><a href="#orgc944050">4.3.1. findup &#x2013; find DUPlicate files</a></li>
-<li><a href="#orgf1edc7c">4.3.2. findsn &#x2013; find Same Name (problems with clashing names)</a></li>
+<li><a href="#orgce5f202">4.3.1. finddup &#x2013; find DUPlicate files</a></li>
+<li><a href="#orgc34da07">4.3.2. findsn &#x2013; find Same Name (problems with clashing names)</a></li>
+<li><a href="#org47cf338">4.3.3. grep2 &#x2013; Find all AXVW files with two strings (Show AXVW files with both matches only)</a></li>
 </ul>
 </li>
-<li><a href="#orgb1526c4">4.4. Utils</a></li>
+<li><a href="#org068b388">4.4. Utils</a></li>
 </ul>
 </li>
-<li><a href="#org81a5319">5. Findup</a></li>
-<li><a href="#org3113ee7">6. Remove lines from file which appear in another file</a>
+<li><a href="#org83c4de4">5. Findup</a></li>
+<li><a href="#org8088b77">6. Compare two files and print unmatched lines</a>
 <ul>
-<li><a href="#org80bbe09">6.1. Comm</a></li>
-<li><a href="#org0c768db">6.2. AWK</a></li>
-<li><a href="#orgd36d6be">6.3. Diff</a></li>
+<li><a href="#org96b83dc">6.1. Comm</a></li>
+<li><a href="#orgd7de1b1">6.2. AWK</a></li>
+<li><a href="#org113d594">6.3. Diff</a></li>
 </ul>
 </li>
-<li><a href="#org6772ce2">7. VC</a>
+<li><a href="#org50e757c">7. Recursively run chmod -x?</a>
 <ul>
-<li><a href="#orga1f9278">7.1. Ignore files from the command line</a></li>
+<li><a href="#org178882f">7.1. Convert the files with 755 permissions to 644</a></li>
+<li><a href="#orgfa33434">7.2. Pictures, etc.</a></li>
 </ul>
 </li>
-<li><a href="#org2e69789">8. Web security assessments</a>
+<li><a href="#org7a0f9b3">8. VC</a>
 <ul>
-<li><a href="#org91ae934">8.1. HTTP</a></li>
-<li><a href="#org8558b8f">8.2. HTTPS</a></li>
+<li><a href="#orgeb77fd1">8.1. Ignore files from the command line</a></li>
 </ul>
 </li>
-<li><a href="#org5434ca5">9. Netcat</a>
+<li><a href="#org846e2d2">9. Web security assessments</a>
 <ul>
-<li><a href="#org2a75b0c">9.1. Scan only certain ports</a></li>
-<li><a href="#org851ae11">9.2. DNS</a></li>
-<li><a href="#org31c96be">9.3. Spoof source IP address</a></li>
-<li><a href="#orgfbf4135">9.4. Socat</a></li>
-<li><a href="#orgc715ce9">9.5. Packet forger</a></li>
-<li><a href="#org68a4cd1">9.6. Lauching attacks via Tor</a></li>
+<li><a href="#orge2682cb">9.1. HTTP</a></li>
+<li><a href="#org6b8d0ce">9.2. HTTPS</a></li>
+</ul>
+</li>
+<li><a href="#org553a02f">10. Netcat</a>
+<ul>
+<li><a href="#org65b8fe8">10.1. Scan only certain ports</a></li>
+<li><a href="#org550fcdb">10.2. DNS</a></li>
+<li><a href="#orga97ab94">10.3. Spoof source IP address</a></li>
+<li><a href="#org18be0bc">10.4. Socat</a></li>
+<li><a href="#org8880b2e">10.5. Packet forger</a></li>
+<li><a href="#orgf1d8cf1">10.6. Lauching attacks via Tor</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div class="org-src-container">
-<pre><code class="src src-emacs-lisp" id="org1b27cc4">(format-time-string <span class="org-string">"%Y%m%d.%H%M"</span>)
-</code></pre>
+<pre class="src src-emacs-lisp" id="org289456e">(format-time-string <span class="org-string">"%Y%m%d.%H%M"</span>)
+</pre>
 </div>
 
-<div id="outline-container-orgc325ffa" class="outline-2">
-<h2 id="orgc325ffa"><span class="section-number-2">1</span> Context</h2>
+<div id="outline-container-org8adc783" class="outline-2">
+<h2 id="org8adc783"><span class="section-number-2">1</span> Context</h2>
 <div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-orgd83d8c4" class="outline-3">
-<h3 id="orgd83d8c4"><span class="section-number-3">1.1</span> Description</h3>
+</div><div id="outline-container-org270db41" class="outline-3">
+<h3 id="org270db41"><span class="section-number-3">1.1</span> Description</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 The shell utilities are core shell functions and scripts which I wrote when
@@ -295,8 +301,8 @@ Library of Babel needs the <code>#+name</code> field to &ldquo;ingest&rdquo; a c
 </div>
 </div>
 
-<div id="outline-container-org8b0561e" class="outline-3">
-<h3 id="org8b0561e"><span class="section-number-3">1.2</span> See also</h3>
+<div id="outline-container-orge0d5b07" class="outline-3">
+<h3 id="orge0d5b07"><span class="section-number-3">1.2</span> See also</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 For similar collections, see:
@@ -311,8 +317,8 @@ For similar collections, see:
 </div>
 </div>
 
-<div id="outline-container-orgf24fed7" class="outline-3">
-<h3 id="orgf24fed7"><span class="section-number-3">1.3</span> Coding style</h3>
+<div id="outline-container-org89ba29e" class="outline-3">
+<h3 id="org89ba29e"><span class="section-number-3">1.3</span> Coding style</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
 <li><a href="http://wiki.bash-hackers.org/scripting/style">http://wiki.bash-hackers.org/scripting/style</a></li>
@@ -330,8 +336,8 @@ For similar collections, see:
 </div>
 </div>
 
-<div id="outline-container-org32440e3" class="outline-3">
-<h3 id="org32440e3"><span class="section-number-3">1.4</span> Prerequisites</h3>
+<div id="outline-container-orge3a6ac5" class="outline-3">
+<h3 id="orge3a6ac5"><span class="section-number-3">1.4</span> Prerequisites</h3>
 <div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
 <li>Clear</li>
@@ -342,20 +348,19 @@ For similar collections, see:
 </div>
 </div>
 
-<div id="outline-container-org979706a" class="outline-2">
-<h2 id="org979706a"><span class="section-number-2">2</span> Shell aliases</h2>
+<div id="outline-container-org9bdfd4f" class="outline-2">
+<h2 id="org9bdfd4f"><span class="section-number-2">2</span> Shell aliases</h2>
 <div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-org7e369ec" class="outline-3">
-<h3 id="org7e369ec"><span class="section-number-3">2.1</span> Find all of the distinct file extensions in a folder hierarchy</h3>
+</div><div id="outline-container-org17db2a6" class="outline-3">
+<h3 id="org17db2a6"><span class="section-number-3">2.1</span> Find all of the distinct file extensions in a folder hierarchy</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Recursive version:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">file_ext</span>=$<span class="org-string">'find . -type f -name "*.*" | awk -F. \'</span>!a[$<span class="org-variable-name">NF</span>]++{print $<span class="org-variable-name">NF</span>}<span class="org-string">\''</span>
-</code></pre>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">file_ext</span>=$<span class="org-string">'find . -type f -name "*.*" | awk -F. \'</span>!a[$<span class="org-variable-name">NF</span>]++{print $<span class="org-variable-name">NF</span>}<span class="org-string">\''</span>
+</pre>
 </div>
 
 <p>
@@ -363,8 +368,8 @@ Recursive version:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">find . -type f | sed -e <span class="org-string">'s/.*\.//'</span> | sed -e <span class="org-string">'s/.*\///'</span> | sort -u
-</code></pre>
+<pre class="src src-shell">find . -type f | sed -e <span class="org-string">'s/.*\.//'</span> | sed -e <span class="org-string">'s/.*\///'</span> | sort -u
+</pre>
 </div>
 
 <p>
@@ -372,8 +377,8 @@ If you want totals (how may times the extension was seen):
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">find . -type f | sed -e <span class="org-string">'s/.*\.//'</span> | sed -e <span class="org-string">'s/.*\///'</span> | sort | uniq -c | sort -rn
-</code></pre>
+<pre class="src src-shell">find . -type f | sed -e <span class="org-string">'s/.*\.//'</span> | sed -e <span class="org-string">'s/.*\///'</span> | sort | uniq -c | sort -rn
+</pre>
 </div>
 
 <p>
@@ -381,23 +386,23 @@ Non-recursive (single folder):
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-keyword">for</span> f<span class="org-keyword"> in</span> *.*; <span class="org-keyword">do </span><span class="org-builtin">printf</span> <span class="org-string">"%s\n"</span> <span class="org-string">"${f##*.}"</span>; <span class="org-keyword">done</span> | sort -u
-</code></pre>
+<pre class="src src-shell"><span class="org-keyword">for</span> f<span class="org-keyword"> in</span> *.*; <span class="org-keyword">do </span><span class="org-builtin">printf</span> <span class="org-string">"%s\n"</span> <span class="org-string">"${f##*.}"</span>; <span class="org-keyword">done</span> | sort -u
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgceb2ffa" class="outline-2">
-<h2 id="orgceb2ffa"><span class="section-number-2">3</span> Shell functions</h2>
+<div id="outline-container-orgd371526" class="outline-2">
+<h2 id="orgd371526"><span class="section-number-2">3</span> Shell functions</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Only use alphanumeric characters and the underscore for function names.
 </p>
 </div>
 
-<div id="outline-container-org4068aeb" class="outline-3">
-<h3 id="org4068aeb"><span class="section-number-3">3.1</span> Exit with an error</h3>
+<div id="outline-container-org1abde64" class="outline-3">
+<h3 id="org1abde64"><span class="section-number-3">3.1</span> Exit with an error</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 The exit status follows the conventions for programs such as <code>grep</code>, <code>cmp</code>, and
@@ -405,11 +410,11 @@ The exit status follows the conventions for programs such as <code>grep</code>, 
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">die</span> () {
+<pre class="src src-shell"><span class="org-function-name">die</span> () {
     <span class="org-builtin">printf</span> <span class="org-string">"$(</span><span class="org-sh-quoted-exec">basename</span><span class="org-string"> $0): $@\n"</span> &gt; /dev/stderr
     <span class="org-keyword">exit</span> 2                              <span class="org-comment-delimiter"># </span><span class="org-comment">An error occurred.</span>
 }
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -418,23 +423,23 @@ The exit status follows the conventions for programs such as <code>grep</code>, 
 </div>
 </div>
 
-<div id="outline-container-orge4e44b9" class="outline-3">
-<h3 id="orge4e44b9"><span class="section-number-3">3.2</span> Check for executable files</h3>
+<div id="outline-container-orge1ba680" class="outline-3">
+<h3 id="orge1ba680"><span class="section-number-3">3.2</span> Check for executable files</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">files_executables_p</span> () {
+<pre class="src src-shell"><span class="org-function-name">files_executables_p</span> () {
     <span class="org-keyword">for</span> x<span class="org-keyword"> in</span> $<span class="org-variable-name">@</span>
     <span class="org-keyword">do</span>
         <span class="org-builtin">command</span> -v $<span class="org-variable-name">x</span> &gt; /dev/null || die <span class="org-string">"$x not found."</span>
     <span class="org-keyword">done</span>
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org655b405" class="outline-3">
-<h3 id="org655b405"><span class="section-number-3">3.3</span> Check for Cygwin executable files</h3>
+<div id="outline-container-orgd431235" class="outline-3">
+<h3 id="orgd431235"><span class="section-number-3">3.3</span> Check for Cygwin executable files</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 We sometimes have to check that the <code>PATH</code> is set right, so that Cygwin
@@ -443,63 +448,82 @@ counterpart &#x2013; to avoid problems of spurious <code>\r</code> added to the 
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">files_cygwin_executables_p</span> () {
+<pre class="src src-shell"><span class="org-function-name">files_cygwin_executables_p</span> () {
     <span class="org-keyword">for</span> x<span class="org-keyword"> in</span> $<span class="org-variable-name">@</span>
     <span class="org-keyword">do</span>
         [ <span class="org-string">"$(</span><span class="org-sh-quoted-exec">command</span><span class="org-string"> -v $x)"</span> = <span class="org-string">"/usr/bin/$x"</span> ] <span class="org-sh-escaped-newline">\</span>
             || die <span class="org-string">"$x is not a Cygwin executable."</span>
     <span class="org-keyword">done</span>
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf224f19" class="outline-3">
-<h3 id="orgf224f19"><span class="section-number-3">3.4</span> Find the name of the parent process</h3>
+<div id="outline-container-org0a84cd2" class="outline-3">
+<h3 id="org0a84cd2"><span class="section-number-3">3.4</span> Find the name of the parent process</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 The following is supposed to work on Linux, but doesn&rsquo;t on Cygwin.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">pname</span> () {
+<pre class="src src-shell"><span class="org-function-name">pname</span> () {
     ps -o <span class="org-variable-name">command</span>= -p $<span class="org-variable-name">PPID</span> | tail -n 1 | awk <span class="org-string">'{print $1}'</span> | awk -F/ <span class="org-string">'{print $NF}'</span>
 }
-</code></pre>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfce5f89" class="outline-3">
+<h3 id="orgfce5f89"><span class="section-number-3">3.5</span> Find recent files</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+It recursively finds all files containing the pattern of the first argument
+passed to the command (<code>fr &lt;pattern&gt;</code>) and sorts them with the most recent one
+last.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span class="org-function-name">fr</span> () {
+    find ./ -iname <span class="org-string">"*"</span>$<span class="org-variable-name">@</span><span class="org-string">"*"</span> -printf <span class="org-string">"%T@ %Td-%Tb-%TY %Tk:%TM %p\n"</span> | sort -n |
+    cut -d <span class="org-string">" "</span> -f 2- | grep -i <span class="org-string">"$@"</span>;
+}
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2be47ba" class="outline-2">
-<h2 id="org2be47ba"><span class="section-number-2">4</span> Shell scripts</h2>
+<div id="outline-container-org5bd32b6" class="outline-2">
+<h2 id="org5bd32b6"><span class="section-number-2">4</span> Shell scripts</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 
-<div id="outline-container-org7cc3a50" class="outline-3">
-<h3 id="org7cc3a50"><span class="section-number-3">4.1</span> Send an email</h3>
+<div id="outline-container-orgf3f54a8" class="outline-3">
+<h3 id="orgf3f54a8"><span class="section-number-3">4.1</span> Send an email</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Send a mail to one or more people.
 </p>
 </div>
 
-<div id="outline-container-org428def3" class="outline-4">
-<h4 id="org428def3"><span class="section-number-4">4.1.1</span> Name</h4>
+<div id="outline-container-orgd19b589" class="outline-4">
+<h4 id="orgd19b589"><span class="section-number-4">4.1.1</span> Name</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">mail -- Send simple mail</span>
-</code></pre>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">mail -- Send simple mail</span>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4f45fa8" class="outline-4">
-<h4 id="org4f45fa8"><span class="section-number-4">4.1.2</span> Synopsis</h4>
+<div id="outline-container-orgd050b51" class="outline-4">
+<h4 id="orgd050b51"><span class="section-number-4">4.1.2</span> Synopsis</h4>
 <div class="outline-text-4" id="text-4-1-2">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">Usage</span> ()
+<pre class="src src-shell"><span class="org-function-name">Usage</span> ()
 {
     cat &lt;&lt; EOF 1&gt;&amp;2
 <span class="org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
@@ -507,39 +531,39 @@ Send a mail to one or more people.
 <span class="org-sh-heredoc">EOF</span>
     <span class="org-keyword">exit</span> 2
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org609b53e" class="outline-4">
-<h4 id="org609b53e"><span class="section-number-4">4.1.3</span> Description</h4>
+<div id="outline-container-orgb0c8249" class="outline-4">
+<h4 id="orgb0c8249"><span class="section-number-4">4.1.3</span> Description</h4>
 <div class="outline-text-4" id="text-4-1-3">
 <p>
 Send an email using <code>mail</code>:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">mail -s <span class="org-string">"Subject"</span> recipient@example.com &lt; /path/to/file
+<pre class="src src-shell">mail -s <span class="org-string">"Subject"</span> recipient@example.com &lt; /path/to/file
 cat /path/to/file | mail -s <span class="org-string">"Subject"</span> recipient@example.com
 <span class="org-builtin">echo</span> <span class="org-string">"Message"</span> | mail -s <span class="org-string">"Subject"</span> recipient@example.com
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9bb02e9" class="outline-4">
-<h4 id="org9bb02e9"><span class="section-number-4">4.1.4</span> Options</h4>
+<div id="outline-container-org0e3036f" class="outline-4">
+<h4 id="org0e3036f"><span class="section-number-4">4.1.4</span> Options</h4>
 <div class="outline-text-4" id="text-4-1-4">
 <p>
 The following options shall be supported:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">Help</span> ()
+<pre class="src src-shell"><span class="org-function-name">Help</span> ()
 {
     cat &lt;&lt; EOF
-<span class="org-sh-heredoc">This is $CMD, version: 20170908.1112.</span>
+<span class="org-sh-heredoc">This is $CMD, version: 20180724.0823.</span>
 
 <span class="org-sh-heredoc">Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR</span>
 <span class="org-sh-heredoc">Send simple mail.</span>
@@ -557,13 +581,13 @@ The following options shall be supported:
 <span class="org-sh-heredoc">EOF</span>
     <span class="org-keyword">exit</span> 0
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6126281" class="outline-4">
-<h4 id="org6126281"><span class="section-number-4">4.1.5</span> Stdin</h4>
+<div id="outline-container-orgd188de1" class="outline-4">
+<h4 id="orgd188de1"><span class="section-number-4">4.1.5</span> Stdin</h4>
 <div class="outline-text-4" id="text-4-1-5">
 <p>
 When <code>mail</code> is invoked, standard input shall be the message to be delivered to
@@ -572,8 +596,8 @@ the specified addresses.
 </div>
 </div>
 
-<div id="outline-container-orgb1cdddd" class="outline-4">
-<h4 id="orgb1cdddd"><span class="section-number-4">4.1.6</span> Input files</h4>
+<div id="outline-container-org056ebb2" class="outline-4">
+<h4 id="org056ebb2"><span class="section-number-4">4.1.6</span> Input files</h4>
 <div class="outline-text-4" id="text-4-1-6">
 <p>
 None.
@@ -581,8 +605,8 @@ None.
 </div>
 </div>
 
-<div id="outline-container-org8a7658f" class="outline-4">
-<h4 id="org8a7658f"><span class="section-number-4">4.1.7</span> Environment variables</h4>
+<div id="outline-container-org0626161" class="outline-4">
+<h4 id="org0626161"><span class="section-number-4">4.1.7</span> Environment variables</h4>
 <div class="outline-text-4" id="text-4-1-7">
 <p>
 The behavior of <code>mail</code> is affected by the following environment variable:
@@ -594,8 +618,8 @@ The behavior of <code>mail</code> is affected by the following environment varia
 </div>
 </div>
 
-<div id="outline-container-org4eb2165" class="outline-4">
-<h4 id="org4eb2165"><span class="section-number-4">4.1.8</span> Stdout</h4>
+<div id="outline-container-org723eab6" class="outline-4">
+<h4 id="org723eab6"><span class="section-number-4">4.1.8</span> Stdout</h4>
 <div class="outline-text-4" id="text-4-1-8">
 <p>
 The standard output shall be that of the <code>blat</code> command.
@@ -603,8 +627,8 @@ The standard output shall be that of the <code>blat</code> command.
 </div>
 </div>
 
-<div id="outline-container-org699a703" class="outline-4">
-<h4 id="org699a703"><span class="section-number-4">4.1.9</span> Stderr</h4>
+<div id="outline-container-org8af6b67" class="outline-4">
+<h4 id="org8af6b67"><span class="section-number-4">4.1.9</span> Stderr</h4>
 <div class="outline-text-4" id="text-4-1-9">
 <p>
 The standard error shall be used only for diagnostic messages.
@@ -612,8 +636,8 @@ The standard error shall be used only for diagnostic messages.
 </div>
 </div>
 
-<div id="outline-container-orgb176df2" class="outline-4">
-<h4 id="orgb176df2"><span class="section-number-4">4.1.10</span> Output files</h4>
+<div id="outline-container-org336878f" class="outline-4">
+<h4 id="org336878f"><span class="section-number-4">4.1.10</span> Output files</h4>
 <div class="outline-text-4" id="text-4-1-10">
 <p>
 None.
@@ -621,8 +645,8 @@ None.
 </div>
 </div>
 
-<div id="outline-container-org890b2e6" class="outline-4">
-<h4 id="org890b2e6"><span class="section-number-4">4.1.11</span> Exit status</h4>
+<div id="outline-container-orgdf9c932" class="outline-4">
+<h4 id="orgdf9c932"><span class="section-number-4">4.1.11</span> Exit status</h4>
 <div class="outline-text-4" id="text-4-1-11">
 <p>
 The <code>mail</code> utility returns one of the following values upon exit:
@@ -641,16 +665,16 @@ Otherwise, the exit status of <code>mail</code> shall be that of the <code>blat<
 </div>
 </div>
 
-<div id="outline-container-org580a2d2" class="outline-4">
-<h4 id="org580a2d2"><span class="section-number-4">4.1.12</span> Examples</h4>
+<div id="outline-container-org5d95663" class="outline-4">
+<h4 id="org5d95663"><span class="section-number-4">4.1.12</span> Examples</h4>
 <div class="outline-text-4" id="text-4-1-12">
 <p>
 Here&rsquo;s a shell script that reports the disk usage:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">( <span class="org-builtin">printf</span> <span class="org-string">"Disk usage:\n"</span> ; du -sh ) | mail -s <span class="org-string">"Disk usage report"</span> recipient@example.com
-</code></pre>
+<pre class="src src-shell">( <span class="org-builtin">printf</span> <span class="org-string">"Disk usage:\n"</span> ; du -sh ) | mail -s <span class="org-string">"Disk usage report"</span> recipient@example.com
+</pre>
 </div>
 
 <p>
@@ -659,18 +683,18 @@ an attachment:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">tar -zcf ~/backup.tar.gz ~/files_to_backup
+<pre class="src src-shell">tar -zcf ~/backup.tar.gz ~/files_to_backup
 <span class="org-builtin">printf</span> <span class="org-string">"Archived configuration files\n"</span> | mail -s <span class="org-string">"Backup data"</span> -a ~/backup.tar.gz recipient@example.com
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge86fca0" class="outline-4">
-<h4 id="orge86fca0"><span class="section-number-4">4.1.13</span> Code</h4>
+<div id="outline-container-org2d53be2" class="outline-4">
+<h4 id="org2d53be2"><span class="section-number-4">4.1.13</span> Code</h4>
 <div class="outline-text-4" id="text-4-1-13">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">command name</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">command name</span>
 <span class="org-variable-name">CMD</span>=$(<span class="org-sh-quoted-exec">basename</span> $<span class="org-variable-name">0</span>)
 
 <span class="org-builtin">.</span> shellutils || <span class="org-keyword">exit</span> 2
@@ -748,17 +772,17 @@ blat -to <span class="org-string">"$MAILTO"</span> <span class="org-sh-escaped-n
      $<span class="org-variable-name">ATT_SWITCH</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">mail ends here</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgad9ad45" class="outline-3">
-<h3 id="orgad9ad45"><span class="section-number-3">4.2</span> Echo text in color</h3>
+<div id="outline-container-org84a29ed" class="outline-3">
+<h3 id="org84a29ed"><span class="section-number-3">4.2</span> Echo text in color</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-function-name">cecho</span> () {
+<pre class="src src-shell"><span class="org-function-name">cecho</span> () {
     <span class="org-variable-name">black</span>=<span class="org-string">"\e[30m"</span>
     <span class="org-variable-name">red</span>=<span class="org-string">"\e[31m"</span>
     <span class="org-variable-name">green</span>=<span class="org-string">"\e[32m"</span>
@@ -784,17 +808,16 @@ blat -to <span class="org-string">"$MAILTO"</span> <span class="org-sh-escaped-n
 }
 
 cecho <span class="org-string">"$@"</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6d8025c" class="outline-3">
-<h3 id="org6d8025c"><span class="section-number-3">4.3</span> Find duplicates</h3>
+<div id="outline-container-org43f32a1" class="outline-3">
+<h3 id="org43f32a1"><span class="section-number-3">4.3</span> Find duplicates</h3>
 <div class="outline-text-3" id="text-4-3">
-</div>
-<div id="outline-container-orgc944050" class="outline-4">
-<h4 id="orgc944050"><span class="section-number-4">4.3.1</span> findup &#x2013; find DUPlicate files</h4>
+</div><div id="outline-container-orgce5f202" class="outline-4">
+<h4 id="orgce5f202"><span class="section-number-4">4.3.1</span> finddup &#x2013; find DUPlicate files</h4>
 <div class="outline-text-4" id="text-4-3-1">
 <p>
 See fdupes from Cygwin?
@@ -816,8 +839,8 @@ Sample outputs:
 </div>
 </div>
 
-<div id="outline-container-orgf1edc7c" class="outline-4">
-<h4 id="orgf1edc7c"><span class="section-number-4">4.3.2</span> findsn &#x2013; find Same Name (problems with clashing names)</h4>
+<div id="outline-container-orgc34da07" class="outline-4">
+<h4 id="orgc34da07"><span class="section-number-4">4.3.2</span> findsn &#x2013; find Same Name (problems with clashing names)</h4>
 <div class="outline-text-4" id="text-4-3-2">
 <p>
 find (files) with duplicate or conflicting names.
@@ -825,12 +848,12 @@ Usage: findsn [-A -c -C] [[-r] [-f] paths(s) &#x2026;]
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">find . -type f | sort | uniq -c | grep -v <span class="org-string">"^[ \t]*1 "</span>
-</code></pre>
+<pre class="src src-shell">find . -type f | sort | uniq -c | grep -v <span class="org-string">"^[ \t]*1 "</span>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/</span><span class="org-keyword">env</span><span class="org-comment"> bash</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/</span><span class="org-keyword">env</span><span class="org-comment"> bash</span>
 
 find -type f &gt; names.lst
 
@@ -854,11 +877,11 @@ find -type f &gt; names.lst
 
 cat names.out
 rm -f names.lst
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">If no command-line parameter (path to begin from) is specified, then the</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">default is to begin from the current (.) directory.</span>
 <span class="org-builtin">cd</span> <span class="org-variable-name">path</span>=$<span class="org-variable-name">1</span>
@@ -871,38 +894,47 @@ rm -f names.lst
     <span class="org-builtin">echo</span> <span class="org-string">""</span>
 <span class="org-keyword">done</span>
 <span class="org-keyword">exit</span> 0
-</code></pre>
-</div>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb1526c4" class="outline-3">
-<h3 id="orgb1526c4"><span class="section-number-3">4.4</span> Utils</h3>
+<div id="outline-container-org47cf338" class="outline-4">
+<h4 id="org47cf338"><span class="section-number-4">4.3.3</span> grep2 &#x2013; Find all AXVW files with two strings (Show AXVW files with both matches only)</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<p>
+(See Utilities.)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org068b388" class="outline-3">
+<h3 id="org068b388"><span class="section-number-3">4.4</span> Utils</h3>
 <div class="outline-text-3" id="text-4-4">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Strip lines with dashes.</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Strip lines with dashes.</span>
 sed <span class="org-string">"s/NULL//g"</span>
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Delete the second line.</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Delete the second line.</span>
 sed -e <span class="org-string">'2d'</span>
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Replace NULL value by empty string.</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Replace NULL value by empty string.</span>
 sed <span class="org-string">"s/NULL//g"</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org81a5319" class="outline-2">
-<h2 id="org81a5319"><span class="section-number-2">5</span> Findup</h2>
+<div id="outline-container-org83c4de4" class="outline-2">
+<h2 id="org83c4de4"><span class="section-number-2">5</span> Findup</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Search for the specified file(s) in the directory tree upwards, up to <code>/</code>.
@@ -917,32 +949,46 @@ findup -name 'x*'
 </pre>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-builtin">set</span> -e
+<pre class="src src-shell"><span class="org-builtin">set</span> -e
 <span class="org-keyword">while</span> [[ $<span class="org-variable-name">PWD</span> != / ]]; <span class="org-keyword">do</span>
     find <span class="org-string">"$PWD"</span>/ -maxdepth 1 -mindepth 1 <span class="org-string">"$@"</span>
     <span class="org-builtin">cd</span> ..
 <span class="org-keyword">done</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3113ee7" class="outline-2">
-<h2 id="org3113ee7"><span class="section-number-2">6</span> Remove lines from file which appear in another file</h2>
+<div id="outline-container-org8088b77" class="outline-2">
+<h2 id="org8088b77"><span class="section-number-2">6</span> Compare two files and print unmatched lines</h2>
 <div class="outline-text-2" id="text-6">
+<p>
+Remove lines from file which appear in another file
+</p>
 </div>
-<div id="outline-container-org80bbe09" class="outline-3">
-<h3 id="org80bbe09"><span class="section-number-3">6.1</span> Comm</h3>
+
+<div id="outline-container-org96b83dc" class="outline-3">
+<h3 id="org96b83dc"><span class="section-number-3">6.1</span> Comm</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Compare two <b>sorted</b> files line by line.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Print lines in file1 not in file2, and vice versa.</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Print lines in file1 not in file2, and vice versa.</span>
 comm -3 &lt;(sort file1) &lt;(sort file2)
-</code></pre>
+</pre>
 </div>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Print unmatched lines.</span>
+$ comm -1 -3 &lt;(sort file1) &lt;(sort file2)
+</pre>
+</div>
+
+<p>
+<code>-1</code> removes all lines unique to <code>file1</code> and <code>-3</code> removes all lines common to both.
+</p>
 
 <p>
 The <code>comm</code> (with <code>sort</code>) method take a long time on large files.
@@ -950,8 +996,8 @@ The <code>comm</code> (with <code>sort</code>) method take a long time on large 
 </div>
 </div>
 
-<div id="outline-container-org0c768db" class="outline-3">
-<h3 id="org0c768db"><span class="section-number-3">6.2</span> AWK</h3>
+<div id="outline-container-orgd7de1b1" class="outline-3">
+<h3 id="orgd7de1b1"><span class="section-number-3">6.2</span> AWK</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 Alternatively, an AWK solution to remove common lines between 2 files without
@@ -960,8 +1006,8 @@ sorting &#x2013; <b>much faster</b> than <code>sort</code>, and keeps the origin
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">awk <span class="org-string">'NR == FNR { a[$0]++; next } { if (! a[$0]) print }'</span> exclude-these.txt from-this.txt
-</code></pre>
+<pre class="src src-shell">awk <span class="org-string">'NR == FNR { a[$0]++; next } { if (! a[$0]) print }'</span> exclude-these.txt from-this.txt
+</pre>
 </div>
 
 <div class="note">
@@ -987,8 +1033,8 @@ a huge file into an associative array are going to be prohibitive.
 </div>
 </div>
 
-<div id="outline-container-orgd36d6be" class="outline-3">
-<h3 id="orgd36d6be"><span class="section-number-3">6.3</span> Diff</h3>
+<div id="outline-container-org113d594" class="outline-3">
+<h3 id="org113d594"><span class="section-number-3">6.3</span> Diff</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 The downside of the above solutions is that it doesn&rsquo;t take line order into
@@ -1005,8 +1051,8 @@ diff formatting after it gets the right lines.)</i>
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">diff -U $(<span class="org-sh-quoted-exec">wc</span> -l &lt; from-this.txt) from-this.txt exclude-these.txt | sed -n <span class="org-string">'s/^-//p'</span>
-</code></pre>
+<pre class="src src-shell">diff -U $(<span class="org-sh-quoted-exec">wc</span> -l &lt; from-this.txt) from-this.txt exclude-these.txt | sed -n <span class="org-string">'s/^-//p'</span>
+</pre>
 </div>
 
 <p>
@@ -1014,23 +1060,132 @@ Example:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">awk <span class="org-string">'NR == FNR { a[$0]++; next } { if (! a[$0]) print }'</span> dupes-standard.txt dupes-custo.txt
+<pre class="src src-shell">awk <span class="org-string">'NR == FNR { a[$0]++; next } { if (! a[$0]) print }'</span> dupes-standard.txt dupes-custo.txt
 diff -U $(<span class="org-sh-quoted-exec">wc</span> -l &lt; dupes-custo.txt) dupes-custo.txt dupes-standard.txt | sed -n <span class="org-string">'s/^-//p'</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6772ce2" class="outline-2">
-<h2 id="org6772ce2"><span class="section-number-2">7</span> VC</h2>
+<div id="outline-container-org50e757c" class="outline-2">
+<h2 id="org50e757c"><span class="section-number-2">7</span> Recursively run chmod -x?</h2>
 <div class="outline-text-2" id="text-7">
+</div><div id="outline-container-org178882f" class="outline-3">
+<h3 id="org178882f"><span class="section-number-3">7.1</span> Convert the files with 755 permissions to 644</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-sh">find . -type f -perm 755 -exec chmod 644 {} <span class="org-string">\;</span>
+</pre>
+</div>
+
+<div class="note">
+<p>
+You could use <code>+</code> instead of <code>\;</code> to reduce the number of subprocesses created.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfa33434" class="outline-3">
+<h3 id="orgfa33434"><span class="section-number-3">7.2</span> Pictures, etc.</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+There is no (good) reason ever for pictures to be executable.
+</p>
+
+<p>
+Just run this command to fix them:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">find /space/music -name "*.jpg" -exec chmod -x {} +</span>
+
+<span class="org-builtin">echo</span> <span class="org-string">"Remove exe perm"</span>
+find . -name <span class="org-string">"*.DTD"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.R"</span>         -exec chmod -x {} +
+find . -name <span class="org-string">"*.Txt"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.VWAPFLOW"</span>  -exec chmod -x {} +
+find . -name <span class="org-string">"*.VWPPFLOW"</span>  -exec chmod -x {} +
+find . -name <span class="org-string">"*.asa"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.asp"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.css"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.csv"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.dtd"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.gif"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.gitignore"</span> -exec chmod -x {} +
+find . -name <span class="org-string">"*.htm"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.html"</span>      -exec chmod -x {} +
+find . -name <span class="org-string">"*.idx"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.m"</span>         -exec chmod -x {} +
+find . -name <span class="org-string">"*.md5"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.org"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.pack"</span>      -exec chmod -x {} +
+find . -name <span class="org-string">"*.pdf"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.pid"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.png"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.sample"</span>    -exec chmod -x {} +
+find . -name <span class="org-string">"*.sql"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.tex"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.txt"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.xls"</span>       -exec chmod -x {} +
+find . -name <span class="org-string">"*.xml"</span>       -exec chmod -x {} +
+</pre>
+</div>
+
+<p>
+Bonus:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">find /space/music -type d -exec chmod o-w {} +
+find /space/music -type d -exec chmod 755 {} +
+</pre>
+</div>
+
+<p>
+Explanation:
+</p>
+
+<p>
+Most of the command line is self-explanatory. The only part that need some
+insight is the ending. <code>{}</code> is replaced by the name of the files (resp directory)
+found that match the filter. Usually, the find command is ended with a protected
+semicolon <code>\;</code>.
+</p>
+
+<p>
+However, this isn&rsquo;t efficient as the command is run once for each
+file/directory.
+</p>
+
+<p>
+There is a well known workaround that pipes <code>find</code> output to <code>xargs</code> which
+concatenates the file names up to the maximum command line allowed but then
+there is an issue when the path contains spaces, which is more and more common
+even in the Unix/Linux world.
+</p>
+
+<p>
+Again a workaround based on GNU specific extensions allows to properly handle
+these case. I choose a simpler approach using a POSIX (read portable) way to
+have find building itself the long command lines, i.e. <code>{}</code> is replaced by a suite
+of file names up to the maximum number allowed.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a0f9b3" class="outline-2">
+<h2 id="org7a0f9b3"><span class="section-number-2">8</span> VC</h2>
+<div class="outline-text-2" id="text-8">
 <p>
 <a href="http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each">http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each</a>
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell" id="org566b38c"><span class="org-keyword">for</span> dir<span class="org-keyword"> in</span> ~/src/*
+<pre class="src src-shell" id="orgbbc603e"><span class="org-keyword">for</span> dir<span class="org-keyword"> in</span> ~/src/*
 <span class="org-keyword">do</span>
     cecho <span class="org-string">"Updating $dir:"</span>
     <span class="org-keyword">if</span> [ -d $<span class="org-variable-name">dir</span>/.git ]; <span class="org-keyword">then</span>
@@ -1040,7 +1195,7 @@ diff -U $(<span class="org-sh-quoted-exec">wc</span> -l &lt; dupes-custo.txt) du
     <span class="org-keyword">fi</span>
     <span class="org-builtin">printf</span> <span class="org-string">"\n"</span>
 <span class="org-keyword">done</span>
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -1048,8 +1203,8 @@ If you need it to be recursive:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell" id="org31f6526">find -type d -printf <span class="org-string">"%f"</span> -exec  sh -c <span class="org-string">"cd \"{}\" &amp;&amp; git pull"</span>  <span class="org-string">\;</span>
-</code></pre>
+<pre class="src src-shell" id="orgb409088">find -type d -printf <span class="org-string">"%f"</span> -exec  sh -c <span class="org-string">"cd \"{}\" &amp;&amp; git pull"</span>  <span class="org-string">\;</span>
+</pre>
 </div>
 
 <p>
@@ -1057,16 +1212,16 @@ See <a href="http://snipplr.com/view/6228/recursively-find-subversion-working-co
 </p>
 </div>
 
-<div id="outline-container-orga1f9278" class="outline-3">
-<h3 id="orga1f9278"><span class="section-number-3">7.1</span> Ignore files from the command line</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-orgeb77fd1" class="outline-3">
+<h3 id="orgeb77fd1"><span class="section-number-3">8.1</span> Ignore files from the command line</h3>
+<div class="outline-text-3" id="text-8-1">
 <p>
 Add a file (or a file glob pattern) to ignore without deleting the previous
 value of the <code>svn:ignore</code> property&#x2026; from the command line.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Usage: svnignore admin/notes/\*.tex</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Usage: svnignore admin/notes/\*.tex</span>
 
 <span class="org-variable-name">target</span>=<span class="org-string">"$1"</span>
 <span class="org-variable-name">targetdirectory</span>=$(<span class="org-sh-quoted-exec">dirname</span> $<span class="org-variable-name">target</span>)
@@ -1076,25 +1231,24 @@ value of the <code>svn:ignore</code> property&#x2026; from the command line.
 <span class="org-variable-name">svnignores</span>=<span class="org-string">"$svnignores"</span>$<span class="org-string">'\n'"$targetfilepattern"</span>
 <span class="org-builtin">printf</span> <span class="org-string">"Ignore '$targetfilepattern'\n"</span>
 svn propset svn:ignore <span class="org-string">"$svnignores"</span> <span class="org-string">"$targetdirectory"</span>
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2e69789" class="outline-2">
-<h2 id="org2e69789"><span class="section-number-2">8</span> Web security assessments</h2>
-<div class="outline-text-2" id="text-8">
-</div>
-<div id="outline-container-org91ae934" class="outline-3">
-<h3 id="org91ae934"><span class="section-number-3">8.1</span> HTTP</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-org846e2d2" class="outline-2">
+<h2 id="org846e2d2"><span class="section-number-2">9</span> Web security assessments</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-orge2682cb" class="outline-3">
+<h3 id="orge2682cb"><span class="section-number-3">9.1</span> HTTP</h3>
+<div class="outline-text-3" id="text-9-1">
 <p>
 From Hacking Exposed Web Applications:
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">mike's getit.sh script</span>
 <span class="org-keyword">if</span> [ -z $<span class="org-variable-name">1</span> ]; <span class="org-keyword">then</span>
     <span class="org-builtin">echo</span> -e <span class="org-string">"\n\tUsage: $0 &lt;host&gt; &lt;URL&gt;"</span>
@@ -1102,31 +1256,31 @@ From Hacking Exposed Web Applications:
 <span class="org-keyword">fi</span>
 <span class="org-builtin">echo</span> -e <span class="org-string">"GET $2 HTTP/1.0\n\n"</span> | <span class="org-sh-escaped-newline">\</span>
 nc -vv $<span class="org-variable-name">1</span> 80
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">getit.sh www.missioncriticalit.com /index.html
-</code></pre>
+<pre class="src src-shell">getit.sh www.missioncriticalit.com /index.html
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">getit.sh www.victim.com /index.html | grep -i <span class="org-string">"&lt;form"</span>
-</code></pre>
+<pre class="src src-shell">getit.sh www.victim.com /index.html | grep -i <span class="org-string">"&lt;form"</span>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">getit.sh www.victim.com /index.html | grep -i <span class="org-string">"input type"</span>
-</code></pre>
+<pre class="src src-shell">getit.sh www.victim.com /index.html | grep -i <span class="org-string">"input type"</span>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8558b8f" class="outline-3">
-<h3 id="org8558b8f"><span class="section-number-3">8.2</span> HTTPS</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-org6b8d0ce" class="outline-3">
+<h3 id="org6b8d0ce"><span class="section-number-3">9.2</span> HTTPS</h3>
+<div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">mike's sgetit.sh script</span>
 <span class="org-keyword">if</span> [ -z $<span class="org-variable-name">1</span> ]; <span class="org-keyword">then</span>
     <span class="org-builtin">echo</span> -e <span class="org-string">"\n\tUsage: $0 &lt;SSL host&gt; &lt;URL&gt;"</span>
@@ -1134,20 +1288,20 @@ nc -vv $<span class="org-variable-name">1</span> 80
 <span class="org-keyword">fi</span>
 <span class="org-builtin">echo</span> -e <span class="org-string">"GET $2 HTTP/1.0\n\n"</span> | <span class="org-sh-escaped-newline">\</span>
 openssl s_client -quiet -connect $<span class="org-variable-name">1</span>:443 2&gt;/dev/null
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">sgetit.sh www.victim.com /secure/admin.html
-</code></pre>
+<pre class="src src-shell">sgetit.sh www.victim.com /secure/admin.html
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5434ca5" class="outline-2">
-<h2 id="org5434ca5"><span class="section-number-2">9</span> Netcat</h2>
-<div class="outline-text-2" id="text-9">
+<div id="outline-container-org553a02f" class="outline-2">
+<h2 id="org553a02f"><span class="section-number-2">10</span> Netcat</h2>
+<div class="outline-text-2" id="text-10">
 <p>
 Here is a script which will port scan and banner grab automatically with
 netcat. It will check for the SSH and MySQL version by connecting and saving
@@ -1158,7 +1312,7 @@ vulnerable server.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
+<pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">!/bin/</span><span class="org-keyword">sh</span>
 
 <span class="org-variable-name">range</span>=<span class="org-string">"10.10.10."</span>;
 
@@ -1189,7 +1343,7 @@ vulnerable server.
         <span class="org-keyword">fi</span>;
     <span class="org-keyword">done</span>
 <span class="org-keyword">done</span>
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -1198,39 +1352,39 @@ cmd.exe</code> option which disappeared, etc.
 </p>
 </div>
 
-<div id="outline-container-org2a75b0c" class="outline-3">
-<h3 id="org2a75b0c"><span class="section-number-3">9.1</span> Scan only certain ports</h3>
-<div class="outline-text-3" id="text-9-1">
+<div id="outline-container-org65b8fe8" class="outline-3">
+<h3 id="org65b8fe8"><span class="section-number-3">10.1</span> Scan only certain ports</h3>
+<div class="outline-text-3" id="text-10-1">
 <div class="org-src-container">
-<pre><code class="src src-shell">nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
-</code></pre>
+<pre class="src src-shell">nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org851ae11" class="outline-3">
-<h3 id="org851ae11"><span class="section-number-3">9.2</span> DNS</h3>
-<div class="outline-text-3" id="text-9-2">
+<div id="outline-container-org550fcdb" class="outline-3">
+<h3 id="org550fcdb"><span class="section-number-3">10.2</span> DNS</h3>
+<div class="outline-text-3" id="text-10-2">
 <div class="org-src-container">
-<pre><code class="src src-shell">nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
+<pre class="src src-shell">nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
 nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org31c96be" class="outline-3">
-<h3 id="org31c96be"><span class="section-number-3">9.3</span> Spoof source IP address</h3>
-<div class="outline-text-3" id="text-9-3">
+<div id="outline-container-orga97ab94" class="outline-3">
+<h3 id="orga97ab94"><span class="section-number-3">10.3</span> Spoof source IP address</h3>
+<div class="outline-text-3" id="text-10-3">
 <p>
 <code>-s</code> option to Netcat: does not work under Cygwin&#x2026;
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfbf4135" class="outline-3">
-<h3 id="orgfbf4135"><span class="section-number-3">9.4</span> Socat</h3>
-<div class="outline-text-3" id="text-9-4">
+<div id="outline-container-org18be0bc" class="outline-3">
+<h3 id="org18be0bc"><span class="section-number-3">10.4</span> Socat</h3>
+<div class="outline-text-3" id="text-10-4">
 <p>
 Learning socat in terms of netcat: <a href="http://jdimpson.livejournal.com/6534.html">http://jdimpson.livejournal.com/6534.html</a>
 </p>
@@ -1241,8 +1395,8 @@ Learning socat in terms of netcat: <a href="http://jdimpson.livejournal.com/6534
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">  socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
-</code></pre>
+<pre class="src src-shell">  socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
+</pre>
 </div></li>
 
 <li><p>
@@ -1250,8 +1404,8 @@ Learning socat in terms of netcat: <a href="http://jdimpson.livejournal.com/6534
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-shell">  socat TCP-L:2323 TCP:localhost:22
-</code></pre>
+<pre class="src src-shell">  socat TCP-L:2323 TCP:localhost:22
+</pre>
 </div>
 
 <p>
@@ -1263,18 +1417,18 @@ post (e.g. SSL).
 </div>
 </div>
 
-<div id="outline-container-orgc715ce9" class="outline-3">
-<h3 id="orgc715ce9"><span class="section-number-3">9.5</span> Packet forger</h3>
-<div class="outline-text-3" id="text-9-5">
+<div id="outline-container-org8880b2e" class="outline-3">
+<h3 id="org8880b2e"><span class="section-number-3">10.5</span> Packet forger</h3>
+<div class="outline-text-3" id="text-10-5">
 <p>
 SendIP
 </p>
 </div>
 </div>
 
-<div id="outline-container-org68a4cd1" class="outline-3">
-<h3 id="org68a4cd1"><span class="section-number-3">9.6</span> Lauching attacks via Tor</h3>
-<div class="outline-text-3" id="text-9-6">
+<div id="outline-container-orgf1d8cf1" class="outline-3">
+<h3 id="orgf1d8cf1"><span class="section-number-3">10.6</span> Lauching attacks via Tor</h3>
+<div class="outline-text-3" id="text-10-6">
 <p>
 <a href="http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html">http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html</a>
 </p>

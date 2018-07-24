@@ -495,7 +495,9 @@ while [[ $PWD != / ]]; do
 done
 #+end_src
 
-* Remove lines from file which appear in another file
+* Compare two files and print unmatched lines
+
+Remove lines from file which appear in another file
 
 ** Comm
 
@@ -505,6 +507,13 @@ Compare two *sorted* files line by line.
 # Print lines in file1 not in file2, and vice versa.
 comm -3 <(sort file1) <(sort file2)
 #+end_src
+
+#+begin_src shell
+# Print unmatched lines.
+$ comm -1 -3 <(sort file1) <(sort file2)
+#+end_src
+
+~-1~ removes all lines unique to ~file1~ and ~-3~ removes all lines common to both.
 
 The ~comm~ (with ~sort~) method take a long time on large files.
 
