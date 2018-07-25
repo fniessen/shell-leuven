@@ -2078,13 +2078,13 @@ svn-grep-all-rev() {
 
 #+begin_src shell
 # SVN repository path
-alias svn-remote-url="svn info | egrep '^URL: (.*)' | sed s/URL\:\ //"
+alias svn-remote-get-url="svn info | egrep '^URL: (.*)' | sed s/URL\:\ //"
 #+end_src
 
 This alias can be used as:
 
 #+begin_src shell :tangle no
-svn COMMAND $(svn-remote-url)               # svn-remote-url is full RepoURL for used WC
+svn COMMAND $(svn-remote-get-url)       # Retrieve the full RepoURL.
 #+end_src
 
 See [[file:~/.dotfiles/topic/gitconfig/SVN.org][SVN aliases]] for more information about these:
@@ -2094,7 +2094,10 @@ alias svn-log="svn log | perl -l40pe 's/^-+/\n/' | less"
 #+end_src
 
 #+begin_src shell
-alias svn-show="svn diff -c"
+# svn-show release-number
+function svn-show {
+    svn diff -c $1 | less
+}
 
 # svn-showtool 123 path/to/file
 function svn-showtool {
@@ -2115,11 +2118,28 @@ function svn-logfile {
 #+end_src
 
 #+begin_src shell
+# svn-unmodify path/to/file
+function svn-unmodify {
+    svn revert $1
+}
+#+end_src
+
+#+begin_src shell
 # svn-logfile-p path/to/file
 function svn-logfile-p {
     svn log --diff $1 | less
 }
 #+end_src
+
+#+begin_src shell
+alias svn-nevermind='read -p "Destroy all local changes? [y/N]" && [[ $REPLY =~ ^[yY] ]] && svn revert . -R && rm -rf $(awk -f <(echo "/^?/{print \$2}") <(svn status) ;)'
+#+end_src
+
+Nuclear version which:
+- reverts tracked files (discards changes in the working directory), and
+- cleans untracked files and directories (removes any new files).
+
+See https://stackoverflow.com/questions/6204572/is-there-a-subversion-command-to-reset-the-working-copy.
 
 **** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
 
