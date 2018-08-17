@@ -392,17 +392,20 @@ cecho "$@"
 
 *** finddup -- find DUPlicate files
 
-See fdupes from Cygwin?
+Use ~fdupes~ (from Cygwin).
 
-fdupes -S /etc
+#+begin_src shell :tangle ~/.dotfiles/bin/finddup
+fdupes -r . \
+    | grep -v "/.svn/" \
+    | grep -v "/.git/" \
+    | grep -v "/.gitkeep" \
+    | grep -v "/.emacs.d/backups" \
+    | uniq
+#+end_src
 
-Sample outputs:
-
-#+begin_example
-1533 bytes each:
-/etc/vimrc
-/etc/virc
-#+end_example
+#+begin_note
+~uniq~ deletes duplicate, consecutive lines.
+#+end_note
 
 *** findsn -- find Same Name (problems with clashing names)
 
