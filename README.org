@@ -476,7 +476,7 @@ Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
 # History.
-HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
+# HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
 HISTSIZE=1000
 HISTFILESIZE=1000
 HISTIGNORE="&:[bf]g:exit"
@@ -980,7 +980,7 @@ For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 
 #+begin_src shell
 # History.
-HISTFILE=$HOME/.histfile
+# HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 
