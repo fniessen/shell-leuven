@@ -179,7 +179,7 @@ alias cyg-get="/cygdrive/c/cygwin64/setup-x86_64.exe -q -P"
   + [X] ~zsh~
 
 - System
-  + [ ] ~procps~ (to get ~top~)
+  + [X] ~procps-ng~ (to get ~top~ and ~pkill~)
   + [ ] ~psmisc~ (to get ~killall~)
 
 - Tcl
