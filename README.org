@@ -359,7 +359,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 # Source the user's .bashrc if it exists.
 if [ -f "${HOME}/.bashrc" ]; then
-  . "${HOME}/.bashrc"
+    . "${HOME}/.bashrc"
 fi
 #+end_src
 
@@ -807,11 +807,11 @@ Karlin Fox ported the Solarized theme to MinTTY (the terminal which comes by
 default with Cygwin), and it is available at [[https://github.com/karlin/mintty-colors-solarized][karlin/mintty-colors-solarized]].
 
 #+begin_src shell :tangle no
-git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plugins/mintty-colors-solarized
+git clone https://github.com/karlin/mintty-colors-solarized.git $HOME/.dotfiles/plugins/mintty-colors-solarized
 #+end_src
 
 #+begin_src shell
-    source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
+    . $HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
 
     # XXX Check for MinTTY
     if [ -d /cygdrive/c/ ]; then
@@ -834,37 +834,42 @@ https://stackoverflow.com/questions/24229406/how-to-get-vim-on-cygwin-to-display
 See great (more portable) stuff at
 https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh!
 
-** Install Oh-my-Zsh
+** Install Powerline-patched fonts
+
+*Powerline patched* versions of the most popular mono *fonts* are available at
+[[https://github.com/powerline/fonts][powerline/fonts]].
+
+Make sure to change the font of MinTTY:
+
+- Right click the title bar of the Terminal, click Options.
+- Change your font to a Powerline patched font you installed.
+
+#+begin_note
+If you right-click them, there should be install option in the menu. Or you can
+drag it straight to Windows Fonts folder
+#+end_note
+
+Good-looking fonts:
+- UbuntuMono
+- DejaVuSansMono
+- DroidSansMono (bad?)
+
+For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
+
+** Install "Oh My ZSH"
 
 Oh-My-Zsh is just awesome!
 
 #+begin_note
 We put Oh-my-Zsh at the very beginning, so that it does not override our own
 settings.
-
-In fact, we should just take the theme, and explicitly disable plugins we're not
-interested in...
 #+end_note
-
-I am fan of ~agnoster~.
 
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
-    ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
-    ZSH_CUSTOM=$ZSH/custom
+    ZSH="$HOME/.dotfiles/plugins/oh-my-zsh"
+    ZSH_CUSTOM="$ZSH/custom"
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
-
-    ZSH_THEME="agnoster"
-
-    plugins=(
-        colored-man-pages
-        git
-        svn
-        zshmarks
-        history
-        history-substring-search
-    )
-    . $ZSH/oh-my-zsh.sh
 fi
 #+end_src
 
@@ -872,22 +877,11 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 
 ** Change the Oh My ZSH theme to "agnoster"
 
-Get rid of my username and host in the agnoster theme.
+I am fan of ~agnoster~.
 
 #+begin_src shell
-if [ -r "$ZSH" ]; then
-    build_prompt() {
-        RETVAL=$?
-        prompt_status
-        prompt_virtualenv
-        # prompt_context --> generates: username@hostname (don't want this)
-        prompt_dir
-        prompt_git
-        prompt_svn
-        prompt_end
-    }
-
-    PROMPT='$(build_prompt) '
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+    ZSH_THEME="agnoster"
 fi
 #+end_src
 
@@ -910,7 +904,24 @@ if [ -r "$ZSH" ]; then
             fi
         fi
     }
-    # source $ZSH/plugins/svn/svn.plugin.zsh
+    # . $ZSH/plugins/svn/svn.plugin.zsh
+fi
+#+end_src
+
+** Plugins
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+
+    plugins=(
+        colored-man-pages
+        git
+        svn
+        zshmarks
+        history
+        history-substring-search
+    )
+    . $ZSH/oh-my-zsh.sh
 fi
 #+end_src
 
@@ -926,7 +937,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-    source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    . $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 #+end_src
 
@@ -942,37 +953,14 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    . $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 #+end_src
-
-** Powerline-patched fonts
-
-*Powerline patched* versions of the most popular mono *fonts* are available at
-[[https://github.com/powerline/fonts][powerline/fonts]].
-
-Make sure to change the font of MinTTY:
-
-- Right click the title bar of the Terminal, click Options.
-- Change your font to a Powerline patched font you installed.
-
-#+begin_note
-If you right-click them, there should be install option in the menu. Or you can
-drag it straight to Windows Fonts folder
-#+end_note
-
-Good-looking fonts:
-- UbuntuMono
-- DejaVuSansMono
-- DroidSansMono (bad?)
-
-For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 
 ** Command history
 
 #+begin_src shell
 # History.
-# HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 
@@ -1345,7 +1333,7 @@ EOF
 # versus binary). You'll have to enter a password every time you want to run
 # ledger.
 #+end_src
-1
+
 ** 20. Completion System
 
 #+begin_src shell
@@ -1388,7 +1376,7 @@ exec 2> >( color_err )
 #+begin_src shell
 # Enable overriding.
 if [ -f ${HOME}/.zshrc_local ]; then
-    source ${HOME}/.zshrc_local
+    . ${HOME}/.zshrc_local
 fi
 #+end_src
 
@@ -2552,8 +2540,8 @@ org_test () {
 #+begin_src shell
 if [ -d "$HOME/Public/Repositories/org-bash-utils" ]; then
     PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
-    source $HOME/Public/Repositories/org-bash-utils/org-alias
-    source $HOME/Public/Repositories/org-bash-utils/awk-alias
+    . $HOME/Public/Repositories/org-bash-utils/org-alias
+    . $HOME/Public/Repositories/org-bash-utils/awk-alias
 fi
 #+end_src
 
