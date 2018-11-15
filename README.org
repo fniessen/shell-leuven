@@ -317,7 +317,7 @@ if (( $+commands[ag] )) ; then alias grep='ag'; fi
 Instead use:
 
 #+begin_src shell
-type ag > /dev/null && alias grep=ag
+type ag > /dev/null && alias grep='ag'
 #+end_src
 
 * Startup files
@@ -798,6 +798,42 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
 #+end_src
 
+** Add a new theme: Solarized
+
+- [[https://github.com/altercation/solarized/issues/90][How should bold/bright be handled by terminal emulators?]]
+- [[https://github.com/mintty/mintty/issues/683][Solarized bold colors are gray]]
+
+Karlin Fox ported the Solarized theme to MinTTY (the terminal which comes by
+default with Cygwin), and it is available at [[https://github.com/karlin/mintty-colors-solarized][karlin/mintty-colors-solarized]].
+
+#+begin_src shell :tangle no
+git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plugins/mintty-colors-solarized
+#+end_src
+
+#+begin_src shell
+    source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
+
+    # XXX Check for MinTTY
+    if [ -d /cygdrive/c/ ]; then
+        echo -ne '\e]4;8;#404040\a'     # bold blk
+        echo -ne '\e]4;9;#FF4040\a'     # bold red
+        echo -ne '\e]4;10;#40FF40\a'    # bold grn
+        echo -ne '\e]4;11;#FFFF40\a'    # bold yel
+        echo -ne '\e]4;12;#6060FF\a'    # bold blu
+        echo -ne '\e]4;13;#FF40FF\a'    # bold mag
+        echo -ne '\e]4;14;#40FFFF\a'    # bold cyn
+        echo -ne '\e]4;15;#FFFFFF\a'    # bold wht
+    fi
+#+end_src
+
+https://github.com/oumu/mintty-color-schemes
+https://github.com/mintty/mintty/wiki/Tips
+http://mintty.github.io/mintty.1.html#CONFIGURATION
+https://stackoverflow.com/questions/24229406/how-to-get-vim-on-cygwin-to-display-right-colors
+
+See great (more portable) stuff at
+https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh!
+
 ** Install Oh-my-Zsh
 
 Oh-My-Zsh is just awesome!
@@ -812,16 +848,11 @@ interested in...
 
 I am fan of ~agnoster~.
 
-*** Solarized
-
-- [[https://github.com/altercation/solarized/issues/90][How should bold/bright be handled by terminal emulators?]]
-- [[https://github.com/mintty/mintty/issues/683][Solarized bold colors are gray]]
-
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
     ZSH_CUSTOM=$ZSH/custom
-    HIST_STAMPS="yyyy-mm-dd"
+    HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
 
     ZSH_THEME="agnoster"
 
@@ -829,64 +860,15 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         colored-man-pages
         git
         svn
-        xcode
         zshmarks
         history
         history-substring-search
     )
     . $ZSH/oh-my-zsh.sh
-
-    # source ~/.dotfiles/plugins/solarized/mintty-solarized-dark.sh
-    source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
-
-    # XXX Test for MinTTY
-    if [ -d /cygdrive/c/ ]; then
-        echo -ne '\e]4;8;#404040\a'   # bold blk
-        echo -ne '\e]4;9;#FF4040\a'   # bold red
-        echo -ne '\e]4;10;#40FF40\a'  # bold grn
-        echo -ne '\e]4;11;#FFFF40\a'  # bold yel
-        echo -ne '\e]4;12;#6060FF\a'  # bold blu
-        echo -ne '\e]4;13;#FF40FF\a'  # bold mag
-        echo -ne '\e]4;14;#40FFFF\a'  # bold cyn
-        echo -ne '\e]4;15;#FFFFFF\a'  # bold wht
-    fi
 fi
 #+end_src
 
 http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
-
-**** TODO MinTTY Solarized
-
-https://github.com/oumu/mintty-color-schemes
-
-#+begin_src shell :tangle no
-# This resets the Solarized colors...
-echo -ne '\e]4;0;#000000\a'   # black
-echo -ne '\e]4;1;#BF0000\a'   # red
-echo -ne '\e]4;2;#00BF00\a'   # green
-echo -ne '\e]4;3;#BFBF00\a'   # yellow
-echo -ne '\e]4;4;#0000BF\a'   # blue
-echo -ne '\e]4;5;#BF00BF\a'   # magenta
-echo -ne '\e]4;6;#00BFBF\a'   # cyan
-echo -ne '\e]4;7;#BFBFBF\a'   # white (light grey really)
-#+end_src
-
-https://github.com/mintty/mintty/wiki/Tips
-http://mintty.github.io/mintty.1.html#CONFIGURATION
-https://stackoverflow.com/questions/24229406/how-to-get-vim-on-cygwin-to-display-right-colors
-
-See great (more portable) stuff at
-https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh!
-
-*** Solarized Theme
-
-Karlin Fox ported the Solarized theme to MinTTY (the terminal which comes by
-default with Cygwin), and it is available at [[https://github.com/karlin/mintty-colors-solarized][karlin/mintty-colors-solarized]].
-
-#+begin_src shell :tangle no
-git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plugins/solarized
-echo 'source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh' >> ~/.zshrc # for light, replace dark with light
-#+end_src
 
 ** Change the Oh My ZSH theme to "agnoster"
 
@@ -1273,7 +1255,6 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 #+begin_src shell
 alias -- cdwd='cd `pwd`'
 alias -- cwd='echo $cwd'
-# alias h='history 1 | less +G'
 #+end_src
 
 *** Git
