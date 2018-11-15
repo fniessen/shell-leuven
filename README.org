@@ -800,6 +800,8 @@ PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
 
 ** Install Oh-my-Zsh
 
+Oh-My-Zsh is just awesome!
+
 #+begin_note
 We put Oh-my-Zsh at the very beginning, so that it does not override our own
 settings.
@@ -821,10 +823,10 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     ZSH_CUSTOM=$ZSH/custom
     HIST_STAMPS="yyyy-mm-dd"
 
-    # ZSH_THEME="random"
     ZSH_THEME="agnoster"
 
     plugins=(
+        colored-man-pages
         git
         svn
         xcode
@@ -837,7 +839,7 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     # source ~/.dotfiles/plugins/solarized/mintty-solarized-dark.sh
     source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
 
-# XXX Test for MinTTY
+    # XXX Test for MinTTY
     if [ -d /cygdrive/c/ ]; then
         echo -ne '\e]4;8;#404040\a'   # bold blk
         echo -ne '\e]4;9;#FF4040\a'   # bold red
@@ -847,28 +849,6 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         echo -ne '\e]4;13;#FF40FF\a'  # bold mag
         echo -ne '\e]4;14;#40FFFF\a'  # bold cyn
         echo -ne '\e]4;15;#FFFFFF\a'  # bold wht
-
-        # From: https://github.com/altercation/ethanschoonover.com/tree/master/projects/solarized/osx-terminal.app-colors-solarized
-# Col Hex
-        # echo -ne '\e]4;8;#002B36\a'   # bold blk
-        # echo -ne '\e]4;9;#CB4B16\a'   # bold red
-        # echo -ne '\e]4;10;#586E75\a'  # bold grn
-        # echo -ne '\e]4;11;#657B83\a'  # bold yel
-        # echo -ne '\e]4;12;#839496\a'  # bold blu
-        # echo -ne '\e]4;13;#6C71C4\a'  # bold mag
-        # echo -ne '\e]4;14;#93A1A1\a'  # bold cyn
-        # echo -ne '\e]4;15;#FDF6E3\a'  # bold wht
-
-        # From: https://github.com/altercation/ethanschoonover.com/tree/master/projects/solarized/osx-terminal.app-colors-solarized
-# Col Xterm/Hex
-        # echo -ne '\e]4;8;#1C1C1C\a'   # bold blk
-        # echo -ne '\e]4;9;#D75F00\a'   # bold red
-        # echo -ne '\e]4;10;#585858\a'  # bold grn
-        # echo -ne '\e]4;11;#626262\a'  # bold yel
-        # echo -ne '\e]4;12;#808080\a'  # bold blu
-        # echo -ne '\e]4;13;#5F5FAF\a'  # bold mag
-        # echo -ne '\e]4;14;#8A8A8A\a'  # bold cyn
-        # echo -ne '\e]4;15;#FFFFD7\a'  # bold wht
     fi
 fi
 #+end_src
@@ -908,22 +888,31 @@ git clone https://github.com/karlin/mintty-colors-solarized.git ~/.dotfiles/plug
 echo 'source ~/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh' >> ~/.zshrc # for light, replace dark with light
 #+end_src
 
-**** TODO Git branch info
-
-#+begin_src shell :tangle no
-function parse_git_branch ()
-{
-   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
-#+end_src
-
 ** Change the Oh My ZSH theme to "agnoster"
+
+Get rid of my username and host in the agnoster theme.
+
+#+begin_src shell
+if [ -r "$ZSH" ]; then
+    build_prompt() {
+        RETVAL=$?
+        prompt_status
+        prompt_virtualenv
+        # prompt_context --> generates: username@hostname (don't want this)
+        prompt_dir
+        prompt_git
+        prompt_svn
+        prompt_end
+    }
+
+    PROMPT='$(build_prompt) '
+fi
+#+end_src
 
 *** Agnoster Theme Adaption for SVN
 
 #+begin_src shell
 if [ -r "$ZSH" ]; then
-
     prompt_svn() {
         local rev branch
         if in_svn; then
@@ -939,25 +928,18 @@ if [ -r "$ZSH" ]; then
             fi
         fi
     }
-
-    build_prompt() {
-        RETVAL=$?
-        prompt_status
-        prompt_context
-        prompt_dir
-        prompt_git
-        prompt_svn
-        prompt_end
-    }
-
     # source $ZSH/plugins/svn/svn.plugin.zsh
 fi
 #+end_src
 
 *** Zsh Syntax Highlighting
 
+Besides the syntax highlighting for your shell, this plugin has the capability
+to verify the correctness of your command.
+
 #+begin_src shell :tangle no
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 #+end_src
 
 #+begin_src shell
@@ -968,8 +950,12 @@ fi
 
 *** Zsh Autosuggestions
 
+It suggests commands based on your command history.  Very useful!  To select the
+proposed command, press the right arrow key.
+
 #+begin_src shell :tangle no
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+    ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 #+end_src
 
 #+begin_src shell
@@ -1180,37 +1166,34 @@ When you invoke the *shell from Emacs*, it is a *non-interactive* session, which
 might get different settings.
 #+end_warning
 
-*** Right prompt with Zsh-Git-prompt
-
-https://github.com/olivierverdier/zsh-git-prompt
-
-#+begin_src shell :tangle no
-# Prompt on the right hand side of the screen (Git info), if it exists.
-if [ -f "${HOME}/Public/Repositories/zsh-git-prompt/zshrc.sh" ]; then
-  . "${HOME}/Public/Repositories/zsh-git-prompt/zshrc.sh"
-  RPROMPT='$(git_super_status)'
-fi
-#+end_src
-
 *** Right prompt with Git-prompt
 
 *************** TODO See predefined functions provided by =git-prompt.sh=
 http://www.railstips.org/blog/archives/2009/02/02/bedazzle-your-bash-prompt-with-git-info/
 *************** END
 
-#+begin_src shell :tangle no
-# . "/cygdrive/c/Program Files (x86)/Git/etc/git-prompt.sh"
-
+#+begin_src shell
 if [ -f "$ZSH/plugins/gitfast/git-prompt.sh" ]; then
-  . "$ZSH/plugins/gitfast/git-prompt.sh"
-  setopt prompt_subst
-  export GIT_PS1_SHOWDIRTYSTATE=true
-  export GIT_PS1_SHOWSTASHSTATE=true
-  export GIT_PS1_SHOWUNTRACKEDFILES=true
-  export GIT_PS1_SHOWUPSTREAM=verbose
-  export GIT_PS1_DESCRIBE_STYLE=branch
-  export GIT_PS1_SHOWCOLORHINTS=true
-  export RPROMPT=$'%{$fg[magenta]%}■%{$reset_color%} $(__git_ps1 "%s")'
+    . "$ZSH/plugins/gitfast/git-prompt.sh"
+    setopt prompt_subst
+
+    export GIT_PS1_SHOWDIRTYSTATE=""
+
+    export GIT_PS1_SHOWSTASHSTATE="true"
+    # A '$' will be shown.
+
+    export GIT_PS1_SHOWUNTRACKEDFILES=""
+
+    export GIT_PS1_SHOWUPSTREAM="auto"
+    # A "<" indicates you are behind, ">" indicates you are ahead, "<>"
+    # indicates you have diverged and "=" indicates that there is no
+    # difference. You can further control.
+
+    export GIT_PS1_DESCRIBE_STYLE="default"
+
+    export GIT_PS1_SHOWCOLORHINTS="true"
+
+    export RPROMPT=$'$(__git_ps1 "%s")'
 fi
 #+end_src
 
@@ -2002,6 +1985,9 @@ alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 #+end_src
 
+Interesting alias in Oh My ZSH: ~x~ = Extract archive of types tar, bz2, rar, gz,
+tbz2, tgz, zip, Z, 7z.
+
 #+begin_src shell
 # Print a more readable PATH (each directory on a new line).
 alias path='echo $PATH | sed -e "s/:/\n/g"'
@@ -2030,18 +2016,22 @@ alias own='sudo chown -R $USER'
 alias up='cd ..'
 alias -- ..='cd ..'
 
-alias ..2='cd ../..'
-alias ..3='cd ../../..'
-
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # Aliases '-' to 'cd -'.
 alias -- -='cd -'
+#+end_src
 
+#+begin_src shell
 # Directory history.
 alias d='dirs -v'
 #+end_src
+
+Normally, you can use ~cd +1~ to go to the previous directory and so on.
+Oh-My-Zsh made this even more straightforward, now you can use just the number
+of the entry in the directory history you want to visit... ~1~.
 
 *** Single char shortcuts for some commands
 
