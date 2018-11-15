@@ -798,7 +798,7 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
 #+end_src
 
-** Oh-my-Zsh Agnoster theme
+** Install Oh-my-Zsh
 
 #+begin_note
 We put Oh-my-Zsh at the very beginning, so that it does not override our own
@@ -818,10 +818,20 @@ I am fan of ~agnoster~.
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     ZSH=$HOME/.dotfiles/plugins/oh-my-zsh
+    ZSH_CUSTOM=$ZSH/custom
+    HIST_STAMPS="yyyy-mm-dd"
+
     # ZSH_THEME="random"
     ZSH_THEME="agnoster"
-    HIST_STAMPS="yyyy-mm-dd"
-    plugins=(git svn osx xcode zshmarks history history-substring-search)
+
+    plugins=(
+        git
+        svn
+        xcode
+        zshmarks
+        history
+        history-substring-search
+    )
     . $ZSH/oh-my-zsh.sh
 
     # source ~/.dotfiles/plugins/solarized/mintty-solarized-dark.sh
@@ -907,10 +917,12 @@ function parse_git_branch ()
 }
 #+end_src
 
+** Change the Oh My ZSH theme to "agnoster"
+
 *** Agnoster Theme Adaption for SVN
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+if [ -r "$ZSH" ]; then
 
     prompt_svn() {
         local rev branch
@@ -938,19 +950,31 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         prompt_end
     }
 
-    # source ~/.dotfiles/plugins/oh-my-zsh/plugins/svn/svn.plugin.zsh
+    # source $ZSH/plugins/svn/svn.plugin.zsh
 fi
 #+end_src
 
 *** Zsh Syntax Highlighting
 
 #+begin_src shell :tangle no
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 #+end_src
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/zsh-syntax-highlighting" ]; then
-    source ~/.dotfiles/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+#+end_src
+
+*** Zsh Autosuggestions
+
+#+begin_src shell :tangle no
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+#+end_src
+
+#+begin_src shell
+if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 #+end_src
 
@@ -1763,7 +1787,7 @@ Be sure one of these *editors* is *in your search path*!
 
 #+begin_warning
 Right now, I have instead hard-coded the path to Emacs in the
-[[file:~/bin/emacsclient]] script.
+[[file:~/.dotfiles/local/bin/emacsclient]] script.
 #+end_warning
 
 #+begin_src shell
@@ -2087,7 +2111,7 @@ This alias can be used as:
 svn COMMAND $(svn-remote-get-url)       # Retrieve the full RepoURL.
 #+end_src
 
-See [[file:~/.dotfiles/topic/gitconfig/SVN.org][SVN aliases]] for more information about these:
+See [[file:~/.dotfiles/plugins/git-config/SVN.org][SVN aliases]] for more information about these:
 
 #+begin_src shell
 alias svn-log="svn log | perl -l40pe 's/^-+/\n/' | less"
