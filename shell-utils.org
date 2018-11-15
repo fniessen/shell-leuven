@@ -6,7 +6,7 @@
 #+LANGUAGE:  en
 
 #+PROPERTY:  header-args :eval no
-#+SETUPFILE: bigblow-pirilampo.setup
+#+SETUPFILE: theme-bigblow-pirilampo.setup
 
 #+name: current-time
 #+begin_src emacs-lisp :eval yes :results value silent :tangle no
@@ -401,10 +401,13 @@ fdupes -r . \
     | grep -v "/.gitkeep" \
     | grep -v "/.emacs.d/backups" \
     | uniq
+    | awk 'BEGIN {RS="\n\n"; ORS="\n\n"; FS="\n"} {if (NF>1) print}'
 #+end_src
 
 #+begin_note
 ~uniq~ deletes duplicate, consecutive lines.
+
+The AWK script finds every block with more than one line.
 #+end_note
 
 *** findsn -- find Same Name (problems with clashing names)
