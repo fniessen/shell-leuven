@@ -5,7 +5,7 @@
 #+KEYWORDS:
 #+LANGUAGE:  en
 
-#+SETUPFILE: ~/src/org-style/setup/bigblow-local-abs.setup
+#+SETUPFILE: ~/src/org-style/setup/theme-bigblow-local-abs.setup
 
 * Tasks
 
