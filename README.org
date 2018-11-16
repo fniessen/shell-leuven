@@ -451,6 +451,21 @@ $ gm convert !*
 #* Code:
 #+end_src
 
+#+begin_src shell :noweb yes
+# If running in terminal...
+if test -t 1; then
+    # ... start Zsh directly (when I open "Bash on Ubuntu on Windows" for example)
+    echo "Execute Zsh..."
+    which zsh && exec zsh
+fi
+#+end_src
+
+To test, open the Terminal and type the following, and it should say zsh.
+
+#+begin_src shell :tangle no
+echo $0
+#+end_src
+
 Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
 ~scp~, ~rcp~ or ~rsync~):
 
@@ -480,9 +495,9 @@ Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
 # History.
-# HISTFILE=$HOME/.bash_history            # If paranoiac, `/dev/null'.
+# HISTFILE="$HOME/.bash_history"        # If paranoiac, `/dev/null'.
 HISTSIZE=1000
-HISTFILESIZE=1000
+HISTFILESIZE=2000
 HISTIGNORE="&:[bf]g:exit"
 HISTCONTROL=ignoredups
 #+end_src
@@ -784,6 +799,10 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 - [[http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/][My Extravagant Zsh Prompt]] (with Git Repository Information)
 - [[http://grml.org/zsh/zsh-lovers.html][zsh-lovers]]
 
+** Prerequisites
+
+Install Zsh.
+
 ** Preamble
 
 #+begin_src shell :noweb yes
@@ -812,11 +831,11 @@ default with Cygwin), and it is available at [[https://github.com/karlin/mintty-
 
 #+begin_src shell :tangle no
 git clone https://github.com/karlin/mintty-colors-solarized.git \
-    $HOME/.dotfiles/plugins/mintty-colors-solarized
+    "$HOME/.dotfiles/plugins/mintty-colors-solarized"
 #+end_src
 
 #+begin_src shell
-. $HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
+. "$HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh"
 
 # XXX Check for MinTTY
 if [ -d /cygdrive/c/ ]; then
@@ -856,7 +875,7 @@ drag it straight to Windows Fonts folder
 
 Test if it's working correctly by running:
 
-#+begin_src shell
+#+begin_src shell :tangle no
 echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
 #+end_src
 
@@ -885,7 +904,10 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     ZSH="$HOME/.dotfiles/plugins/oh-my-zsh"
     # ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}
     ZSH_CUSTOM="$ZSH/custom"
+
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
+
+    COMPLETION_WAITING_DOTS="true"
 fi
 #+end_src
 
@@ -920,7 +942,6 @@ if [ -r "$ZSH" ]; then
             fi
         fi
     }
-    # . $ZSH/plugins/svn/svn.plugin.zsh
 fi
 #+end_src
 
@@ -940,9 +961,10 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     POWERLEVEL9K_PROMPT_ON_NEWLINE=true
     POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
 
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
 
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+    # Customise the Powerlevel9k prompts.
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time)
 
     POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
@@ -965,7 +987,25 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         svn
         zshmarks
     )
-    . $ZSH/oh-my-zsh.sh
+fi
+#+end_src
+
+*** Display colored man pages
+
+#+begin_seealso
+[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
+information.
+#+end_seealso
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+    # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
+    export MANROFFOPT="-c"
+    # in your shell rc file. This has the same effect as
+    # export GROFF_NO_SGR=1
+    # but only affects man. I'm not sure if groff is used for anything else
+    # besides man pages, but this seems safer to prevent unintended side
+    # effects.
 fi
 #+end_src
 
@@ -981,8 +1021,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-    # plugins+=(zsh-syntax-highlighting)
-    . $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    plugins+=(zsh-syntax-highlighting)
 fi
 #+end_src
 
@@ -993,13 +1032,20 @@ proposed command, press the right arrow key.
 
 #+begin_src shell :tangle no
 git clone https://github.com/zsh-users/zsh-autosuggestions \
-    ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
 #+end_src
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    # plugins+=(zsh-autosuggestions)
-    . $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    plugins+=(zsh-autosuggestions)
+fi
+#+end_src
+
+*** Load Zsh tools
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+    . $ZSH/oh-my-zsh.sh
 fi
 #+end_src
 
@@ -1008,7 +1054,7 @@ fi
 #+begin_src shell
 # History.
 HISTSIZE=1000
-SAVEHIST=1000
+SAVEHIST=2000
 
 # Append new history lines instead of overwriting (important for multiple
 # parallel Zsh sessions!).
@@ -1234,8 +1280,7 @@ alias -g L="| less" #######
 alias -g M="| less"
 alias -g CA="| cat -A"
 alias -g 21="2>&1"
-alias -g DN1='1> /dev/null' #
-alias -g DN2='2> /dev/null' #
+alias -g NUL='> /dev/null 2>&1'
 #+end_src
 
 #+begin_src shell
@@ -1548,8 +1593,8 @@ To go to the directory ~1-Clients~, for example, simply type ~c~.
 
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
-#if [ -d $HOME/man ]; then
-#    MANPATH=$HOME/man:"${MANPATH}"
+#if [ -d "$HOME/man" ]; then
+#    MANPATH="$HOME/man":"${MANPATH}"
 #    export MANPATH
 #fi
 
@@ -1658,32 +1703,6 @@ alias more="less"
 LESS="-F -i -M -R -X"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 #+end_src
-
-Man pages colors:
-
-#+begin_src shell
-# Colored man pages: http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
-# Less Colors for Man Pages
-export LESS_TERMCAP_mb=$'\E[01;31m'     # enter_blink_mode.
-export LESS_TERMCAP_md=$'\E[01;38;5;74m' # enter_bold_mode.
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m' # enter_standout_mode (mode
-                                                   # line at the bottom).
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # enter_underline_mode.
-export LESS_TERMCAP_me=$'\E[0m'         # exit_attribute_mode (end modes like
-                                        # `mb' and `md').
-export LESS_TERMCAP_se=$'\E[0m'         # exit_standout_mode.
-export LESS_TERMCAP_ue=$'\E[0m'         # exit_underline_mode.
-# See `terminfo'.
-#+end_src
-
-#+begin_seealso
-[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
-information.
-#+end_seealso
-
-See also
-http://stackoverflow.com/questions/10535432/tmux-man-page-search-highlighting to
-highlight man pages.
 
 *** Most
 
@@ -1924,7 +1943,7 @@ export TIME_STYLE=long-iso
 if [ "$TERM" != "dumb" ]; then
 
     # Add my coloration scheme to directory listings.
-    if [ -f $HOME/.dircolors ]; then
+    if [ -f "$HOME/.dircolors" ]; then
         eval "$(dircolors -b $HOME/.dircolors)"
         # See https://github.com/seebi/dircolors-solarized.
     else
@@ -2005,8 +2024,8 @@ alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 #+end_src
 
-Interesting alias in Oh My Zsh: ~x~ = Extract archive of types tar, bz2, rar, gz,
-tbz2, tgz, zip, Z, 7z.
+Interesting alias in Oh My Zsh: ~x~ / ~extract~ to extract an archive of types
+tar.{bz2,gz,xz,lzma}, bz2, rar, gz, tbz2, tgz, zip, Z, 7z.
 
 #+begin_src shell
 # Print a more readable PATH (each directory on a new line).
@@ -2045,7 +2064,7 @@ alias -- -='cd -'
 #+end_src
 
 #+begin_src shell
-# Directory history.
+# list last used directories (directory history).
 alias d='dirs -v'
 #+end_src
 
@@ -2461,87 +2480,14 @@ alias off='sudo shutdown -h now'
 
 *** Org
 
-For branches for which we want to make some development, and keep in track with
-~master~:
-
-#+begin_src shell
-update_org () {
-    (                                   # Directory changes made in a subshell
-                                        # do not carry over to the parent shell.
-        cd $HOME/Public/Repositories/org-mode;
-        git fetch --all --verbose \
-            && git rebase origin \
-            && make autoloads \
-            && echo DON\'T make clean \
-            && echo DON\'T make \
-            && echo DON\'T sudo make install \
-            && echo DON\'T make doc \
-            && make info \
-            && sudo make install-info \
-            && printf "Running org_test, please wait (this can take a while)...\n" \
-            && org_test 2>&1 >/dev/null | tail -n 3
-    )
-}
-#+end_src
-
-*************** TODO Don't regenerate autoloads, doc, etc. if nothing new was pulled
-
-Other example (from Suvayu Ali):
-
-#+begin_src shell :tangle no
-function update_org() {
-    pushd ~/build/org-mode  # my Org repo and install directory
-    local dorebase=$(git rev-list origin/master..master|wc -l)
-    git stash
-    git checkout master
-    if [[ $dorebase -gt 0 ]]; then
-        git pull --rebase --stat
-    else
-        git pull
-    fi
-
-    if [ $? == 0 ]; then
-        echo "+++ Check if merged successfully. +++"
-        echo "==> Want to continue?"
-        select yesorno in "Yes" "No"; do
-            case $yesorno in
-                Yes)
-                    echo "+++ Building Org-mode $(git branch|egrep '\*')    +++";
-                    make compile autoloads info "$@" &> log
-                    [ $? -ne 0 ] && echo "+++ Build failed                  +++" && break;
-                    echo "+++ Installing Info files         +++";
-                    make install-info
-                    break;;
-                No)
-                    echo "Aborting on user command.";
-                    break;;
-                *)
-                    echo "==> Choose Yes or No by typing 1 or 2."
-            esac
-        done
-    else
-        echo "Merge failed, aborting."
-    fi
-    popd
-}
-#+end_src
-
 #+begin_src shell
 org_test () {
     (
-        cd $HOME/Public/Repositories/org-mode;
+        cd "$HOME/Public/Repositories/org-mode";
         mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
         TMPDIR=/tmp/tmp-orgtest emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
     )
 }
-#+end_src
-
-#+begin_src shell
-if [ -d "$HOME/Public/Repositories/org-bash-utils" ]; then
-    PATH="$HOME/Public/Repositories/org-bash-utils:$PATH"
-    . $HOME/Public/Repositories/org-bash-utils/org-alias
-    . $HOME/Public/Repositories/org-bash-utils/awk-alias
-fi
 #+end_src
 
 *** Grep
@@ -2704,20 +2650,9 @@ saneperms ()
 #+begin_src shell
 safetmp ()
 {
-    test -d $HOME || exit 1
-    test -d $HOME/tmp || mkdir $HOME/tmp
-    echo $HOME/tmp/safetmp.$(hostname).$(date +%s).$$
-}
-#+end_src
-
-#+begin_src shell
-timesync ()
-{
-    if [[ $EUID -eq 0 ]]; then
-        ntpdate -u swisstime.ethz.ch
-    else
-        echo "Must be root"
-    fi
+    test -d "$HOME" || exit 1
+    test -d "$HOME/tmp" || mkdir "$HOME/tmp"
+    echo "$HOME/tmp/safetmp.$(hostname).$(date +%s).$$"
 }
 #+end_src
 
@@ -2746,7 +2681,7 @@ alias sp=sendpatch
 function console {
     if [[ $# > 0 ]]; then
         query=$(echo "$*" | tr -s ' ' '|')
-        tail -f /var/log/system.log|grep -i --color=auto -E "$query"
+        tail -f /var/log/system.log | grep -i --color=auto -E "$query"
     else
         tail -f /var/log/system.log
     fi
