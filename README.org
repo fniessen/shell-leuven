@@ -92,10 +92,14 @@ from that field).
 
 [[http://cygwin.com/cgi-bin2/package-grep.cgi][Cygwin Package Search]]
 
-Install extra packages:
+In order to *install Cygwin's packages* through the terminal instead of running
+the setup every single time you need one, you can install ~apt-cyg~.  As
+a requirement, you'll need to install ~lynx~ through the cygwin setup first.
+After that, just run the following commands:
 
 #+begin_src shell
-alias cyg-get="/cygdrive/c/cygwin64/setup-x86_64.exe -q -P"
+lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+install apt-cyg /bin
 #+end_src
 
 - Archive
@@ -650,12 +654,12 @@ complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 # ext=${file##*.}
 #
 # # Basename.
-# basename=`basename "$file"`
+# basename=$(basename "$file")
 # # Everything after last '/'.
 # basename=${file##*/}
 #
 # # Dirname.
-# dirname=`dirname "$file"`
+# dirname=$(dirname "$file")
 # # Everything before last '/'.
 # basename=${file%/*}
 #+end_src
@@ -807,23 +811,24 @@ Karlin Fox ported the Solarized theme to MinTTY (the terminal which comes by
 default with Cygwin), and it is available at [[https://github.com/karlin/mintty-colors-solarized][karlin/mintty-colors-solarized]].
 
 #+begin_src shell :tangle no
-git clone https://github.com/karlin/mintty-colors-solarized.git $HOME/.dotfiles/plugins/mintty-colors-solarized
+git clone https://github.com/karlin/mintty-colors-solarized.git \
+    $HOME/.dotfiles/plugins/mintty-colors-solarized
 #+end_src
 
 #+begin_src shell
-    . $HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
+. $HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh
 
-    # XXX Check for MinTTY
-    if [ -d /cygdrive/c/ ]; then
-        echo -ne '\e]4;8;#404040\a'     # bold blk
-        echo -ne '\e]4;9;#FF4040\a'     # bold red
-        echo -ne '\e]4;10;#40FF40\a'    # bold grn
-        echo -ne '\e]4;11;#FFFF40\a'    # bold yel
-        echo -ne '\e]4;12;#6060FF\a'    # bold blu
-        echo -ne '\e]4;13;#FF40FF\a'    # bold mag
-        echo -ne '\e]4;14;#40FFFF\a'    # bold cyn
-        echo -ne '\e]4;15;#FFFFFF\a'    # bold wht
-    fi
+# XXX Check for MinTTY
+if [ -d /cygdrive/c/ ]; then
+    echo -ne '\e]4;8;#404040\a'     # bold blk
+    echo -ne '\e]4;9;#FF4040\a'     # bold red
+    echo -ne '\e]4;10;#40FF40\a'    # bold grn
+    echo -ne '\e]4;11;#FFFF40\a'    # bold yel
+    echo -ne '\e]4;12;#6060FF\a'    # bold blu
+    echo -ne '\e]4;13;#FF40FF\a'    # bold mag
+    echo -ne '\e]4;14;#40FFFF\a'    # bold cyn
+    echo -ne '\e]4;15;#FFFFFF\a'    # bold wht
+fi
 #+end_src
 
 https://github.com/oumu/mintty-color-schemes
@@ -849,6 +854,12 @@ If you right-click them, there should be install option in the menu. Or you can
 drag it straight to Windows Fonts folder
 #+end_note
 
+Test if it's working correctly by running:
+
+#+begin_src shell
+echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
+#+end_src
+
 Good-looking fonts:
 - UbuntuMono
 - DejaVuSansMono
@@ -856,18 +867,23 @@ Good-looking fonts:
 
 For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 
-** Install "Oh My ZSH"
+** Install "Oh My Zsh"
 
-Oh-My-Zsh is just awesome!
+Oh My Zsh is just awesome!
+
+#+begin_src shell :tangle no
+git clone ...
+#+end_src
 
 #+begin_note
-We put Oh-my-Zsh at the very beginning, so that it does not override our own
+We put Oh My Zsh at the very beginning, so that it does not override our own
 settings.
 #+end_note
 
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     ZSH="$HOME/.dotfiles/plugins/oh-my-zsh"
+    # ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}
     ZSH_CUSTOM="$ZSH/custom"
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
 fi
@@ -875,7 +891,7 @@ fi
 
 http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
 
-** Change the Oh My ZSH theme to "agnoster"
+** Change the Oh My Zsh theme to "agnoster"
 
 I am fan of ~agnoster~.
 
@@ -908,6 +924,33 @@ if [ -r "$ZSH" ]; then
 fi
 #+end_src
 
+** Powerlevel9K
+
+#+begin_src shell :tangle no
+git clone https://github.com/bhilburn/powerlevel9k.git \
+    ${ZSH_CUSTOM}/themes/powerlevel9k
+#+end_src
+
+#+begin_src shell
+if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+    ZSH_THEME="powerlevel9k/powerlevel9k"
+
+    POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
+
+    POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+    POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+
+    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=1
+
+    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time)
+
+    POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+    POWERLEVEL9K_SHORTEN_DELIMITER=""
+    POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+fi
+#+end_src
+
 ** Plugins
 
 #+begin_src shell
@@ -915,6 +958,7 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
 
     plugins=(
         colored-man-pages
+        extract
         git
         history
         history-substring-search
@@ -932,11 +976,12 @@ to verify the correctness of your command.
 
 #+begin_src shell :tangle no
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
 #+end_src
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+    # plugins+=(zsh-syntax-highlighting)
     . $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 #+end_src
@@ -953,6 +998,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    # plugins+=(zsh-autosuggestions)
     . $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 #+end_src
@@ -1241,7 +1287,7 @@ alias -g NF='$(ls *(.om[1]))'           # Newest file.
 #+end_src
 
 #+begin_src shell
-alias -- cdwd='cd `pwd`'
+alias -- cdwd='cd $(pwd)'
 alias -- cwd='echo $cwd'
 #+end_src
 
@@ -1877,12 +1923,13 @@ export TIME_STYLE=long-iso
 # Enable color support of `ls'.
 if [ "$TERM" != "dumb" ]; then
 
-    # # Add my coloration scheme to directory listings.
-    # if [ -f $HOME/.dircolors ]; then
-    #     eval "$(dircolors -b $HOME/.dircolors)"
-    # else
-    #     eval "$(dircolors -b)"
-    # fi
+    # Add my coloration scheme to directory listings.
+    if [ -f $HOME/.dircolors ]; then
+        eval "$(dircolors -b $HOME/.dircolors)"
+        # See https://github.com/seebi/dircolors-solarized.
+    else
+        eval "$(dircolors -b)"
+    fi
 
     alias ls='ls --color=auto -F'
     alias ll='ls --color=auto -a --group-directories-first -G -h -l'
@@ -1891,6 +1938,10 @@ else
     alias ls='ls -CF'
 fi
 #+end_src
+
+*************** TODO Beautify the terminal's ls command, with color and font-awesome icons
+https://github.com/athityakumar/colorls
+*************** END
 
 Sort of tree:
 
@@ -1954,7 +2005,7 @@ alias tgz="tar -zxvf"
 alias tbz2="tar -jxvf"
 #+end_src
 
-Interesting alias in Oh My ZSH: ~x~ = Extract archive of types tar, bz2, rar, gz,
+Interesting alias in Oh My Zsh: ~x~ = Extract archive of types tar, bz2, rar, gz,
 tbz2, tgz, zip, Z, 7z.
 
 #+begin_src shell
@@ -1999,7 +2050,7 @@ alias d='dirs -v'
 #+end_src
 
 Normally, you can use ~cd +1~ to go to the previous directory and so on.
-Oh-My-Zsh made this even more straightforward, now you can use just the number
+Oh My Zsh made this even more straightforward, now you can use just the number
 of the entry in the directory history you want to visit... ~1~.
 
 *** Single char shortcuts for some commands
@@ -2023,7 +2074,7 @@ alias g='git'
 Go to the top of your Git repo.
 
 #+begin_src shell
-# alias gitroot="cd $(git rev-parse --show-toplevel)" # Conflict with Oh-My-ZShell?
+# alias gitroot="cd $(git rev-parse --show-toplevel)" # Conflict with Oh My Zsh?
 
 # Good alias that will not blow up cd if you aren't in a Git directory.
 alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
@@ -2586,7 +2637,7 @@ alias oneday='find . -mtime -1 -print'
 # List all files modified today only (since start of day only, i.e. 00:00).
 today ()
 {
-    touch -t `date +%m%d0000` /tmp/$$
+    touch -t $(date +%m%d0000) /tmp/$$
     find . -type f -newer /tmp/$$
     rm -f /tmp/$$
 }
