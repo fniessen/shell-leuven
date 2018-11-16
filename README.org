@@ -407,9 +407,9 @@ From https://www.linuxquestions.org/questions/linux-general-1/difference-between
 See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Configuration related to Bash
-  :PROPERTIES:
-  :header-args+: :tangle ../../home/.bashrc
-  :END:
+:PROPERTIES:
+:header-args+: :tangle ../../home/.bashrc
+:END:
 
 Le ~!~ en shell permet plein de trucs sympa.
 
@@ -694,9 +694,9 @@ In general, it should not do more than *change the default options of a command*
 #+end_src
 
 ** InputRC
-   :PROPERTIES:
-   :header-args+: :tangle ../../home/.inputrc
-   :END:
+:PROPERTIES:
+:header-args+: :tangle ../../home/.inputrc
+:END:
 
 This file controls the behavior of line input editing for programs that use
 the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
@@ -768,9 +768,9 @@ set completion-ignore-case on
 #+end_src
 
 * Configuration related to Zsh
-  :PROPERTIES:
-  :header-args+: :tangle ../../home/.zshrc
-  :END:
+:PROPERTIES:
+:header-args+: :tangle ../../home/.zshrc
+:END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
 
@@ -916,10 +916,10 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     plugins=(
         colored-man-pages
         git
-        svn
-        zshmarks
         history
         history-substring-search
+        svn
+        zshmarks
     )
     . $ZSH/oh-my-zsh.sh
 fi
@@ -1393,9 +1393,9 @@ fi
 #+end_src
 
 * Configuration related to both shells
-  :PROPERTIES:
-  :header-args+: :tangle ../../home/.shellrc
-  :END:
+:PROPERTIES:
+:header-args+: :tangle ../../home/.shellrc
+:END:
 
 Everything in common between Bash and Z shell will come here, since it is read
 by both shells.
@@ -2167,9 +2167,9 @@ alias sr='screen -r'
 #+end_src
 
 *** SSH agent / GPG agent
-    :PROPERTIES:
-    :header-args+: :tangle no
-    :END:
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
 keep a tunnel open on my laptop when away from the office:
@@ -2199,71 +2199,19 @@ searchkey ()
 alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 #+end_src
 
-#+begin_src shell
-encrypt ()
-{
-    # Use ascii armor.
-    gpg -ac --no-options "$1"
-}
-
-bencrypt ()
-{
-    # No ascii armor.
-    # Encrypt binary data. jpegs/gifs/vobs/etc.
-    gpg -c --no-options "$1"
-}
-
-decrypt ()
-{
-    gpg --no-options "$1"
-}
-
-pe ()
-{
-# Passphrase encryption program
-# Created by Dave Crouse 01-13-2006
-# Reads input from text editor and encrypts to screen.
-    clear
-    echo "         Passphrase Encryption Program";
-    echo "--------------------------------------------------"; echo "";
-    type $EDITOR &>/dev/null
-    if [ "$?" != "0" ]; then
-        echo "It appears that you do not have a text editor set in your .bashrc file.";
-        echo "What editor would you like to use ? " ;
-        read EDITOR ; echo "";
-    fi
-    echo "Enter the name/comment for this message :"
-    read comment
-    $EDITOR passphraseencryption
-    gpg --armor --comment "$comment" --no-options --output
-    passphraseencryption.gpg --symmetric passphraseencryption
-    shred -u passphraseencryption ; clear
-    echo "Outputting passphrase encrypted message"; echo "" ; echo "" ;
-    cat passphraseencryption.gpg ; echo "" ; echo "" ;
-    shred -u passphraseencryption.gpg ;
-    read -p "Hit enter to exit" temp; clear
-}
-
-keys ()
-{
-    # Open up kgpg keymanager.
-    kgpg -k
-}
-#+end_src
-
 *** Debian
-    :PROPERTIES:
-    :header-args+: :tangle no
-    :END:
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src shell
 alias aps='aptitude search'
 #+end_src
 
 *** System admin (NMAP, etc.)
-    :PROPERTIES:
-    :header-args+: :tangle no
-    :END:
+:PROPERTIES:
+:header-args+: :tangle no
+:END:
 
 #+begin_src shell
 # Use `pkill' (which is pgrep + kill in a single command).
@@ -2645,20 +2593,6 @@ today ()
 #+end_src
 
 #+begin_src shell
-case $(uname -s) in
-    Linux*)
-        alias vpnup='sudo test; exec sudo openvpn --config $HOME/.hide/OpenVPN-config/mcbe.ovpn --writepid /tmp/openvpn.pid &'  # --daemon'
-        alias vpndown='sudo kill -INT `cat /tmp/openvpn.pid`'
-        ;;
-
-    CYGWIN*)
-        alias vpnup='cd $HOME/.hide/OpenVPN-config; openvpn --config mcbe.ovpn --writepid c:/cygwin/tmp/openvpn.pid &'  # --daemon'
-        alias vpndown='killall openvpn'
-        ;;
-esac
-#+end_src
-
-#+begin_src shell
 export GS_OPTIONS="-sPAPERSIZE=a4"
 alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf" # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
@@ -2758,9 +2692,6 @@ alias sp=sendpatch
 *** Extra
 
 #+begin_src shell :tangle no
-# Convert a picture to a favicon.
-alias make-favicon="convert -colors 256 -resize 16x16 "
-
 function console {
     if [[ $# > 0 ]]; then
         query=$(echo "$*" | tr -s ' ' '|')
@@ -2802,7 +2733,7 @@ compaudit | xargs chmod g-w
 
 will do the trick, see [[http://www.wezm.net/technical/2008/09/zsh-cygwin-and-insecure-directories/][zsh, Cygwin and Insecure Directories]].
 
-** How to run Emacs without shwoing a terminal window?
+** How to run Emacs without showing a terminal window?
 
 Use the ~run~ command:
 
