@@ -913,37 +913,37 @@ fi
 
 http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
 
-** Change the Oh My Zsh theme to "agnoster"
-
-I am fan of ~agnoster~.
-
-#+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
-    ZSH_THEME="agnoster"
-fi
-#+end_src
-
-*** Agnoster Theme Adaption for SVN
-
-#+begin_src shell
-if [ -r "$ZSH" ]; then
-    prompt_svn() {
-        local rev branch
-        if in_svn; then
-            rev=$(svn_get_rev_nr)
-            branch=$(svn_get_branch_name)
-            if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
-                prompt_segment yellow black
-                echo -n "$rev@$branch"
-                echo -n " ±"
-            else
-                prompt_segment green black
-                echo -n "$rev@$branch"
-            fi
-        fi
-    }
-fi
-#+end_src
+# ** Change the Oh My Zsh theme to "agnoster"
+#
+# I am fan of ~agnoster~.
+#
+# #+begin_src shell
+# if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+#     ZSH_THEME="agnoster"
+# fi
+# #+end_src
+#
+# *** Agnoster Theme Adaption for SVN
+#
+# #+begin_src shell
+# if [ -r "$ZSH" ]; then
+#     prompt_svn() {
+#         local rev branch
+#         if in_svn; then
+#             rev=$(svn_get_rev_nr)
+#             branch=$(svn_get_branch_name)
+#             if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
+#                 prompt_segment yellow black
+#                 echo -n "$rev@$branch"
+#                 echo -n " ±"
+#             else
+#                 prompt_segment green black
+#                 echo -n "$rev@$branch"
+#             fi
+#         fi
+#     }
+# fi
+# #+end_src
 
 ** Powerlevel9K
 
@@ -963,9 +963,12 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
 
     POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
 
+    POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
+    POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=''
+
     # Customise the Powerlevel9k prompts.
     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time)
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time background_jobs)
 
     POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
     POWERLEVEL9K_SHORTEN_DELIMITER=""
