@@ -240,6 +240,18 @@ For a better Emacs experience than with the Cygwin console, use:
 - (u)rxvt
 - xterm
 
+#+begin_tip
+*Searching text in scrollback buffer (in Cygwin MinTTY)*
+
+In mintty, ~Alt-F3~ opens a search bar with an input field for a search string.
+Matches are highlighted in the scrollback buffer.  ~Enter~ / ~Shift+Enter~ find the
+~next~ / ~previous~ position of the match and scrolls the scrollback buffer
+accordingly.  The appearance of the search bar and the matching highlight
+colours can be customized.
+
+See [[https://mintty.github.io/mintty.1.html][man page]].
+#+end_tip
+
 *** GnuPG
 
 When first running ~gpg~:
@@ -835,7 +847,7 @@ git clone https://github.com/karlin/mintty-colors-solarized.git \
 #+end_src
 
 #+begin_src shell
-. "$HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh"
+FILE="$HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh" && test -f $FILE && . $FILE
 
 # XXX Check for MinTTY
 if [ -d /cygdrive/c/ ]; then
@@ -982,7 +994,7 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     plugins=(
         colored-man-pages
         extract
-        git
+        # git                           # Provide many aliases and a few useful functions.
         history
         history-substring-search
         svn
@@ -1609,6 +1621,18 @@ alias more="less"
 
 *** Less
 
+Color any command with man-like output, including ~git help~:
+
+#+begin_src shell
+export LESS_TERMCAP_mb=$'\e[1;31m'
+export LESS_TERMCAP_md=$'\e[1;31m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[1;44;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;32m'
+#+end_src
+
 ~less~ options:
 
 - ~-e~ or ~--quit-at-eof~ ::
@@ -1674,7 +1698,40 @@ alias more="less"
 # Tailor `less'.
 LESS="-F -i -M -R -X"
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 #+end_src
+
+--quit-if-one-screen or -F: Exit if the entire file can be displayed in one screen. This is usually desirable as there is no incentive to stay in less if a single screen can display all the contents.
+--ignore-case or -i: Cause search in less to ignore case unless an uppercase letter is present in the search pattern.
+--status-column or -J: Display a status column on the left to indicate lines that match current search or indicate the first unread line after moving a full page.
+--LONG-PROMPT or -M: Prompt more verbosely.
+--RAW-CONTROL-CHARS or -R: Cause ANSI "color" escape sequences to be displayed in their raw form. This is for the color display explained later in the next section.
+--HILITE-UNREAD or -W: Highlight the first unread line after scrolling the screen for more than one lines.
+--tabs=4 or -x4: Display a tab as 4-character width, since most modern text files assume 4-character width for a tab. However, you can still change this to your preference if, for example, you frequently read Linux kernel source code which uses 8-character width for a tab.
+--no-init or -X: Disable sending the termcap initialization and deinitialization strings to the terminal. The purpose here is to prevent clearing screen after exiting. If you do not want this feature and want to remove it, please keep in mind that --quit-if-one-screen also relies on this option to work properly. For a workaround, please check out here.
+--window=-4 or -z-4: Change the default scrolling size to 4 lines fewer than the current screen size, so always keep 4 lines overlapping with previous screen when scrolling with the space key.
+
+**** Searching
+
+- ~/pattern~ ::
+     Search forward for (~N~-th) matching line.
+
+- ~?pattern~ ::
+     Search backward for (~N~-th) matching line.
+
+- ~n~ ::
+     Repeat previous search (for ~N~-th occurrence).
+
+- ~N~ ::
+     Repeat previous search in reverse direction.
+
+- ~ESC-u~ ::
+     Undo (toggle) search highlighting.
+
+- ~&pattern~ ::
+     Display only matching lines. \\
+     If pattern is empty (if you type & immediately followed by ENTER), any
+     filtering is turned off, and all lines are displayed.
 
 *** Most
 
@@ -1694,7 +1751,7 @@ to the location...
 
 #+begin_src shell
 # Start x11 server (if a process instance is not already running).
-ps -ae | grep XWin || startxwin >/dev/null 2>&1 &
+# ps -ae | grep XWin || startxwin >/dev/null 2>&1 &   # XXX For Cygwin only!
 # To check that have the package xinit installed, try 'startxwin' without redirecting anything.
 
 # Set DISPLAY environment variable.
