@@ -1051,6 +1051,8 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
+
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 #+end_src
 
