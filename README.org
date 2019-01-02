@@ -833,6 +833,12 @@ Install Zsh.
 PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
 #+end_src
 
+#+begin_src shell
+# # For Bash on Ubuntu on Windows.
+# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
+export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+#+end_src
+
 ** Add a new theme: Solarized
 
 - [[https://github.com/altercation/solarized/issues/90][How should bold/bright be handled by terminal emulators?]]
@@ -1051,8 +1057,6 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 #+begin_src shell
 if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
     plugins+=(zsh-autosuggestions)
-
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 #+end_src
 
@@ -1061,6 +1065,12 @@ fi
 #+begin_src shell
 if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
     . $ZSH/oh-my-zsh.sh
+fi
+#+end_src
+
+#+begin_src shell
+if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 #+end_src
 
@@ -1779,6 +1789,9 @@ with accented file names in the repository).
 
 #+begin_src shell
 export LANG=C.UTF-8
+
+# For scripts in R language.
+export LC_CTYPE=
 #+end_src
 
 ** Terminal types
