@@ -2621,17 +2621,18 @@ gmresize ()
 *** Other things to sort
 
 #+begin_src shell
-# List all files modified in the last 24 hours (last full day).
-alias oneday='find . -mtime -1 -print'
+# List all files modified TODAY only (since start of day only, i.e. 00:00).
+alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
 
-# List all files modified today only (since start of day only, i.e. 00:00).
-today ()
-{
-    touch -t $(date +%m%d0000) /tmp/$$
-    find . -type f -newer /tmp/$$
-    rm -f /tmp/$$
-}
+# List all files modified YESTERDAY.
+alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
+
+# List all files modified THIS WEEK.
+alias thisweek='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
 #+end_src
+
+See https://unix.stackexchange.com/questions/26313/colored-find-output for
+*colored find output*.
 
 #+begin_src shell
 export GS_OPTIONS="-sPAPERSIZE=a4"
