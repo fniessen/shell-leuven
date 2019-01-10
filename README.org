@@ -2622,13 +2622,13 @@ gmresize ()
 
 #+begin_src shell
 # List all files modified TODAY only (since start of day only, i.e. 00:00).
-alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
+alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
 
 # List all files modified YESTERDAY.
-alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
+alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
 
 # List all files modified THIS WEEK.
-alias thisweek='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n"'
+alias thisweek='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
 #+end_src
 
 See https://unix.stackexchange.com/questions/26313/colored-find-output for
