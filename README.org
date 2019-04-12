@@ -23,12 +23,15 @@ OS X, Linux and Windows (with Cygwin).
 Should go to local or global bash profile:
 
 #+begin_src shell
-function parse_git_dirty {
+parse_git_dirty() {
     [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
-function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+
+parse_git_branch() {
+    git branch --no-color 2> /dev/null \
+        | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
 }
+
 export PS1='\u@\h \[\033[0;36m\]\w \[\033[0;32m\]$(parse_git_branch)\[\033[0m\]$ '
 #+end_src
 
@@ -206,6 +209,7 @@ install apt-cyg /bin
   + [ ] ~flog~ (logger, to syslog)
   + [X] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
     the Win32 driver which is adviced!)
+  + [X] ~moreutils~ (provides ~sponge~)
   + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
     installer, though you can use ~C-l~ to get the same result)
   + [ ] ~screen~
@@ -241,6 +245,13 @@ For a better Emacs experience than with the Cygwin console, use:
 - xterm
 
 #+begin_tip
+*~Alt-F2~ opens a new terminal window*
+
+*~Shift-PageUp~ and ~Shift-PageDown~!*
+
+For rapidly paging through previous lines of output, you can press ~Shift-PageUp~
+and ~Shift-PageDown~, just like the Linux console.
+
 *Searching text in scrollback buffer (in Cygwin MinTTY)*
 
 In mintty, ~Alt-F3~ opens a search bar with an input field for a search string.
@@ -524,17 +535,17 @@ Note ~\[...\]~ used by the shell to count proper length.
 if tput setaf 1 &> /dev/null; then
     tput sgr0
     if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-      MAGENTA=$(tput setaf 9)
-      ORANGE=$(tput setaf 172)
-      GREEN=$(tput setaf 190)
-      PURPLE=$(tput setaf 141)
-      WHITE=$(tput setaf 256)
+        MAGENTA=$(tput setaf 9)
+        ORANGE=$(tput setaf 172)
+        GREEN=$(tput setaf 190)
+        PURPLE=$(tput setaf 141)
+        WHITE=$(tput setaf 256)
     else
-      MAGENTA=$(tput setaf 5)
-      ORANGE=$(tput setaf 4)
-      GREEN=$(tput setaf 2)
-      PURPLE=$(tput setaf 1)
-      WHITE=$(tput setaf 7)
+        MAGENTA=$(tput setaf 5)
+        ORANGE=$(tput setaf 4)
+        GREEN=$(tput setaf 2)
+        PURPLE=$(tput setaf 1)
+        WHITE=$(tput setaf 7)
     fi
     BOLD=$(tput bold)
     RESET=$(tput sgr0)
@@ -557,8 +568,7 @@ reset_color="\[$(tput sgr0)\]"
 #*** PROMPT_COMMAND + PS1 --- Default interaction prompt
 
 # To be called just before the prompt is printed.
-leuven-before-prompt ()
-{
+leuven-before-prompt() {
     RET=$?
 
     # Set a color prompt (unless in Emacs).
@@ -1146,8 +1156,7 @@ bindkey ';5C' forward-word
 bindkey ';5D' backward-word
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
-backward-delete-char-beep ()
-{
+backward-delete-char-beep() {
     if (( CURSOR == 0 )); then
         zle beep
     fi
@@ -1234,7 +1243,7 @@ a blank line before building the prompt. However, the end result is the
 same.
 
 #+begin_src shell
-function echo_blank() {
+echo_blank() {
     echo
 }
 
@@ -1376,8 +1385,7 @@ alias lastmonth='LG reg TLM'
 
 # Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]
 # Ledger using `ledger', `hledger' or `beancount' (see `$LEDGER')
-Ledger ()
-{
+Ledger() {
     if [ $# -lt 1 ]; then
         cat << EOF > /dev/stderr
 Usage: $(basename $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]
@@ -1388,8 +1396,7 @@ EOF
     case ${LEDGER} in
         "beancount" )
             ;;
-
-        * )   # default option
+        ,* )   # default option
             shift;  # for the useless (but expected) `-f'
             ;;
     esac
@@ -1398,14 +1405,13 @@ EOF
     local LEDGER_FILE=sample-ledger.dat;
     case ${LEDGER} in
         "beancount" )
-            m4 -D LEDGER=beancount ${LEDGER_M4_FILE} |\
-            sed -e 's/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g' > ${LEDGER_FILE}
+            m4 -D LEDGER=beancount ${LEDGER_M4_FILE} \
+                | sed -e 's/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g' > ${LEDGER_FILE}
             bean-web ${LEDGER_FILE} $@   # beancount Web interface
             ;;
-
-        * )   # default option
-            m4 ${LEDGER_M4_FILE} |\
-            sed -e 's/^@/;@/' > ${LEDGER_FILE}
+        ,* )   # default option
+            m4 ${LEDGER_M4_FILE} \
+               | sed -e 's/^@/;@/' > ${LEDGER_FILE}
             ${LEDGER} -f ${LEDGER_FILE} $@
             ;;
     esac
@@ -1441,11 +1447,10 @@ compdef '_files -g "*"' start
 # Coloring stderr.
 STDERRRED=$'\e[1;31m'
 zmodload zsh/system
-color_err () {
+color_err() {
     # Sysread & syswrite are part of `zsh/system'.
     emulate -LR zsh
-    while sysread
-    do
+    while sysread; do
         syswrite -o 2 "${STDERRRED}${REPLY}$terminfo[sgr0]"
     done
 }
@@ -1524,8 +1529,7 @@ done
 # Extend the PATH var (where to look for executable files).  For Cygwin only.
 case $(uname -s) in
     CYGWIN*)
-        for MAYBE_CYG_PATH in "${HOME}/.dotfiles/winbin";
-        do
+        for MAYBE_CYG_PATH in "${HOME}/.dotfiles/winbin"; do
             # `-e' or `-x'?
             if [ -d "$MAYBE_CYG_PATH" ]; then
                 PATH="$MAYBE_CYG_PATH:$PATH"
@@ -1779,7 +1783,7 @@ Use like so:
 : sleep 10; alert
 
 #+begin_src shell
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 #+end_src
 
 ** Misc
@@ -1813,7 +1817,7 @@ export TERM=xterm-256color
 
 #+begin_tip
 In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
-the shell, as opposed to dotfiles related to the terminal emulator program.
+the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
 This is because a shell may be used with multiple terminal emulators, and
 setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
 The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
@@ -1907,8 +1911,7 @@ alias em=emacs-minimal
 
 #+begin_src shell
 # ec FILE - open FILE in a running Emacs
-ec ()
-{
+ec() {
     emacsclient --no-wait "$1"
 }
 #+end_src
@@ -2163,13 +2166,15 @@ alias svn-find="find . -not \( -name .svn -prune \)"
 # Grep a string in every SVN revision of a file.
 # Usage: svn-grep-all-rev PATTERN FILE
 svn-grep-all-rev() {
-    svn log $2 | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' | (
-        while read revision; do
-            printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
-            svn cat -r $revision $2 | grep $1
-            printf "\n"
-        done
-    )
+    svn log $2 \
+        | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' \
+        | (
+              while read revision; do
+                  printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
+                  svn cat -r $revision $2 | grep $1
+                  printf "\n"
+              done
+          )
 }
 #+end_src
 
@@ -2192,12 +2197,12 @@ alias svn-log="svn log | perl -l40pe 's/^-+/\n/' | less"
 
 #+begin_src shell
 # svn-show release-number
-function svn-show {
+svn-show() {
     svn diff -c $1 | less
 }
 
 # svn-showtool 123 path/to/file
-function svn-showtool {
+svn-showtool() {
     svn diff --diff-cmd='meld' -c $1 $2
 }
 #+end_src
@@ -2209,21 +2214,21 @@ alias svn-whatchanged="svn log -v"
 
 #+begin_src shell
 # svn-logfile path/to/file
-function svn-logfile {
+svn-logfile() {
     svn log -q $1 | grep "^r"
 }
 #+end_src
 
 #+begin_src shell
 # svn-unmodify path/to/file
-function svn-unmodify {
+svn-unmodify() {
     svn revert $1
 }
 #+end_src
 
 #+begin_src shell
 # svn-logfile-p path/to/file
-function svn-logfile-p {
+svn-logfile-p() {
     svn log --diff $1 | less
 }
 #+end_src
@@ -2262,7 +2267,13 @@ Agnoster theme (checking for the presence of the ~hg~ command).
 Show the top 10 most used commands in your history.
 
 #+begin_src shell :tangle no
-history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | sort -nr | head -10
+history \
+    | awk '{print $2}' \
+    | awk 'BEGIN {FS="|"} {print $1}' \
+    | sort \
+    | uniq -c \
+    | sort -nr \
+    | head -10
 #+end_src
 
 *** Screen
@@ -2270,8 +2281,7 @@ history | awk '{print $2}' | awk 'BEGIN {FS="|"} {print $1}' | sort | uniq -c | 
 Connect to a host in a new screen tab, with the device name as the tab title.
 
 #+begin_src shell :tangle no
-function s()
-{
+s() {
     screen -t "$@" /usr/bin/ssh "$@"
 }
 
@@ -2302,8 +2312,7 @@ alias keylist="ssh-add -l"              # List all identities.
 
 #+begin_src shell
 # gpg.
-searchkey ()
-{
+searchkey() {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
 }
 #+end_src
@@ -2357,7 +2366,7 @@ type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 #+begin_src shell
 # 040319 Send files via `netcat'.
 # on sending side:
-#  send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}
+#  send() {j=$*; tar cpz ${j/%${!#}/} | nc -w 1 ${!#} 51330;}
 #  send dir* $HOST
 # Info:
 #  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
@@ -2390,8 +2399,7 @@ alias nmap_fast="nmap -F -T5 --top-ports 300"
 #+end_src
 
 #+begin_src shell
-# nmap ()
-# {
+# nmap() {
 #     echo "Enter port #"
 #     read port
 #     echo "Enter IP range"
@@ -2438,8 +2446,7 @@ inpath nmap && {
 
 #+begin_src shell
 # localnet - Find the local network in CIDR notation.
-localnet ()
-{
+localnet() {
     IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
     # we could use `nm-tool' from `network-manager'
 
@@ -2450,8 +2457,7 @@ localnet ()
 }
 
 # whoisonline [TARGET] - List hosts that are online.
-whoisonline ()
-{
+whoisonline() {
     local net
     if [ -n "$1" ]; then
         net="$1"
@@ -2463,8 +2469,7 @@ whoisonline ()
 }
 
 # localps [TARGET] - List open ports on hosts that are online.
-localps ()
-{
+localps() {
     local hostip
     local t1
     local t2
@@ -2477,8 +2482,7 @@ localps ()
         net=$(localnet)
     fi
 
-    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2);
-    do
+    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2); do
         t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4) ;
         t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5) ;
         t3=$(sudo nmap -sS $hostip | grep " open ") ;
@@ -2487,14 +2491,12 @@ localps ()
 }
 
 # watchport HOST PORT - Watch TCP port PORT on machine HOST.
-watchport ()
-{
+watchport() {
     while true; do clear; nmap $1 -PN -p $2; sleep 5; done
 }
 
 # rdns [TARGET] - Perform reverse DNS lookups.
-rdns ()
-{
+rdns() {
     local net
     if [ -n "$1" ]; then
       net="$1"
@@ -2525,11 +2527,12 @@ alias off='sudo shutdown -h now'
 *** Org
 
 #+begin_src shell
-org_test () {
+org_test() {
     (
         cd "$HOME/Public/Repositories/org-mode";
         mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
-        TMPDIR=/tmp/tmp-orgtest emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        TMPDIR=/tmp/tmp-orgtest \
+            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
     )
 }
 #+end_src
@@ -2601,13 +2604,11 @@ alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
 alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
 alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
 
-gmresize ()
-{
+gmresize() {
     FILES="$@"
     SCALE="1024x768"
   # for i in *.(gif|jpeg|jpg|png);
-    for i in $FILES
-    do
+    for i in $FILES; do
         echo "Processing image $i ..."
         gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
         # Obscure but useful string operations.
@@ -2643,8 +2644,7 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 
 #+begin_src shell
 # clean [-r] - Remove useless files (recursively).
-clean ()
-{
+clean() {
     if [ "$1" = "-r" ]; then
         find . \( -name "#*" -o -name "*~" -o -name ".*~" -o \
             -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" -o \
@@ -2657,8 +2657,7 @@ clean ()
 # swap FILE1 FILE2 - Swap FILE1 and FILE2.
 # Useful when you want to try a config file obtained from elsewhere, and also
 # keep the old version.
-swap ()
-{
+swap() {
     if [ $# != 2 ]; then
         return 1
     fi
@@ -2671,8 +2670,7 @@ swap ()
 #+end_src
 
 #+begin_src shell
-saneperms ()
-{
+saneperms() {
     find . -type d -print0 | xargs -0 chmod 755
     find . -type f -print0 | xargs -0 chmod ${1:=644}
 }
@@ -2680,8 +2678,7 @@ saneperms ()
 
 #+begin_src shell
 # # Search for various types or README file in dir and display them in $PAGER.
-# readme ()
-# {
+# readme() {
 #     local files
 #     files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
 #     if (($#files)); then
@@ -2693,8 +2690,7 @@ saneperms ()
 #+end_src
 
 #+begin_src shell
-safetmp ()
-{
+safetmp() {
     test -d "$HOME" || exit 1
     test -d "$HOME/tmp" || mkdir "$HOME/tmp"
     echo "$HOME/tmp/safetmp.$(hostname).$(date +%s).$$"
@@ -2703,13 +2699,11 @@ safetmp ()
 
 #+begin_src shell
 # Immediately opens the first match.
-texman ()
-{
+texman() {
     locate $* | grep pdf | grep texlive | head -1 | xargs open;
 }
 
-texlist ()
-{
+texlist() {
     locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
 }
 #+end_src
@@ -2723,7 +2717,7 @@ alias sp=sendpatch
 *** Extra
 
 #+begin_src shell :tangle no
-function console {
+console() {
     if [[ $# > 0 ]]; then
         query=$(echo "$*" | tr -s ' ' '|')
         tail -f /var/log/system.log | grep -i --color=auto -E "$query"

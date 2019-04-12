@@ -160,6 +160,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -193,141 +206,141 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgaec703e">Summary</a></li>
-<li><a href="#org5ee4525">Getting started</a>
+<li><a href="#orgcb1df09">Summary</a></li>
+<li><a href="#org52c13de">Getting started</a>
 <ul>
-<li><a href="#org47e1210">Prerequisites for Windows</a>
+<li><a href="#org1951e26">Prerequisites for Windows</a>
 <ul>
-<li><a href="#org34cae82"><code>PATH</code></a></li>
-<li><a href="#org8c92058">Add an <code>HOME</code> environment variable</a></li>
-<li><a href="#orga00d1d5">Change your Cygwin <code>HOME</code> folder</a></li>
-<li><a href="#org766eecf">Packages</a></li>
-<li><a href="#org8078eb8">Terminal emulators</a></li>
-<li><a href="#orgd106468">GnuPG</a></li>
-<li><a href="#orgf8b44b2">Suppress the Cygwin DOS path warning</a></li>
+<li><a href="#org8344154"><code>PATH</code></a></li>
+<li><a href="#org8e272d3">Add an <code>HOME</code> environment variable</a></li>
+<li><a href="#orgf60845a">Change your Cygwin <code>HOME</code> folder</a></li>
+<li><a href="#orgd114fda">Packages</a></li>
+<li><a href="#org84df87a">Terminal emulators</a></li>
+<li><a href="#orgcc2ce68">GnuPG</a></li>
+<li><a href="#org522aa9e">Suppress the Cygwin DOS path warning</a></li>
 </ul>
 </li>
-<li><a href="#orgd83e11e">Basic installation</a></li>
-<li><a href="#org79ed156">Custom directory</a></li>
+<li><a href="#org519298a">Basic installation</a></li>
+<li><a href="#org62556d1">Custom directory</a></li>
 </ul>
 </li>
-<li><a href="#orgb689bdd">About portability</a></li>
-<li><a href="#org4cd7147">Startup files</a>
+<li><a href="#org2f972c3">About portability</a></li>
+<li><a href="#org9421e2e">Startup files</a>
 <ul>
-<li><a href="#org2ab3af9">What to put where?</a></li>
-<li><a href="#org429702f">What to put in your Zsh startup files</a></li>
+<li><a href="#orgd87ed6f">What to put where?</a></li>
+<li><a href="#orgee05f23">What to put in your Zsh startup files</a></li>
 </ul>
 </li>
-<li><a href="#orgef42a18">Configuration related to Bash</a>
+<li><a href="#org2f964cb">Configuration related to Bash</a>
 <ul>
-<li><a href="#org64d1240">Preamble</a></li>
-<li><a href="#orgc63414d">Source global rc file (if any)</a></li>
-<li><a href="#org87d49b5">Command history</a></li>
-<li><a href="#org33e81cf">Prompt</a></li>
-<li><a href="#org247383e">Default permissions</a></li>
-<li><a href="#orgdf86b47">Shell options</a></li>
-<li><a href="#org814a501">Miscellaneous</a></li>
-<li><a href="#orge2ed1e0">Source common file</a></li>
-<li><a href="#orgaa98f1b">Postamble</a></li>
-<li><a href="#orgcc0b3c4">InputRC</a></li>
+<li><a href="#org45f86d8">Preamble</a></li>
+<li><a href="#org1bcee21">Source global rc file (if any)</a></li>
+<li><a href="#orgea8ffc6">Command history</a></li>
+<li><a href="#org6919c6b">Prompt</a></li>
+<li><a href="#org9c7dee5">Default permissions</a></li>
+<li><a href="#org6f9f160">Shell options</a></li>
+<li><a href="#orgd77b0a6">Miscellaneous</a></li>
+<li><a href="#orgcd94e8b">Source common file</a></li>
+<li><a href="#org956132d">Postamble</a></li>
+<li><a href="#org20e26f6">InputRC</a></li>
 </ul>
 </li>
-<li><a href="#org2d6b8fa">Configuration related to Zsh</a>
+<li><a href="#orged94584">Configuration related to Zsh</a>
 <ul>
-<li><a href="#org83bf2d0">Examples</a></li>
-<li><a href="#orgcc03fa3">Prerequisites</a></li>
-<li><a href="#org5ab3b71">Preamble</a></li>
-<li><a href="#org36a9032">Add a new theme: Solarized</a></li>
-<li><a href="#org9371672">Install Powerline-patched fonts</a></li>
-<li><a href="#orga8c436b">Install &ldquo;Oh My Zsh&rdquo;</a></li>
-<li><a href="#org3a52e3c">Change the Oh My Zsh theme to &ldquo;agnoster&rdquo;</a>
+<li><a href="#org1a85a3c">Examples</a></li>
+<li><a href="#org5e8268e">Prerequisites</a></li>
+<li><a href="#orgddc87b2">Preamble</a></li>
+<li><a href="#orgb329e67">Add a new theme: Solarized</a></li>
+<li><a href="#orga47d5b9">Install Powerline-patched fonts</a></li>
+<li><a href="#org0c5fe76">Install &ldquo;Oh My Zsh&rdquo;</a></li>
+<li><a href="#org92b178c">Change the Oh My Zsh theme to &ldquo;agnoster&rdquo;</a>
 <ul>
-<li><a href="#org2ef7f01">Agnoster Theme Adaption for SVN</a></li>
+<li><a href="#orgaeb903c">Agnoster Theme Adaption for SVN</a></li>
 </ul>
 </li>
-<li><a href="#org14ba196">Install Powerlevel9k!</a></li>
-<li><a href="#org58fa0c2">Plugins</a>
+<li><a href="#org16eafc4">Install Powerlevel9k!</a></li>
+<li><a href="#orga010409">Plugins</a>
 <ul>
-<li><a href="#org0711514">Display colored man pages</a></li>
-<li><a href="#org0f5ee91">Zsh Syntax Highlighting</a></li>
-<li><a href="#org21adf73">Zsh Autosuggestions</a></li>
-<li><a href="#orgecf6780">Load Zsh tools</a></li>
+<li><a href="#orge6efd92">Display colored man pages</a></li>
+<li><a href="#orgb5fe73d">Zsh Syntax Highlighting</a></li>
+<li><a href="#org934937a">Zsh Autosuggestions</a></li>
+<li><a href="#org152765a">Load Zsh tools</a></li>
 </ul>
 </li>
-<li><a href="#org6381587">Command history</a></li>
-<li><a href="#org742a381">Zsh line editor</a></li>
-<li><a href="#org22aad1f">Completion Widgets</a></li>
-<li><a href="#org9646a2e">Prompt</a>
+<li><a href="#orgb84d07d">Command history</a></li>
+<li><a href="#org4981355">Zsh line editor</a></li>
+<li><a href="#orgfabe3dc">Completion Widgets</a></li>
+<li><a href="#orga51f371">Prompt</a>
 <ul>
-<li><a href="#org2695c5d">Right prompt</a></li>
+<li><a href="#orgb889572">Right prompt</a></li>
 </ul>
 </li>
-<li><a href="#orgf301945">Aliasing</a>
+<li><a href="#org9167c79">Aliasing</a>
 <ul>
-<li><a href="#org0dc4cbf">Common aliases</a></li>
-<li><a href="#org0700343">Git</a></li>
-<li><a href="#org2a449a7">Directories</a></li>
+<li><a href="#org54bb7d4">Common aliases</a></li>
+<li><a href="#orgebbd021">Git</a></li>
+<li><a href="#org81f7c8a">Directories</a></li>
 </ul>
 </li>
-<li><a href="#org9e83066">Ledger</a></li>
-<li><a href="#org7fd6bf7">20. Completion System</a></li>
-<li><a href="#orge14d1cd">Zsh Modules</a></li>
-<li><a href="#org8f55eab">Source common file</a></li>
+<li><a href="#org00a29be">Ledger</a></li>
+<li><a href="#org8841bba">20. Completion System</a></li>
+<li><a href="#org4bed153">Zsh Modules</a></li>
+<li><a href="#org965410d">Source common file</a></li>
 </ul>
 </li>
-<li><a href="#orgbb447fb">Configuration related to both shells</a>
+<li><a href="#org710ae3f">Configuration related to both shells</a>
 <ul>
-<li><a href="#org950b825">Preamble</a></li>
-<li><a href="#org539d14f">Paths</a>
+<li><a href="#org62608ee">Preamble</a></li>
+<li><a href="#org68dc94b">Paths</a>
 <ul>
-<li><a href="#org82ad213">Search path</a></li>
-<li><a href="#org4917000">Cdpath</a></li>
-<li><a href="#orgdee6e96">Manpath</a></li>
-<li><a href="#org9ba846c">Infopath</a></li>
+<li><a href="#org7ca8c3e">Search path</a></li>
+<li><a href="#org515bc10">Cdpath</a></li>
+<li><a href="#org5b952b4">Manpath</a></li>
+<li><a href="#org0b77316">Infopath</a></li>
 </ul>
 </li>
-<li><a href="#org8a80346">Pager</a>
+<li><a href="#orgd0802fc">Pager</a>
 <ul>
-<li><a href="#orgf9e7ebc">Less</a></li>
-<li><a href="#orgd959e89">Most</a></li>
+<li><a href="#orgde4d6ed">Less</a></li>
+<li><a href="#org6fc1aeb">Most</a></li>
 </ul>
 </li>
-<li><a href="#org670672a">Display</a></li>
-<li><a href="#orgd855123">Alert</a></li>
-<li><a href="#org976ffd4">Misc</a></li>
-<li><a href="#orgbc00710">Terminal types</a></li>
-<li><a href="#org71b31ba">Emacs (default editor)</a></li>
-<li><a href="#org514b8de">Plugins</a>
+<li><a href="#org209f3a6">Display</a></li>
+<li><a href="#org17b5ec5">Alert</a></li>
+<li><a href="#org9291ddf">Misc</a></li>
+<li><a href="#org0d92b9d">Terminal types</a></li>
+<li><a href="#orgabb56e6">Emacs (default editor)</a></li>
+<li><a href="#orgb0b96c4">Plugins</a>
 <ul>
-<li><a href="#orgbb011b2">Common aliases</a></li>
-<li><a href="#org98af224">Directories</a></li>
-<li><a href="#org8c7bc83">Single char shortcuts for some commands</a></li>
-<li><a href="#org8a7c93b">Git</a></li>
-<li><a href="#org596cf57">SVN</a></li>
-<li><a href="#org4ba766d">History</a></li>
-<li><a href="#orgaa871e2">Screen</a></li>
-<li><a href="#orgcb2c2ba">SSH agent / GPG agent</a></li>
-<li><a href="#orgb7fcf3c">Debian</a></li>
-<li><a href="#org2d9368d">System admin (NMAP, etc.)</a></li>
-<li><a href="#orga8045a3">Org</a></li>
-<li><a href="#orgec80cdb">Grep</a></li>
-<li><a href="#org7c15bce">Ripgrep</a></li>
-<li><a href="#org53329e5">Ag, the Silver Searcher</a></li>
-<li><a href="#orgba6bc5e">GraphicsMagick</a></li>
-<li><a href="#org9b8f1f4">Other things to sort</a></li>
-<li><a href="#org4e9b5d7">MCit tools</a></li>
-<li><a href="#orgace5080">Extra</a></li>
+<li><a href="#org80e1375">Common aliases</a></li>
+<li><a href="#orgfa4642b">Directories</a></li>
+<li><a href="#org7435235">Single char shortcuts for some commands</a></li>
+<li><a href="#orge03745c">Git</a></li>
+<li><a href="#org07decc8">SVN</a></li>
+<li><a href="#org2b7c2df">History</a></li>
+<li><a href="#orgc7f2bca">Screen</a></li>
+<li><a href="#orgb37d655">SSH agent / GPG agent</a></li>
+<li><a href="#org7351f86">Debian</a></li>
+<li><a href="#org5980c53">System admin (NMAP, etc.)</a></li>
+<li><a href="#org035a5e9">Org</a></li>
+<li><a href="#org40ab19d">Grep</a></li>
+<li><a href="#org500bcbf">Ripgrep</a></li>
+<li><a href="#orgb829b04">Ag, the Silver Searcher</a></li>
+<li><a href="#orge0345f0">GraphicsMagick</a></li>
+<li><a href="#org9e9997b">Other things to sort</a></li>
+<li><a href="#org46bcd84">MCit tools</a></li>
+<li><a href="#orga4c88da">Extra</a></li>
 </ul>
 </li>
-<li><a href="#org228057b">NMAP</a></li>
-<li><a href="#org6c0e7cc">Postamble</a></li>
+<li><a href="#org5313631">NMAP</a></li>
+<li><a href="#orgbcb7e20">Postamble</a></li>
 </ul>
 </li>
-<li><a href="#org0da1e20">Java</a></li>
-<li><a href="#org1f5977d">FAQ</a>
+<li><a href="#orgc058a22">Java</a></li>
+<li><a href="#orgcbc5d91">FAQ</a>
 <ul>
-<li><a href="#orgf762b30">How to fix &ldquo;zsh compinit: insecure directories&rdquo;?</a></li>
-<li><a href="#orgd6a6bab">How to run Emacs without showing a terminal window?</a></li>
+<li><a href="#org2fd8995">How to fix &ldquo;zsh compinit: insecure directories&rdquo;?</a></li>
+<li><a href="#orgbb57d5d">How to run Emacs without showing a terminal window?</a></li>
 </ul>
 </li>
 </ul>
@@ -337,9 +350,9 @@
 Look at <a href="https://github.com/jlevy/the-art-of-command-line">https://github.com/jlevy/the-art-of-command-line</a>!
 </p>
 
-<div id="outline-container-orgaec703e" class="outline-2">
-<h2 id="orgaec703e">Summary</h2>
-<div class="outline-text-2" id="text-orgaec703e">
+<div id="outline-container-orgcb1df09" class="outline-2">
+<h2 id="orgcb1df09">Summary</h2>
+<div class="outline-text-2" id="text-orgcb1df09">
 <p>
 ShellRC is a set of configuration files to take advantage of Bash and Zsh on Mac
 OS X, Linux and Windows (with Cygwin).
@@ -347,21 +360,21 @@ OS X, Linux and Windows (with Cygwin).
 </div>
 </div>
 
-<div id="outline-container-org5ee4525" class="outline-2">
-<h2 id="org5ee4525">Getting started</h2>
-<div class="outline-text-2" id="text-org5ee4525">
+<div id="outline-container-org52c13de" class="outline-2">
+<h2 id="org52c13de">Getting started</h2>
+<div class="outline-text-2" id="text-org52c13de">
 </div>
-<div id="outline-container-org47e1210" class="outline-3">
-<h3 id="org47e1210">Prerequisites for Windows</h3>
-<div class="outline-text-3" id="text-org47e1210">
+<div id="outline-container-org1951e26" class="outline-3">
+<h3 id="org1951e26">Prerequisites for Windows</h3>
+<div class="outline-text-3" id="text-org1951e26">
 <p>
 Install <a href="https://www.cygwin.com/">Cygwin</a> (<a href="http://mirrors.kernel.org">http://mirrors.kernel.org</a>).
 </p>
 </div>
 
-<div id="outline-container-org34cae82" class="outline-4">
-<h4 id="org34cae82"><code>PATH</code></h4>
-<div class="outline-text-4" id="text-org34cae82">
+<div id="outline-container-org8344154" class="outline-4">
+<h4 id="org8344154"><code>PATH</code></h4>
+<div class="outline-text-4" id="text-org8344154">
 <p>
 After Cygwin is installed, modify the System <code>PATH</code> variable: prepend it with
 <code>C:\cygwin64\bin</code> (before <code>%SystemRoot%\system32</code>).
@@ -396,18 +409,18 @@ when called from <code>c:/cygwin/Cygwin.bat</code>!!</li>
 </div>
 </div>
 
-<div id="outline-container-org8c92058" class="outline-4">
-<h4 id="org8c92058">Add an <code>HOME</code> environment variable</h4>
-<div class="outline-text-4" id="text-org8c92058">
+<div id="outline-container-org8e272d3" class="outline-4">
+<h4 id="org8e272d3">Add an <code>HOME</code> environment variable</h4>
+<div class="outline-text-4" id="text-org8e272d3">
 <p>
 No trailing backslash!
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga00d1d5" class="outline-4">
-<h4 id="orga00d1d5">Change your Cygwin <code>HOME</code> folder</h4>
-<div class="outline-text-4" id="text-orga00d1d5">
+<div id="outline-container-orgf60845a" class="outline-4">
+<h4 id="orgf60845a">Change your Cygwin <code>HOME</code> folder</h4>
+<div class="outline-text-4" id="text-orgf60845a">
 <p>
 Programs like <code>ssh</code> don&rsquo;t rely on your environment variable <code>HOME</code> for the location
 of your <b>home directory</b>.
@@ -431,9 +444,9 @@ from that field).
 </div>
 </div>
 
-<div id="outline-container-org766eecf" class="outline-4">
-<h4 id="org766eecf">Packages</h4>
-<div class="outline-text-4" id="text-org766eecf">
+<div id="outline-container-orgd114fda" class="outline-4">
+<h4 id="orgd114fda">Packages</h4>
+<div class="outline-text-4" id="text-orgd114fda">
 <div class="inlinetask">
 <b><span class="todo TODO">TODO</span> See <a href="http://www.4thinker.com/cygwin-setup.html">http://www.4thinker.com/cygwin-setup.html</a></b><br />
 nil</div>
@@ -595,6 +608,7 @@ one instead if you need &ldquo;nl&rdquo; language&#x2026;)</li>
 <li class="off">&#x2610; <code>flog</code> (logger, to syslog)</li>
 <li class="on">&#x2611; <code>gnupg</code> (for <code>gpg</code>) &#x2013; requiring <code>libusb0</code> (though you don&rsquo;t need to install
 the Win32 driver which is adviced!)</li>
+<li class="on">&#x2611; <code>moreutils</code> (provides <code>sponge</code>)</li>
 <li class="on">&#x2611; <code>ncurses</code> (provides <code>tput</code> and the <code>clear</code> command used by the TeX Live
 installer, though you can use <code>C-l</code> to get the same result)</li>
 <li class="off">&#x2610; <code>screen</code></li>
@@ -608,7 +622,7 @@ installer, though you can use <code>C-l</code> to get the same result)</li>
 <ul class="org-ul">
 <li class="off">&#x2610; <code>fontconfig</code> (needed by XeTeX)</li>
 <li class="on">&#x2611; <code>xinit</code> (needed by <code>meld</code>)
-See <a href="#org670672a">Display</a>.</li>
+See <a href="#org209f3a6">Display</a>.</li>
 </ul></li>
 
 <li>Web
@@ -633,9 +647,9 @@ replacements:
 </div>
 </div>
 
-<div id="outline-container-org8078eb8" class="outline-4">
-<h4 id="org8078eb8">Terminal emulators</h4>
-<div class="outline-text-4" id="text-org8078eb8">
+<div id="outline-container-org84df87a" class="outline-4">
+<h4 id="org84df87a">Terminal emulators</h4>
+<div class="outline-text-4" id="text-org84df87a">
 <p>
 For a better Emacs experience than with the Cygwin console, use:
 </p>
@@ -647,6 +661,19 @@ For a better Emacs experience than with the Cygwin console, use:
 </ul>
 
 <div class="tip">
+<p>
+<b><code>Alt-F2</code> opens a new terminal window</b>
+</p>
+
+<p>
+<b><code>Shift-PageUp</code> and <code>Shift-PageDown</code>!</b>
+</p>
+
+<p>
+For rapidly paging through previous lines of output, you can press <code>Shift-PageUp</code>
+and <code>Shift-PageDown</code>, just like the Linux console.
+</p>
+
 <p>
 <b>Searching text in scrollback buffer (in Cygwin MinTTY)</b>
 </p>
@@ -667,9 +694,9 @@ See <a href="https://mintty.github.io/mintty.1.html">man page</a>.
 </div>
 </div>
 
-<div id="outline-container-orgd106468" class="outline-4">
-<h4 id="orgd106468">GnuPG</h4>
-<div class="outline-text-4" id="text-orgd106468">
+<div id="outline-container-orgcc2ce68" class="outline-4">
+<h4 id="orgcc2ce68">GnuPG</h4>
+<div class="outline-text-4" id="text-orgcc2ce68">
 <p>
 When first running <code>gpg</code>:
 </p>
@@ -683,9 +710,9 @@ When first running <code>gpg</code>:
 </div>
 </div>
 
-<div id="outline-container-orgf8b44b2" class="outline-4">
-<h4 id="orgf8b44b2">Suppress the Cygwin DOS path warning</h4>
-<div class="outline-text-4" id="text-orgf8b44b2">
+<div id="outline-container-org522aa9e" class="outline-4">
+<h4 id="org522aa9e">Suppress the Cygwin DOS path warning</h4>
+<div class="outline-text-4" id="text-org522aa9e">
 <p>
 When first running <code>M-x ediff-buffers</code>, I got this Cygwin warning:
 </p>
@@ -706,9 +733,9 @@ place to set it is in the global <b>Windows environment variables</b>.
 </div>
 </div>
 
-<div id="outline-container-orgd83e11e" class="outline-3">
-<h3 id="orgd83e11e">Basic installation</h3>
-<div class="outline-text-3" id="text-orgd83e11e">
+<div id="outline-container-org519298a" class="outline-3">
+<h3 id="org519298a">Basic installation</h3>
+<div class="outline-text-3" id="text-org519298a">
 <p>
 ShellRC is installed by doing the following:
 </p>
@@ -757,9 +784,9 @@ ShellRC&rsquo;s configuration.
 </div>
 </div>
 
-<div id="outline-container-org79ed156" class="outline-3">
-<h3 id="org79ed156">Custom directory</h3>
-<div class="outline-text-3" id="text-org79ed156">
+<div id="outline-container-org62556d1" class="outline-3">
+<h3 id="org62556d1">Custom directory</h3>
+<div class="outline-text-3" id="text-org62556d1">
 <p>
 If you&rsquo;d like to change the install directory with the <code>ZSH</code> environment variable,
 either by running export ZSH=/your/path before installing,
@@ -768,9 +795,9 @@ either by running export ZSH=/your/path before installing,
 </div>
 </div>
 
-<div id="outline-container-orgb689bdd" class="outline-2">
-<h2 id="orgb689bdd">About portability</h2>
-<div class="outline-text-2" id="text-orgb689bdd">
+<div id="outline-container-org2f972c3" class="outline-2">
+<h2 id="org2f972c3">About portability</h2>
+<div class="outline-text-2" id="text-org2f972c3">
 <p>
 To look for existing commands, don&rsquo;t use <code>which</code> (because it is not in POSIX so
 its output format is unspecified, and it complains when nothing is found instead
@@ -803,9 +830,9 @@ Instead use:
 </div>
 </div>
 
-<div id="outline-container-org4cd7147" class="outline-2">
-<h2 id="org4cd7147">Startup files</h2>
-<div class="outline-text-2" id="text-org4cd7147">
+<div id="outline-container-org9421e2e" class="outline-2">
+<h2 id="org9421e2e">Startup files</h2>
+<div class="outline-text-2" id="text-org9421e2e">
 <p>
 There are 3 <b>types of shells</b>:
 </p>
@@ -897,9 +924,9 @@ endings).  Make sure your editor is in Unix format when creating text files.
 </div>
 </div>
 
-<div id="outline-container-org2ab3af9" class="outline-3">
-<h3 id="org2ab3af9">What to put where?</h3>
-<div class="outline-text-3" id="text-org2ab3af9">
+<div id="outline-container-orgd87ed6f" class="outline-3">
+<h3 id="orgd87ed6f">What to put where?</h3>
+<div class="outline-text-3" id="text-orgd87ed6f">
 <p>
 Login shell runs <code>.profile</code> (or <code>.bash_profile</code> or <code>.bash_login</code>) on startup. Set your
 env variables in there, because sub-shells will inherit the env vars. Then make
@@ -935,9 +962,9 @@ From <a href="https://www.linuxquestions.org/questions/linux-general-1/differenc
 </div>
 </div>
 
-<div id="outline-container-org429702f" class="outline-3">
-<h3 id="org429702f">What to put in your Zsh startup files</h3>
-<div class="outline-text-3" id="text-org429702f">
+<div id="outline-container-orgee05f23" class="outline-3">
+<h3 id="orgee05f23">What to put in your Zsh startup files</h3>
+<div class="outline-text-3" id="text-orgee05f23">
 <p>
 See <a href="http://zsh.sourceforge.net/Guide/zshguide02.html">http://zsh.sourceforge.net/Guide/zshguide02.html</a>.
 </p>
@@ -945,9 +972,9 @@ See <a href="http://zsh.sourceforge.net/Guide/zshguide02.html">http://zsh.source
 </div>
 </div>
 
-<div id="outline-container-orgef42a18" class="outline-2">
-<h2 id="orgef42a18">Configuration related to Bash</h2>
-<div class="outline-text-2" id="text-orgef42a18">
+<div id="outline-container-org2f964cb" class="outline-2">
+<h2 id="org2f964cb">Configuration related to Bash</h2>
+<div class="outline-text-2" id="text-org2f964cb">
 <p>
 Le <code>!</code> en shell permet plein de trucs sympa.
 </p>
@@ -974,9 +1001,9 @@ $ gm convert !*
 </div>
 </div>
 
-<div id="outline-container-org64d1240" class="outline-3">
-<h3 id="org64d1240">Preamble</h3>
-<div class="outline-text-3" id="text-org64d1240">
+<div id="outline-container-org45f86d8" class="outline-3">
+<h3 id="org45f86d8">Preamble</h3>
+<div class="outline-text-3" id="text-org45f86d8">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">bash_profile --- Bourne Again Shell configuration file (for interactive shells)</span>
 
@@ -1025,9 +1052,9 @@ it&rsquo;s important to refrain from outputting anything in those cases.
 </div>
 </div>
 
-<div id="outline-container-orgc63414d" class="outline-3">
-<h3 id="orgc63414d">Source global rc file (if any)</h3>
-<div class="outline-text-3" id="text-orgc63414d">
+<div id="outline-container-org1bcee21" class="outline-3">
+<h3 id="org1bcee21">Source global rc file (if any)</h3>
+<div class="outline-text-3" id="text-org1bcee21">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source global definitions only if the session is interactive.</span>
 <span class="org-keyword">if</span> ([ $(<span class="org-sh-quoted-exec">expr</span> index <span class="org-string">"$-"</span> i) -ne 0 ] &amp;&amp; [ -f /etc/bashrc ]); <span class="org-keyword">then</span>
@@ -1044,9 +1071,9 @@ sessions.
 </div>
 </div>
 
-<div id="outline-container-org87d49b5" class="outline-3">
-<h3 id="org87d49b5">Command history</h3>
-<div class="outline-text-3" id="text-org87d49b5">
+<div id="outline-container-orgea8ffc6" class="outline-3">
+<h3 id="orgea8ffc6">Command history</h3>
+<div class="outline-text-3" id="text-orgea8ffc6">
 <p>
 Access and modify commands that you had previously typed at the command line.
 </p>
@@ -1063,9 +1090,9 @@ Access and modify commands that you had previously typed at the command line.
 </div>
 </div>
 
-<div id="outline-container-org33e81cf" class="outline-3">
-<h3 id="org33e81cf">Prompt</h3>
-<div class="outline-text-3" id="text-org33e81cf">
+<div id="outline-container-org6919c6b" class="outline-3">
+<h3 id="org6919c6b">Prompt</h3>
+<div class="outline-text-3" id="text-org6919c6b">
 <p>
 Appearance of the prompt.
 </p>
@@ -1078,17 +1105,17 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 <pre class="src src-shell"><span class="org-keyword">if</span> tput setaf 1 &amp;&gt; /dev/null; <span class="org-keyword">then</span>
     tput sgr0
     <span class="org-keyword">if</span> [[ $(<span class="org-sh-quoted-exec">tput</span> colors) -ge 256 ]] 2&gt;/dev/null; <span class="org-keyword">then</span>
-      <span class="org-variable-name">MAGENTA</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 9)
-      <span class="org-variable-name">ORANGE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 172)
-      <span class="org-variable-name">GREEN</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 190)
-      <span class="org-variable-name">PURPLE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 141)
-      <span class="org-variable-name">WHITE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 256)
+        <span class="org-variable-name">MAGENTA</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 9)
+        <span class="org-variable-name">ORANGE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 172)
+        <span class="org-variable-name">GREEN</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 190)
+        <span class="org-variable-name">PURPLE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 141)
+        <span class="org-variable-name">WHITE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 256)
     <span class="org-keyword">else</span>
-      <span class="org-variable-name">MAGENTA</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 5)
-      <span class="org-variable-name">ORANGE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 4)
-      <span class="org-variable-name">GREEN</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 2)
-      <span class="org-variable-name">PURPLE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 1)
-      <span class="org-variable-name">WHITE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 7)
+        <span class="org-variable-name">MAGENTA</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 5)
+        <span class="org-variable-name">ORANGE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 4)
+        <span class="org-variable-name">GREEN</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 2)
+        <span class="org-variable-name">PURPLE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 1)
+        <span class="org-variable-name">WHITE</span>=$(<span class="org-sh-quoted-exec">tput</span> setaf 7)
     <span class="org-keyword">fi</span>
     <span class="org-variable-name">BOLD</span>=$(<span class="org-sh-quoted-exec">tput</span> bold)
     <span class="org-variable-name">RESET</span>=$(<span class="org-sh-quoted-exec">tput</span> sgr0)
@@ -1112,8 +1139,7 @@ Note <code>\[...\]</code> used by the shell to count proper length.
 <span class="org-comment-delimiter">#</span><span class="org-comment">*** PROMPT_COMMAND + PS1 --- Default interaction prompt</span>
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">To be called just before the prompt is printed.</span>
-<span class="org-function-name">leuven-before-prompt</span> ()
-{
+<span class="org-function-name">leuven-before-prompt</span>() {
     <span class="org-variable-name">RET</span>=$<span class="org-variable-name">?</span>
 
     <span class="org-comment-delimiter"># </span><span class="org-comment">Set a color prompt (unless in Emacs).</span>
@@ -1214,9 +1240,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-org247383e" class="outline-3">
-<h3 id="org247383e">Default permissions</h3>
-<div class="outline-text-3" id="text-org247383e">
+<div id="outline-container-org9c7dee5" class="outline-3">
+<h3 id="org9c7dee5">Default permissions</h3>
+<div class="outline-text-3" id="text-org9c7dee5">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Permissions on newly created files.</span>
 <span class="org-builtin">umask</span> 022                               <span class="org-comment-delimiter"># </span><span class="org-comment">Prevent new dirs and files from being</span>
@@ -1229,9 +1255,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-orgdf86b47" class="outline-3">
-<h3 id="orgdf86b47">Shell options</h3>
-<div class="outline-text-3" id="text-orgdf86b47">
+<div id="outline-container-org6f9f160" class="outline-3">
+<h3 id="org6f9f160">Shell options</h3>
+<div class="outline-text-3" id="text-org6f9f160">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Correct minor misspellings of cd pathnames.</span>
 <span class="org-builtin">shopt</span> -s cdspell
@@ -1240,9 +1266,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-org814a501" class="outline-3">
-<h3 id="org814a501">Miscellaneous</h3>
-<div class="outline-text-3" id="text-org814a501">
+<div id="outline-container-orgd77b0a6" class="outline-3">
+<h3 id="orgd77b0a6">Miscellaneous</h3>
+<div class="outline-text-3" id="text-orgd77b0a6">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">** 8.6 Programmable Completion</span>
 
@@ -1271,9 +1297,9 @@ well.
 </div>
 </div>
 
-<div id="outline-container-orge2ed1e0" class="outline-3">
-<h3 id="orge2ed1e0">Source common file</h3>
-<div class="outline-text-3" id="text-orge2ed1e0">
+<div id="outline-container-orgcd94e8b" class="outline-3">
+<h3 id="orgcd94e8b">Source common file</h3>
+<div class="outline-text-3" id="text-orgcd94e8b">
 <p>
 <code>.shellrc</code> contains miscellaneous settings common to Bash and Zsh.
 </p>
@@ -1302,9 +1328,9 @@ In general, it should not do more than <b>change the default options of a comman
 </div>
 </div>
 
-<div id="outline-container-orgaa98f1b" class="outline-3">
-<h3 id="orgaa98f1b">Postamble</h3>
-<div class="outline-text-3" id="text-orgaa98f1b">
+<div id="outline-container-org956132d" class="outline-3">
+<h3 id="org956132d">Postamble</h3>
+<div class="outline-text-3" id="text-org956132d">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* Local Variables</span>
 
@@ -1321,9 +1347,9 @@ In general, it should not do more than <b>change the default options of a comman
 </div>
 </div>
 
-<div id="outline-container-orgcc0b3c4" class="outline-3">
-<h3 id="orgcc0b3c4">InputRC</h3>
-<div class="outline-text-3" id="text-orgcc0b3c4">
+<div id="outline-container-org20e26f6" class="outline-3">
+<h3 id="org20e26f6">InputRC</h3>
+<div class="outline-text-3" id="text-org20e26f6">
 <p>
 This file controls the behavior of line input editing for programs that use
 the Gnu <b>Readline</b> library. Existing programs include FTP, Bash, and Gdb.
@@ -1404,17 +1430,17 @@ $<span class="org-variable-name">endif</span>
 </div>
 </div>
 
-<div id="outline-container-org2d6b8fa" class="outline-2">
-<h2 id="org2d6b8fa">Configuration related to Zsh</h2>
-<div class="outline-text-2" id="text-org2d6b8fa">
+<div id="outline-container-orged94584" class="outline-2">
+<h2 id="orged94584">Configuration related to Zsh</h2>
+<div class="outline-text-2" id="text-orged94584">
 <p>
 Documentation: <a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">Zsh Reference Card</a>.
 </p>
 </div>
 
-<div id="outline-container-org83bf2d0" class="outline-3">
-<h3 id="org83bf2d0">Examples</h3>
-<div class="outline-text-3" id="text-org83bf2d0">
+<div id="outline-container-org1a85a3c" class="outline-3">
+<h3 id="org1a85a3c">Examples</h3>
+<div class="outline-text-3" id="text-org1a85a3c">
 <ul class="org-ul">
 <li><a href="http://aperiodic.net/phil/prompt/">Phil!&rsquo;s ZSH Prompt</a></li>
 <li><a href="http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/">My Extravagant Zsh Prompt</a> (with Git Repository Information)</li>
@@ -1423,18 +1449,18 @@ Documentation: <a href="http://www.bash2zsh.com/zsh_refcard/refcard.pdf">Zsh Ref
 </div>
 </div>
 
-<div id="outline-container-orgcc03fa3" class="outline-3">
-<h3 id="orgcc03fa3">Prerequisites</h3>
-<div class="outline-text-3" id="text-orgcc03fa3">
+<div id="outline-container-org5e8268e" class="outline-3">
+<h3 id="org5e8268e">Prerequisites</h3>
+<div class="outline-text-3" id="text-org5e8268e">
 <p>
 Install Zsh.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5ab3b71" class="outline-3">
-<h3 id="org5ab3b71">Preamble</h3>
-<div class="outline-text-3" id="text-org5ab3b71">
+<div id="outline-container-orgddc87b2" class="outline-3">
+<h3 id="orgddc87b2">Preamble</h3>
+<div class="outline-text-3" id="text-orgddc87b2">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">## </span><span class="org-comment">.zshrc --- Z Shell configuration file (for interactive shells)</span>
 
@@ -1462,9 +1488,9 @@ Install Zsh.
 </div>
 </div>
 
-<div id="outline-container-org36a9032" class="outline-3">
-<h3 id="org36a9032">Add a new theme: Solarized</h3>
-<div class="outline-text-3" id="text-org36a9032">
+<div id="outline-container-orgb329e67" class="outline-3">
+<h3 id="orgb329e67">Add a new theme: Solarized</h3>
+<div class="outline-text-3" id="text-orgb329e67">
 <ul class="org-ul">
 <li><a href="https://github.com/altercation/solarized/issues/90">How should bold/bright be handled by terminal emulators?</a></li>
 <li><a href="https://github.com/mintty/mintty/issues/683">Solarized bold colors are gray</a></li>
@@ -1512,9 +1538,9 @@ See great (more portable) stuff at
 </div>
 </div>
 
-<div id="outline-container-org9371672" class="outline-3">
-<h3 id="org9371672">Install Powerline-patched fonts</h3>
-<div class="outline-text-3" id="text-org9371672">
+<div id="outline-container-orga47d5b9" class="outline-3">
+<h3 id="orga47d5b9">Install Powerline-patched fonts</h3>
+<div class="outline-text-3" id="text-orga47d5b9">
 <p>
 <b>Powerline patched</b> versions of the most popular mono <b>fonts</b> are available at
 <a href="https://github.com/powerline/fonts">powerline/fonts</a>.
@@ -1561,9 +1587,9 @@ For Consolas, use: <a href="https://github.com/runsisi/consolas-font-for-powerli
 </div>
 </div>
 
-<div id="outline-container-orga8c436b" class="outline-3">
-<h3 id="orga8c436b">Install &ldquo;Oh My Zsh&rdquo;</h3>
-<div class="outline-text-3" id="text-orga8c436b">
+<div id="outline-container-org0c5fe76" class="outline-3">
+<h3 id="org0c5fe76">Install &ldquo;Oh My Zsh&rdquo;</h3>
+<div class="outline-text-3" id="text-org0c5fe76">
 <p>
 Oh My Zsh is just awesome!
 </p>
@@ -1600,14 +1626,14 @@ settings.
 </div>
 </div>
 
-<div id="outline-container-org3a52e3c" class="outline-3">
-<h3 id="org3a52e3c">Change the Oh My Zsh theme to &ldquo;agnoster&rdquo;</h3>
-<div class="outline-text-3" id="text-org3a52e3c">
+<div id="outline-container-org92b178c" class="outline-3">
+<h3 id="org92b178c">Change the Oh My Zsh theme to &ldquo;agnoster&rdquo;</h3>
+<div class="outline-text-3" id="text-org92b178c">
 </div>
 
-<div id="outline-container-org2ef7f01" class="outline-4">
-<h4 id="org2ef7f01">Agnoster Theme Adaption for SVN</h4>
-<div class="outline-text-4" id="text-org2ef7f01">
+<div id="outline-container-orgaeb903c" class="outline-4">
+<h4 id="orgaeb903c">Agnoster Theme Adaption for SVN</h4>
+<div class="outline-text-4" id="text-orgaeb903c">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-keyword">if</span> [ -r <span class="org-string">"$ZSH"</span> ]; <span class="org-keyword">then</span>
     prompt_svn() {
@@ -1632,9 +1658,9 @@ settings.
 </div>
 </div>
 
-<div id="outline-container-org14ba196" class="outline-3">
-<h3 id="org14ba196">Install Powerlevel9k!</h3>
-<div class="outline-text-3" id="text-org14ba196">
+<div id="outline-container-org16eafc4" class="outline-3">
+<h3 id="org16eafc4">Install Powerlevel9k!</h3>
+<div class="outline-text-3" id="text-org16eafc4">
 <div class="org-src-container">
 <pre class="src src-shell">git clone https://github.com/bhilburn/powerlevel9k.git <span class="org-sh-escaped-newline">\</span>
     ${<span class="org-variable-name">ZSH_CUSTOM</span>}/themes/powerlevel9k
@@ -1666,9 +1692,9 @@ settings.
 </div>
 </div>
 
-<div id="outline-container-org58fa0c2" class="outline-3">
-<h3 id="org58fa0c2">Plugins</h3>
-<div class="outline-text-3" id="text-org58fa0c2">
+<div id="outline-container-orga010409" class="outline-3">
+<h3 id="orga010409">Plugins</h3>
+<div class="outline-text-3" id="text-orga010409">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-keyword">if</span> [ -r <span class="org-string">"$HOME/.dotfiles/plugins/oh-my-zsh"</span> ]; <span class="org-keyword">then</span>
 
@@ -1686,9 +1712,9 @@ settings.
 </div>
 </div>
 
-<div id="outline-container-org0711514" class="outline-4">
-<h4 id="org0711514">Display colored man pages</h4>
-<div class="outline-text-4" id="text-org0711514">
+<div id="outline-container-orge6efd92" class="outline-4">
+<h4 id="orge6efd92">Display colored man pages</h4>
+<div class="outline-text-4" id="text-orge6efd92">
 <div class="seealso">
 <p>
 <a href="file:///cygdrive/d/Users/fni/.minttyrc">.minttyrc</a> to <b>fix colors</b> and fonts.  See <a href="http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html">mintty Manual Reference Pages</a> for more
@@ -1712,9 +1738,9 @@ information.
 </div>
 </div>
 
-<div id="outline-container-org0f5ee91" class="outline-4">
-<h4 id="org0f5ee91">Zsh Syntax Highlighting</h4>
-<div class="outline-text-4" id="text-org0f5ee91">
+<div id="outline-container-orgb5fe73d" class="outline-4">
+<h4 id="orgb5fe73d">Zsh Syntax Highlighting</h4>
+<div class="outline-text-4" id="text-orgb5fe73d">
 <p>
 Besides the syntax highlighting for your shell, this plugin has the capability
 to verify the correctness of your command.
@@ -1735,9 +1761,9 @@ to verify the correctness of your command.
 </div>
 </div>
 
-<div id="outline-container-org21adf73" class="outline-4">
-<h4 id="org21adf73">Zsh Autosuggestions</h4>
-<div class="outline-text-4" id="text-org21adf73">
+<div id="outline-container-org934937a" class="outline-4">
+<h4 id="org934937a">Zsh Autosuggestions</h4>
+<div class="outline-text-4" id="text-org934937a">
 <p>
 It suggests commands based on your command history.  Very useful!  To select the
 proposed command, press the right arrow key.
@@ -1758,9 +1784,9 @@ proposed command, press the right arrow key.
 </div>
 </div>
 
-<div id="outline-container-orgecf6780" class="outline-4">
-<h4 id="orgecf6780">Load Zsh tools</h4>
-<div class="outline-text-4" id="text-orgecf6780">
+<div id="outline-container-org152765a" class="outline-4">
+<h4 id="org152765a">Load Zsh tools</h4>
+<div class="outline-text-4" id="text-org152765a">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-keyword">if</span> [ -r <span class="org-string">"$HOME/.dotfiles/plugins/oh-my-zsh"</span> ]; <span class="org-keyword">then</span>
     <span class="org-builtin">.</span> $<span class="org-variable-name">ZSH</span>/oh-my-zsh.sh
@@ -1778,9 +1804,9 @@ proposed command, press the right arrow key.
 </div>
 </div>
 
-<div id="outline-container-org6381587" class="outline-3">
-<h3 id="org6381587">Command history</h3>
-<div class="outline-text-3" id="text-org6381587">
+<div id="outline-container-orgb84d07d" class="outline-3">
+<h3 id="orgb84d07d">Command history</h3>
+<div class="outline-text-3" id="text-orgb84d07d">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">History.</span>
 <span class="org-variable-name">HISTSIZE</span>=1000
@@ -1817,9 +1843,9 @@ setopt notify
 </div>
 </div>
 
-<div id="outline-container-org742a381" class="outline-3">
-<h3 id="org742a381">Zsh line editor</h3>
-<div class="outline-text-3" id="text-org742a381">
+<div id="outline-container-org4981355" class="outline-3">
+<h3 id="org4981355">Zsh line editor</h3>
+<div class="outline-text-3" id="text-org4981355">
 <p>
 Useful keybindings:
 </p>
@@ -1862,8 +1888,7 @@ bindkey <span class="org-string">';5C'</span> forward-word
 bindkey <span class="org-string">';5D'</span> backward-word
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Make Zsh beep like Bash when backspacing on an empty command line.</span>
-<span class="org-function-name">backward-delete-char-beep</span> ()
-{
+<span class="org-function-name">backward-delete-char-beep</span>() {
     <span class="org-keyword">if</span> (( CURSOR == 0 )); <span class="org-keyword">then</span>
         zle beep
     <span class="org-keyword">fi</span>
@@ -1876,9 +1901,9 @@ bindkey <span class="org-string">"^?"</span> backward-delete-char-beep
 </div>
 </div>
 
-<div id="outline-container-org22aad1f" class="outline-3">
-<h3 id="org22aad1f">Completion Widgets</h3>
-<div class="outline-text-3" id="text-org22aad1f">
+<div id="outline-container-orgfabe3dc" class="outline-3">
+<h3 id="orgfabe3dc">Completion Widgets</h3>
+<div class="outline-text-3" id="text-orgfabe3dc">
 <p>
 Zsh will attempt to complete wildcards by expanding them in the command line.
 </p>
@@ -1900,9 +1925,9 @@ setopt autolist
 </div>
 </div>
 
-<div id="outline-container-org9646a2e" class="outline-3">
-<h3 id="org9646a2e">Prompt</h3>
-<div class="outline-text-3" id="text-org9646a2e">
+<div id="outline-container-orga51f371" class="outline-3">
+<h3 id="orga51f371">Prompt</h3>
+<div class="outline-text-3" id="text-orga51f371">
 <p>
 Zsh expects that every character in <code>PS1</code> will advance the cursor one space.  Wrap
 any non-printing escape sequences in <code>%{...%}</code>, and it should work. So use
@@ -1982,7 +2007,7 @@ same.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-keyword">function</span> <span class="org-function-name">echo_blank</span>() {
+<pre class="src src-shell"><span class="org-function-name">echo_blank</span>() {
     <span class="org-builtin">echo</span>
 }
 
@@ -2009,9 +2034,9 @@ might get different settings.
 </div>
 </div>
 
-<div id="outline-container-org2695c5d" class="outline-4">
-<h4 id="org2695c5d">Right prompt</h4>
-<div class="outline-text-4" id="text-org2695c5d">
+<div id="outline-container-orgb889572" class="outline-4">
+<h4 id="orgb889572">Right prompt</h4>
+<div class="outline-text-4" id="text-orgb889572">
 <p>
 Don&rsquo;t confuse TRAMP:
 </p>
@@ -2024,17 +2049,17 @@ Don&rsquo;t confuse TRAMP:
 </div>
 </div>
 
-<div id="outline-container-orgf301945" class="outline-3">
-<h3 id="orgf301945">Aliasing</h3>
-<div class="outline-text-3" id="text-orgf301945">
+<div id="outline-container-org9167c79" class="outline-3">
+<h3 id="org9167c79">Aliasing</h3>
+<div class="outline-text-3" id="text-org9167c79">
 <p>
 Some global aliases (expand whatever their position).
 </p>
 </div>
 
-<div id="outline-container-org0dc4cbf" class="outline-4">
-<h4 id="org0dc4cbf">Common aliases</h4>
-<div class="outline-text-4" id="text-org0dc4cbf">
+<div id="outline-container-org54bb7d4" class="outline-4">
+<h4 id="org54bb7d4">Common aliases</h4>
+<div class="outline-text-4" id="text-org54bb7d4">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Command line head / tail shortcuts</span>
 <span class="org-builtin">alias</span> -g <span class="org-variable-name">H</span>=<span class="org-string">'| head'</span> <span class="org-comment-delimiter">###</span>
@@ -2105,9 +2130,9 @@ Some global aliases (expand whatever their position).
 </div>
 </div>
 
-<div id="outline-container-org0700343" class="outline-4">
-<h4 id="org0700343">Git</h4>
-<div class="outline-text-4" id="text-org0700343">
+<div id="outline-container-orgebbd021" class="outline-4">
+<h4 id="orgebbd021">Git</h4>
+<div class="outline-text-4" id="text-orgebbd021">
 <p>
 Git last week / month / year:
 </p>
@@ -2121,9 +2146,9 @@ Git last week / month / year:
 </div>
 </div>
 
-<div id="outline-container-org2a449a7" class="outline-4">
-<h4 id="org2a449a7">Directories</h4>
-<div class="outline-text-4" id="text-org2a449a7">
+<div id="outline-container-org81f7c8a" class="outline-4">
+<h4 id="org81f7c8a">Directories</h4>
+<div class="outline-text-4" id="text-org81f7c8a">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">When entering a directory, list the contents.</span>
 <span class="org-builtin">cd</span>() { <span class="org-builtin">builtin</span> cd <span class="org-string">"$@"</span> &amp;&amp; ls; }
@@ -2133,9 +2158,9 @@ Git last week / month / year:
 </div>
 </div>
 
-<div id="outline-container-org9e83066" class="outline-3">
-<h3 id="org9e83066">Ledger</h3>
-<div class="outline-text-3" id="text-org9e83066">
+<div id="outline-container-org00a29be" class="outline-3">
+<h3 id="org00a29be">Ledger</h3>
+<div class="outline-text-3" id="text-org00a29be">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">export</span> <span class="org-variable-name">LEDGER</span>=ledger
 <span class="org-builtin">export</span> <span class="org-variable-name">LEDGER_FILE</span>=/Users/fni/Personal/Business/Accounting/LEDGER.dat
@@ -2161,8 +2186,7 @@ Git last week / month / year:
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Ledger using `ledger', `hledger' or `beancount' (see `$LEDGER')</span>
-<span class="org-function-name">Ledger</span> ()
-{
+<span class="org-function-name">Ledger</span>() {
     <span class="org-keyword">if</span> [ $<span class="org-variable-name">#</span> -lt 1 ]; <span class="org-keyword">then</span>
         cat &lt;&lt; EOF &gt; /dev/stderr
 <span class="org-sh-heredoc">Usage: $(</span><span class="org-sh-quoted-exec">basename</span><span class="org-sh-heredoc"> $0) -f FILE [OPTIONS] [COMMAND [PATTERNS]]</span>
@@ -2173,7 +2197,6 @@ Git last week / month / year:
     <span class="org-keyword">case</span> ${<span class="org-variable-name">LEDGER</span>} <span class="org-keyword">in</span>
         <span class="org-string">"beancount"</span> )
             ;;
-
         * )   <span class="org-comment-delimiter"># </span><span class="org-comment">default option</span>
             <span class="org-builtin">shift</span>;  <span class="org-comment-delimiter"># </span><span class="org-comment">for the useless (but expected) `-f'</span>
             ;;
@@ -2183,14 +2206,13 @@ Git last week / month / year:
     <span class="org-builtin">local</span> <span class="org-variable-name">LEDGER_FILE</span>=sample-ledger.dat;
     <span class="org-keyword">case</span> ${<span class="org-variable-name">LEDGER</span>} <span class="org-keyword">in</span>
         <span class="org-string">"beancount"</span> )
-            m4 -D <span class="org-variable-name">LEDGER</span>=beancount ${<span class="org-variable-name">LEDGER_M4_FILE</span>} |<span class="org-sh-escaped-newline">\</span>
-            sed -e <span class="org-string">'s/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g'</span> &gt; ${<span class="org-variable-name">LEDGER_FILE</span>}
+            m4 -D <span class="org-variable-name">LEDGER</span>=beancount ${<span class="org-variable-name">LEDGER_M4_FILE</span>} <span class="org-sh-escaped-newline">\</span>
+                | sed -e <span class="org-string">'s/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g'</span> &gt; ${<span class="org-variable-name">LEDGER_FILE</span>}
             bean-web ${<span class="org-variable-name">LEDGER_FILE</span>} $<span class="org-variable-name">@</span>   <span class="org-comment-delimiter"># </span><span class="org-comment">beancount Web interface</span>
             ;;
-
         * )   <span class="org-comment-delimiter"># </span><span class="org-comment">default option</span>
-            m4 ${<span class="org-variable-name">LEDGER_M4_FILE</span>} |<span class="org-sh-escaped-newline">\</span>
-            sed -e <span class="org-string">'s/^@/;@/'</span> &gt; ${<span class="org-variable-name">LEDGER_FILE</span>}
+            m4 ${<span class="org-variable-name">LEDGER_M4_FILE</span>} <span class="org-sh-escaped-newline">\</span>
+               | sed -e <span class="org-string">'s/^@/;@/'</span> &gt; ${<span class="org-variable-name">LEDGER_FILE</span>}
             ${<span class="org-variable-name">LEDGER</span>} -f ${<span class="org-variable-name">LEDGER_FILE</span>} $<span class="org-variable-name">@</span>
             ;;
     <span class="org-keyword">esac</span>
@@ -2210,9 +2232,9 @@ Git last week / month / year:
 </div>
 </div>
 
-<div id="outline-container-org7fd6bf7" class="outline-3">
-<h3 id="org7fd6bf7">20. Completion System</h3>
-<div class="outline-text-3" id="text-org7fd6bf7">
+<div id="outline-container-org8841bba" class="outline-3">
+<h3 id="org8841bba">20. Completion System</h3>
+<div class="outline-text-3" id="text-org8841bba">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Case-insensitive completion.</span>
 zstyle <span class="org-string">':completion:*'</span> matcher-list <span class="org-string">'m:{a-zA-Z}={A-Za-z}'</span>
@@ -2231,18 +2253,17 @@ Launch Windows applications from CLI (with <code>start</code> script &#x2013; se
 </div>
 </div>
 
-<div id="outline-container-orge14d1cd" class="outline-3">
-<h3 id="orge14d1cd">Zsh Modules</h3>
-<div class="outline-text-3" id="text-orge14d1cd">
+<div id="outline-container-org4bed153" class="outline-3">
+<h3 id="org4bed153">Zsh Modules</h3>
+<div class="outline-text-3" id="text-org4bed153">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Coloring stderr.</span>
 <span class="org-variable-name">STDERRRED</span>=$<span class="org-string">'\e[1;31m'</span>
 zmodload zsh/system
-<span class="org-function-name">color_err</span> () {
+<span class="org-function-name">color_err</span>() {
     <span class="org-comment-delimiter"># </span><span class="org-comment">Sysread &amp; syswrite are part of `zsh/system'.</span>
     emulate -LR zsh
-    <span class="org-keyword">while</span> sysread
-    <span class="org-keyword">do</span>
+    <span class="org-keyword">while</span> sysread; <span class="org-keyword">do</span>
         syswrite -o 2 <span class="org-string">"${STDERRRED}${REPLY}$terminfo[sgr0]"</span>
     <span class="org-keyword">done</span>
 }
@@ -2253,9 +2274,9 @@ zmodload zsh/system
 </div>
 </div>
 
-<div id="outline-container-org8f55eab" class="outline-3">
-<h3 id="org8f55eab">Source common file</h3>
-<div class="outline-text-3" id="text-org8f55eab">
+<div id="outline-container-org965410d" class="outline-3">
+<h3 id="org965410d">Source common file</h3>
+<div class="outline-text-3" id="text-org965410d">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Source common settings.</span>
 <span class="org-builtin">.</span> ${<span class="org-variable-name">HOME</span>}/.shellrc                      <span class="org-comment-delimiter"># </span><span class="org-comment">Error displayed if not found.</span>
@@ -2286,18 +2307,18 @@ zmodload zsh/system
 </div>
 </div>
 
-<div id="outline-container-orgbb447fb" class="outline-2">
-<h2 id="orgbb447fb">Configuration related to both shells</h2>
-<div class="outline-text-2" id="text-orgbb447fb">
+<div id="outline-container-org710ae3f" class="outline-2">
+<h2 id="org710ae3f">Configuration related to both shells</h2>
+<div class="outline-text-2" id="text-org710ae3f">
 <p>
 Everything in common between Bash and Z shell will come here, since it is read
 by both shells.
 </p>
 </div>
 
-<div id="outline-container-org950b825" class="outline-3">
-<h3 id="org950b825">Preamble</h3>
-<div class="outline-text-3" id="text-org950b825">
+<div id="outline-container-org62608ee" class="outline-3">
+<h3 id="org62608ee">Preamble</h3>
+<div class="outline-text-3" id="text-org62608ee">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Hey Emacs, this is a -*- sh -*- file</span>
 <span class="org-comment-delimiter">## </span><span class="org-comment">.shellrc --- Common features between Bash and Z Shell</span>
@@ -2311,13 +2332,13 @@ by both shells.
 </div>
 </div>
 
-<div id="outline-container-org539d14f" class="outline-3">
-<h3 id="org539d14f">Paths</h3>
-<div class="outline-text-3" id="text-org539d14f">
+<div id="outline-container-org68dc94b" class="outline-3">
+<h3 id="org68dc94b">Paths</h3>
+<div class="outline-text-3" id="text-org68dc94b">
 </div>
-<div id="outline-container-org82ad213" class="outline-4">
-<h4 id="org82ad213">Search path</h4>
-<div class="outline-text-4" id="text-org82ad213">
+<div id="outline-container-org7ca8c3e" class="outline-4">
+<h4 id="org7ca8c3e">Search path</h4>
+<div class="outline-text-4" id="text-org7ca8c3e">
 <p>
 Specify the directories that the shell is to look through to find a command.
 These directories are searched in the order in which they appear.
@@ -2343,8 +2364,7 @@ The global search <code>PATH</code> is defined in the file <code>/etc/environmen
 <span class="org-comment-delimiter"># </span><span class="org-comment">Extend the PATH var (where to look for executable files).  For Cygwin only.</span>
 <span class="org-keyword">case</span> $(<span class="org-sh-quoted-exec">uname</span> -s) <span class="org-keyword">in</span>
     CYGWIN*)
-        <span class="org-keyword">for</span> MAYBE_CYG_PATH<span class="org-keyword"> in</span> <span class="org-string">"${HOME}/.dotfiles/winbin"</span>;
-        <span class="org-keyword">do</span>
+        <span class="org-keyword">for</span> MAYBE_CYG_PATH<span class="org-keyword"> in</span> <span class="org-string">"${HOME}/.dotfiles/winbin"</span>; <span class="org-keyword">do</span>
             <span class="org-comment-delimiter"># </span><span class="org-comment">`-e' or `-x'?</span>
             <span class="org-keyword">if</span> [ -d <span class="org-string">"$MAYBE_CYG_PATH"</span> ]; <span class="org-keyword">then</span>
                 <span class="org-variable-name">PATH</span>=<span class="org-string">"$MAYBE_CYG_PATH:$PATH"</span>
@@ -2405,9 +2425,9 @@ resort).</li>
 </div>
 </div>
 
-<div id="outline-container-org4917000" class="outline-4">
-<h4 id="org4917000">Cdpath</h4>
-<div class="outline-text-4" id="text-org4917000">
+<div id="outline-container-org515bc10" class="outline-4">
+<h4 id="org515bc10">Cdpath</h4>
+<div class="outline-text-4" id="text-org515bc10">
 <p>
 Much like the <code>PATH</code> environment variable defines a search order for the
 executable you want, <code>CDPATH</code> provides a selection of directories which will be
@@ -2429,9 +2449,9 @@ To go to the directory <code>1-Clients</code>, for example, simply type <code>c<
 </div>
 </div>
 
-<div id="outline-container-orgdee6e96" class="outline-4">
-<h4 id="orgdee6e96">Manpath</h4>
-<div class="outline-text-4" id="text-orgdee6e96">
+<div id="outline-container-org5b952b4" class="outline-4">
+<h4 id="org5b952b4">Manpath</h4>
+<div class="outline-text-4" id="text-org5b952b4">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* MANPATH</span>
 
@@ -2451,9 +2471,9 @@ To go to the directory <code>1-Clients</code>, for example, simply type <code>c<
 </div>
 </div>
 
-<div id="outline-container-org9ba846c" class="outline-4">
-<h4 id="org9ba846c">Infopath</h4>
-<div class="outline-text-4" id="text-org9ba846c">
+<div id="outline-container-org0b77316" class="outline-4">
+<h4 id="org0b77316">Infopath</h4>
+<div class="outline-text-4" id="text-org0b77316">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter">#</span><span class="org-comment">* INFOPATH</span>
 
@@ -2468,9 +2488,9 @@ To go to the directory <code>1-Clients</code>, for example, simply type <code>c<
 </div>
 </div>
 
-<div id="outline-container-org8a80346" class="outline-3">
-<h3 id="org8a80346">Pager</h3>
-<div class="outline-text-3" id="text-org8a80346">
+<div id="outline-container-orgd0802fc" class="outline-3">
+<h3 id="orgd0802fc">Pager</h3>
+<div class="outline-text-3" id="text-orgd0802fc">
 <p>
 Set the user&rsquo;s preferred <b>text viewer</b> (<code>cat</code>, <code>more</code> or <code>less</code>) that will be used by
 programs such as <code>man</code> or <code>git diff</code>.
@@ -2497,9 +2517,9 @@ With the <code>less</code> command, you can <b>scroll up</b> in the file as well
 </div>
 </div>
 
-<div id="outline-container-orgf9e7ebc" class="outline-4">
-<h4 id="orgf9e7ebc">Less</h4>
-<div class="outline-text-4" id="text-orgf9e7ebc">
+<div id="outline-container-orgde4d6ed" class="outline-4">
+<h4 id="orgde4d6ed">Less</h4>
+<div class="outline-text-4" id="text-orgde4d6ed">
 <p>
 Color any command with man-like output, including <code>git help</code>:
 </p>
@@ -2524,7 +2544,7 @@ Color any command with man-like output, including <code>git help</code>:
 By default, the only way to exit <code>less</code> is via the <code>q</code> command.</dd>
 
 <dt><code>-F</code></dt><dd><p>
-     Causes <code>less</code> to automatically <b>exit if the entire file can be displayed on
+Causes <code>less</code> to automatically <b>exit if the entire file can be displayed on
 the first screen</b>.
 </p>
 
@@ -2547,7 +2567,7 @@ file.  By default, <code>less</code> prompts with a colon.</dd>
 <dt><code>-M</code> or <code>--LONG-PROMPT</code></dt><dd>Causes <code>less</code> to prompt even more verbosely than <code>more</code>.</dd>
 
 <dt><code>-r</code> or <code>--raw-control-chars</code></dt><dd><p>
-     Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
+Causes &ldquo;raw&rdquo; control characters to be displayed.  The default is to display
 control characters using the caret notation; for example, a <code>control-A</code>
 (octal <code>001</code>) is displayed as <code>^A</code>.
 </p>
@@ -2563,7 +2583,7 @@ long lines being split in the wrong place.
 </div></dd>
 
 <dt><code>-R</code> or <code>--RAW-CONTROL-CHARS</code></dt><dd><p>
-     (Only) ANSI &ldquo;<b>color</b>&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
+(Only) ANSI &ldquo;<b>color</b>&rdquo; escape sequences (sequences of the form <code>ESC[...m</code> where
 the <code>...</code> is zero or more color specification characters, and <code>m</code> ends ANSI
 color escape sequences) are <b>output</b> in &ldquo;raw&rdquo; form.
 </p>
@@ -2578,7 +2598,7 @@ colors as raw escape codes, that is it does not <b>interpret colors</b>. With it
 </div></dd>
 
 <dt><code>-X</code> or <code>--no-init</code></dt><dd><p>
-     <b>Disables</b> sending the termcap initialization and deinitialization strings to
+<b>Disables</b> sending the termcap initialization and deinitialization strings to
 the terminal.  This is sometimes desirable if the deinitialization string
 does something unnecessary, like <b>clearing the screen</b>.
 </p>
@@ -2614,8 +2634,8 @@ option.
 </div>
 
 <ul class="org-ul">
-<li><a id="org576ad09"></a>Searching<br />
-<div class="outline-text-5" id="text-org576ad09">
+<li><a id="org85c2902"></a>Searching<br />
+<div class="outline-text-5" id="text-org85c2902">
 <dl class="org-dl">
 <dt><code>/pattern</code></dt><dd>Search forward for (<code>N</code>-th) matching line.</dd>
 
@@ -2636,9 +2656,9 @@ filtering is turned off, and all lines are displayed.</dd>
 </ul>
 </div>
 
-<div id="outline-container-orgd959e89" class="outline-4">
-<h4 id="orgd959e89">Most</h4>
-<div class="outline-text-4" id="text-orgd959e89">
+<div id="outline-container-org6fc1aeb" class="outline-4">
+<h4 id="org6fc1aeb">Most</h4>
+<div class="outline-text-4" id="text-org6fc1aeb">
 <p>
 To add a bit of color to your man pages, you can install <code>most</code>.
 </p>
@@ -2658,9 +2678,9 @@ to the location&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org670672a" class="outline-3">
-<h3 id="org670672a"><a id="ID-02ba0b6b-f205-42e2-a801-4271aa4691eb"></a>Display</h3>
-<div class="outline-text-3" id="text-org670672a">
+<div id="outline-container-org209f3a6" class="outline-3">
+<h3 id="org209f3a6">Display</h3>
+<div class="outline-text-3" id="text-org209f3a6">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Start x11 server (if a process instance is not already running).</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">ps -ae | grep XWin || startxwin &gt;/dev/null 2&gt;&amp;1 &amp;   # XXX For Cygwin only!</span>
@@ -2673,9 +2693,9 @@ to the location&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgd855123" class="outline-3">
-<h3 id="orgd855123">Alert</h3>
-<div class="outline-text-3" id="text-orgd855123">
+<div id="outline-container-org17b5ec5" class="outline-3">
+<h3 id="org17b5ec5">Alert</h3>
+<div class="outline-text-3" id="text-org17b5ec5">
 <p>
 Add an &ldquo;alert&rdquo; alias for long running commands.
 </p>
@@ -2686,19 +2706,19 @@ Use like so:
 
 <pre class="example">
 sleep 10; alert
-
 </pre>
+
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">alert</span>=<span class="org-string">'notify-send --urgency=low -i "$([ $? = 0 ] &amp;&amp; echo terminal || echo error)" "$(</span><span class="org-sh-quoted-exec">history</span><span class="org-string">|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&amp;|]\s*alert$//'\'')"'</span>
+<pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">alert</span>=<span class="org-string">'notify-send --urgency=low -i "$([ $? = 0 ] &amp;&amp; echo terminal || echo error)" "$(</span><span class="org-sh-quoted-exec">history</span><span class="org-string"> | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&amp;|]\s*alert$//'\'')"'</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org976ffd4" class="outline-3">
-<h3 id="org976ffd4">Misc</h3>
-<div class="outline-text-3" id="text-org976ffd4">
+<div id="outline-container-org9291ddf" class="outline-3">
+<h3 id="org9291ddf">Misc</h3>
+<div class="outline-text-3" id="text-org9291ddf">
 <p>
 You may need to manually set your language environment (among others, for <code>svn</code>
 with accented file names in the repository).
@@ -2714,9 +2734,9 @@ with accented file names in the repository).
 </div>
 </div>
 
-<div id="outline-container-orgbc00710" class="outline-3">
-<h3 id="orgbc00710">Terminal types</h3>
-<div class="outline-text-3" id="text-orgbc00710">
+<div id="outline-container-org0d92b9d" class="outline-3">
+<h3 id="org0d92b9d">Terminal types</h3>
+<div class="outline-text-3" id="text-org0d92b9d">
 <ul class="org-ul">
 <li><code>dumb</code></li>
 <li><code>cygwin</code></li>
@@ -2740,7 +2760,7 @@ ugly default 8 colors):
 <div class="tip">
 <p>
 In fact, we are advised to <b>NOT</b> set <code>TERM</code> variable in dotfiles that are related to
-the shell, as opposed to dotfiles related to the terminal emulator program.
+the <b>shell</b>, as opposed to dotfiles related to the <b>terminal emulator</b> program.
 This is because a shell may be used with multiple terminal emulators, and
 setting <code>TERM</code> there is obviously a misplacement mistake, an all too common one&#x2026;
 The proper place to override the <code>TERM</code> value is in a terminal emulator dotfile,
@@ -2785,9 +2805,9 @@ See what your color palet is for the terminal session:
 </div>
 </div>
 
-<div id="outline-container-org71b31ba" class="outline-3">
-<h3 id="org71b31ba">Emacs (default editor)</h3>
-<div class="outline-text-3" id="text-org71b31ba">
+<div id="outline-container-orgabb56e6" class="outline-3">
+<h3 id="orgabb56e6">Emacs (default editor)</h3>
+<div class="outline-text-3" id="text-orgabb56e6">
 <p>
 Be sure one of these <b>editors</b> is <b>in your search path</b>!
 </p>
@@ -2864,8 +2884,7 @@ Shouldn&rsquo;t we alias <code>EDITOR</code> to <code>emacs --tty</code>?
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">ec FILE - open FILE in a running Emacs</span>
-<span class="org-function-name">ec</span> ()
-{
+<span class="org-function-name">ec</span>() {
     emacsclient --no-wait <span class="org-string">"$1"</span>
 }
 </pre>
@@ -2895,9 +2914,9 @@ better omit the &ldquo;<code>--no-wait</code>&rdquo; option.
 </div>
 </div>
 
-<div id="outline-container-org514b8de" class="outline-3">
-<h3 id="org514b8de">Plugins</h3>
-<div class="outline-text-3" id="text-org514b8de">
+<div id="outline-container-orgb0b96c4" class="outline-3">
+<h3 id="orgb0b96c4">Plugins</h3>
+<div class="outline-text-3" id="text-orgb0b96c4">
 <p>
 Aliases are abbreviations or alternative names (usually mnemonics) for
 commands. They are commonly used to specify a few options to commands, and
@@ -2923,9 +2942,9 @@ An alias cannot have an argument like <code>$1</code>.
 </div>
 </div>
 
-<div id="outline-container-orgbb011b2" class="outline-4">
-<h4 id="orgbb011b2">Common aliases</h4>
-<div class="outline-text-4" id="text-orgbb011b2">
+<div id="outline-container-org80e1375" class="outline-4">
+<h4 id="org80e1375">Common aliases</h4>
+<div class="outline-text-4" id="text-org80e1375">
 <p>
 <code>ls</code> options:
 </p>
@@ -3095,9 +3114,9 @@ tar.{bz2,gz,xz,lzma}, bz2, rar, gz, tbz2, tgz, zip, Z, 7z.
 </div>
 </div>
 
-<div id="outline-container-org98af224" class="outline-4">
-<h4 id="org98af224">Directories</h4>
-<div class="outline-text-4" id="text-org98af224">
+<div id="outline-container-orgfa4642b" class="outline-4">
+<h4 id="orgfa4642b">Directories</h4>
+<div class="outline-text-4" id="text-orgfa4642b">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">up</span>=<span class="org-string">'cd ..'</span>
 <span class="org-builtin">alias</span> -- ..=<span class="org-string">'cd ..'</span>
@@ -3125,9 +3144,9 @@ of the entry in the directory history you want to visit&#x2026; <code>1</code>.
 </div>
 </div>
 
-<div id="outline-container-org8c7bc83" class="outline-4">
-<h4 id="org8c7bc83">Single char shortcuts for some commands</h4>
-<div class="outline-text-4" id="text-org8c7bc83">
+<div id="outline-container-org7435235" class="outline-4">
+<h4 id="org7435235">Single char shortcuts for some commands</h4>
+<div class="outline-text-4" id="text-org7435235">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">t</span>=<span class="org-string">'tail -f'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">p</span>=<span class="org-string">"$PAGER"</span>
@@ -3141,9 +3160,9 @@ of the entry in the directory history you want to visit&#x2026; <code>1</code>.
 </div>
 </div>
 
-<div id="outline-container-org8a7c93b" class="outline-4">
-<h4 id="org8a7c93b">Git</h4>
-<div class="outline-text-4" id="text-org8a7c93b">
+<div id="outline-container-orge03745c" class="outline-4">
+<h4 id="orge03745c">Git</h4>
+<div class="outline-text-4" id="text-orge03745c">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">g</span>=<span class="org-string">'git'</span>
 </pre>
@@ -3179,9 +3198,9 @@ Go to the top of your Git repo.
 </div>
 </div>
 
-<div id="outline-container-org596cf57" class="outline-4">
-<h4 id="org596cf57">SVN</h4>
-<div class="outline-text-4" id="text-org596cf57">
+<div id="outline-container-org07decc8" class="outline-4">
+<h4 id="org07decc8">SVN</h4>
+<div class="outline-text-4" id="text-org07decc8">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Search through files, ignoring .svn directories.</span>
 <span class="org-builtin">alias</span> svn-find=<span class="org-string">"find . -not \( -name .svn -prune \)"</span>
@@ -3189,13 +3208,15 @@ Go to the top of your Git repo.
 <span class="org-comment-delimiter"># </span><span class="org-comment">Grep a string in every SVN revision of a file.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Usage: svn-grep-all-rev PATTERN FILE</span>
 <span class="org-function-name">svn-grep-all-rev</span>() {
-    svn log $<span class="org-variable-name">2</span> | perl -n -e <span class="org-string">'print "$1\n" if m/^r(\d*)\s+/'</span> | (
-        <span class="org-keyword">while </span><span class="org-builtin">read</span> revision; <span class="org-keyword">do</span>
-            <span class="org-builtin">printf</span> <span class="org-string">"\e[0;33m%s\e[0m\n"</span> <span class="org-string">"Revision $revision:"</span>
-            svn cat -r $<span class="org-variable-name">revision</span> $<span class="org-variable-name">2</span> | grep $<span class="org-variable-name">1</span>
-            <span class="org-builtin">printf</span> <span class="org-string">"\n"</span>
-        <span class="org-keyword">done</span>
-    )
+    svn log $<span class="org-variable-name">2</span> <span class="org-sh-escaped-newline">\</span>
+        | perl -n -e <span class="org-string">'print "$1\n" if m/^r(\d*)\s+/'</span> <span class="org-sh-escaped-newline">\</span>
+        | (
+              <span class="org-keyword">while </span><span class="org-builtin">read</span> revision; <span class="org-keyword">do</span>
+                  <span class="org-builtin">printf</span> <span class="org-string">"\e[0;33m%s\e[0m\n"</span> <span class="org-string">"Revision $revision:"</span>
+                  svn cat -r $<span class="org-variable-name">revision</span> $<span class="org-variable-name">2</span> | grep $<span class="org-variable-name">1</span>
+                  <span class="org-builtin">printf</span> <span class="org-string">"\n"</span>
+              <span class="org-keyword">done</span>
+          )
 }
 </pre>
 </div>
@@ -3226,12 +3247,12 @@ See <a href="file:///cygdrive/d/Users/fni/.dotfiles/plugins/git-config/SVN.html"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">svn-show release-number</span>
-<span class="org-keyword">function</span> <span class="org-function-name">svn-show</span> {
+<span class="org-function-name">svn-show</span>() {
     svn diff -c $<span class="org-variable-name">1</span> | less
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">svn-showtool 123 path/to/file</span>
-<span class="org-keyword">function</span> <span class="org-function-name">svn-showtool</span> {
+<span class="org-function-name">svn-showtool</span>() {
     svn diff --diff-cmd=<span class="org-string">'meld'</span> -c $<span class="org-variable-name">1</span> $<span class="org-variable-name">2</span>
 }
 </pre>
@@ -3245,7 +3266,7 @@ See <a href="file:///cygdrive/d/Users/fni/.dotfiles/plugins/git-config/SVN.html"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">svn-logfile path/to/file</span>
-<span class="org-keyword">function</span> <span class="org-function-name">svn-logfile</span> {
+<span class="org-function-name">svn-logfile</span>() {
     svn log -q $<span class="org-variable-name">1</span> | grep <span class="org-string">"^r"</span>
 }
 </pre>
@@ -3253,7 +3274,7 @@ See <a href="file:///cygdrive/d/Users/fni/.dotfiles/plugins/git-config/SVN.html"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">svn-unmodify path/to/file</span>
-<span class="org-keyword">function</span> <span class="org-function-name">svn-unmodify</span> {
+<span class="org-function-name">svn-unmodify</span>() {
     svn revert $<span class="org-variable-name">1</span>
 }
 </pre>
@@ -3261,7 +3282,7 @@ See <a href="file:///cygdrive/d/Users/fni/.dotfiles/plugins/git-config/SVN.html"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">svn-logfile-p path/to/file</span>
-<span class="org-keyword">function</span> <span class="org-function-name">svn-logfile-p</span> {
+<span class="org-function-name">svn-logfile-p</span>() {
     svn log --diff $<span class="org-variable-name">1</span> | less
 }
 </pre>
@@ -3286,8 +3307,8 @@ See <a href="https://stackoverflow.com/questions/6204572/is-there-a-subversion-c
 </div>
 
 <ul class="org-ul">
-<li><a id="orgc7f106d"></a><span class="todo TODO">TODO</span> Color lines in shell (GRC, Supercat, Highlight, etc.)<br />
-<div class="outline-text-5" id="text-orgc7f106d">
+<li><a id="org2a3c419"></a><span class="todo TODO">TODO</span> Color lines in shell (GRC, Supercat, Highlight, etc.)<br />
+<div class="outline-text-5" id="text-org2a3c419">
 <p>
 <a href="http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-regex-in-shell">http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-regex-in-shell</a>
 </p>
@@ -3304,9 +3325,9 @@ highlight-lines-matching-regexp &ldquo;ERROR&rdquo;
 </ul>
 </div>
 
-<div id="outline-container-org4ba766d" class="outline-4">
-<h4 id="org4ba766d">History</h4>
-<div class="outline-text-4" id="text-org4ba766d">
+<div id="outline-container-org2b7c2df" class="outline-4">
+<h4 id="org2b7c2df">History</h4>
+<div class="outline-text-4" id="text-org2b7c2df">
 <p>
 Print the history lines matching a pattern.
 </p>
@@ -3329,22 +3350,27 @@ Show the top 10 most used commands in your history.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-builtin">history</span> | awk <span class="org-string">'{print $2}'</span> | awk <span class="org-string">'BEGIN {FS="|"} {print $1}'</span> | sort | uniq -c | sort -nr | head -10
+<pre class="src src-shell"><span class="org-builtin">history</span> <span class="org-sh-escaped-newline">\</span>
+    | awk <span class="org-string">'{print $2}'</span> <span class="org-sh-escaped-newline">\</span>
+    | awk <span class="org-string">'BEGIN {FS="|"} {print $1}'</span> <span class="org-sh-escaped-newline">\</span>
+    | sort <span class="org-sh-escaped-newline">\</span>
+    | uniq -c <span class="org-sh-escaped-newline">\</span>
+    | sort -nr <span class="org-sh-escaped-newline">\</span>
+    | head -10
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgaa871e2" class="outline-4">
-<h4 id="orgaa871e2">Screen</h4>
-<div class="outline-text-4" id="text-orgaa871e2">
+<div id="outline-container-orgc7f2bca" class="outline-4">
+<h4 id="orgc7f2bca">Screen</h4>
+<div class="outline-text-4" id="text-orgc7f2bca">
 <p>
 Connect to a host in a new screen tab, with the device name as the tab title.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-keyword">function</span> <span class="org-function-name">s</span>()
-{
+<pre class="src src-shell"><span class="org-function-name">s</span>() {
     screen -t <span class="org-string">"$@"</span> /usr/bin/ssh <span class="org-string">"$@"</span>
 }
 
@@ -3356,9 +3382,9 @@ Connect to a host in a new screen tab, with the device name as the tab title.
 </div>
 </div>
 
-<div id="outline-container-orgcb2c2ba" class="outline-4">
-<h4 id="orgcb2c2ba">SSH agent / GPG agent</h4>
-<div class="outline-text-4" id="text-orgcb2c2ba">
+<div id="outline-container-orgb37d655" class="outline-4">
+<h4 id="orgb37d655">SSH agent / GPG agent</h4>
+<div class="outline-text-4" id="text-orgb37d655">
 <p>
 Most of our servers don&rsquo;t listen to SSH on a public VLAN. I can&rsquo;t be bothered to
 keep a tunnel open on my laptop when away from the office:
@@ -3382,8 +3408,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">gpg.</span>
-<span class="org-function-name">searchkey</span> ()
-{
+<span class="org-function-name">searchkey</span>() {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key <span class="org-string">"$@"</span>;
 }
 </pre>
@@ -3397,9 +3422,9 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 </div>
 </div>
 
-<div id="outline-container-orgb7fcf3c" class="outline-4">
-<h4 id="orgb7fcf3c">Debian</h4>
-<div class="outline-text-4" id="text-orgb7fcf3c">
+<div id="outline-container-org7351f86" class="outline-4">
+<h4 id="org7351f86">Debian</h4>
+<div class="outline-text-4" id="text-org7351f86">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">aps</span>=<span class="org-string">'aptitude search'</span>
 </pre>
@@ -3407,9 +3432,9 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 </div>
 </div>
 
-<div id="outline-container-org2d9368d" class="outline-4">
-<h4 id="org2d9368d">System admin (NMAP, etc.)</h4>
-<div class="outline-text-4" id="text-org2d9368d">
+<div id="outline-container-org5980c53" class="outline-4">
+<h4 id="org5980c53">System admin (NMAP, etc.)</h4>
+<div class="outline-text-4" id="text-org5980c53">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Use `pkill' (which is pgrep + kill in a single command).</span>
 
@@ -3443,7 +3468,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">040319 Send files via `netcat'.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">on sending side:</span>
-<span class="org-comment-delimiter">#  </span><span class="org-comment">send() {j=$*; tar cpz ${j/%${!#}/}|nc -w 1 ${!#} 51330;}</span>
+<span class="org-comment-delimiter">#  </span><span class="org-comment">send() {j=$*; tar cpz ${j/%${!#}/} | nc -w 1 ${!#} 51330;}</span>
 <span class="org-comment-delimiter">#  </span><span class="org-comment">send dir* $HOST</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Info:</span>
 <span class="org-comment-delimiter">#  </span><span class="org-comment">${!#} gibt den letzten Parameter (den Hostnamen) zurück,</span>
@@ -3480,8 +3505,7 @@ While it&rsquo;s a function and not an alias, I find it invaluable.
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">nmap ()</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">{</span>
+<pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">nmap() {</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">echo "Enter port #"</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">read port</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">echo "Enter IP range"</span>
@@ -3530,8 +3554,7 @@ inpath nmap &amp;&amp; {
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">localnet - Find the local network in CIDR notation.</span>
-<span class="org-function-name">localnet</span> ()
-{
+<span class="org-function-name">localnet</span>() {
     <span class="org-variable-name">IP_ADDRESS</span>=$(<span class="org-sh-quoted-exec">ifconfig</span> | grep <span class="org-string">"inet addr:"</span> | head -n 1 | sed <span class="org-string">"s/.*addr:\([0-9.]*\).*/\1/"</span>)
     <span class="org-comment-delimiter"># </span><span class="org-comment">we could use `nm-tool' from `network-manager'</span>
 
@@ -3542,8 +3565,7 @@ inpath nmap &amp;&amp; {
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">whoisonline [TARGET] - List hosts that are online.</span>
-<span class="org-function-name">whoisonline</span> ()
-{
+<span class="org-function-name">whoisonline</span>() {
     <span class="org-builtin">local</span> net
     <span class="org-keyword">if</span> [ -n <span class="org-string">"$1"</span> ]; <span class="org-keyword">then</span>
         <span class="org-variable-name">net</span>=<span class="org-string">"$1"</span>
@@ -3555,8 +3577,7 @@ inpath nmap &amp;&amp; {
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">localps [TARGET] - List open ports on hosts that are online.</span>
-<span class="org-function-name">localps</span> ()
-{
+<span class="org-function-name">localps</span>() {
     <span class="org-builtin">local</span> hostip
     <span class="org-builtin">local</span> t1
     <span class="org-builtin">local</span> t2
@@ -3569,8 +3590,7 @@ inpath nmap &amp;&amp; {
         <span class="org-variable-name">net</span>=$(<span class="org-sh-quoted-exec">localnet</span>)
     <span class="org-keyword">fi</span>
 
-    <span class="org-keyword">for</span> hostip<span class="org-keyword"> in</span> $(<span class="org-sh-quoted-exec">nmap</span> -sP $<span class="org-variable-name">net</span> | grep -E <span class="org-string">'Host .* up'</span> | cut -d <span class="org-string">" "</span> -f2-2);
-    <span class="org-keyword">do</span>
+    <span class="org-keyword">for</span> hostip<span class="org-keyword"> in</span> $(<span class="org-sh-quoted-exec">nmap</span> -sP $<span class="org-variable-name">net</span> | grep -E <span class="org-string">'Host .* up'</span> | cut -d <span class="org-string">" "</span> -f2-2); <span class="org-keyword">do</span>
         <span class="org-variable-name">t1</span>=$(<span class="org-sh-quoted-exec">ping</span> -c 4 $<span class="org-variable-name">hostip</span> | grep -e PING | cut -d <span class="org-string">" "</span> -f1-2 | cut -d <span class="org-string">" "</span> -f2-4) ;
         <span class="org-variable-name">t2</span>=$(<span class="org-sh-quoted-exec">ping</span> -c 4 $<span class="org-variable-name">hostip</span> | grep -e rtt | cut -d <span class="org-string">"/"</span> -f5-5) ;
         <span class="org-variable-name">t3</span>=$(<span class="org-sh-quoted-exec">sudo</span> nmap -sS $<span class="org-variable-name">hostip</span> | grep <span class="org-string">" open "</span>) ;
@@ -3579,14 +3599,12 @@ inpath nmap &amp;&amp; {
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">watchport HOST PORT - Watch TCP port PORT on machine HOST.</span>
-<span class="org-function-name">watchport</span> ()
-{
+<span class="org-function-name">watchport</span>() {
     <span class="org-keyword">while</span> true; <span class="org-keyword">do</span> clear; nmap $<span class="org-variable-name">1</span> -PN -p $<span class="org-variable-name">2</span>; sleep 5; <span class="org-keyword">done</span>
 }
 
 <span class="org-comment-delimiter"># </span><span class="org-comment">rdns [TARGET] - Perform reverse DNS lookups.</span>
-<span class="org-function-name">rdns</span> ()
-{
+<span class="org-function-name">rdns</span>() {
     <span class="org-builtin">local</span> net
     <span class="org-keyword">if</span> [ -n <span class="org-string">"$1"</span> ]; <span class="org-keyword">then</span>
       <span class="org-variable-name">net</span>=<span class="org-string">"$1"</span>
@@ -3619,15 +3637,16 @@ inpath nmap &amp;&amp; {
 </div>
 </div>
 
-<div id="outline-container-orga8045a3" class="outline-4">
-<h4 id="orga8045a3">Org</h4>
-<div class="outline-text-4" id="text-orga8045a3">
+<div id="outline-container-org035a5e9" class="outline-4">
+<h4 id="org035a5e9">Org</h4>
+<div class="outline-text-4" id="text-org035a5e9">
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-function-name">org_test</span> () {
+<pre class="src src-shell"><span class="org-function-name">org_test</span>() {
     (
         <span class="org-builtin">cd</span> <span class="org-string">"$HOME/Public/Repositories/org-mode"</span>;
         mkdir /tmp/tmp-orgtest 2&gt; /dev/null <span class="org-comment-delimiter"># </span><span class="org-comment">TMPDIR must exist!</span>
-        <span class="org-variable-name">TMPDIR</span>=/tmp/tmp-orgtest emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span class="org-string">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
+        <span class="org-variable-name">TMPDIR</span>=/tmp/tmp-orgtest <span class="org-sh-escaped-newline">\</span>
+            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval <span class="org-string">'(setq org-confirm-babel-evaluate nil)'</span> -f org-test-run-batch-tests
     )
 }
 </pre>
@@ -3635,9 +3654,9 @@ inpath nmap &amp;&amp; {
 </div>
 </div>
 
-<div id="outline-container-orgec80cdb" class="outline-4">
-<h4 id="orgec80cdb">Grep</h4>
-<div class="outline-text-4" id="text-orgec80cdb">
+<div id="outline-container-org40ab19d" class="outline-4">
+<h4 id="org40ab19d">Grep</h4>
+<div class="outline-text-4" id="text-org40ab19d">
 <div class="note">
 <p>
 <code>GREP_OPTIONS</code> is dangerous because it applies in scripts that may be relying on
@@ -3696,9 +3715,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org7c15bce" class="outline-4">
-<h4 id="org7c15bce">Ripgrep</h4>
-<div class="outline-text-4" id="text-org7c15bce">
+<div id="outline-container-org500bcbf" class="outline-4">
+<h4 id="org500bcbf">Ripgrep</h4>
+<div class="outline-text-4" id="text-org500bcbf">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">rg</span>=<span class="org-string">"rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold'"</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">srg</span>=<span class="org-string">"rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold' --sort-files"</span>
@@ -3707,9 +3726,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org53329e5" class="outline-4">
-<h4 id="org53329e5">Ag, the Silver Searcher</h4>
-<div class="outline-text-4" id="text-org53329e5">
+<div id="outline-container-orgb829b04" class="outline-4">
+<h4 id="orgb829b04">Ag, the Silver Searcher</h4>
+<div class="outline-text-4" id="text-orgb829b04">
 <p>
 <a href="https://blog.kowalczyk.info/software/the-silver-searcher-for-windows.html">The Silver Searcher windows port</a>
 </p>
@@ -3721,9 +3740,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-orgba6bc5e" class="outline-4">
-<h4 id="orgba6bc5e">GraphicsMagick</h4>
-<div class="outline-text-4" id="text-orgba6bc5e">
+<div id="outline-container-orge0345f0" class="outline-4">
+<h4 id="orge0345f0">GraphicsMagick</h4>
+<div class="outline-text-4" id="text-orge0345f0">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">GraphicsMagick.</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">GIF</span>=<span class="org-string">"gm convert -verbose -interlace LINE"</span>
@@ -3732,13 +3751,11 @@ worked&#x2026;
 <span class="org-builtin">alias</span> <span class="org-variable-name">screenshot</span>=<span class="org-string">'sleep 5; gm import -window root screen$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> "+%Y%m%d%H%M%S").jpg'</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">window</span>=<span class="org-string">'sleep 3; gm import -frame window$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> "+%Y%m%d%H%M%S").jpg'</span>
 
-<span class="org-function-name">gmresize</span> ()
-{
+<span class="org-function-name">gmresize</span>() {
     <span class="org-variable-name">FILES</span>=<span class="org-string">"$@"</span>
     <span class="org-variable-name">SCALE</span>=<span class="org-string">"1024x768"</span>
   <span class="org-comment-delimiter"># </span><span class="org-comment">for i in *.(gif|jpeg|jpg|png);</span>
-    <span class="org-keyword">for</span> i<span class="org-keyword"> in</span> $<span class="org-variable-name">FILES</span>
-    <span class="org-keyword">do</span>
+    <span class="org-keyword">for</span> i<span class="org-keyword"> in</span> $<span class="org-variable-name">FILES</span>; <span class="org-keyword">do</span>
         <span class="org-builtin">echo</span> <span class="org-string">"Processing image $i ..."</span>
         gm convert -scale $<span class="org-variable-name">SCALE</span> <span class="org-string">"$i"</span> $(<span class="org-sh-quoted-exec">basename</span> <span class="org-string">"$i"</span> .${<span class="org-variable-name">i</span>##*.})-$<span class="org-variable-name">SCALE</span>.${<span class="org-variable-name">i</span>##*.}
         <span class="org-comment-delimiter"># </span><span class="org-comment">Obscure but useful string operations.</span>
@@ -3752,9 +3769,9 @@ worked&#x2026;
 </div>
 </div>
 
-<div id="outline-container-org9b8f1f4" class="outline-4">
-<h4 id="org9b8f1f4">Other things to sort</h4>
-<div class="outline-text-4" id="text-org9b8f1f4">
+<div id="outline-container-org9e9997b" class="outline-4">
+<h4 id="org9e9997b">Other things to sort</h4>
+<div class="outline-text-4" id="text-org9e9997b">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">List all files modified TODAY only (since start of day only, i.e. 00:00).</span>
 <span class="org-builtin">alias</span> <span class="org-variable-name">today</span>=<span class="org-string">'find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'</span>
@@ -3782,8 +3799,7 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">clean [-r] - Remove useless files (recursively).</span>
-<span class="org-function-name">clean</span> ()
-{
+<span class="org-function-name">clean</span>() {
     <span class="org-keyword">if</span> [ <span class="org-string">"$1"</span> = <span class="org-string">"-r"</span> ]; <span class="org-keyword">then</span>
         find . <span class="org-string">\(</span> -name <span class="org-string">"#*"</span> -o -name <span class="org-string">"*~"</span> -o -name <span class="org-string">".*~"</span> -o <span class="org-sh-escaped-newline">\</span>
             -name <span class="org-string">"*.~[0-9]*~"\ </span>-o -name <span class="org-string">".*.~[0-9]*~"</span> -o <span class="org-sh-escaped-newline">\</span>
@@ -3796,8 +3812,7 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 <span class="org-comment-delimiter"># </span><span class="org-comment">swap FILE1 FILE2 - Swap FILE1 and FILE2.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Useful when you want to try a config file obtained from elsewhere, and also</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">keep the old version.</span>
-<span class="org-function-name">swap</span> ()
-{
+<span class="org-function-name">swap</span>() {
     <span class="org-keyword">if</span> [ $<span class="org-variable-name">#</span> != 2 ]; <span class="org-keyword">then</span>
         <span class="org-keyword">return</span> 1
     <span class="org-keyword">fi</span>
@@ -3811,8 +3826,7 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-function-name">saneperms</span> ()
-{
+<pre class="src src-shell"><span class="org-function-name">saneperms</span>() {
     find . -type d -print0 | xargs -0 chmod 755
     find . -type f -print0 | xargs -0 chmod ${<span class="org-variable-name">1</span>:=644}
 }
@@ -3821,8 +3835,7 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment"># Search for various types or README file in dir and display them in $PAGER.</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">readme ()</span>
-<span class="org-comment-delimiter"># </span><span class="org-comment">{</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">readme() {</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">local files</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))</span>
 <span class="org-comment-delimiter">#     </span><span class="org-comment">if (($#files)); then</span>
@@ -3835,8 +3848,7 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-function-name">safetmp</span> ()
-{
+<pre class="src src-shell"><span class="org-function-name">safetmp</span>() {
     <span class="org-builtin">test</span> -d <span class="org-string">"$HOME"</span> || <span class="org-keyword">exit</span> 1
     <span class="org-builtin">test</span> -d <span class="org-string">"$HOME/tmp"</span> || mkdir <span class="org-string">"$HOME/tmp"</span>
     <span class="org-builtin">echo</span> <span class="org-string">"$HOME/tmp/safetmp.$(</span><span class="org-sh-quoted-exec">hostname</span><span class="org-string">).$(</span><span class="org-sh-quoted-exec">date</span><span class="org-string"> +%s).$$"</span>
@@ -3846,13 +3858,11 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">Immediately opens the first match.</span>
-<span class="org-function-name">texman</span> ()
-{
+<span class="org-function-name">texman</span>() {
     locate $<span class="org-variable-name">*</span> | grep pdf | grep texlive | head -1 | xargs open;
 }
 
-<span class="org-function-name">texlist</span> ()
-{
+<span class="org-function-name">texlist</span>() {
     locate $<span class="org-variable-name">*</span> | grep <span class="org-string">"\(pdf\|dvi\)"</span> | grep <span class="org-string">"\ (texlive\|gwTeX\)"</span>;
 }
 </pre>
@@ -3860,9 +3870,9 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 </div>
 
-<div id="outline-container-org4e9b5d7" class="outline-4">
-<h4 id="org4e9b5d7">MCit tools</h4>
-<div class="outline-text-4" id="text-org4e9b5d7">
+<div id="outline-container-org46bcd84" class="outline-4">
+<h4 id="org46bcd84">MCit tools</h4>
+<div class="outline-text-4" id="text-org46bcd84">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-builtin">alias</span> <span class="org-variable-name">sp</span>=sendpatch
 </pre>
@@ -3870,11 +3880,11 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 </div>
 
-<div id="outline-container-orgace5080" class="outline-4">
-<h4 id="orgace5080">Extra</h4>
-<div class="outline-text-4" id="text-orgace5080">
+<div id="outline-container-orga4c88da" class="outline-4">
+<h4 id="orga4c88da">Extra</h4>
+<div class="outline-text-4" id="text-orga4c88da">
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-keyword">function</span> <span class="org-function-name">console</span> {
+<pre class="src src-shell"><span class="org-function-name">console</span>() {
     <span class="org-keyword">if</span> [[ $<span class="org-variable-name">#</span> &gt; 0 ]]; <span class="org-keyword">then</span>
         <span class="org-variable-name">query</span>=$(<span class="org-sh-quoted-exec">echo</span> <span class="org-string">"$*"</span> | tr -s <span class="org-string">' '</span> <span class="org-string">'|'</span>)
         tail -f /var/log/system.log | grep -i --color=auto -E <span class="org-string">"$query"</span>
@@ -3888,13 +3898,13 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 </div>
 
-<div id="outline-container-org228057b" class="outline-3">
-<h3 id="org228057b">NMAP</h3>
+<div id="outline-container-org5313631" class="outline-3">
+<h3 id="org5313631">NMAP</h3>
 </div>
 
-<div id="outline-container-org6c0e7cc" class="outline-3">
-<h3 id="org6c0e7cc">Postamble</h3>
-<div class="outline-text-3" id="text-org6c0e7cc">
+<div id="outline-container-orgbcb7e20" class="outline-3">
+<h3 id="orgbcb7e20">Postamble</h3>
+<div class="outline-text-3" id="text-orgbcb7e20">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">This is for the sake of Emacs.</span>
 <span class="org-comment-delimiter"># </span><span class="org-comment">Local Variables&#58;</span>
@@ -3907,9 +3917,9 @@ See <a href="https://unix.stackexchange.com/questions/26313/colored-find-output"
 </div>
 </div>
 
-<div id="outline-container-org0da1e20" class="outline-2">
-<h2 id="org0da1e20">Java</h2>
-<div class="outline-text-2" id="text-org0da1e20">
+<div id="outline-container-orgc058a22" class="outline-2">
+<h2 id="orgc058a22">Java</h2>
+<div class="outline-text-2" id="text-orgc058a22">
 <ul class="org-ul">
 <li>Download Ant and add its <code>/bin</code> directory to <code>PATH</code>.</li>
 
@@ -3919,13 +3929,13 @@ to <code>PATH</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-org1f5977d" class="outline-2">
-<h2 id="org1f5977d">FAQ</h2>
-<div class="outline-text-2" id="text-org1f5977d">
+<div id="outline-container-orgcbc5d91" class="outline-2">
+<h2 id="orgcbc5d91">FAQ</h2>
+<div class="outline-text-2" id="text-orgcbc5d91">
 </div>
-<div id="outline-container-orgf762b30" class="outline-3">
-<h3 id="orgf762b30">How to fix &ldquo;zsh compinit: insecure directories&rdquo;?</h3>
-<div class="outline-text-3" id="text-orgf762b30">
+<div id="outline-container-org2fd8995" class="outline-3">
+<h3 id="org2fd8995">How to fix &ldquo;zsh compinit: insecure directories&rdquo;?</h3>
+<div class="outline-text-3" id="text-org2fd8995">
 <p>
 Stripping these directories of the group write permission:
 </p>
@@ -3941,9 +3951,9 @@ will do the trick, see <a href="http://www.wezm.net/technical/2008/09/zsh-cygwin
 </div>
 </div>
 
-<div id="outline-container-orgd6a6bab" class="outline-3">
-<h3 id="orgd6a6bab">How to run Emacs without showing a terminal window?</h3>
-<div class="outline-text-3" id="text-orgd6a6bab">
+<div id="outline-container-orgbb57d5d" class="outline-3">
+<h3 id="orgbb57d5d">How to run Emacs without showing a terminal window?</h3>
+<div class="outline-text-3" id="text-orgbb57d5d">
 <p>
 Use the <code>run</code> command:
 </p>
