@@ -337,7 +337,7 @@ if $(which ag 2>&1 /dev/null); then alias grep='ag'; fi
 As well, don't use the non-portable ~(())~ and ~[[]]~ constructs:
 
 #+begin_src shell
-if (( $+commands[ag] )) ; then alias grep='ag'; fi
+if (( $+commands[ag] )); then alias grep='ag'; fi
 [[ -s $(which ag) ]] && alias grep='ag'
 #+end_src
 
@@ -535,13 +535,13 @@ Note ~\[...\]~ used by the shell to count proper length.
 if tput setaf 1 &> /dev/null; then
     tput sgr0
     if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-        MAGENTA=$(tput setaf 9)
+        MAG=$(tput setaf 9)
         ORANGE=$(tput setaf 172)
         GREEN=$(tput setaf 190)
         PURPLE=$(tput setaf 141)
         WHITE=$(tput setaf 256)
     else
-        MAGENTA=$(tput setaf 5)
+        MAG=$(tput setaf 5)
         ORANGE=$(tput setaf 4)
         GREEN=$(tput setaf 2)
         PURPLE=$(tput setaf 1)
@@ -555,13 +555,13 @@ if tput setaf 1 &> /dev/null; then
 #** Controlling the Prompt
 
 # Regular colors.
-green="\[$(tput setaf 2)\]"
-yellow="\[$(tput setaf 3)\]"
+grn="\[$(tput setaf 2)\]"
+yel="\[$(tput setaf 3)\]"
 
 # Bold colors.
-BLACK="\[$(tput setaf 0; tput bold)\]"
+BLK="\[$(tput setaf 0; tput bold)\]"
 RED="\[$(tput setaf 1; tput bold)\]"
-GREEN="\[$(tput setaf 2; tput bold)\]"
+GRN="\[$(tput setaf 2; tput bold)\]"
 
 reset_color="\[$(tput sgr0)\]"
 
@@ -586,7 +586,7 @@ leuven-before-prompt() {
 
     # Colorful prompt, based on whether the previous command succeeded or not.
     if [ $RET -eq 0 ]; then
-        HILIT_RET=$GREEN
+        HILIT_RET=$GRN
     else
         HILIT_RET=$RED
     fi
@@ -614,9 +614,9 @@ leuven-before-prompt() {
     fi
 
     if [ "$color_prompt" = "yes" ]; then
-        PS1="${green}\u@\h${BLACK}:${reset_color}${yellow}${myPWD}${HILIT_RET} ${RET}${reset_color}${PROMPTCHAR} "
+        PS1="$grn\u@\h$BLK:${reset_color}$yel$myPWD${HILIT_RET} $RET${reset_color}$PROMPTCHAR "
     else
-        PS1="\u@\h:${myPWD} ${RET}${PROMPTCHAR} "
+        PS1="\u@\h:$myPWD $RET$PROMPTCHAR "
     fi
 }
 
@@ -640,7 +640,7 @@ esac
 #*** PS4 --- Used by "set -x" to prefix tracing output
 
 # Get line numbers when you run with `-x'.
-PS4='+'${green}'[$0:${LINENO}]+ '${reset_color}
+PS4='+'$grn'[$0:$LINENO]+ '${reset_color}
 #+end_src
 
 #+begin_warning
@@ -840,7 +840,7 @@ Install Zsh.
 
 #+begin_src shell
 # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
-PS1=$'%{\e]0;%d\a%}\n%F{green}%n@%m %F{yellow}%d%f\n%# '
+PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 #+end_src
 
 #+begin_src shell
@@ -961,11 +961,11 @@ if [ -r "$ZSH" ]; then
             rev=$(svn_get_rev_nr)
             branch=$(svn_get_branch_name)
             if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
-                prompt_segment yellow black
+                prompt_segment yel blk
                 echo -n "$rev@$branch"
                 echo -n " ±"
             else
-                prompt_segment green black
+                prompt_segment grn blk
                 echo -n "$rev@$branch"
             fi
         fi
@@ -1191,11 +1191,11 @@ any non-printing escape sequences in ~%{...%}~, and it should work. So use
 
 #+begin_src shell :tangle no
 # Some colors.
-BLACK=$(tput setaf 0; tput bold)
+BLK=$(tput setaf 0; tput bold)
 RED=$(tput setaf 1; tput bold)
-green=$(tput setaf 2)
-GREEN=$(tput setaf 2; tput bold)
-yellow=$(tput setaf 3)
+grn=$(tput setaf 2)
+GRN=$(tput setaf 2; tput bold)
+yel=$(tput setaf 3)
 reset_color=$(tput sgr0)
 #+end_src
 
@@ -1211,7 +1211,7 @@ dot.
 
 #+begin_src shell :tangle no
 # Custom prompt settings.
-PROMPT="$green%n@%m$BLACK:$yellow%2. %(?.$GREEN.$RED)%?$reset_color%(!.#.$) "
+PROMPT="$grn%n@%m$BLK:$yel%2. %(?.$GRN.$RED)%?$reset_color%(!.#.$) "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
@@ -1355,7 +1355,9 @@ alias -g GLYEAR=' --since=1.year.ago'
 
 #+begin_src shell
 # When entering a directory, list the contents.
-cd() { builtin cd "$@" && ls; }
+cd() {
+    builtin cd "$@" && ls
+}
 #+end_src
 
 ** Ledger
@@ -1396,13 +1398,13 @@ EOF
     case "$LEDGER" in
         "beancount" )
             ;;
-        ,* )   # default option
-            shift;  # for the useless (but expected) `-f'
+        ,* )                            # Default option.
+            shift                       # For the useless (but expected) `-f'.
             ;;
     esac
-    local LEDGER_M4_FILE=$1; shift;
+    local LEDGER_M4_FILE=$1; shift
 
-    local LEDGER_FILE=sample-ledger.dat;
+    local LEDGER_FILE=sample-ledger.dat
     case "$LEDGER" in
         "beancount" )
             m4 -D LEDGER=beancount "$LEDGER_M4_FILE" \
@@ -1577,13 +1579,9 @@ executable you want, ~CDPATH~ provides a selection of directories which will be
 checked for the folder you are trying to ~cd~ into.
 
 #+begin_src shell
-# Search current directory, home directory, and Tomcat folder
-export CDPATH=".:~:/cygdrive/d/Dev/Tools/Tomcat"
+# Search current directory and home directory.
+export CDPATH=".:~"
 #+end_src
-
-#+begin_tip
-To go to the directory ~1-Clients~, for example, simply type ~c~.
-#+end_tip
 
 *** Manpath
 
@@ -1874,7 +1872,7 @@ for editor in emacsclientw emacsclient emacs; do
                 ;;
         esac
 
-        alias e="$EDITOR"
+        alias e='$EDITOR'
         break
     fi
 done
@@ -2122,7 +2120,7 @@ of the entry in the directory history you want to visit... ~1~.
 
 #+begin_src shell
 alias t='tail -f'
-alias p="$PAGER"
+alias p='$PAGER'
 alias m='man'
 alias s='sudo'
 
@@ -2298,7 +2296,9 @@ Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
 keep a tunnel open on my laptop when away from the office:
 
 #+begin_src shell
-zugzug() { ssh -A -p <non_standard_port> -t <proxy_server> ssh "$1"; }
+zugzug() {
+    ssh -A -p <non_standard_port> -t <proxy_server> ssh "$1"
+}
 #+end_src
 
 While it's a function and not an alias, I find it invaluable.
@@ -2312,7 +2312,7 @@ alias keylist="ssh-add -l"              # List all identities.
 #+begin_src shell
 # gpg.
 searchkey() {
-    gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@";
+    gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@"
 }
 #+end_src
 
@@ -2409,7 +2409,9 @@ alias nmap_fast="nmap -F -T5 --top-ports 300"
 #+end_src
 
 #+begin_src shell :tangle no
-inpath() { [[ -x "$(which "$1" 2>/dev/null)" ]]; }
+inpath() {
+    [[ -x "$(which "$1" 2>/dev/null)" ]]
+}
 
 inpath nmap && {
     # -- [ nmap ] ---------------------------------------------------
@@ -2482,25 +2484,29 @@ localps() {
     fi
 
     for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2); do
-        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4) ;
-        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5) ;
-        t3=$(sudo nmap -sS $hostip | grep " open ") ;
-        echo -e $t1 " " $t2 "ms\n" $t3 "\n";
+        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4)
+        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5)
+        t3=$(sudo nmap -sS $hostip | grep " open ")
+        echo -e $t1 " " $t2 "ms\n" $t3 "\n"
     done
 }
 
 # watchport HOST PORT - Watch TCP port PORT on machine HOST.
 watchport() {
-    while true; do clear; nmap "$1" -PN -p "$2"; sleep 5; done
+    while true; do
+        clear
+        nmap "$1" -PN -p "$2"
+        sleep 5
+    done
 }
 
 # rdns [TARGET] - Perform reverse DNS lookups.
 rdns() {
     local net
     if [ -n "$1" ]; then
-      net="$1"
+        net="$1"
     else
-      net=$(localnet)
+        net=$(localnet)
     fi
     echo "Performing reverse DNS lookups in $net..."
     nmap -R -sL $net |\
@@ -2528,7 +2534,7 @@ alias off='sudo shutdown -h now'
 #+begin_src shell
 org_test() {
     (
-        cd "$HOME/Public/Repositories/org-mode";
+        cd "$HOME"/Public/Repositories/org-mode
         mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
         TMPDIR=/tmp/tmp-orgtest \
             emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
@@ -2645,20 +2651,23 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # clean [-r] - Remove useless files (recursively).
 clean() {
     if [ "$1" = "-r" ]; then
-        find . \( -name "#*" -o -name "*~" -o -name ".*~" -o \
-            -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" -o \
-            -name "*.~BASE~" -o -name ".*.~BASE~" \) -ok rm "{}" ";"
+        find . \( -name "#*" -o -name "*~" -o -name ".*~" \
+             -o -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" \
+             -o -name "*.~BASE~" -o -name ".*.~BASE~" \) \
+             -ok rm "{}" ";"
     else
         rm -i \#* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
     fi
 }
+#+end_src
 
+#+begin_src shell
 # swap FILE1 FILE2 - Swap FILE1 and FILE2.
 # Useful when you want to try a config file obtained from elsewhere, and also
 # keep the old version.
 swap() {
     if [ $# != 2 ]; then
-        return 1
+        return 2
     fi
     tmpfile=/tmp/.swapper.$$.$RANDOM
     mv -f "$1" $tmpfile
@@ -2671,7 +2680,7 @@ swap() {
 #+begin_src shell
 saneperms() {
     find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod ${1:=644}
+    find . -type f -print0 | xargs -0 chmod "${1:=644}"
 }
 #+end_src
 
@@ -2699,11 +2708,11 @@ safetmp() {
 #+begin_src shell
 # Immediately opens the first match.
 texman() {
-    locate $* | grep pdf | grep texlive | head -1 | xargs open;
+    locate "$*" | grep pdf | grep texlive | head -1 | xargs open
 }
 
 texlist() {
-    locate $* | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)";
+    locate "$*" | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)"
 }
 #+end_src
 
