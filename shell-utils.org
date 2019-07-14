@@ -175,7 +175,7 @@ last.
 
 #+begin_src shell :tangle ~/.dotfiles/bin/dc
 # Date Created.
-find ./ -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
+find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
     | grep -i "$@";
@@ -183,7 +183,8 @@ find ./ -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
 
 #+begin_src shell :tangle ~/.dotfiles/bin/dm
 # Date Modified.
-find ./ -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
+# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
+find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
     | grep -i "$@";
@@ -196,7 +197,7 @@ XXX Includes copies?
 
 #+begin_src shell :tangle ~/.dotfiles/bin/rc
 # Recent Change.
-find ./ -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" \
+find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
     | grep -i "$@";
@@ -725,31 +726,6 @@ of file names up to the maximum number allowed.
 :header-args+: :shebang #!/usr/bin/env bash
 :END:
 
-http://superuser.com/questions/44787/looping-through-subdirectories-and-running-a-command-in-each
-
-#+name: vc-update
-#+begin_src shell :results verbatim
-for dir in ~/src/*
-do
-    cecho "Updating $dir:"
-    if [ -d $dir/.git ]; then
-        (cd $dir && git pull)
-    elif [ -d $dir/.svn ]; then
-        (cd $dir && svn update)
-    fi
-    printf "\n"
-done
-#+end_src
-
-If you need it to be recursive:
-
-#+name: git-recursive-update
-#+begin_src shell
-find -type d -printf "%f" -exec  sh -c "cd \"{}\" && git pull"  \;
-#+end_src
-
-See http://snipplr.com/view/6228/recursively-find-subversion-working-copies-and-update/
-
 ** Ignore files from the command line
 
 Add a file (or a file glob pattern) to ignore without deleting the previous
@@ -775,7 +751,7 @@ svn propset svn:ignore "$svnignores" "$targetdirectory"
 From Hacking Exposed Web Applications:
 
 #+begin_src shell :tangle ~/.dotfiles/bin/getit.sh
-#!/bin/sh
+#!/usr/bin/env sh
 # mike's getit.sh script
 if [ -z $1 ]; then
     echo -e "\n\tUsage: $0 <host> <URL>"
@@ -800,7 +776,7 @@ getit.sh www.victim.com /index.html | grep -i "input type"
 ** HTTPS
 
 #+begin_src shell :tangle ~/.dotfiles/bin/sgetit.sh
-#!/bin/sh
+#!/usr/bin/env sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
     echo -e "\n\tUsage: $0 <SSL host> <URL>"
@@ -824,7 +800,7 @@ method, look in the dumpfile ~/tmp/bannergrab~ and look for
 vulnerable server.
 
 #+begin_src shell :tangle ~/.dotfiles/bin/nc_bgrab
-#!/bin/sh
+#!/usr/bin/env sh
 
 range="10.10.10.";
 
