@@ -21,7 +21,8 @@ The shell utilities are core shell functions and scripts which I wrote when
 doing my day-to-day tasks.  Over time, this will become a *powerful toolkit*.
 
 #+begin_note
-Library of Babel needs the ~#+name~ field to "ingest" a code block.
+Library of Babel needs the ~#+name~ field to "ingest" a code block -- for Org mode
+users.
 #+end_note
 
 ** See also
@@ -43,11 +44,41 @@ For similar collections, see:
   ~function_name~ \\
   ~CONSTANT_NAME~
 
+** Shell formatter + checker
+
+- https://github.com/mvdan/sh
+- https://google.github.io/styleguide/shell.xml
+- https://www.shellcheck.net/ (online checker!)
+
+http://www.skybert.net/emacs/bash-linting-in-emacs/
+
 ** Prerequisites
 
 - Clear
 - Diff
 - Iconv
+
+* Core utilities
+
+** Reverse the order of lines in a file
+
+tac (the, ahem, reverse of cat). Part of coreutils.
+
+Flipping one file into another
+
+#+begin_src shell
+tac a.txt > b.txt
+#+end_src
+
+** Difference between two directories
+
+#+begin_src shell
+diff -qr dir1 dir2
+#+end_src
+
+Options explained:
+- -q :: Output only whether files differ.
+- -r :: Recursively compare any subdirectories found.
 
 * Shell aliases
 
@@ -102,8 +133,7 @@ die () {
 
 #+begin_src shell
 files_executables_p () {
-    for x in $@
-    do
+    for x in $@; do
         command -v $x > /dev/null || die "$x not found."
     done
 }
@@ -117,8 +147,7 @@ counterpart -- to avoid problems of spurious ~\r~ added to the output.
 
 #+begin_src shell
 files_cygwin_executables_p () {
-    for x in $@
-    do
+    for x in $@; do
         [ "$(command -v $x)" = "/usr/bin/$x" ] \
             || die "$x is not a Cygwin executable."
     done
@@ -142,11 +171,46 @@ passed to the command (~fr <pattern>~) and sorts them with the most recent one
 last.
 
 #+begin_src shell
-fr () {
-    find ./ -iname "*"$@"*" -printf "%T@ %Td-%Tb-%TY %Tk:%TM %p\n" | sort -n |
-    cut -d " " -f 2- | grep -i "$@";
+# Date Created.
+dc () {
+    find ./ -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
+        | sort -n \
+        | cut -d " " -f 2- \
+        | grep -i "$@";
 }
 #+end_src
+
+#+begin_src shell
+# Date Modified.
+dm () {
+    find ./ -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
+        | sort -n \
+        | cut -d " " -f 2- \
+        | grep -i "$@";
+}
+#+end_src
+
+will show files and folders that have been altered in content today (their "date
+modified" field has been changed).
+
+XXX Includes copies?
+
+#+begin_src shell
+# Recent Change.
+rc () {
+    find ./ -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" \
+        | sort -n \
+        | cut -d " " -f 2- \
+        | grep -i "$@";
+}
+#+end_src
+
+includes moves and renames that do not change the "date modified" field or the
+contents of the files or folders.
+
+XXX See
+https://superuser.com/questions/294161/unix-linux-find-and-sort-by-date-modified
+for improvements (using ~ssed~ and ~cut~ with complement option).
 
 * Shell scripts
 :PROPERTIES:
@@ -278,7 +342,7 @@ printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.
 
 #+begin_src shell
 # command name
-CMD=$(basename $0)
+CMD=$(basename "$0")
 
 . shellutils || exit 2
 
@@ -294,9 +358,8 @@ SUBJECT="none"
 ATTFILES=""                             # files to be attached
 CC=""
 BCC=""
-FROM="<$(whoami)@$(echo $(hostname).com | tr '[:upper:]' '[:lower:]')>"
-: ${SMTP:="smtp"}                       # set var if not already set
-BODY="--"                               # stdin.txt
+FROM="<$(whoami)@$(echo "$(hostname)".com | tr '[:upper:]' '[:lower:]')>"
+: "${SMTP:=smtp}"                     # set var if not already set
 
 while getopts "s:c:b:f:a:h" opt
 do
@@ -310,7 +373,7 @@ do
         ,*) Usage;;
     esac
 done
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 MAILTO="$1"
 if [ "$MAILTO" = "" ]; then
@@ -326,16 +389,16 @@ files_executables_p "blat"
 ATT_SWITCH=""
 for attach in $ATTFILES
 do
-    if [ ! -r $attach ]
+    if [ ! -r "$attach" ]
     then
         die "File $attach does not exist or is not readable."
     else
         # binary vs text file
-        if [ "$(file --brief --mime $attach 2> /dev/null | cut -d/ -f 1)" = "text" ]
+        if [ "$(file --brief --mime "$attach" 2> /dev/null | cut -d/ -f 1)" = "text" ]
         then
-            ATT_SWITCH="$ATT_SWITCH -attacht $(cygpath -w $attach)"
+            ATT_SWITCH="$ATT_SWITCH -attacht $(cygpath -w "$attach")"
         else
-            ATT_SWITCH="$ATT_SWITCH -attach $(cygpath -w $attach)"
+            ATT_SWITCH="$ATT_SWITCH -attach $(cygpath -w "$attach")"
         fi
     fi
 done
@@ -347,12 +410,12 @@ BCC_SWITCH=""
 [ "$BCC" = "" ] || BCC_SWITCH="-bcc ${BCC}"
 
 blat -to "$MAILTO" \
-     $CC_SWITCH \
-     $BCC_SWITCH \
+     "$CC_SWITCH" \
+     "$BCC_SWITCH" \
      -subject "$SUBJECT" \
      -f "$FROM" \
      -server "$SMTP" \
-     $ATT_SWITCH
+     "$ATT_SWITCH"
 
 # mail ends here
 #+end_src
@@ -390,7 +453,7 @@ cecho "$@"
 
 ** Find duplicates
 
-*** finddup -- find DUPlicate files
+*** finddup -- Find DUPlicate files
 
 Use ~fdupes~ (from Cygwin).
 
@@ -410,7 +473,7 @@ fdupes -r . \
 The AWK script finds every block with more than one line.
 #+end_note
 
-*** findsn -- find Same Name (problems with clashing names)
+*** dupe -- Search for duplicated filenames
 
 find (files) with duplicate or conflicting names.
 Usage: findsn [-A -c -C] [[-r] [-f] paths(s) ...]
@@ -446,7 +509,7 @@ cat names.out
 rm -f names.lst
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/findsn
+#+begin_src shell :tangle ~/.dotfiles/bin/dupe
 # Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
 # If no command-line parameter (path to begin from) is specified, then the
 # default is to begin from the current (.) directory.
