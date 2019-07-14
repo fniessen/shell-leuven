@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ln -f -s $(pwd)/../src/.bashrc        ~/.bashrc
 ln -f -s $(pwd)/../src/.bash_profile  ~/.bash_profile
 ln -f -s $(pwd)/../src/.commonshrc    ~/.commonshrc
