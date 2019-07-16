@@ -164,6 +164,36 @@ pname () {
 }
 #+end_src
 
+** Find files
+
+#+begin_src shell :tangle ~/.dotfiles/bin/fd
+find . -type d -iname "*$1*" | sed "s#^\./##"
+#+end_src
+
+#+begin_src shell :tangle ~/.dotfiles/bin/ff
+find . -type f -iname "*$1*" | sed "s#^\./##"
+#+end_src
+
+** Find recent files
+
+#+begin_src shell
+# List all files modified TODAY only (since start of day only, i.e. 00:00).
+alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+
+# List all files modified YESTERDAY.
+alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+
+# List all files modified THIS WEEK.
+alias thisweek1='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+alias thisweek2='find . -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+alias thisweek3='find . -daystart -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+#+end_src
+
+XXX Check out %C, %T and %A!!!
+
+See https://unix.stackexchange.com/questions/26313/colored-find-output for
+*colored find output*.
+
 ** Find recent files
 :PROPERTIES:
 :header-args+: :shebang #!/usr/bin/env bash
@@ -660,38 +690,74 @@ There is no (good) reason ever for pictures to be executable.
 
 Just run this command to fix them:
 
-#+begin_src sh :tangle ~/.dotfiles/bin/chmod-x
-# find /space/music -name "*.jpg" -exec chmod -x {} +
-
+#+begin_src sh :tangle ~/.dotfiles/bin/unexe-all
 echo "Remove exe perm"
-find . -name "*.DTD"       -exec chmod -x {} +
-find . -name "*.R"         -exec chmod -x {} +
-find . -name "*.Txt"       -exec chmod -x {} +
-find . -name "*.VWAPFLOW"  -exec chmod -x {} +
-find . -name "*.VWPPFLOW"  -exec chmod -x {} +
-find . -name "*.asa"       -exec chmod -x {} +
-find . -name "*.asp"       -exec chmod -x {} +
-find . -name "*.css"       -exec chmod -x {} +
-find . -name "*.csv"       -exec chmod -x {} +
-find . -name "*.dtd"       -exec chmod -x {} +
-find . -name "*.gif"       -exec chmod -x {} +
-find . -name "*.gitignore" -exec chmod -x {} +
-find . -name "*.htm"       -exec chmod -x {} +
-find . -name "*.html"      -exec chmod -x {} +
-find . -name "*.idx"       -exec chmod -x {} +
-find . -name "*.m"         -exec chmod -x {} +
-find . -name "*.md5"       -exec chmod -x {} +
-find . -name "*.org"       -exec chmod -x {} +
-find . -name "*.pack"      -exec chmod -x {} +
-find . -name "*.pdf"       -exec chmod -x {} +
-find . -name "*.pid"       -exec chmod -x {} +
-find . -name "*.png"       -exec chmod -x {} +
-find . -name "*.sample"    -exec chmod -x {} +
-find . -name "*.sql"       -exec chmod -x {} +
-find . -name "*.tex"       -exec chmod -x {} +
-find . -name "*.txt"       -exec chmod -x {} +
-find . -name "*.xls"       -exec chmod -x {} +
-find . -name "*.xml"       -exec chmod -x {} +
+find . -type f \
+    \( -name "*.DTD" \
+    -o -name "*.R" \
+    -o -name "*.Txt" \
+    -o -name "*.asa" \
+    -o -name "*.asp" \
+    -o -name "*.awk" \
+    -o -name "*.axvw" \
+    -o -name "*.bak" \
+    -o -name "*.c" \
+    -o -name "*.ced" \
+    -o -name "*.class" \
+    -o -name "*.css" \
+    -o -name "*.csv" \
+    -o -name "*.docx" \
+    -o -name "*.dtd" \
+    -o -name "*.gif" \
+    -o -name "*.gitignore" \
+    -o -name "*.htm" \
+    -o -name "*.html" \
+    -o -name "*.idx" \
+    -o -name "*.ini" \
+    -o -name "*.jar" \
+    -o -name "*.java" \
+    -o -name "*.jpeg" \
+    -o -name "*.jpg" \
+    -o -name "*.js" \
+    -o -name "*.json" \
+    -o -name "*.jsp" \
+    -o -name "*.lex" \
+    -o -name "*.log" \
+    -o -name "*.m" \
+    -o -name "*.m4" \
+    -o -name "*.md5" \
+    -o -name "*.model" \
+    -o -name "*.mp4" \
+    -o -name "*.org" \
+    -o -name "*.orig" \
+    -o -name "*.pack" \
+    -o -name "*.pdf" \
+    -o -name "*.php" \
+    -o -name "*.pid" \
+    -o -name "*.png" \
+    -o -name "*.properties" \
+    -o -name "*.py" \
+    -o -name "*.sample" \
+    -o -name "*.sed" \
+    -o -name "*.sql" \
+    -o -name "*.stackdump" \
+    -o -name "*.tex" \
+    -o -name "*.tld" \
+    -o -name "*.txt" \
+    -o -name "*.war" \
+    -o -name "*.xhtml" \
+    -o -name "*.xls" \
+    -o -name "*.xls" \
+    -o -name "*.xml" \
+    -o -name "*.xsl" \
+    -o -name "*.xslt" \
+    -o -name "*.xslx" \
+    -o -name "*.zip" \
+    -o -name "ChangeLog" \
+    -o -name "Makefile" \
+    -o -name "README" \
+    \) \
+    -exec chmod -x {} +
 #+end_src
 
 Bonus:
