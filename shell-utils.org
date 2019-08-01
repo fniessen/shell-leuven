@@ -203,11 +203,21 @@ It recursively finds all files containing the pattern of the first argument
 passed to the command (~fr <pattern>~) and sorts them with the most recent one
 last.
 
+Options (to ~es~, Everything):
+-r Search the database using a basic POSIX regular expression.
+-i Does a case sensitive search.
+-w Does a whole word search.
+-p Does a full path search.
+-h --help Display this help.
+-n <num> Limit the amount of results shown to <num>.
+-s Sort by full path.
+
 #+begin_src shell :tangle ~/.dotfiles/bin/dc
 # Date Created.
 find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
+    | sed "s#\./##" \
     | grep -i "$@";
 #+end_src
 
@@ -217,11 +227,12 @@ find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
 find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
+    | sed "s#\./##" \
     | grep -i "$@";
 #+end_src
 
-will show files and folders that have been altered in content today (their "date
-modified" field has been changed).
+~dm~ will show files and folders that have been altered in content today (their
+"date modified" field has been changed).
 
 XXX Includes copies?
 
@@ -230,11 +241,12 @@ XXX Includes copies?
 find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" \
     | sort -n \
     | cut -d " " -f 2- \
+    | sed "s#\./##" \
     | grep -i "$@";
 #+end_src
 
-includes moves and renames that do not change the "date modified" field or the
-contents of the files or folders.
+~rc~ includes moves and renames that do not change the "date modified" field or
+the contents of the files or folders.
 
 XXX See
 https://superuser.com/questions/294161/unix-linux-find-and-sort-by-date-modified
@@ -518,18 +530,16 @@ find -type f > names.lst
 > names.out
 
 TAB=`echo -ne "\t"`
-while read name
-do
+while read name; do
     bn="$( basename "$name" )"
     name2="$( grep "$bn" names.lst | grep -v "$name" )"
-    if [ "$name2" != "" ]
-    then
-                        if !(grep -q "^${name}${TAB}" names.out); then
-                                size=`stat --format=%s "$name"`
-                                size2=`stat --format=%s "$name2"`
-                                echo -e "$name${TAB}$size" >> names.out
-                                echo -e "$name2${TAB}$size" >> names.out
-                        fi
+    if [ "$name2" != "" ]; then
+        if !(grep -q "^${name}${TAB}" names.out); then
+            size=`stat --format=%s "$name"`
+            size2=`stat --format=%s "$name2"`
+            echo -e "$name${TAB}$size" >> names.out
+            echo -e "$name2${TAB}$size" >> names.out
+        fi
     fi
 done < names.lst
 
@@ -708,6 +718,7 @@ find . -type f \
     -o -name "*.csv" \
     -o -name "*.docx" \
     -o -name "*.dtd" \
+    -o -name "*.el" \
     -o -name "*.gif" \
     -o -name "*.gitignore" \
     -o -name "*.htm" \
