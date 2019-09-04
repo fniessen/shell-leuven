@@ -317,6 +317,10 @@ To find out if a given command exists, don't use ~which~ (because it is not in
 POSIX so its output format is unspecified, and it complains when nothing is
 found instead of being silent):
 
+#+begin_src shell :tangle ../../home/.shellrc
+alias which-shell='ps -p $$'
+#+end_src
+
 #+begin_src shell
 if $(which ag 2>&1 /dev/null); then alias grep='ag'; fi
 #+end_src
