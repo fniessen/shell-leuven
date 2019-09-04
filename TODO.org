@@ -73,23 +73,23 @@ Very interesting settings!
 
 #+begin_src shell :tangle no
 # setenv [VAR] [value] - set environment variable
-setenv () { eval $1="\$2" export $1; }
+setenv() { eval $1="\$2" export $1; }
 
 # unsetenv [VAR] - unset environment variable
-unsetenv () { unset "$@"; }
+unsetenv() { unset "$@"; }
 
 # ifnset [VAR] [value] - set environment variable only if not set yet
-ifnset () { eval $1=\${$1-"\$2"} export $1; }
+ifnset() { eval $1=\${$1-"\$2"} export $1; }
 
 # ifnull [VAR] [value] - set environment variable if not set yet or if NULL
-ifnull () { eval $1=\${$1:-"\$2"} export $1; }
+ifnull() { eval $1=\${$1:-"\$2"} export $1; }
 
 # append [VAR] [path] - append path separated by `:'
-append () { eval $1=\${$1:+\$$1${2:+:}}\$2 export $1; }
+append() { eval $1=\${$1:+\$$1${2:+:}}\$2 export $1; }
 
 # prepend [VAR] [path] - prepend path separated by `:'
-prepend () { eval $1=\$2\${$1:+${2:+:}\$$1} export $1; }
+prepend() { eval $1=\$2\${$1:+${2:+:}\$$1} export $1; }
 
 # showvalue [VAR]... - print out the value of variables given their name
-showvalue () { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
+showvalue() { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
 #+end_src
