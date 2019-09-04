@@ -11,29 +11,16 @@
 
 Look at https://github.com/jlevy/the-art-of-command-line!
 
+XXX https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+XXX https://www.linuxtrainingacademy.com/23-handy-bash-shell-aliases-for-unix-linux-and-mac-os-x/
+XXX https://pissedoffadmins.com/
+
 * Summary
 
 ShellRC is a set of configuration files to take advantage of Bash and Zsh on Mac
 OS X, Linux and Windows (with Cygwin).
 
 * COMMENT Tasks
-
-** TODO Test performance of branch name and merge status in Bash prompt
-
-Should go to local or global bash profile:
-
-#+begin_src shell
-parse_git_dirty() {
-    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
-}
-
-parse_git_branch() {
-    git branch --no-color 2> /dev/null \
-        | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
-}
-
-export PS1='\u@\h \[\033[0;36m\]\w \[\033[0;32m\]$(parse_git_branch)\[\033[0m\]$ '
-#+end_src
 
 ** TODO Look at shell scripts
 
@@ -326,9 +313,9 @@ either by running export ZSH=/your/path before installing,
 
 * About portability
 
-To look for existing commands, don't use ~which~ (because it is not in POSIX so
-its output format is unspecified, and it complains when nothing is found instead
-of being silent):
+To find out if a given command exists, don't use ~which~ (because it is not in
+POSIX so its output format is unspecified, and it complains when nothing is
+found instead of being silent):
 
 #+begin_src shell
 if $(which ag 2>&1 /dev/null); then alias grep='ag'; fi
@@ -344,8 +331,20 @@ if (( $+commands[ag] )); then alias grep='ag'; fi
 Instead use:
 
 #+begin_src shell
-type ag > /dev/null && alias grep='ag'
+have() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo "$1 not found."
+        return 2                        # An error occurred.
+    fi
+}
 #+end_src
+
+#+begin_src shell
+have ag && alias grep='ag'
+#+end_src
+
+See also
+https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
 
 * Startup files
 
@@ -494,10 +493,14 @@ Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
 
 #+begin_src shell
 # If not running interactively, don't do anything.
+# isInteractive=$(echo $- | grep i)
 [[ "$-" != *i* ]] && return
 #+end_src
 
-it's important to refrain from outputting anything in those cases.
+You don't want to perform a full-blown initialization every time scripts
+execute.
+
+It's important to refrain from outputting anything in those cases.
 
 ** Source global rc file (if any)
 
@@ -954,23 +957,23 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 *** Agnoster Theme Adaption for SVN
 
 #+begin_src shell
-if [ -r "$ZSH" ]; then
-    prompt_svn() {
-        local rev branch
-        if in_svn; then
-            rev=$(svn_get_rev_nr)
-            branch=$(svn_get_branch_name)
-            if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
-                prompt_segment yel blk
-                echo -n "$rev@$branch"
-                echo -n " ±"
-            else
-                prompt_segment grn blk
-                echo -n "$rev@$branch"
-            fi
-        fi
-    }
-fi
+# if [ -r "$ZSH" ]; then
+#     prompt_svn() {
+#         local rev branch
+#         if in_svn; then
+#             rev=$(svn_get_rev_nr)
+#             branch=$(svn_get_branch_name)
+#             if [[ $(svn_dirty_choose_pwd 1 0) -eq 1 ]]; then
+#                 prompt_segment yel blk
+#                 echo -n "$rev@$branch"
+#                 echo -n " ±"
+#             else
+#                 prompt_segment grn blk
+#                 echo -n "$rev@$branch"
+#             fi
+#         fi
+#     }
+# fi
 #+end_src
 
 ** Install Powerlevel9k!
@@ -981,25 +984,94 @@ git clone https://github.com/bhilburn/powerlevel9k.git \
 #+end_src
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
-    ZSH_THEME="powerlevel9k/powerlevel9k"
+# if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+#     ZSH_THEME="powerlevel9k/powerlevel9k"
+#
+#     # Single-line prompt.
+#     POWERLEVEL9K_PROMPT_ON_NEWLINE=false
+#     POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+#
+#     POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
+#     POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=''
+#
+#     # Customise the Powerlevel9k prompts.
+#     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
+#     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time background_jobs)
+#
+#     POWERLEVEL9K_STATUS_VERBOSE=false
+#     POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
+#     POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=10
+#     POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
+# fi
+#+end_src
 
-    # Single-line prompt.
-    POWERLEVEL9K_PROMPT_ON_NEWLINE=false
-    POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+#+begin_src shell :tangle no
+git clone https://gitlab.com/robobenklein/zinc \
+    "$ZSH_CUSTOM"/themes/zinc
+#+end_src
 
-    POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-    POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=''
+#+begin_src shell
+ZSH_THEME=""
+source "$ZSH_CUSTOM"/themes/zinc/zinc.zsh
 
-    # Customise the Powerlevel9k prompts.
-    POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time background_jobs)
+zinc_default_user="f.niessen"
+zinc_default_host="XIPHIAS"
 
-    POWERLEVEL9K_STATUS_VERBOSE=false
-    POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
-    POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=10
-    POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
-fi
+prompt_zinc_setup rprompt-previous-line
+
+# Input your own strftime format: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+zincs_time() {
+    REPLY="%D{%H:%M}"
+}
+
+prompt_zinc_setup fniessen-p9k-port
+
+# prompt_zinc_setup fniessen-p9k-port
+
+# # either user and host separate with CONNECT_PREV
+# # or zincs_userhost
+# zinc_left=(
+#   # zincs_user
+#   # zincs_host
+#   zincs_userhost
+#   zincs_cwd
+#   zincs_vcs
+# )
+#
+# zinc_right=(
+#   zincs_retval
+#   zincs_execution_time
+#   my_custom_time
+#   zincs_jobs
+# )
+#
+# zinc_opts=(
+#   zincs_user "white;black;CONDITIONAL;normal"
+#   zincs_host "white;black;CONNECT_PREV+CONDITIONAL;normal"
+#   zincs_userhost "white;black;CONDITIONAL;normal"
+# )
+#
+# # autohide the user when it's default
+# function zincs_user_display_hidden () {
+#   [[ "$USER" == "$zinc_default_user" ]] && true || false
+# }
+# function zincs_host_display_hidden () {
+#   [[ "$HOST" == "$zinc_default_host" ]] && true || false
+# }
+#
+# # or show both when either changes:
+# function zincs_userhost_display_hidden () {
+#   [[ "$HOST" == "$zinc_default_host" ]] && [[ "$USER" == "$zinc_default_user" ]] && true
+# }
+#
+# # set the time format option:
+# # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+# function my_custom_time () {
+#   REPLY="%T"
+# }
+#
+# # set the zincs_execution_time min time:
+# zincs_execution_time[threshold]=10
 #+end_src
 
 ** Plugins
@@ -1013,8 +1085,7 @@ if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
         # git                           # Provide many aliases and a few useful functions.
         history
         history-substring-search
-        svn
-        zshmarks
+        # svn
     )
 fi
 #+end_src
@@ -1084,39 +1155,55 @@ if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
 fi
 #+end_src
 
-** Command history
+** Options
+
+*** Changing Directories
+
+#+begin_src shell
+setopt AUTO_CD                  # Change directory given just path.
+#+end_src
+
+*** Expansion and Globbing
+
+#+begin_src shell
+setopt EXTENDED_GLOB            # Use additional pattern matching features.
+setopt NOMATCH                  # Unmatched patterns cause an error.
+#+end_src
+
+*** History
 
 #+begin_src shell
 # History.
-HISTSIZE=1000
-SAVEHIST=2000
+HISTSIZE=10000
+SAVEHIST=10000
+#+end_src
 
-# Append new history lines instead of overwriting (important for multiple
-# parallel Zsh sessions!).
-setopt appendhistory
+#+begin_src shell
+setopt APPEND_HISTORY           # Append rather than overwrite history file.
+setopt EXTENDED_HISTORY         # Save timestamp and runtime information.
+setopt HIST_EXPIRE_DUPS_FIRST   # Allow dups, but expire old ones when I hit HISTSIZE.
+setopt HIST_FIND_NO_DUPS        # Don't find duplicates in history.
+setopt HIST_IGNORE_ALL_DUPS     #! Ignore duplicate commands regardless of commands in between.
+setopt HIST_IGNORE_DUPS         # Ignore duplicate commands.
+setopt HIST_REDUCE_BLANKS       # Leave blanks out.
+setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
+setopt INC_APPEND_HISTORY       # Write after each command.
+setopt SHARE_HISTORY            # Share history between sessions.
+#+end_src
 
-# Don't save command more than once when occuring more often.
-setopt HIST_IGNORE_DUPS
+*** Job Control
 
-# Use the same history file for all sessions.
-setopt SHARE_HISTORY
+#+begin_src shell
+setopt NOTIFY                   # Immediately report changes in background job status.
+#+end_src
 
-# Change directory given just path.
-setopt autocd
+*** Zle
 
+#+begin_src shell
 # Beep when there's an error with the command text you're typing in (e.g. if you
 # hit tab and there are no matching files) -- not as a result of normal commands
 # returning errors.
-setopt beep
-
-# Use additional pattern matching features.
-setopt extendedglob
-
-# Unmatched patterns cause an error.
-setopt nomatch
-
-# Immediately report changes in background job status.
-setopt notify
+setopt BEEP
 #+end_src
 
 ** Zsh line editor
@@ -1235,21 +1322,21 @@ PROMPT+='%(?::$BEL)'
 # Does not work on Bash on Ubuntu on Windows.
 #+end_src
 
-To get a blank line before the prompt, you can write a function to echo a blank
-line and adding it to your ~preexec~ or ~precmd~ hooks.
-
-Technically, it doesn't insert a line after each commands output, but inserts
-a blank line before building the prompt. However, the end result is the
-same.
-
-#+begin_src shell
-echo_blank() {
-    echo
-}
-
-# preexec_functions+=echo_blank
-precmd_functions+=echo_blank
-#+end_src
+# To get a blank line before the prompt, you can write a function to echo a blank
+# line and adding it to your ~preexec~ or ~precmd~ hooks.
+#
+# Technically, it doesn't insert a line after each commands output, but inserts
+# a blank line before building the prompt. However, the end result is the
+# same.
+#
+# #+begin_src shell
+# echo_blank() {
+#     echo
+# }
+#
+# # preexec_functions+=echo_blank
+# precmd_functions+=echo_blank
+# #+end_src
 
 Don't confuse TRAMP:
 
@@ -1629,7 +1716,7 @@ With the ~less~ command, you can *scroll up* in the file as well as down; with t
 ~more~ command, you can only *scroll down* the file.
 
 #+begin_src shell
-alias more="less"
+alias more='less'
 #+end_src
 
 *** Less
@@ -1662,7 +1749,7 @@ export LESS_TERMCAP_us=$'\e[1;32m'
      #+end_warning
 
 - ~-i~ or ~--ignore-case~ ::
-     Causes searches to ignore case; that is, uppercase and lowercase are
+     Causes *searches* to *ignore case*; that is, uppercase and lowercase are
      considered identical.  This option is ignored if any uppercase letters
      appear in the search pattern; in other words, if a pattern contains
      uppercase letters, then that search does not ignore case.
@@ -1687,14 +1774,14 @@ export LESS_TERMCAP_us=$'\e[1;32m'
      #+end_warning
 
 - ~-R~ or ~--RAW-CONTROL-CHARS~ ::
-     (Only) ANSI "*color*" escape sequences (sequences of the form ~ESC[...m~ where
+     (Only) ANSI *"color" escape sequences* (sequences of the form ~ESC[...m~ where
      the ~...~ is zero or more color specification characters, and ~m~ ends ANSI
-     color escape sequences) are *output* in "raw" form.
+     color escape sequences) are *output in "raw" form*.
 
      #+begin_note
      Without ~--RAW-CONTROL-CHARS~ (or ~--raw-control-chars~), ~less~ outputs the
-     colors as raw escape codes, that is it does not *interpret colors*. With it,
-     ~git diff~ finally shows colors...
+     colors as raw escape codes; that is, it does not *interpret colors*. With
+     that option, ~git diff~ finally shows colors...
      #+end_note
 
 - ~-X~ or ~--no-init~ ::
@@ -1773,15 +1860,22 @@ export DISPLAY=:0.0
 
 ** Alert
 
-Add an "alert" alias for long running commands.
+Add an "alert" alias for *long running commands*.
 
-Use like so:
-
-: sleep 10; alert
+#+begin_src shell
+function alert {
+    $@
+    echo -e "\a"
+}
+#+end_src
 
 #+begin_src shell
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 #+end_src
+
+Use like so:
+
+: sleep 10; alert
 
 ** Misc
 
@@ -1855,7 +1949,7 @@ Right now, I have instead hard-coded the path to Emacs in the
 #+begin_src shell
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
-    if $(type $editor >& /dev/null); then
+    if command -v "$editor" > /dev/null 2>&1; then
         # Set EDITOR.
         case $editor in
             emacsclient*)
@@ -1931,9 +2025,9 @@ better omit the "=--no-wait=" option.
 
 ** Plugins
 
-Aliases are abbreviations or alternative names (usually mnemonics) for
-commands. They are commonly used to specify a few options to commands, and
-then include the rest of the command line.
+Aliases are abbreviations or alternative names (usually mnemonics) for commands.
+They are commonly used to specify a few options to commands, and then include
+the rest of the command line.
 
 Aliases should usually be kept simple. If not, they should be converted to:
 - shell functions, or
@@ -1941,10 +2035,13 @@ Aliases should usually be kept simple. If not, they should be converted to:
 
 An alias cannot have an argument like ~$1~.
 
-#+begin_src shell
-# Grep through the aliases.
-alias agrep='alias | grep -i'
-#+end_src
+#+begin_note
+Single quotes are evaluated dynamically:
+: alias QS='echo $PWD'
+
+Double quotes are evaluated at time of creation and, thereafter, never changes:
+: alias QD="echo $PWD"
+#+end_note
 
 *** Common aliases
 
@@ -2039,15 +2136,14 @@ alias du1='du -h --max-depth=1'
 alias dus='du -ms * | sort -rn'         # Ordered by size.
 #+end_src
 
+#+begin_src shell
+alias mount='mount | column -t'
+#+end_src
+
 List all the files in this directory, and sort by human-readable file size.
 
 #+begin_src shell
 alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
-#+end_src
-
-#+begin_src shell
-alias fd='find . -type d -name'
-alias ff='find . -type f -name'
 #+end_src
 
 #+begin_src shell
@@ -2064,8 +2160,8 @@ scripts don't expect to see modified!
 
 #+begin_src shell
 # Make an extract function!
-alias tgz="tar -zxvf"
-alias tbz2="tar -jxvf"
+alias tgz='tar -zxvf'
+alias tbz2='tar -jxvf'
 #+end_src
 
 Interesting alias in Oh My Zsh: ~x~ / ~extract~ to extract an archive of types
@@ -2073,21 +2169,29 @@ tar.{bz2,gz,xz,lzma}, bz2, rar, gz, tbz2, tgz, zip, Z, 7z.
 
 #+begin_src shell
 # Print a more readable PATH (each directory on a new line).
-alias path='echo $PATH | sed -e "s/:/\n/g"'
-alias path='echo -e ${PATH//:/\\n}'
+alias path='echo "$PATH" | sed -e "s/:/\n/g"'
+alias path='sed "s/:/\n/g" <<< "$PATH"' # here-strings (undefined in POSIX sh).
+alias path='tr ":" "\n" <<< "$PATH"'    # here-strings.
+alias path='echo -e "${PATH//:/\\n}"'   # Parameter expansion (string replacement undefined in POSIX sh/dash).
+# https://ubuntuplace.info/questions/4532/comment-afficher-les-chemins-dans-path-separement
 
 # Path.
-alias where='type -a'
+alias where='type -a'                   # Good?
 #+end_src
 
 #+begin_src shell
-alias mkall="./configure && make && sudo make install"
+alias mkall='./configure && make && sudo make install'
+#+end_src
 
-# sudo'ers
-alias root="su - root"
+#+begin_src shell
+# Become root.
+alias root='sudo -i'
+#+end_src
 
+#+begin_src shell
 # Make executable.
 alias exe='chmod +x'
+alias addx='chmod +x'
 
 # Chown current dir and subdirs.
 alias own='sudo chown -R $USER'
@@ -2096,7 +2200,6 @@ alias own='sudo chown -R $USER'
 *** Directories
 
 #+begin_src shell
-alias up='cd ..'
 alias -- ..='cd ..'
 
 alias ...='cd ../..'
@@ -2105,6 +2208,11 @@ alias .....='cd ../../../..'
 
 # Aliases '-' to 'cd -'.
 alias -- -='cd -'
+#+end_src
+
+#+begin_src shell
+alias c:='cd /mnt/c'
+alias d:='cd /mnt/d'
 #+end_src
 
 #+begin_src shell
@@ -2120,12 +2228,21 @@ of the entry in the directory history you want to visit... ~1~.
 
 #+begin_src shell
 alias t='tail -f'
-alias p='$PAGER'
+# alias p='$PAGER'
 alias m='man'
 alias s='sudo'
 
 alias j='jobs -l'
 alias l='ls'
+#+end_src
+
+*** Colorize diff output
+
+*Highlight SVN diffs in the Shell (in Cygwin)???*
+
+#+begin_src shell
+# Make `diff' automatically call `colordiff' (Install `colordiff' package...).
+alias diff='colordiff'
 #+end_src
 
 *** Git
@@ -2137,7 +2254,7 @@ alias g='git'
 Go to the top of your Git repo.
 
 #+begin_src shell
-# alias gitroot="cd $(git rev-parse --show-toplevel)" # Conflict with Oh My Zsh?
+# alias gitroot='cd $(git rev-parse --show-toplevel)' # Conflict with Oh My Zsh?
 
 # Good alias that will not blow up cd if you aren't in a Git directory.
 alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
@@ -2158,7 +2275,7 @@ http://stackoverflow.com/tags/tig/hot
 
 #+begin_src shell
 # Search through files, ignoring .svn directories.
-alias svn-find="find . -not \( -name .svn -prune \)"
+alias svn-find='find . -not \( -name .svn -prune \)'
 
 # Grep a string in every SVN revision of a file.
 # Usage: svn-grep-all-rev PATTERN FILE
@@ -2206,7 +2323,7 @@ svn-showtool() {
 
 #+begin_src shell
 # svn-whatchanged [path/to/file]
-alias svn-whatchanged="svn log -v"
+alias svn-whatchanged='svn log -v'
 #+end_src
 
 #+begin_src shell
@@ -2246,14 +2363,12 @@ http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-r
 
 highlight-lines-matching-regexp "ERROR"
 
-*Highlight SVN diffs in the Shell (in Cygwin)???*
-
 *** History
 
 Print the history lines matching a pattern.
 
 #+begin_src shell
-alias hgrep="history | grep -i"
+alias hgrep='history | grep -i'
 #+end_src
 
 #+begin_warning
@@ -2273,6 +2388,14 @@ history \
     | head -10
 #+end_src
 
+*** UTF-8
+
+Remove the UTF-8 encoded BOM if it exists (make no changes if it doesn't).
+
+#+begin_src shell
+alias remove-bom='sed -i "1s/^\xEF\xBB\xBF//"'
+#+end_src
+
 *** Screen
 
 Connect to a host in a new screen tab, with the device name as the tab title.
@@ -2282,7 +2405,7 @@ s() {
     screen -t "$@" /usr/bin/ssh "$@"
 }
 
-alias screen="screen -U"
+alias screen='screen -U'
 alias resume='screen -D -R'
 alias sr='screen -r'
 #+end_src
@@ -2304,9 +2427,9 @@ zugzug() {
 While it's a function and not an alias, I find it invaluable.
 
 #+begin_src shell
-alias keyon="ssh-add -t 10800"          # Add identity.
-alias keyoff="ssh-add -D"               # Remove all identities.
-alias keylist="ssh-add -l"              # List all identities.
+alias keyon='ssh-add -t 10800'          # Add identity.
+alias keyoff='ssh-add -D'               # Remove all identities.
+alias keylist='ssh-add -l'              # List all identities.
 #+end_src
 
 #+begin_src shell
@@ -2344,7 +2467,7 @@ alias mytop='top -u $USERNAME'
 
 #+begin_src shell
 # My traceroute.
-type mtr >& /dev/null && alias ping=mtr
+have mtr && alias ping=mtr
 
 # hping[2] (run as root!)
 alias myping="hping2 -c 100 -2 -p 7 $1"
@@ -2359,7 +2482,24 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
 #+begin_src shell
 # Echo my current external IP address.
-type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
+have curl && alias whatismyip='curl -s http://whatismyip.org'
+#+end_src
+
+#+begin_src shell
+alias externalip='wget http://ipinfo.io/ip -qO -'
+alias internalip='ipconfig getifaddr en0'
+
+# Get your external IP address.
+# curl ifconfig.me
+
+# Get internal IP address.
+alias ip='ipconfig getifaddr en0'
+
+alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+#+end_src
+
+#+begin_src shell
+alias docker-rm-all='sudo docker ps -a | awk "NR > 1{print \$1}" | xargs sudo docker rm'
 #+end_src
 
 #+begin_src shell
@@ -2371,6 +2511,15 @@ type curl >& /dev/null && alias whatismyip='curl -s http://whatismyip.org'
 #  ${!#} gibt den letzten Parameter (den Hostnamen) zurück,
 #  ${j/%${!#}/} die übrigen (Liste der Dateien oder Verzeichnisse).
 alias receive='nc -vlp 51330 | tar xzvp'
+#+end_src
+
+#+begin_src shell
+# Sharing file through http 80 port.
+# From the other machine open a web navigator and go to ip from the machine who
+# launch netcat, http://ip-address/ If you have some web server listening at 80
+# port then you would need stop them or select another port before launch net
+# cat ;-) * You need netcat tool installed
+# nc -v -l 80 < file.ext
 #+end_src
 
 #+begin_src shell
@@ -2387,14 +2536,23 @@ alias sniff='sudo ngrep -d "enp6s0" -t "^(GET|POST) " "tcp and port 80"'
 #+end_src
 
 #+begin_src shell
-alias ports="netstat -alpe --ip"
+alias ports='netstat -alpe --ip'
+
+# Open ports.
+alias ports='netstat -tulanp'
+alias ports='netstat -tulap'
+
+alias openports='netstat -nape --inet'
+
+# Scan all open/listening ports.
+# sudo nmap -n -PN -sT -sU -p- localhost
 #+end_src
 
 #+begin_src shell
-# alias scan="nmap -sS -O"
-alias nm="nmap -sS -O -PI -PT"
-alias portscan="nmap -sT -PT -R "
-alias nmap_fast="nmap -F -T5 --top-ports 300"
+# alias scan='nmap -sS -O'
+alias nm='nmap -sS -O -PI -PT'
+alias portscan='nmap -sT -PT -R '
+alias nmap_fast='nmap -F -T5 --top-ports 300'
 #+end_src
 
 #+begin_src shell
@@ -2428,12 +2586,12 @@ inpath nmap && {
     #  -sA - TCP ACK scan
     #  -F - fast scan
     #  --script=vulscan - also access vulnerabilities in target
-    alias nmap_open_ports="nmap --open"
-    alias nmap_list_interfaces="nmap --iflist"
-    alias nmap_slow="nmap -sS -v -T1"
-    alias nmap_fin="nmap -sF -v"
-    alias nmap_full="nmap -sS -T4 -PE -PP -PS80,443 -PY -g 53 -A -p1-65535 -v"
-    alias nmap_check_for_firewall="nmap -sA -p1-65535 -v -T4"
+    alias nmap_open_ports='nmap --open'
+    alias nmap_list_interfaces='nmap --iflist'
+    alias nmap_slow='nmap -sS -v -T1'
+    alias nmap_fin='nmap -sF -v'
+    alias nmap_full='nmap -sS -T4 -PE -PP -PS80,443 -PY -g 53 -A -p1-65535 -v'
+    alias nmap_check_for_firewall='nmap -sA -p1-65535 -v -T4'
     alias nmap_ping_through_firewall="nmap -PS -PA"
     alias nmap_fast="nmap -F -T5 --version-light --top-ports 300"
     alias nmap_detect_versions="nmap -sV -p1-65535 -O --osscan-guess -T4 -Pn"
@@ -2522,7 +2680,9 @@ alias wget='wget -c'
 
 # Anonymous wget (using Privoxy and Tor).
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
-alias mirror="wget -v --tries=0 --continue --force-directories --mirror --no-parent"
+alias mirror='wget -v --tries=0 --continue --force-directories --mirror --no-parent'
+
+alias download-web-site='wget --random-wait -r -p -e robots=off -U mozilla'
 #+end_src
 
 #+begin_src shell
@@ -2567,7 +2727,7 @@ things.
 Change the color of ~grep~:
 
 #+begin_src shell
-export GREP_COLOR="0;30;43"
+export GREP_COLOR='0;30;43'
 #+end_src
 
 #+begin_note
@@ -2582,6 +2742,7 @@ worked...
 #+begin_src shell
 # Grep through the running processes.
 alias pgrep='pgrep -fl'
+alias 'ps?'='ps ax | grep '
 #+end_src
 
 *** Ripgrep
@@ -2596,15 +2757,15 @@ alias srg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'mat
 [[https://blog.kowalczyk.info/software/the-silver-searcher-for-windows.html][The Silver Searcher windows port]]
 
 #+begin_src shell :tangle no
-type ag 2>&1 /dev/null && alias grep=ag
+have ag && alias grep=ag
 #+end_src
 
 *** GraphicsMagick
 
 #+begin_src shell
 # GraphicsMagick.
-alias GIF="gm convert -verbose -interlace LINE"
-alias thumb="gm convert -geometry 100x100 -interlace LINE -verbose"
+alias GIF='gm convert -verbose -interlace LINE'
+alias thumb='gm convert -geometry 100x100 -interlace LINE -verbose'
 alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
 alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
 alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
@@ -2627,22 +2788,8 @@ gmresize() {
 *** Other things to sort
 
 #+begin_src shell
-# List all files modified TODAY only (since start of day only, i.e. 00:00).
-alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
-
-# List all files modified YESTERDAY.
-alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
-
-# List all files modified THIS WEEK.
-alias thisweek='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s|\./||"'
-#+end_src
-
-See https://unix.stackexchange.com/questions/26313/colored-find-output for
-*colored find output*.
-
-#+begin_src shell
-export GS_OPTIONS="-sPAPERSIZE=a4"
-alias pdfmerge="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf" # pdfjoin
+export GS_OPTIONS='-sPAPERSIZE=a4'
+alias pdfmerge='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf' # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
 #+end_src
@@ -2714,12 +2861,6 @@ texman() {
 texlist() {
     locate "$*" | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)"
 }
-#+end_src
-
-*** MCit tools
-
-#+begin_src shell
-alias sp=sendpatch
 #+end_src
 
 *** Extra
