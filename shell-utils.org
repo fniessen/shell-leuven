@@ -757,6 +757,7 @@ find . -type f \
     -o -name "*.stackdump" \
     -o -name "*.tex" \
     -o -name "*.tld" \
+    -o -name "*.tsv" \
     -o -name "*.txt" \
     -o -name "*.war" \
     -o -name "*.xhtml" \
