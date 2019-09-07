@@ -298,8 +298,8 @@ ShellRC is installed by doing the following:
    Or...
 
    #+begin_src shell :results silent
-   if [ -d "$HOME/.dotfiles/files" ]; then
-       PATH="$HOME/.dotfiles/files:$PATH"
+   if [ -d "$HOME"/.dotfiles/files ]; then
+       PATH="$HOME"/.dotfiles/files:"$PATH"
    fi
    #+end_src
 
@@ -524,12 +524,17 @@ sessions.
 Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
-# History.
-# HISTFILE="$HOME/.bash_history"        # If paranoiac, `/dev/null'.
-HISTSIZE=1000
-HISTFILESIZE=2000
-HISTIGNORE="&:[bf]g:exit"
-HISTCONTROL=ignoredups
+# Store 10000 commands in history buffer.
+export HISTSIZE=10000
+
+# Store 10000 commands in history FILE.
+export HISTFILESIZE=10000
+
+# Avoid recording common commands (like ls, top and clear).
+export HISTIGNORE=”ls*:top:clear”
+
+# Ignore duplicate commands and commands starting with space.
+export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
 #+end_src
 
 ** Prompt
@@ -678,8 +683,32 @@ fi
 ** Shell options
 
 #+begin_src shell
-# Correct minor misspellings of cd pathnames.
+# Automatically cd into a  directory without the `cd' in front of it.
+shopt -s autocd
+
+# Correct dir spellings.
 shopt -s cdspell
+
+# Make sure display get updated when terminal window get resized.
+shopt -q -s checkwinsize
+
+# Append rather than overwrite history.
+shopt -s histappend
+
+# Make multi-line commandsline in history.
+shopt -q -s cmdhist
+#+end_src
+
+** Zsh-like Command Help
+
+In the Zsh shell, it’s easy to open up any terminal command’s manual by quickly
+pressing Alt-H on the keyboard.
+
+With Bash, accessing a manual is man command. Suffice it to say, the Zsh way of
+doing things is much, much nicer. To add this functionality to the Bash shell:
+
+#+begin_src shell
+bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 #+end_src
 
 ** Miscellaneous
@@ -866,11 +895,11 @@ default with Cygwin), and it is available at [[https://github.com/karlin/mintty-
 
 #+begin_src shell :tangle no
 git clone https://github.com/karlin/mintty-colors-solarized.git \
-    "$HOME/.dotfiles/plugins/mintty-colors-solarized"
+    "$HOME"/.dotfiles/plugins/mintty-colors-solarized
 #+end_src
 
 #+begin_src shell
-FILE="$HOME/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh" && test -f "$FILE" && . "$FILE"
+FILE="$HOME"/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh && test -f "$FILE" && . "$FILE"
 
 # XXX Check for MinTTY
 if [ -d /cygdrive/c/ ]; then
@@ -935,8 +964,8 @@ settings.
 #+end_note
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
-    ZSH="$HOME/.dotfiles/plugins/oh-my-zsh"
+if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+    ZSH="$HOME"/.dotfiles/plugins/oh-my-zsh
     # ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}
     ZSH_CUSTOM="$ZSH/custom"
 
@@ -953,7 +982,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 # I am fan of ~agnoster~.
 #
 # #+begin_src shell
-# if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+# if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
 #     ZSH_THEME="agnoster"
 # fi
 # #+end_src
@@ -988,7 +1017,7 @@ git clone https://github.com/bhilburn/powerlevel9k.git \
 #+end_src
 
 #+begin_src shell
-# if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+# if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
 #     ZSH_THEME="powerlevel9k/powerlevel9k"
 #
 #     # Single-line prompt.
@@ -1081,7 +1110,7 @@ prompt_zinc_setup fniessen-p9k-port
 ** Plugins
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
 
     plugins=(
         colored-man-pages
@@ -1102,7 +1131,7 @@ information.
 #+end_seealso
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
     # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
     export MANROFFOPT="-c"
     # in your shell rc file. This has the same effect as
@@ -1148,7 +1177,7 @@ fi
 *** Load Zsh tools
 
 #+begin_src shell
-if [ -r "$HOME/.dotfiles/plugins/oh-my-zsh" ]; then
+if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
     . "$ZSH"/oh-my-zsh.sh
 fi
 #+end_src
@@ -1614,7 +1643,7 @@ for MAYBE_PATH in "$HOME"/.dotfiles/bin \
                   "$HOME"/.dotfiles/expect; do
     # `-e' or `-x'?
     if [ -d "$MAYBE_PATH" ]; then
-        PATH="$MAYBE_PATH:$PATH"
+        PATH="$MAYBE_PATH":"$PATH"
     fi
 done
 
@@ -1624,7 +1653,7 @@ case $(uname -s) in
         for MAYBE_CYG_PATH in "$HOME"/.dotfiles/winbin; do
             # `-e' or `-x'?
             if [ -d "$MAYBE_CYG_PATH" ]; then
-                PATH="$MAYBE_CYG_PATH:$PATH"
+                PATH="$MAYBE_CYG_PATH":"$PATH"
             fi
         done
         ;;
@@ -1659,7 +1688,7 @@ If you add the ~CWD~ (~.~) to your PATH, just do it:
 # Add the current directory as last component in the search path (not to include
 # for `root', for security reasons).
 if [[ $EUID -ne 0 ]]; then
-    PATH="$PATH:."
+    PATH="$PATH":.
 fi
 #+end_src
 
@@ -1671,7 +1700,7 @@ checked for the folder you are trying to ~cd~ into.
 
 #+begin_src shell
 # Search current directory and home directory.
-export CDPATH=".:~"
+export CDPATH=.:"$HOME"
 #+end_src
 
 *** Manpath
@@ -1681,8 +1710,8 @@ export CDPATH=".:~"
 
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
-#if [ -d "$HOME/man" ]; then
-#    MANPATH="$HOME/man":"$MANPATH"
+#if [ -d "$HOME"/man ]; then
+#    MANPATH="$HOME"/man:"$MANPATH"
 #    export MANPATH
 #fi
 
@@ -1698,10 +1727,10 @@ export CDPATH=".:~"
 #* INFOPATH
 
 # Info readers (standalone + Emacs Info mode)
-INFOPATH="/usr/share/info:$INFOPATH"
+INFOPATH=/usr/share/info:"$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
 # `Info-default-directory-list' when searching for info files
-# INFOPATH="$HOME/texlive/2014/texmf/doc/info:$INFOPATH"
+# INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
 #+end_src
 
 ** Pager
@@ -1709,15 +1738,12 @@ INFOPATH="/usr/share/info:$INFOPATH"
 Set the user's preferred *text viewer* (~cat~, ~more~ or ~less~) that will be used by
 programs such as ~man~ or ~git diff~.
 
-~less~ is faster than anything else around (with exception of possibly ~more~, but
-this one feels really archaic).
-
 #+begin_src shell
-PAGER="less"
+export PAGER="less"
 #+end_src
 
 With the ~less~ command, you can *scroll up* in the file as well as down; with the
-~more~ command, you can only *scroll down* the file.
+archaic ~more~ command, you can only *scroll down* the file.
 
 #+begin_src shell
 alias more='less'
@@ -1836,17 +1862,6 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
      Display only matching lines. \\
      If pattern is empty (if you type & immediately followed by ENTER), any
      filtering is turned off, and all lines are displayed.
-
-*** Most
-
-To add a bit of color to your man pages, you can install ~most~.
-
-See http://www.cyberciti.biz/faq/unix-linux-color-man-pages-configuration/.
-
-#+begin_note
-~most~ does not *highlight search results*: when searching using ~/~, it only scrolls
-to the location...
-#+end_note
 
 ** Display
 :PROPERTIES:
@@ -2088,7 +2103,7 @@ export TIME_STYLE=long-iso
 if [ "$TERM" != "dumb" ]; then
 
     # Add my coloration scheme to directory listings.
-    if [ -f "$HOME/.dircolors" ]; then
+    if [ -f "$HOME"/.dircolors ]; then
         eval "$(dircolors -b $HOME/.dircolors)"
         # See https://github.com/seebi/dircolors-solarized.
     else
@@ -2106,6 +2121,12 @@ fi
 *************** TODO Beautify the terminal's ls command, with color and font-awesome icons
 https://github.com/athityakumar/colorls
 *************** END
+
+
+#+begin_src shell
+# This alias reloads this file.
+alias reload='unalias -a && . "$HOME"/.shellrc'
+#+end_src
 
 Sort of tree:
 
@@ -2188,6 +2209,9 @@ alias mkall='./configure && make && sudo make install'
 #+end_src
 
 #+begin_src shell
+# Using sudo with an alias.
+alias sudo='sudo '
+
 # Become root.
 alias root='sudo -i'
 #+end_src
@@ -2228,16 +2252,18 @@ Normally, you can use ~cd +1~ to go to the previous directory and so on.
 Oh My Zsh made this even more straightforward, now you can use just the number
 of the entry in the directory history you want to visit... ~1~.
 
-*** Single char shortcuts for some commands
+*** Shortcuts (single char)for some commands)
 
 #+begin_src shell
-alias t='tail -f'
-# alias p='$PAGER'
-alias m='man'
-alias s='sudo'
-
+alias c='clear'
 alias j='jobs -l'
-alias l='ls'
+alias l='ls'                            # xx
+alias m='man'
+# alias p='$PAGER'
+alias q='exit'
+alias s='sudo'
+alias t='tail -f'
+# alias x='exit' # Conflict with extract (from Oh-my-Zsh?)
 #+end_src
 
 *** Colorize diff output
@@ -2690,7 +2716,8 @@ alias download-web-site='wget --random-wait -r -p -e robots=off -U mozilla'
 #+end_src
 
 #+begin_src shell
-alias off='sudo shutdown -h now'
+# Pöwer off.
+alias off='sudo /sbin/shutdown -h now'
 #+end_src
 
 *** Org
@@ -2709,11 +2736,10 @@ org_test() {
 *** Grep
 
 #+begin_note
-~GREP_OPTIONS~ is dangerous because it applies in scripts that may be relying on
-the exact set of options that they pass to ~grep~ (~--color=auto~ is about the only
-safe thing you can put there); it's even officially *deprecated* since ~grep~ 2.21.
-It is better to make ~grep~ itself an alias (and also ~egrep~ and ~fgrep~ if you use
-them).
+~GREP_OPTIONS~ causes problems because it *applies in scripts* that may be relying
+on the exact set of options that they pass to ~grep~; it's even officially
+*deprecated* since ~grep~ 2.21.  It is better to make ~grep~ itself an alias (and also
+~egrep~ and ~fgrep~ if you use them).
 #+end_note
 
 #+begin_src shell
@@ -2731,7 +2757,7 @@ things.
 Change the color of ~grep~:
 
 #+begin_src shell
-export GREP_COLOR='0;30;43'
+export GREP_COLORS='0;30;43'
 #+end_src
 
 #+begin_note
@@ -2851,7 +2877,7 @@ saneperms() {
 #+begin_src shell
 safetmp() {
     test -d "$HOME" || exit 1
-    test -d "$HOME/tmp" || mkdir "$HOME/tmp"
+    test -d "$HOME"/tmp || mkdir "$HOME"/tmp
     echo "$HOME/tmp/safetmp.$(hostname).$(date +%s).$$"
 }
 #+end_src
