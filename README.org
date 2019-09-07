@@ -298,7 +298,7 @@ ShellRC is installed by doing the following:
    Or...
 
    #+begin_src shell :results silent
-   if [ -d "$HOME"/.dotfiles/files ]; then
+   if [[ -d "$HOME"/.dotfiles/files ]]; then
        PATH="$HOME"/.dotfiles/files:"$PATH"
    fi
    #+end_src
@@ -322,14 +322,7 @@ alias which-shell='ps -p $$'
 #+end_src
 
 #+begin_src shell
-if $(which ag 2>&1 /dev/null); then alias grep='ag'; fi
-#+end_src
-
-As well, don't use the non-portable ~(())~ and ~[[]]~ constructs:
-
-#+begin_src shell
-if (( $+commands[ag] )); then alias grep='ag'; fi
-[[ -s $(which ag) ]] && alias grep='ag'
+if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
 #+end_src
 
 Instead use:
@@ -349,6 +342,14 @@ have ag && alias grep='ag'
 
 See also
 https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
+
+[[ supports a wider range of tests in both cases, and has custom parsing rules
+that avoid the need for quoting variables, operators, and so on. If you're
+specifically using either Bash or zsh, use [[. If you're writing a portable
+script, write to the POSIX-compatible [ / test command (which may or may not be
+a real command on your running system).
+
+Just use [[ there and forget [ exists.
 
 * Startup files
 
@@ -388,7 +389,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
-if [ -f "$HOME"/.bashrc ]; then
+if [[ -f "$HOME"/.bashrc ]]; then
     . "$HOME"/.bashrc
 fi
 #+end_src
@@ -510,7 +511,7 @@ It's important to refrain from outputting anything in those cases.
 
 #+begin_src shell
 # Source global definitions only if the session is interactive.
-if [ $(expr index "$-" i) -ne 0 ] && [ -f /etc/bashrc ]; then
+if [[ $(expr index "$-" i) -ne 0 ]] && [[ -f /etc/bashrc ]]; then
     . /etc/bashrc
 fi
 #+end_src
@@ -546,7 +547,7 @@ Note ~\[...\]~ used by the shell to count proper length.
 #+begin_src shell :tangle no
 if tput setaf 1 &> /dev/null; then
     tput sgr0
-    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+    if [[ $(tput colors) -ge 256 ]] 2> /dev/null; then
         MAG=$(tput setaf 9)
         ORANGE=$(tput setaf 172)
         GREEN=$(tput setaf 190)
@@ -597,14 +598,14 @@ leuven-before-prompt() {
     esac
 
     # Colorful prompt, based on whether the previous command succeeded or not.
-    if [ $RET -eq 0 ]; then
+    if [[ $RET -eq 0 ]]; then
         HILIT_RET=$GRN
     else
         HILIT_RET=$RED
     fi
 
     # Replace the `$HOME' prefix by `~' in the current directory.
-    if [ "$HOME" = "${PWD:0:${#HOME}}" ]; then
+    if [[ "$HOME" = "${PWD:0:${#HOME}}" ]]; then
         myPWD="~${PWD:${#HOME}}"
     else
         myPWD=$PWD
@@ -613,7 +614,7 @@ leuven-before-prompt() {
     # How many characters of the path should be kept.
     local pwd_max_length=15
 
-    if [ ${#myPWD} -gt $pwd_max_length ]; then
+    if [[ ${#myPWD} -gt $pwd_max_length ]]; then
         local pwd_offset=$(( ${#myPWD} - pwd_max_length ))
         myPWD="...${myPWD:$pwd_offset:$pwd_max_length}"
     fi
@@ -625,7 +626,7 @@ leuven-before-prompt() {
         local PROMPTCHAR="$"
     fi
 
-    if [ "$color_prompt" = "yes" ]; then
+    if [[ "$color_prompt" = "yes" ]]; then
         PS1="$grn\u@\h$BLK:${reset_color}$yel$myPWD${HILIT_RET} $RET${reset_color}$PROMPTCHAR "
     else
         PS1="\u@\h:$myPWD $RET$PROMPTCHAR "
@@ -902,7 +903,7 @@ git clone https://github.com/karlin/mintty-colors-solarized.git \
 FILE="$HOME"/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh && test -f "$FILE" && . "$FILE"
 
 # XXX Check for MinTTY
-if [ -d /cygdrive/c/ ]; then
+if [[ -d /cygdrive/c/ ]]; then
     echo -ne '\e]4;8;#404040\a'     # bold blk
     echo -ne '\e]4;9;#FF4040\a'     # bold red
     echo -ne '\e]4;10;#40FF40\a'    # bold grn
@@ -964,7 +965,7 @@ settings.
 #+end_note
 
 #+begin_src shell
-if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
     ZSH="$HOME"/.dotfiles/plugins/oh-my-zsh
     # ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}
     ZSH_CUSTOM="$ZSH/custom"
@@ -982,7 +983,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 # I am fan of ~agnoster~.
 #
 # #+begin_src shell
-# if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+# if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
 #     ZSH_THEME="agnoster"
 # fi
 # #+end_src
@@ -990,7 +991,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 *** Agnoster Theme Adaption for SVN
 
 #+begin_src shell
-# if [ -r "$ZSH" ]; then
+# if [[ -r "$ZSH" ]]; then
 #     prompt_svn() {
 #         local rev branch
 #         if in_svn; then
@@ -1017,7 +1018,7 @@ git clone https://github.com/bhilburn/powerlevel9k.git \
 #+end_src
 
 #+begin_src shell
-# if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+# if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
 #     ZSH_THEME="powerlevel9k/powerlevel9k"
 #
 #     # Single-line prompt.
@@ -1110,7 +1111,7 @@ prompt_zinc_setup fniessen-p9k-port
 ** Plugins
 
 #+begin_src shell
-if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
 
     plugins=(
         colored-man-pages
@@ -1131,7 +1132,7 @@ information.
 #+end_seealso
 
 #+begin_src shell
-if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
     # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
     export MANROFFOPT="-c"
     # in your shell rc file. This has the same effect as
@@ -1153,7 +1154,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 #+end_src
 
 #+begin_src shell
-if [ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
     plugins+=(zsh-syntax-highlighting)
 fi
 #+end_src
@@ -1169,7 +1170,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions \
 #+end_src
 
 #+begin_src shell
-if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
     plugins+=(zsh-autosuggestions)
 fi
 #+end_src
@@ -1177,13 +1178,13 @@ fi
 *** Load Zsh tools
 
 #+begin_src shell
-if [ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]; then
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
     . "$ZSH"/oh-my-zsh.sh
 fi
 #+end_src
 
 #+begin_src shell
-if [ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 #+end_src
@@ -1374,7 +1375,7 @@ PROMPT+='%(?::$BEL)'
 Don't confuse TRAMP:
 
 #+begin_src shell
-[ "$TERM" = "dumb" ] && PROMPT="> "
+[[ "$TERM" = "dumb" ]] && PROMPT="> "
 #+end_src
 
 #+begin_warning
@@ -1387,7 +1388,7 @@ might get different settings.
 Don't confuse TRAMP:
 
 #+begin_src shell
-[ "$TERM" = "dumb" ] && RPROMPT=""
+[[ "$TERM" = "dumb" ]] && RPROMPT=""
 #+end_src
 
 ** Aliasing
@@ -1508,7 +1509,7 @@ alias lastmonth='LG reg TLM'
 # Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]
 # Ledger using `ledger', `hledger' or `beancount' (see `$LEDGER')
 Ledger() {
-    if [ $# -lt 1 ]; then
+    if [[ $# -lt 1 ]]; then
         cat << EOF > /dev/stderr
 Usage: $(basename "$0") -f FILE [OPTIONS] [COMMAND [PATTERNS]]
     or $(basename "$0") FILE   (if LEDGER=beancount)
@@ -1589,7 +1590,7 @@ exec 2> >( color_err )
 
 #+begin_src shell
 # Enable overriding.
-if [ -f "$HOME"/.zshrc_local ]; then
+if [[ -f "$HOME"/.zshrc_local ]]; then
     . "$HOME"/.zshrc_local
 fi
 #+end_src
@@ -1642,7 +1643,7 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 for MAYBE_PATH in "$HOME"/.dotfiles/bin \
                   "$HOME"/.dotfiles/expect; do
     # `-e' or `-x'?
-    if [ -d "$MAYBE_PATH" ]; then
+    if [[ -d "$MAYBE_PATH" ]]; then
         PATH="$MAYBE_PATH":"$PATH"
     fi
 done
@@ -1652,7 +1653,7 @@ case $(uname -s) in
     CYGWIN*)
         for MAYBE_CYG_PATH in "$HOME"/.dotfiles/winbin; do
             # `-e' or `-x'?
-            if [ -d "$MAYBE_CYG_PATH" ]; then
+            if [[ -d "$MAYBE_CYG_PATH" ]]; then
                 PATH="$MAYBE_CYG_PATH":"$PATH"
             fi
         done
@@ -1710,10 +1711,9 @@ export CDPATH=.:"$HOME"
 
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
-#if [ -d "$HOME"/man ]; then
-#    MANPATH="$HOME"/man:"$MANPATH"
-#    export MANPATH
-#fi
+# if [[ -d "$HOME"/man ]]; then
+#     export MANPATH="$HOME/man":"$MANPATH"
+# fi
 
 # colon separated list of directories to search for manual pages
 #ifnset MANPATH "/usr/man"
@@ -1870,7 +1870,7 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
 #+begin_src shell
 # Start x11 server (if a process instance is not already running).
-# ps -ae | grep XWin || startxwin >/dev/null 2>&1 &   # XXX For Cygwin only!
+# ps -ae | grep XWin || startxwin > /dev/null 2>&1 &   # XXX For Cygwin only!
 # To check that have the package xinit installed, try 'startxwin' without redirecting anything.
 
 # Set DISPLAY environment variable.
@@ -1889,7 +1889,7 @@ function alert {
 #+end_src
 
 #+begin_src shell
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 #+end_src
 
 Use like so:
@@ -2100,10 +2100,10 @@ LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 export TIME_STYLE=long-iso
 
 # Enable color support of `ls'.
-if [ "$TERM" != "dumb" ]; then
+if [[ "$TERM" != "dumb" ]]; then
 
     # Add my coloration scheme to directory listings.
-    if [ -f "$HOME"/.dircolors ]; then
+    if [[ -f "$HOME"/.dircolors ]]; then
         eval "$(dircolors -b $HOME/.dircolors)"
         # See https://github.com/seebi/dircolors-solarized.
     else
@@ -2597,11 +2597,7 @@ alias nmap_fast='nmap -F -T5 --top-ports 300'
 #+end_src
 
 #+begin_src shell :tangle no
-inpath() {
-    [[ -x "$(which "$1" 2>/dev/null)" ]]
-}
-
-inpath nmap && {
+have nmap && {
     # -- [ nmap ] ---------------------------------------------------
     #  -sS - TCP SYN scan
     #  -v - verbose
@@ -2648,7 +2644,7 @@ localnet() {
 # whoisonline [TARGET] - List hosts that are online.
 whoisonline() {
     local net
-    if [ -n "$1" ]; then
+    if [[ -n "$1" ]]; then
         net="$1"
     else
         net=$(localnet)
@@ -2665,7 +2661,7 @@ localps() {
     local t3
 
     local net
-    if [ -n "$1" ]; then
+    if [[ -n "$1" ]]; then
         net="$1"
     else
         net=$(localnet)
@@ -2691,7 +2687,7 @@ watchport() {
 # rdns [TARGET] - Perform reverse DNS lookups.
 rdns() {
     local net
-    if [ -n "$1" ]; then
+    if [[ -n "$1" ]]; then
         net="$1"
     else
         net=$(localnet)
@@ -2827,7 +2823,7 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 #+begin_src shell
 # clean [-r] - Remove useless files (recursively).
 clean() {
-    if [ "$1" = "-r" ]; then
+    if [[ "$1" = "-r" ]]; then
         find . \( -name "#*" -o -name "*~" -o -name ".*~" \
              -o -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" \
              -o -name "*.~BASE~" -o -name ".*.~BASE~" \) \
@@ -2843,7 +2839,7 @@ clean() {
 # Useful when you want to try a config file obtained from elsewhere, and also
 # keep the old version.
 swap() {
-    if [ $# != 2 ]; then
+    if [[ $# != 2 ]]; then
         return 2
     fi
     tmpfile=/tmp/.swapper.$$.$RANDOM
