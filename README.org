@@ -9,6 +9,8 @@
 #+PROPERTY:  header-args :eval no
 #+SETUPFILE: ~/.dotfiles/org/theme-readtheorg.setup
 
+XXX (See Fish web_config for sorting things out)
+
 Look at https://github.com/jlevy/the-art-of-command-line!
 
 XXX https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
