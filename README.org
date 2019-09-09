@@ -319,10 +319,6 @@ To find out if a given command exists, don't use ~which~ (because it is not in
 POSIX so its output format is unspecified, and it complains when nothing is
 found instead of being silent):
 
-#+begin_src shell :tangle ../../home/.shellrc
-alias which-shell='ps -p $$'
-#+end_src
-
 #+begin_src shell
 if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
 #+end_src
@@ -439,7 +435,7 @@ From https://www.linuxquestions.org/questions/linux-general-1/difference-between
 
 See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
-* Configuration related to Bash
+* Bash Configuration
 :PROPERTIES:
 :header-args+: :tangle ../../home/.bashrc
 :END:
@@ -484,16 +480,19 @@ $ gm convert !*
 # If running in terminal...
 if test -t 1; then
     # ... start Zsh directly (when I open "Bash on Ubuntu on Windows" for example)
-    echo "Execute Zsh..."
-    which zsh && exec zsh
+    echo "Zsh"
+    exec zsh
 fi
 #+end_src
 
-To test, open the Terminal and type the following, and it should say zsh.
+To test, open the Terminal and type the following...
 
 #+begin_src shell :tangle no
+# Which shell?
 echo $0
 #+end_src
+
+... and it should say ~zsh~.
 
 Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
 ~scp~, ~rcp~ or ~rsync~):
@@ -521,24 +520,6 @@ fi
 A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the user
 has to try avoiding sourcing it (on the *remote* machine) in non-interactive
 sessions.
-
-** Command history
-
-Access and modify commands that you had previously typed at the command line.
-
-#+begin_src shell
-# Store 10000 commands in history buffer.
-export HISTSIZE=10000
-
-# Store 10000 commands in history FILE.
-export HISTFILESIZE=10000
-
-# Avoid recording common commands (like ls, top and clear).
-export HISTIGNORE=”ls*:top:clear”
-
-# Ignore duplicate commands and commands starting with space.
-export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
-#+end_src
 
 ** Prompt
 
@@ -672,18 +653,11 @@ If you are looking at performance issues, put ~$SECONDS~ in the PS4 prompt as
 well.
 #+end_tip
 
-** Default permissions
+** Functions
 
-#+begin_src shell
-# Permissions on newly created files.
-umask 022                               # Prevent new dirs and files from being
-                                        # group and world writable.
-if [[ $EUID -eq 0 ]]; then
-    umask 077                           # Stricter.
-fi
-#+end_src
+** Variables
 
-** Shell options
+*** Shell options
 
 #+begin_src shell
 # Automatically cd into a  directory without the `cd' in front of it.
@@ -702,78 +676,27 @@ shopt -s histappend
 shopt -q -s cmdhist
 #+end_src
 
-** Zsh-like Command Help
+** History
 
-In the Zsh shell, it’s easy to open up any terminal command’s manual by quickly
-pressing Alt-H on the keyboard.
-
-With Bash, accessing a manual is man command. Suffice it to say, the Zsh way of
-doing things is much, much nicer. To add this functionality to the Bash shell:
+Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
-bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+# Store 10000 commands in history buffer.
+export HISTSIZE=10000
+
+# Store 10000 commands in history FILE.
+export HISTFILESIZE=10000
+
+# Avoid recording common commands (like ls, top and clear).
+export HISTIGNORE=”ls*:top:clear”
+
+# Ignore duplicate commands and commands starting with space.
+export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
 #+end_src
 
-** Miscellaneous
+** Bindings
 
-#+begin_src shell
-#** 8.6 Programmable Completion
-
-complete -A helptopic help
-complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
-#+end_src
-
-#+begin_src shell
-# # Get a file's basename, dirname, extension, etc
-#
-# # Get extension; everything after last '.'.
-# ext=${file##*.}
-#
-# # Basename.
-# basename=$(basename "$file")
-# # Everything after last '/'.
-# basename=${file##*/}
-#
-# # Dirname.
-# dirname=$(dirname "$file")
-# # Everything before last '/'.
-# basename=${file%/*}
-#+end_src
-
-** Source common file
-
-=.shellrc= contains miscellaneous settings common to Bash and Zsh.
-
-An *alias* is a simple string substitution.
-
-#+begin_note
-By default, it is *not expanded in non-interactive shells* (scripts, and even
-functions called in an interactive shell!).
-#+end_note
-
-In general, it should not do more than *change the default options of a command*.
-
-#+begin_src shell
-# Source common settings.
-. "$HOME"/.shellrc                      # Error displayed if not found.
-#+end_src
-
-** Postamble
-
-#+begin_src shell
-#* Local Variables
-
-# This is for the sake of Emacs.
-# Local Variables:
-# mode: sh
-# mode: outline-minor
-# sh-shell: bash
-# End:
-
-## bash_profile ends here
-#+end_src
-
-** InputRC
+*** InputRC
 :PROPERTIES:
 :header-args+: :tangle ../../home/.inputrc
 :END:
@@ -843,11 +766,71 @@ set completion-ignore-case on
 # # Display characters with the eighth bit set directly rather than as
 # # meta-prefixed characters.
 # set output-meta on
-
-## .inputrc ends here
 #+end_src
 
-* Configuration related to Zsh
+*** Zsh-like Command Help
+
+In the Zsh shell, it’s easy to open up any terminal command’s manual by quickly
+pressing Alt-H on the keyboard.
+
+With Bash, accessing a manual is man command. Suffice it to say, the Zsh way of
+doing things is much, much nicer. To add this functionality to the Bash shell:
+
+#+begin_src shell
+bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+#+end_src
+
+** Default permissions
+
+#+begin_src shell
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
+if [[ $EUID -eq 0 ]]; then
+    umask 077                           # Stricter.
+fi
+#+end_src
+
+** Miscellaneous
+
+#+begin_src shell
+#** 8.6 Programmable Completion
+
+complete -A helptopic help
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+#+end_src
+
+** Ready for more?
+
+=config-shell= contains miscellaneous settings common to Bash and Zsh.
+
+An *alias* is a simple string substitution.
+
+#+begin_note
+By default, it is *not expanded in non-interactive shells* (scripts, and even
+functions called in an interactive shell!).
+#+end_note
+
+In general, it should not do more than *change the default options of a command*.
+
+#+begin_src shell
+# Source common settings.
+. "$HOME"/config-shell                      # Error displayed if not found.
+#+end_src
+
+** Postamble
+
+#+begin_src shell
+#* Local Variables
+
+# This is for the sake of Emacs.
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:
+#+end_src
+
+* Zsh Configuration
 :PROPERTIES:
 :header-args+: :tangle ../../home/.zshrc
 :END:
@@ -859,10 +842,6 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 - [[http://aperiodic.net/phil/prompt/][Phil!'s ZSH Prompt]]
 - [[http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/][My Extravagant Zsh Prompt]] (with Git Repository Information)
 - [[http://grml.org/zsh/zsh-lovers.html][zsh-lovers]]
-
-** Prerequisites
-
-Install Zsh.
 
 ** Preamble
 
@@ -876,6 +855,8 @@ Install Zsh.
 
 #* Code:
 #+end_src
+
+** Prompt
 
 #+begin_src shell
 # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
@@ -1047,20 +1028,24 @@ git clone https://gitlab.com/robobenklein/zinc \
 #+end_src
 
 #+begin_src shell
-ZSH_THEME=""
-source "$ZSH_CUSTOM"/themes/zinc/zinc.zsh
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; then
 
-zinc_default_user="f.niessen"
-zinc_default_host="XIPHIAS"
+    ZSH_THEME=""
+    source "$ZSH_CUSTOM"/themes/zinc/zinc.zsh
 
-prompt_zinc_setup rprompt-previous-line
+    zinc_default_user="f.niessen"
+    zinc_default_host="XIPHIAS"
 
-# Input your own strftime format: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-zincs_time() {
-    REPLY="%D{%H:%M}"
-}
+    prompt_zinc_setup rprompt-previous-line
 
-prompt_zinc_setup fniessen-p9k-port
+    # Input your own strftime format: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+    zincs_time() {
+        REPLY="%D{%H:%M}"
+    }
+
+    prompt_zinc_setup fniessen-p9k-port
+
+fi
 
 # prompt_zinc_setup fniessen-p9k-port
 
@@ -1191,22 +1176,7 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
 fi
 #+end_src
 
-** Options
-
-*** Changing Directories
-
-#+begin_src shell
-setopt AUTO_CD                  # Change directory given just path.
-#+end_src
-
-*** Expansion and Globbing
-
-#+begin_src shell
-setopt EXTENDED_GLOB            # Use additional pattern matching features.
-setopt NOMATCH                  # Unmatched patterns cause an error.
-#+end_src
-
-*** History
+** History
 
 #+begin_src shell
 # History.
@@ -1225,6 +1195,21 @@ setopt HIST_REDUCE_BLANKS       # Leave blanks out.
 setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
 setopt INC_APPEND_HISTORY       # Write after each command.
 setopt SHARE_HISTORY            # Share history between sessions.
+#+end_src
+
+** Options
+
+*** Changing Directories
+
+#+begin_src shell
+setopt AUTO_CD                  # Change directory given just path.
+#+end_src
+
+*** Expansion and Globbing
+
+#+begin_src shell
+setopt EXTENDED_GLOB            # Use additional pattern matching features.
+setopt NOMATCH                  # Unmatched patterns cause an error.
 #+end_src
 
 *** Job Control
@@ -1583,11 +1568,11 @@ color_err() {
 exec 2> >( color_err )
 #+end_src
 
-** Source common file
+** Ready for more?
 
 #+begin_src shell
 # Source common settings.
-. "$HOME"/.shellrc                      # Error displayed if not found.
+. "$HOME"/config-shell                      # Error displayed if not found.
 #+end_src
 
 #+begin_src shell
@@ -1603,15 +1588,13 @@ fi
 # This is for the sake of Emacs.
 # Local Variables:
 # mode: sh
-# mode: outline-minor
+# sh-shell: zsh
 # End:
-
-## .zshrc ends here
 #+end_src
 
-* Configuration related to both shells
+* Common Configuration
 :PROPERTIES:
-:header-args+: :tangle ../../home/.shellrc
+:header-args+: :tangle ../../home/config-shell
 :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
@@ -1621,15 +1604,21 @@ by both shells.
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## .shellrc --- Common features between Bash and Z Shell
+## config-shell --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
+
+uname -s -n -r -m
 #+end_src
 
-** Paths
+#+begin_src shell :tangle ../../home/config-shell
+alias which-shell='ps -p $$'
+#+end_src
+
+** $PATH
 
 *** Search path
 
@@ -1639,9 +1628,7 @@ These directories are searched in the order in which they appear.
 The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
-#* PATH
-
-# Extend the PATH var (where to look for executable files).
+# Add user paths.
 for MAYBE_PATH in "$HOME"/.dotfiles/bin \
                   "$HOME"/.dotfiles/expect; do
     # `-e' or `-x'?
@@ -1884,7 +1871,7 @@ export DISPLAY=:0.0
 Add an "alert" alias for *long running commands*.
 
 #+begin_src shell
-function alert {
+alert() {
     $@
     echo -e "\a"
 }
@@ -2044,7 +2031,7 @@ alias e="emacsclient --no-wait --alternate-editor=\"\" --create-frame"
 You may also set the environment variables =EDITOR= and/or =VISUAL=, but then you
 better omit the "=--no-wait=" option.
 
-** Plugins
+** Abbreviations
 
 Aliases are abbreviations or alternative names (usually mnemonics) for commands.
 They are commonly used to specify a few options to commands, and then include
@@ -2127,7 +2114,7 @@ https://github.com/athityakumar/colorls
 
 #+begin_src shell
 # This alias reloads this file.
-alias reload='unalias -a && . "$HOME"/.shellrc'
+alias reload='unalias -a && . "$HOME"/config-shell'
 #+end_src
 
 Sort of tree:
@@ -2905,16 +2892,6 @@ console() {
 #+end_src
 
 ** NMAP
-
-** Postamble
-
-#+begin_src shell
-# This is for the sake of Emacs.
-# Local Variables:
-# End:
-
-# .shellrc ends here
-#+end_src
 
 * Java
 
