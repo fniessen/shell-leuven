@@ -1378,7 +1378,7 @@ Don't confuse TRAMP:
 [[ "$TERM" = "dumb" ]] && RPROMPT=""
 #+end_src
 
-** Aliasing
+** Abbreviations
 
 Some global aliases (expand whatever their position).
 
