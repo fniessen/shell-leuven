@@ -57,11 +57,9 @@ In =c:/cygwin64/etc/profile=,
 - ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
   when called from =c:/cygwin/Cygwin.bat=!!
 
-*** Add an ~HOME~ environment variable
+*** HOME, the user's home directory
 
-No trailing backslash!
-
-*** Change your Cygwin ~HOME~ folder
+Add an ~HOME~ environment variable (with no trailing backslash!).
 
 Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
 of your *home directory*.
@@ -252,6 +250,54 @@ colours can be customized.
 See [[https://mintty.github.io/mintty.1.html][man page]].
 #+end_tip
 
+*** Terminal types
+
+- ~dumb~
+- ~cygwin~
+- ~emacs~
+- ~screen~
+- ~xterm~
+- ~xterm-256color~
+- ~eterm-color~
+
+Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
+ugly default 8 colors):
+
+#+begin_src shell :tangle no
+export TERM=xterm-256color
+#+end_src
+
+#+begin_tip
+In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
+the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
+This is because a shell may be used with multiple terminal emulators, and
+setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
+The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
+something like =~/.minttyrc=.
+#+end_tip
+
+Initialize the terminal according to the type of terminal in the environmental
+variable ~TERM~.
+
+#+begin_src shell
+# tput init                             # This resets the Solarized color theme!!!
+#+end_src
+
+#+begin_note
+This command should be included in everyone's =.profile= after the environmental
+variable ~TERM~ has been exported.
+#+end_note
+
+#+begin_seealso
+Use the script ~colortest~ (on Linux distros) to output the default colors.
+#+end_seealso
+
+See what your color palet is for the terminal session:
+
+#+begin_src shell :tangle no
+tput colors
+#+end_src
+
 *** GnuPG
 
 When first running ~gpg~:
@@ -290,19 +336,11 @@ ShellRC is installed by doing the following:
 2. *Source ShellRC configuration files*
 
    #+begin_src shell
-   . ./bash_profile
+   . ~/.bash_profile
    #+end_src
 
    #+begin_src shell
-   . .zprofile
-   #+end_src
-
-   Or...
-
-   #+begin_src shell :results silent
-   if [[ -d "$HOME"/.dotfiles/files ]]; then
-       PATH="$HOME"/.dotfiles/files:"$PATH"
-   fi
+   . ~/.zshrc
    #+end_src
 
 Once you open up a new terminal window with Bash or Zsh, it should load with
@@ -311,7 +349,11 @@ ShellRC's configuration.
 ** Custom directory
 
 If you'd like to change the install directory with the ~ZSH~ environment variable,
-either by running export ZSH=/your/path before installing,
+either by running
+
+: export ZSH=/your/path
+
+before installing,
 
 * About portability
 
@@ -440,26 +482,6 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 :header-args+: :tangle ../../home/.bashrc
 :END:
 
-Le ~!~ en shell permet plein de trucs sympa.
-
-- ~!!~ refait la dernière commande
-- ~!cmd~ refait la dernière commande commençant par ~cmd~
-- ~!cmd:p~ permet de visualiser sans éxecuter la dernière commande commençant
-  par ~cmd~
-- ~!$~ est le dernier mot de la ligne de commande précédente
-- ~!cmd:$~ est le dernier mot du dernier ligne de commande commençant par ~cmd~
-- ~!*~ est l'ensemble de la dernière ligne de commande à part le premier mot
-
-Pourquoi ce dernier est-il utile ?  Pense à ceci :
-
-#+begin_src shell :tangle no
-$ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
-bash: convret: command not found
-$ gm convert !*
-#+end_src
-
-** Preamble
-
 #+name: current-year
 #+begin_src emacs-lisp :eval yes :results silent :tangle no :exports none
 (format-time-string "%Y")
@@ -473,7 +495,7 @@ $ gm convert !*
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config
 
-#* Code:
+# Code:
 #+end_src
 
 #+begin_src shell :noweb yes
@@ -484,15 +506,6 @@ if test -t 1; then
     exec zsh
 fi
 #+end_src
-
-To test, open the Terminal and type the following...
-
-#+begin_src shell :tangle no
-# Which shell?
-echo $0
-#+end_src
-
-... and it should say ~zsh~.
 
 Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
 ~scp~, ~rcp~ or ~rsync~):
@@ -548,8 +561,6 @@ if tput setaf 1 &> /dev/null; then
 #+end_src
 
 #+begin_src shell
-#** Controlling the Prompt
-
 # Regular colors.
 grn="\[$(tput setaf 2)\]"
 yel="\[$(tput setaf 3)\]"
@@ -561,7 +572,7 @@ GRN="\[$(tput setaf 2; tput bold)\]"
 
 reset_color="\[$(tput sgr0)\]"
 
-#*** PROMPT_COMMAND + PS1 --- Default interaction prompt
+# PROMPT_COMMAND + PS1 --- Default interaction prompt
 
 # To be called just before the prompt is printed.
 leuven-before-prompt() {
@@ -629,11 +640,7 @@ case "$TERM" in
         ;;
 esac
 
-#*** PS2 --- Continuation interactive prompt
-
-#*** PS3 --- Prompt used by "select" inside shell script
-
-#*** PS4 --- Used by "set -x" to prefix tracing output
+# PS4 --- Used by "set -x" to prefix tracing output
 
 # Get line numbers when you run with `-x'.
 PS4='+'$grn'[$0:$LINENO]+ '${reset_color}
@@ -656,8 +663,6 @@ well.
 ** Functions
 
 ** Variables
-
-*** Shell options
 
 #+begin_src shell
 # Automatically cd into a  directory without the `cd' in front of it.
@@ -694,15 +699,33 @@ export HISTIGNORE=”ls*:top:clear”
 export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
 #+end_src
 
+Le ~!~ en shell permet plein de trucs sympa.
+
+- ~!!~ refait la dernière commande
+- ~!cmd~ refait la dernière commande commençant par ~cmd~
+- ~!cmd:p~ permet de visualiser sans éxecuter la dernière commande commençant
+  par ~cmd~
+- ~!$~ est le dernier mot de la ligne de commande précédente
+- ~!cmd:$~ est le dernier mot du dernier ligne de commande commençant par ~cmd~
+- ~!*~ est l'ensemble de la dernière ligne de commande à part le premier mot
+
+Pourquoi ce dernier est-il utile ?  Pense à ceci :
+
+#+begin_src shell :tangle no
+$ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
+bash: convret: command not found
+$ gm convert !*
+#+end_src
+
 ** Bindings
 
-*** InputRC
+*** Command line editor
 :PROPERTIES:
 :header-args+: :tangle ../../home/.inputrc
 :END:
 
-This file controls the behavior of line input editing for programs that use
-the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
+The =.inputrc= file controls the behavior of line input editing for programs that
+use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 
 #+begin_note
 Zsh doesn't use the =inputrc= file.
@@ -757,7 +780,7 @@ set completion-ignore-case on
 # # Display all alternatives for completion after one tab keypress.
 # set show-all-if-ambiguous on
 
-# #* Get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+# # Get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
 
 # # Don't strip characters to 7 bits when reading.
 # set input-meta on
@@ -768,50 +791,35 @@ set completion-ignore-case on
 # set output-meta on
 #+end_src
 
-*** Zsh-like Command Help
+*** Tab completion
 
-In the Zsh shell, it’s easy to open up any terminal command’s manual by quickly
-pressing Alt-H on the keyboard.
+- The programs man and whatis show all installed manual pages as completions.
+- The make program uses all targets in the Makefile in the current directory as completions.
+- The mount command uses all mount points specified in fstab as completions.
+- The ssh command uses all hosts that are stored in the known_hosts file as completions. (See the ssh documentation for more information)
+- The su command uses all users on the system as completions.
+- The apt-get, rpm and yum commands use all installed packages as completions.
 
-With Bash, accessing a manual is man command. Suffice it to say, the Zsh way of
-doing things is much, much nicer. To add this functionality to the Bash shell:
+#+begin_src shell
+complete -A helptopic help
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+#+end_src
+
+*** Getting Help
+
+In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
+exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
+command...
+
+Add this functionality to the Bash shell:
 
 #+begin_src shell
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 #+end_src
 
-** Default permissions
-
-#+begin_src shell
-# Permissions on newly created files.
-umask 022                               # Prevent new dirs and files from being
-                                        # group and world writable.
-if [[ $EUID -eq 0 ]]; then
-    umask 077                           # Stricter.
-fi
-#+end_src
-
-** Miscellaneous
-
-#+begin_src shell
-#** 8.6 Programmable Completion
-
-complete -A helptopic help
-complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
-#+end_src
-
 ** Ready for more?
 
 =config-shell= contains miscellaneous settings common to Bash and Zsh.
-
-An *alias* is a simple string substitution.
-
-#+begin_note
-By default, it is *not expanded in non-interactive shells* (scripts, and even
-functions called in an interactive shell!).
-#+end_note
-
-In general, it should not do more than *change the default options of a command*.
 
 #+begin_src shell
 # Source common settings.
@@ -821,8 +829,6 @@ In general, it should not do more than *change the default options of a command*
 ** Postamble
 
 #+begin_src shell
-#* Local Variables
-
 # This is for the sake of Emacs.
 # Local Variables:
 # mode: sh
@@ -837,13 +843,10 @@ In general, it should not do more than *change the default options of a command*
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
 
-** Examples
-
+Examples:
 - [[http://aperiodic.net/phil/prompt/][Phil!'s ZSH Prompt]]
 - [[http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/][My Extravagant Zsh Prompt]] (with Git Repository Information)
 - [[http://grml.org/zsh/zsh-lovers.html][zsh-lovers]]
-
-** Preamble
 
 #+begin_src shell :noweb yes
 ## .zshrc --- Z Shell configuration file (for interactive shells)
@@ -853,7 +856,7 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
 
-#* Code:
+# Code:
 #+end_src
 
 ** Prompt
@@ -861,12 +864,6 @@ Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference 
 #+begin_src shell
 # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
-#+end_src
-
-#+begin_src shell
-# # For Bash on Ubuntu on Windows.
-# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
-export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
 #+end_src
 
 ** Add a new theme: Solarized
@@ -939,7 +936,7 @@ For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 Oh My Zsh is just awesome!
 
 #+begin_src shell :tangle no
-git clone ...
+git clone https://github.com/robbyrussell/oh-my-zsh.git
 #+end_src
 
 #+begin_note
@@ -1047,8 +1044,6 @@ if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; th
 
 fi
 
-# prompt_zinc_setup fniessen-p9k-port
-
 # # either user and host separate with CONNECT_PREV
 # # or zincs_userhost
 # zinc_left=(
@@ -1093,202 +1088,6 @@ fi
 #
 # # set the zincs_execution_time min time:
 # zincs_execution_time[threshold]=10
-#+end_src
-
-** Plugins
-
-#+begin_src shell
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-
-    plugins=(
-        colored-man-pages
-        extract
-        # git                           # Provide many aliases and a few useful functions.
-        history
-        history-substring-search
-        # svn
-    )
-fi
-#+end_src
-
-*** Display colored man pages
-
-#+begin_seealso
-[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
-information.
-#+end_seealso
-
-#+begin_src shell
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-    # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
-    export MANROFFOPT="-c"
-    # in your shell rc file. This has the same effect as
-    # export GROFF_NO_SGR=1
-    # but only affects man. I'm not sure if groff is used for anything else
-    # besides man pages, but this seems safer to prevent unintended side
-    # effects.
-fi
-#+end_src
-
-*** Zsh Syntax Highlighting
-
-Besides the syntax highlighting for your shell, this plugin has the capability
-to verify the correctness of your command.
-
-#+begin_src shell :tangle no
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    "$ZSH_CUSTOM"/plugins/zsh-syntax-highlighting
-#+end_src
-
-#+begin_src shell
-if [[ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
-    plugins+=(zsh-syntax-highlighting)
-fi
-#+end_src
-
-*** Zsh Autosuggestions
-
-It suggests commands based on your command history.  Very useful!  To select the
-proposed command, press the right arrow key.
-
-#+begin_src shell :tangle no
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-    "$ZSH_CUSTOM"/plugins/zsh-autosuggestions
-#+end_src
-
-#+begin_src shell
-if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-    plugins+=(zsh-autosuggestions)
-fi
-#+end_src
-
-*** Load Zsh tools
-
-#+begin_src shell
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-    . "$ZSH"/oh-my-zsh.sh
-fi
-#+end_src
-
-#+begin_src shell
-if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
-fi
-#+end_src
-
-** History
-
-#+begin_src shell
-# History.
-HISTSIZE=10000
-SAVEHIST=10000
-#+end_src
-
-#+begin_src shell
-setopt APPEND_HISTORY           # Append rather than overwrite history file.
-setopt EXTENDED_HISTORY         # Save timestamp and runtime information.
-setopt HIST_EXPIRE_DUPS_FIRST   # Allow dups, but expire old ones when I hit HISTSIZE.
-setopt HIST_FIND_NO_DUPS        # Don't find duplicates in history.
-setopt HIST_IGNORE_ALL_DUPS     #! Ignore duplicate commands regardless of commands in between.
-setopt HIST_IGNORE_DUPS         # Ignore duplicate commands.
-setopt HIST_REDUCE_BLANKS       # Leave blanks out.
-setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
-setopt INC_APPEND_HISTORY       # Write after each command.
-setopt SHARE_HISTORY            # Share history between sessions.
-#+end_src
-
-** Options
-
-*** Changing Directories
-
-#+begin_src shell
-setopt AUTO_CD                  # Change directory given just path.
-#+end_src
-
-*** Expansion and Globbing
-
-#+begin_src shell
-setopt EXTENDED_GLOB            # Use additional pattern matching features.
-setopt NOMATCH                  # Unmatched patterns cause an error.
-#+end_src
-
-*** Job Control
-
-#+begin_src shell
-setopt NOTIFY                   # Immediately report changes in background job status.
-#+end_src
-
-*** Zle
-
-#+begin_src shell
-# Beep when there's an error with the command text you're typing in (e.g. if you
-# hit tab and there are no matching files) -- not as a result of normal commands
-# returning errors.
-setopt BEEP
-#+end_src
-
-** Zsh line editor
-
-Useful keybindings:
-
-- ~M-q~ ::
-     Type another command in the middle of a long command (look at ~man~, etc.):
-     you can push the current command to the buffer stack, and after executing
-     another command, you can see the top of the stack popped.
-
-- ~M-.~ ::
-     Recall the last argument of the previous command, and so on.
-
-- ~C-r~ ::
-     Do an interactive search across all of the *command history*.
-
-Useful commands:
-
-- ~vared VAR~ ::
-     Interactively edit variable ~VAR~.
-
-#+begin_note
-See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
-#+end_note
-
-#+begin_src shell
-# Behave like Emacs when editing.
-bindkey -e
-
-# Mappings for `Ctrl-up/down' for matching commands from the history.
-bindkey ';5A' history-search-backward
-bindkey ';5B' history-search-forward
-
-# Mappings for `Ctrl-left/right' for word moving.
-bindkey ';5C' forward-word
-bindkey ';5D' backward-word
-
-# Make Zsh beep like Bash when backspacing on an empty command line.
-backward-delete-char-beep() {
-    if (( CURSOR == 0 )); then
-        zle beep
-    fi
-    zle backward-delete-char
-}
-zle -N backward-delete-char-beep
-bindkey "^?" backward-delete-char-beep
-#+end_src
-
-** Completion Widgets
-
-Zsh will attempt to complete wildcards by expanding them in the command line.
-
-#+begin_src shell
-# zstyle :compinstall filename '/cygdrive/d/Users/fni/.zshrc'
-
-# Load general completion.
-autoload -Uz compinit
-# compinit                                # Security check (insecure directories)!
-#+end_src
-
-#+begin_src shell
-# Display a list of completions when you give an ambiguous choice (like Bash).
-setopt autolist
 #+end_src
 
 ** Prompt
@@ -1378,6 +1177,201 @@ Don't confuse TRAMP:
 [[ "$TERM" = "dumb" ]] && RPROMPT=""
 #+end_src
 
+** Plugins
+
+#+begin_src shell
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
+
+    plugins=(
+        colored-man-pages
+        extract
+        # git                           # Provide many aliases and a few useful functions.
+        history
+        history-substring-search
+        # svn
+    )
+fi
+#+end_src
+
+*** Colored man pages plugin
+
+#+begin_seealso
+[[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
+information.
+#+end_seealso
+
+#+begin_src shell
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
+    # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
+    export MANROFFOPT="-c"
+    # in your shell rc file. This has the same effect as
+    # export GROFF_NO_SGR=1
+    # but only affects man. I'm not sure if groff is used for anything else
+    # besides man pages, but this seems safer to prevent unintended side
+    # effects.
+fi
+#+end_src
+
+** Syntax Highlighting
+
+Besides the syntax highlighting for your shell, this plugin has the capability
+to verify the correctness of your command.
+
+#+begin_src shell :tangle no
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    "$ZSH_CUSTOM"/plugins/zsh-syntax-highlighting
+#+end_src
+
+#+begin_src shell
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+    plugins+=(zsh-syntax-highlighting)
+fi
+#+end_src
+
+** Autosuggestions
+
+Zsh suggests commands based on your command history.
+
+To accept the autosuggestion, hit ~→~ (right arrow) or ~Ctrl-F~.
+
+#+begin_src shell :tangle no
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+    "$ZSH_CUSTOM"/plugins/zsh-autosuggestions
+#+end_src
+
+#+begin_src shell
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+    plugins+=(zsh-autosuggestions)
+fi
+#+end_src
+
+*** Load Zsh tools
+
+#+begin_src shell
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
+    . "$ZSH"/oh-my-zsh.sh
+fi
+#+end_src
+
+#+begin_src shell
+# Autosuggestions.
+if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+fi
+#+end_src
+
+** Variables
+
+*** Changing Directories
+
+#+begin_src shell
+setopt AUTO_CD                  # Change directory given just path.
+#+end_src
+
+*** Completion
+
+Zsh will attempt to complete wildcards by expanding them in the command line.
+
+#+begin_src shell
+# Load general completion.
+autoload -Uz compinit
+# compinit                      # Security check (insecure directories)!
+#+end_src
+
+#+begin_src shell
+setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
+#+end_src
+
+*** Expansion and Globbing
+
+#+begin_src shell
+setopt EXTENDED_GLOB            # Use additional pattern matching features.
+setopt NOMATCH                  # Unmatched patterns cause an error.
+#+end_src
+
+*** Job Control
+
+#+begin_src shell
+setopt NOTIFY                   # Immediately report changes in background job status.
+#+end_src
+
+*** Zle
+
+#+begin_src shell
+# Beep when there's an error with the command text you're typing in (e.g. if you
+# hit tab and there are no matching files) -- not as a result of normal commands
+# returning errors.
+setopt BEEP
+#+end_src
+
+** History
+
+#+begin_src shell
+# History.
+setopt APPEND_HISTORY           # Append rather than overwrite history file.
+setopt EXTENDED_HISTORY         # Save timestamp and runtime information.
+setopt HIST_EXPIRE_DUPS_FIRST   # Allow dups, but expire old ones when I hit HISTSIZE.
+setopt HIST_FIND_NO_DUPS        # Don't find duplicates in history.
+setopt HIST_IGNORE_ALL_DUPS     #! Ignore duplicate commands regardless of commands in between.
+setopt HIST_IGNORE_DUPS         # Ignore duplicate commands.
+setopt HIST_REDUCE_BLANKS       # Leave blanks out.
+setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
+setopt INC_APPEND_HISTORY       # Write after each command.
+setopt SHARE_HISTORY            # Share history between sessions.
+#+end_src
+
+#+begin_src shell
+HISTSIZE=10000
+SAVEHIST=10000
+#+end_src
+
+** Bindings
+
+Useful keybindings of the Zsh command line editor:
+
+- ~M-q~ ::
+     Type another command in the middle of a long command (look at ~man~, etc.):
+     you can push the current command to the buffer stack, and after executing
+     another command, you can see the top of the stack popped.
+
+- ~M-.~ ::
+     Recall the last argument of the previous command, and so on.
+
+- ~C-r~ ::
+     Do an interactive search across all of the *command history*.
+
+Useful commands:
+
+- ~vared VAR~ ::
+     Interactively edit variable ~VAR~.
+
+#+begin_note
+See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
+#+end_note
+
+#+begin_src shell
+# Behave like Emacs when editing.
+bindkey -e
+
+# Mappings for `Ctrl-up/down' for matching commands from the history.
+bindkey ';5A' history-search-backward
+bindkey ';5B' history-search-forward
+
+# Mappings for `Ctrl-left/right' for word moving.
+bindkey ';5C' forward-word
+bindkey ';5D' backward-word
+
+# Make Zsh beep like Bash when backspacing on an empty command line.
+backward-delete-char-beep() {
+    if (( CURSOR == 0 )); then
+        zle beep
+    fi
+    zle backward-delete-char
+}
+zle -N backward-delete-char-beep
+bindkey "^?" backward-delete-char-beep
+#+end_src
+
 ** Abbreviations
 
 Some global aliases (expand whatever their position).
@@ -1439,9 +1433,6 @@ alias -g T6="| awk -F $'\t' '{print \$6}'"
 alias -g T7="| awk -F $'\t' '{print \$7}'"
 alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
-
-alias -g ND='$(ls -d *(/om[1]))'        # Newest directory.
-alias -g NF='$(ls *(.om[1]))'           # Newest file.
 #+end_src
 
 #+begin_src shell
@@ -1451,12 +1442,12 @@ alias -- cwd='echo $cwd'
 
 *** Git
 
-Git last week / month / year:
+Git this week / month / year:
 
 #+begin_src shell
-alias -g GLWEEK=' --since=1.week.ago'
-alias -g GLMONTH=' --since=1.month.ago'
-alias -g GLYEAR=' --since=1.year.ago'
+alias -g GTHISWEEK=' --since=1.week.ago'
+alias -g GTHISMONTH=' --since=1.month.ago'
+alias -g GTHISYEAR=' --since=1.year.ago'
 #+end_src
 
 *** Directories
@@ -1468,7 +1459,7 @@ cd() {
 }
 #+end_src
 
-** Ledger
+*** Ledger
 
 #+begin_src shell
 export LEDGER=ledger
@@ -1551,21 +1542,24 @@ https://github.com/babun/babun/issues/299#issuecomment-123925935):
 compdef '_files -g "*"' start
 #+end_src
 
-** Zsh Modules
+** Stderr in red
+
+Wrap text that goes to file with descriptor ~2~ with proper ANSI escape codes,
+making text red.
 
 #+begin_src shell
 # Coloring stderr.
-STDERRRED=$'\e[1;31m'
+STDERRED_ESC_CODE=$'\e[01;31m'
 zmodload zsh/system
-color_err() {
+color_stderr_red() {
     # Sysread & syswrite are part of `zsh/system'.
     emulate -LR zsh
     while sysread; do
-        syswrite -o 2 "$STDERRRED$REPLY$terminfo[sgr0]"
+        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
     done
 }
 
-exec 2> >( color_err )
+exec 2> >( color_stderr_red )
 #+end_src
 
 ** Ready for more?
@@ -1583,8 +1577,6 @@ fi
 #+end_src
 
 #+begin_src shell
-#* Local Variables
-
 # This is for the sake of Emacs.
 # Local Variables:
 # mode: sh
@@ -1600,8 +1592,6 @@ fi
 Everything in common between Bash and Z shell will come here, since it is read
 by both shells.
 
-** Preamble
-
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
 ## config-shell --- Common features between Bash and Z Shell
@@ -1614,9 +1604,45 @@ by both shells.
 uname -s -n -r -m
 #+end_src
 
-#+begin_src shell :tangle ../../home/config-shell
-alias which-shell='ps -p $$'
+** Variables
+
+*** umask
+
+#+begin_src shell
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
+if [[ $EUID -eq 0 ]]; then
+    umask 077                           # Stricter.
+fi
 #+end_src
+
+*** BROWSER
+
+#+begin_src shell
+# # For Bash on Ubuntu on Windows.
+# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
+export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+#+end_src
+
+*** LANG, LC_ALL, LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC and LC_TIME
+
+You may need to manually set your language environment (among others, for ~svn~
+with accented file names in the repository).
+
+#+begin_src shell
+export LANG=C.UTF-8
+
+# For scripts in R language.
+export LC_CTYPE=
+#+end_src
+
+These variables work as follows:
+- LC_ALL forces all the aspects of the locale to the specified value.  If LC_ALL
+  is set, all other locale variables will be ignored.
+- The other LC_ variables set the specified aspect of the locale information.
+- LANG is a fallback value, it will be used if none of the LC_ variables are
+  specified.
 
 ** $PATH
 
@@ -1682,7 +1708,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 #+end_src
 
-*** Cdpath
+*** CDPATH
 
 Much like the ~PATH~ environment variable defines a search order for the
 executable you want, ~CDPATH~ provides a selection of directories which will be
@@ -1693,11 +1719,9 @@ checked for the folder you are trying to ~cd~ into.
 export CDPATH=.:"$HOME"
 #+end_src
 
-*** Manpath
+*** MANPATH
 
 #+begin_src shell
-#* MANPATH
-
 # set MANPATH so it includes user's private man if it exists
 # do the same with MANPATH
 # if [[ -d "$HOME"/man ]]; then
@@ -1710,11 +1734,9 @@ export CDPATH=.:"$HOME"
     # See `/etc/manpath.config'
 #+end_src
 
-*** Infopath
+*** INFOPATH
 
 #+begin_src shell
-#* INFOPATH
-
 # Info readers (standalone + Emacs Info mode)
 INFOPATH=/usr/share/info:"$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
@@ -1738,19 +1760,65 @@ archaic ~more~ command, you can only *scroll down* the file.
 alias more='less'
 #+end_src
 
-*** Less
-
-Color any command with man-like output, including ~git help~:
+*How to get color man pages?*  Color any command with man-like output, including
+~git help~:
 
 #+begin_src shell
-export LESS_TERMCAP_mb=$'\e[1;31m'
-export LESS_TERMCAP_md=$'\e[1;31m'
+export LESS_TERMCAP_mb=$'\e[01;31m'
+export LESS_TERMCAP_md=$'\e[01;31m'
 export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[1;44;33m'
+export LESS_TERMCAP_so=$'\e[01;44;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;32m'
+export LESS_TERMCAP_us=$'\e[01;32m'
 #+end_src
+
+If you see ~\e[0m~ etc appearing when you view the man page, add this line as
+well:
+
+#+begin_src shell
+export LESS='-R'
+#+end_src
+
+Commands:
+
+- ~/pattern~ ::
+     Search forward for (~N~-th) matching line.
+
+- ~?pattern~ ::
+     Search backward for (~N~-th) matching line.
+
+- ~n~ ::
+     Repeat previous search (for ~N~-th occurrence).
+
+- ~N~ ::
+     Repeat previous search in reverse direction.
+
+- ~ESC-u~ ::
+     Undo (toggle) search highlighting.
+
+- ~&pattern~ ::
+     Display only matching lines. \\
+     If pattern is empty (if you type & immediately followed by ENTER), any
+     filtering is turned off, and all lines are displayed.
+
+Options:
+
+#+begin_src shell
+export LESS='-F -i -M -R -X'
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
+#+end_src
+
+--quit-if-one-screen or -F: Exit if the entire file can be displayed in one screen. This is usually desirable as there is no incentive to stay in less if a single screen can display all the contents.
+--ignore-case or -i: Cause search in less to ignore case unless an uppercase letter is present in the search pattern.
+--status-column or -J: Display a status column on the left to indicate lines that match current search or indicate the first unread line after moving a full page.
+--LONG-PROMPT or -M: Prompt more verbosely.
+--RAW-CONTROL-CHARS or -R: Cause ANSI "color" escape sequences to be displayed in their raw form. This is for the color display explained later in the next section.
+--HILITE-UNREAD or -W: Highlight the first unread line after scrolling the screen for more than one lines.
+--tabs=4 or -x4: Display a tab as 4-character width, since most modern text files assume 4-character width for a tab. However, you can still change this to your preference if, for example, you frequently read Linux kernel source code which uses 8-character width for a tab.
+--no-init or -X: Disable sending the termcap initialization and deinitialization strings to the terminal. The purpose here is to prevent clearing screen after exiting. If you do not want this feature and want to remove it, please keep in mind that --quit-if-one-screen also relies on this option to work properly. For a workaround, please check out here.
+--window=-4 or -z-4: Change the default scrolling size to 4 lines fewer than the current screen size, so always keep 4 lines overlapping with previous screen when scrolling with the space key.
 
 ~less~ options:
 
@@ -1813,46 +1881,7 @@ export LESS_TERMCAP_us=$'\e[1;32m'
      option.
      #+end_note
 
-#+begin_src shell
-# Tailor `less'.
-LESS="-F -i -M -R -X"
-# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
-export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
-#+end_src
-
---quit-if-one-screen or -F: Exit if the entire file can be displayed in one screen. This is usually desirable as there is no incentive to stay in less if a single screen can display all the contents.
---ignore-case or -i: Cause search in less to ignore case unless an uppercase letter is present in the search pattern.
---status-column or -J: Display a status column on the left to indicate lines that match current search or indicate the first unread line after moving a full page.
---LONG-PROMPT or -M: Prompt more verbosely.
---RAW-CONTROL-CHARS or -R: Cause ANSI "color" escape sequences to be displayed in their raw form. This is for the color display explained later in the next section.
---HILITE-UNREAD or -W: Highlight the first unread line after scrolling the screen for more than one lines.
---tabs=4 or -x4: Display a tab as 4-character width, since most modern text files assume 4-character width for a tab. However, you can still change this to your preference if, for example, you frequently read Linux kernel source code which uses 8-character width for a tab.
---no-init or -X: Disable sending the termcap initialization and deinitialization strings to the terminal. The purpose here is to prevent clearing screen after exiting. If you do not want this feature and want to remove it, please keep in mind that --quit-if-one-screen also relies on this option to work properly. For a workaround, please check out here.
---window=-4 or -z-4: Change the default scrolling size to 4 lines fewer than the current screen size, so always keep 4 lines overlapping with previous screen when scrolling with the space key.
-
-**** Searching
-
-- ~/pattern~ ::
-     Search forward for (~N~-th) matching line.
-
-- ~?pattern~ ::
-     Search backward for (~N~-th) matching line.
-
-- ~n~ ::
-     Repeat previous search (for ~N~-th occurrence).
-
-- ~N~ ::
-     Repeat previous search in reverse direction.
-
-- ~ESC-u~ ::
-     Undo (toggle) search highlighting.
-
-- ~&pattern~ ::
-     Display only matching lines. \\
-     If pattern is empty (if you type & immediately followed by ENTER), any
-     filtering is turned off, and all lines are displayed.
-
-** Display
+** $DISPLAY
 :PROPERTIES:
 :ID:       02ba0b6b-f205-42e2-a801-4271aa4691eb
 :END:
@@ -1864,85 +1893,6 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
 # Set DISPLAY environment variable.
 export DISPLAY=:0.0
-#+end_src
-
-** Alert
-
-Add an "alert" alias for *long running commands*.
-
-#+begin_src shell
-alert() {
-    $@
-    echo -e "\a"
-}
-#+end_src
-
-#+begin_src shell
-alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-#+end_src
-
-Use like so:
-
-: sleep 10; alert
-
-** Misc
-
-You may need to manually set your language environment (among others, for ~svn~
-with accented file names in the repository).
-
-#+begin_src shell
-export LANG=C.UTF-8
-
-# For scripts in R language.
-export LC_CTYPE=
-#+end_src
-
-** Terminal types
-
-- ~dumb~
-- ~cygwin~
-- ~emacs~
-- ~screen~
-- ~xterm~
-- ~xterm-256color~
-- ~eterm-color~
-
-Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
-ugly default 8 colors):
-
-#+begin_src shell :tangle no
-export TERM=xterm-256color
-#+end_src
-
-#+begin_tip
-In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
-the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
-This is because a shell may be used with multiple terminal emulators, and
-setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
-The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
-something like =~/.minttyrc=.
-#+end_tip
-
-Initialize the terminal according to the type of terminal in the environmental
-variable ~TERM~.
-
-#+begin_src shell
-# tput init                             # This resets the Solarized color theme!!!
-#+end_src
-
-#+begin_note
-This command should be included in everyone's =.profile= after the environmental
-variable ~TERM~ has been exported.
-#+end_note
-
-#+begin_seealso
-Use the script ~colortest~ (on Linux distros) to output the default colors.
-#+end_seealso
-
-See what your color palet is for the terminal session:
-
-#+begin_src shell :tangle no
-tput colors
 #+end_src
 
 ** Emacs (default editor)
@@ -2033,6 +1983,15 @@ better omit the "=--no-wait=" option.
 
 ** Abbreviations
 
+An *alias* is a simple string substitution.
+
+#+begin_note
+By default, it is *not expanded in non-interactive shells* (scripts, and even
+functions called in an interactive shell!).
+#+end_note
+
+In general, it should not do more than *change the default options of a command*.
+
 Aliases are abbreviations or alternative names (usually mnemonics) for commands.
 They are commonly used to specify a few options to commands, and then include
 the rest of the command line.
@@ -2052,6 +2011,10 @@ Double quotes are evaluated at time of creation and, thereafter, never changes:
 #+end_note
 
 *** Common aliases
+
+#+begin_src shell :tangle ../../home/config-shell
+alias which-shell='ps -p $$'
+#+end_src
 
 ~ls~ options:
 
@@ -2697,7 +2660,7 @@ alias wget='wget -c'
 alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror='wget -v --tries=0 --continue --force-directories --mirror --no-parent'
 
-alias download-web-site='wget --random-wait -r -p -e robots=off -U mozilla'
+alias download_web_site='wget --random-wait -r -p -e robots=off -U mozilla'
 #+end_src
 
 #+begin_src shell
@@ -2891,7 +2854,24 @@ console() {
 }
 #+end_src
 
-** NMAP
+*** Alert
+
+Add an "alert" alias for *long running commands*.
+
+#+begin_src shell
+alert() {
+    $@
+    echo -e "\a"
+}
+#+end_src
+
+#+begin_src shell
+alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+#+end_src
+
+Use like so:
+
+: sleep 10; alert
 
 * Java
 
@@ -2912,7 +2892,7 @@ compaudit | xargs chmod g-w
 
 will do the trick, see [[http://www.wezm.net/technical/2008/09/zsh-cygwin-and-insecure-directories/][zsh, Cygwin and Insecure Directories]].
 
-** How to run Emacs without showing a terminal window?
+** How to run Windows Emacs without showing a terminal window?
 
 Use the ~run~ command:
 
