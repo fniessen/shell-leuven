@@ -488,6 +488,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 #+end_src
 
 #+begin_src shell :noweb yes
+# Hey Emacs, this is a -*- sh -*- file
 ## bash_profile --- Bourne Again Shell configuration file (for interactive shells)
 
 # Copyright (C) 2003-<<current-year()>> Fabrice Niessen
@@ -496,15 +497,6 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 # Keywords: bash, dotfile, config
 
 # Code:
-#+end_src
-
-#+begin_src shell :noweb yes
-# If running in terminal...
-if test -t 1; then
-    # ... start Zsh directly (when I open "Bash on Ubuntu on Windows" for example)
-    echo "Zsh"
-    exec zsh
-fi
 #+end_src
 
 Prevent "stdin is not a tty" errors when ~ssh~'ing to a remote machine (or using
@@ -521,6 +513,19 @@ execute.
 
 It's important to refrain from outputting anything in those cases.
 
+** Make zsh your default shell on Windows
+
+To start directly Zsh when opening /Bash on Ubuntu on Windows/:
+
+#+begin_src shell :noweb yes
+# If running in terminal...
+if test -t 1; then
+    # ... start Zsh
+    echo "Zsh"
+    exec zsh
+fi
+#+end_src
+
 ** Source global rc file (if any)
 
 #+begin_src shell
@@ -535,8 +540,6 @@ has to try avoiding sourcing it (on the *remote* machine) in non-interactive
 sessions.
 
 ** Prompt
-
-Appearance of the prompt.
 
 Note ~\[...\]~ used by the shell to count proper length.
 
@@ -561,15 +564,12 @@ if tput setaf 1 &> /dev/null; then
 #+end_src
 
 #+begin_src shell
-# Regular colors.
-grn="\[$(tput setaf 2)\]"
-yel="\[$(tput setaf 3)\]"
-
-# Bold colors.
+# Colors.
 BLK="\[$(tput setaf 0; tput bold)\]"
 RED="\[$(tput setaf 1; tput bold)\]"
+grn="\[$(tput setaf 2)\]"
 GRN="\[$(tput setaf 2; tput bold)\]"
-
+yel="\[$(tput setaf 3)\]"
 reset_color="\[$(tput sgr0)\]"
 
 # PROMPT_COMMAND + PS1 --- Default interaction prompt
@@ -727,13 +727,10 @@ $ gm convert !*
 The =.inputrc= file controls the behavior of line input editing for programs that
 use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 
-#+begin_note
-Zsh doesn't use the =inputrc= file.
-#+end_note
-
 See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
 
 #+begin_src shell :noweb yes
+# Hey Emacs, this is a -*- sh -*- file
 ## .inputrc --- my Readline Init File
 
 # Copyright (C) 2005-<<current-year()>> Fabrice Niessen
@@ -822,18 +819,15 @@ bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 =config-shell= contains miscellaneous settings common to Bash and Zsh.
 
 #+begin_src shell
-# Source common settings.
+# Common configuration.
 . "$HOME"/config-shell                      # Error displayed if not found.
 #+end_src
 
-** Postamble
-
 #+begin_src shell
-# This is for the sake of Emacs.
-# Local Variables:
-# mode: sh
-# sh-shell: bash
-# End:
+# Enable overriding.
+if [[ -f "$HOME"/.bashrc_local ]]; then
+    . "$HOME"/.bashrc_local
+fi
 #+end_src
 
 * Zsh Configuration
@@ -849,6 +843,7 @@ Examples:
 - [[http://grml.org/zsh/zsh-lovers.html][zsh-lovers]]
 
 #+begin_src shell :noweb yes
+# Hey Emacs, this is a -*- sh -*- file
 ## .zshrc --- Z Shell configuration file (for interactive shells)
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
@@ -1282,6 +1277,20 @@ autoload -Uz compinit
 setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
 #+end_src
 
+*** 20. Completion System
+
+#+begin_src shell
+# Case-insensitive completion.
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+#+end_src
+
+Launch Windows applications from CLI (with ~start~ script -- see
+https://github.com/babun/babun/issues/299#issuecomment-123925935):
+
+#+begin_src shell
+compdef '_files -g "*"' start
+#+end_src
+
 *** Expansion and Globbing
 
 #+begin_src shell
@@ -1327,7 +1336,7 @@ SAVEHIST=10000
 
 ** Bindings
 
-Useful keybindings of the Zsh command line editor:
+Useful keybindings of the Zsh *command line editor*:
 
 - ~M-q~ ::
      Type another command in the middle of a long command (look at ~man~, etc.):
@@ -1376,26 +1385,22 @@ bindkey "^?" backward-delete-char-beep
 
 Some global aliases (expand whatever their position).
 
-*** Common aliases
-
 #+begin_src shell
-# Command line head / tail shortcuts
-alias -g H='| head' ###
-alias -g T='| tail' ###
+alias -g 21="2>&1"
+alias -g C='| wc -l'
+alias -g CA="| cat -A"
+alias -g F=' | fmt -' ##
 alias -g G='| grep -E' ######
+alias -g H='| head' ###
 alias -g L="| less" #######
 alias -g M="| less"
-alias -g CA="| cat -A"
-alias -g 21="2>&1"
 alias -g NUL='> /dev/null 2>&1'
+alias -g S='| sort' ###
+alias -g T='| tail' ###
+alias -g W='| wc -l' ####
 #+end_src
 
 #+begin_src shell
-alias -g W='| wc -l' ####
-alias -g C='| wc -l'
-alias -g S='| sort' ###
-alias -g F=' | fmt -' ##
-
 alias -g A='| awk'
 alias -g A1="| awk '{print \$1}'"
 alias -g A2="| awk '{print \$2}'"
@@ -1528,20 +1533,6 @@ EOF
 # ledger.
 #+end_src
 
-** 20. Completion System
-
-#+begin_src shell
-# Case-insensitive completion.
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-#+end_src
-
-Launch Windows applications from CLI (with ~start~ script -- see
-https://github.com/babun/babun/issues/299#issuecomment-123925935):
-
-#+begin_src shell
-compdef '_files -g "*"' start
-#+end_src
-
 ** Stderr in red
 
 Wrap text that goes to file with descriptor ~2~ with proper ANSI escape codes,
@@ -1565,7 +1556,7 @@ exec 2> >( color_stderr_red )
 ** Ready for more?
 
 #+begin_src shell
-# Source common settings.
+# Common configuration.
 . "$HOME"/config-shell                      # Error displayed if not found.
 #+end_src
 
@@ -1574,14 +1565,6 @@ exec 2> >( color_stderr_red )
 if [[ -f "$HOME"/.zshrc_local ]]; then
     . "$HOME"/.zshrc_local
 fi
-#+end_src
-
-#+begin_src shell
-# This is for the sake of Emacs.
-# Local Variables:
-# mode: sh
-# sh-shell: zsh
-# End:
 #+end_src
 
 * Common Configuration
@@ -1744,7 +1727,93 @@ INFOPATH=/usr/share/info:"$INFOPATH"
 # INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
 #+end_src
 
-** Pager
+** EDITOR
+
+Be sure one of these *editors* is *in your search path*!
+
+#+begin_warning
+Right now, I have instead hard-coded the path to Emacs in the
+[[file:~/.dotfiles/local/bin/emacsclient]] script.
+#+end_warning
+
+#+begin_src shell
+# Find a suitable editor.
+for editor in emacsclientw emacsclient emacs; do
+    if command -v "$editor" > /dev/null 2>&1; then
+        # Set EDITOR.
+        case $editor in
+            emacsclient*)
+                # # doesn't bother waiting for a response
+                # export EDITOR="$editor --no-wait"
+
+                # From the man page for emacsclient(1):
+                # If the Emacs server is not running, run `emacs --daemon' to
+                # start Emacs in daemon mode, and try to connect to it.
+                export EDITOR="$editor --alternate-editor=''"
+                ;;
+            ,*)
+                export EDITOR="$editor"
+                ;;
+        esac
+
+        alias e='$EDITOR'
+        break
+    fi
+done
+#+end_src
+
+#+begin_src shell :tangle no
+alias e="emacsclient --alternate-editor=emacs --no-wait" # --no-wait is an essential part.
+alias e="emacsclient --tty --alternate-editor=''"
+#+end_src
+
+#+begin_src shell
+alias ek="emacsclient -e '(kill-emacs)'"
+#+end_src
+
+#+begin_note
+Shouldn't we alias ~EDITOR~ to ~emacs --tty~?
+#+end_note
+
+#+begin_src shell
+# Use `$EDITOR' for programs wanting an editor.
+export VISUAL="$EDITOR"                 # For `crontab'.
+export CVSEDITOR="$EDITOR"
+export SVN_EDITOR="$EDITOR"
+export EDIT="$EDITOR"
+export ERROR_EDITOR="$EDITOR"
+export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
+                                        # command.
+#+end_src
+
+#+begin_src shell
+alias em=emacs-minimal
+#+end_src
+
+#+begin_src shell
+# ec FILE - open FILE in a running Emacs
+ec() {
+    emacsclient --no-wait "$1"
+}
+#+end_src
+
+I connect to the server with either a terminal or a GUI client like this:
+
+#+begin_example
+alias et=emacsclient --tty              # New GUI frame.
+alias ec=emacsclient --create-frame     # New terminal frame.
+#+end_example
+
+A good way to start emacsclient is with this line:
+
+#+begin_example
+alias e="emacsclient --no-wait --alternate-editor=\"\" --create-frame"
+#+end_example
+
+You may also set the environment variables =EDITOR= and/or =VISUAL=, but then you
+better omit the "=--no-wait=" option.
+
+** PAGER
 
 Set the user's preferred *text viewer* (~cat~, ~more~ or ~less~) that will be used by
 programs such as ~man~ or ~git diff~.
@@ -1881,7 +1950,7 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
      option.
      #+end_note
 
-** $DISPLAY
+** DISPLAY
 :PROPERTIES:
 :ID:       02ba0b6b-f205-42e2-a801-4271aa4691eb
 :END:
@@ -1894,92 +1963,6 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 # Set DISPLAY environment variable.
 export DISPLAY=:0.0
 #+end_src
-
-** Emacs (default editor)
-
-Be sure one of these *editors* is *in your search path*!
-
-#+begin_warning
-Right now, I have instead hard-coded the path to Emacs in the
-[[file:~/.dotfiles/local/bin/emacsclient]] script.
-#+end_warning
-
-#+begin_src shell
-# Find a suitable editor.
-for editor in emacsclientw emacsclient emacs; do
-    if command -v "$editor" > /dev/null 2>&1; then
-        # Set EDITOR.
-        case $editor in
-            emacsclient*)
-                # # doesn't bother waiting for a response
-                # export EDITOR="$editor --no-wait"
-
-                # From the man page for emacsclient(1):
-                # If the Emacs server is not running, run `emacs --daemon' to
-                # start Emacs in daemon mode, and try to connect to it.
-                export EDITOR="$editor --alternate-editor=''"
-                ;;
-            ,*)
-                export EDITOR="$editor"
-                ;;
-        esac
-
-        alias e='$EDITOR'
-        break
-    fi
-done
-#+end_src
-
-#+begin_src shell :tangle no
-alias e="emacsclient --alternate-editor=emacs --no-wait" # --no-wait is an essential part.
-alias e="emacsclient --tty --alternate-editor=''"
-#+end_src
-
-#+begin_src shell
-alias ek="emacsclient -e '(kill-emacs)'"
-#+end_src
-
-#+begin_note
-Shouldn't we alias ~EDITOR~ to ~emacs --tty~?
-#+end_note
-
-#+begin_src shell
-# Use `$EDITOR' for programs wanting an editor.
-export VISUAL="$EDITOR"                 # For `crontab'.
-export CVSEDITOR="$EDITOR"
-export SVN_EDITOR="$EDITOR"
-export EDIT="$EDITOR"
-export ERROR_EDITOR="$EDITOR"
-export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
-                                        # command.
-#+end_src
-
-#+begin_src shell
-alias em=emacs-minimal
-#+end_src
-
-#+begin_src shell
-# ec FILE - open FILE in a running Emacs
-ec() {
-    emacsclient --no-wait "$1"
-}
-#+end_src
-
-I connect to the server with either a terminal or a GUI client like this:
-
-#+begin_example
-alias et=emacsclient --tty              # New GUI frame.
-alias ec=emacsclient --create-frame     # New terminal frame.
-#+end_example
-
-A good way to start emacsclient is with this line:
-
-#+begin_example
-alias e="emacsclient --no-wait --alternate-editor=\"\" --create-frame"
-#+end_example
-
-You may also set the environment variables =EDITOR= and/or =VISUAL=, but then you
-better omit the "=--no-wait=" option.
 
 ** Abbreviations
 
@@ -2009,6 +1992,19 @@ Single quotes are evaluated dynamically:
 Double quotes are evaluated at time of creation and, thereafter, never changes:
 : alias QD="echo $PWD"
 #+end_note
+
+*** History
+
+Print the history lines matching a pattern.
+
+#+begin_src shell
+alias hgrep='history | grep -i'
+#+end_src
+
+#+begin_warning
+We can't call this alias ~hg~ as that conflicts with the Mercurial prompt of the
+Agnoster theme (checking for the presence of the ~hg~ command).
+#+end_warning
 
 *** Common aliases
 
@@ -2345,32 +2341,7 @@ http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-r
 
 highlight-lines-matching-regexp "ERROR"
 
-*** History
-
-Print the history lines matching a pattern.
-
-#+begin_src shell
-alias hgrep='history | grep -i'
-#+end_src
-
-#+begin_warning
-We can't call this alias ~hg~ as that conflicts with the Mercurial prompt of the
-Agnoster theme (checking for the presence of the ~hg~ command).
-#+end_warning
-
-Show the top 10 most used commands in your history.
-
-#+begin_src shell :tangle no
-history \
-    | awk '{print $2}' \
-    | awk 'BEGIN {FS="|"} {print $1}' \
-    | sort \
-    | uniq -c \
-    | sort -nr \
-    | head -10
-#+end_src
-
-*** UTF-8
+*** UTF-8 BOM
 
 Remove the UTF-8 encoded BOM if it exists (make no changes if it doesn't).
 
