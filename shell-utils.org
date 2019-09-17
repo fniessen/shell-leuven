@@ -87,6 +87,10 @@ Options explained:
 
 ** Find all of the distinct file extensions in a folder hierarchy
 
+Find executable file extensions:
+
+: find . -executable -type f | awk -F'.' '{print $NF;}'
+
 Recursive version:
 
 #+begin_src shell
@@ -699,75 +703,144 @@ You could use ~+~ instead of ~\;~ to reduce the number of subprocesses created.
 
 ** Pictures, etc.
 
+: find . -executable -type f | awk -F'.' '{print $NF;}' | sort | uniq -c
+
 There is no (good) reason ever for pictures to be executable.
 
-Just run this command to fix them:
+Just run ~unexe-all~ to fix them.
 
-#+begin_src sh :tangle ~/.dotfiles/bin/unexe-all
+See also https://www.lifewire.com/list-of-executable-file-extensions-2626061
+
+#+begin_src sh :tangle ~/.dotfiles/bin/unexe-all :shebang #!/usr/bin/env sh
 echo "Remove exe perm"
 find . -type f \
     \( -name "*.DTD" \
+    -o -name "*.DWG" \
+    -o -name "*.MF" \
+    -o -name "*.PDF" \
     -o -name "*.R" \
+    -o -name "*.SQL" \
+    -o -name "*.TTF" \
     -o -name "*.Txt" \
+    -o -name "*.XE" \
+    -o -name "*.actionScriptProperties" \
+    -o -name "*.acts" \
+    -o -name "*.appcache" \
     -o -name "*.asa" \
     -o -name "*.asp" \
     -o -name "*.awk" \
     -o -name "*.axvw" \
     -o -name "*.bak" \
+    -o -name "*.bat" \
+    -o -name "*.bmp" \
     -o -name "*.c" \
     -o -name "*.ced" \
+    -o -name "*.cfg" \
+    -o -name "*.checkstyle" \
     -o -name "*.class" \
+    -o -name "*.classpath" \
     -o -name "*.css" \
     -o -name "*.csv" \
+    -o -name "*.dflt" \
+    -o -name "*.doc" \
     -o -name "*.docx" \
     -o -name "*.dtd" \
+    -o -name "*.duw" \
+    -o -name "*.dwg" \
     -o -name "*.el" \
+    -o -name "*.emf" \
+    -o -name "*.eot" \
+    -o -name "*.fbprefs" \
+    -o -name "*.flexProperties" \
+    -o -name "*.frms" \
+    -o -name "*.gemspec" \
     -o -name "*.gif" \
     -o -name "*.gitignore" \
     -o -name "*.htm" \
     -o -name "*.html" \
+    -o -name "*.ico" \
     -o -name "*.idx" \
+    -o -name "*.iml" \
     -o -name "*.ini" \
     -o -name "*.jar" \
     -o -name "*.java" \
     -o -name "*.jpeg" \
     -o -name "*.jpg" \
     -o -name "*.js" \
+    -o -name "*.jsb" \
+    -o -name "*.jshintignore" \
+    -o -name "*.jshintrc" \
     -o -name "*.json" \
     -o -name "*.jsp" \
+    -o -name "*.lang" \
+    -o -name "*.launch" \
+    -o -name "*.ldif" \
+    -o -name "*.less" \
     -o -name "*.lex" \
+    -o -name "*.lic" \
     -o -name "*.log" \
     -o -name "*.m" \
     -o -name "*.m4" \
+    -o -name "*.md" \
     -o -name "*.md5" \
     -o -name "*.model" \
     -o -name "*.mp4" \
+    -o -name "*.mpp" \
+    -o -name "*.mxml" \
+    -o -name "*.name" \
+    -o -name "*.number" \
     -o -name "*.org" \
     -o -name "*.orig" \
+    -o -name "*.otf" \
     -o -name "*.pack" \
+    -o -name "*.pcx" \
     -o -name "*.pdf" \
     -o -name "*.php" \
     -o -name "*.pid" \
+    -o -name "*.pmd" \
     -o -name "*.png" \
+    -o -name "*.pptx" \
+    -o -name "*.prefs" \
+    -o -name "*.project" \
     -o -name "*.properties" \
+    -o -name "*.psd" \
+    -o -name "*.pspimage" \
     -o -name "*.py" \
+    -o -name "*.rb" \
+    -o -name "*.rpt" \
     -o -name "*.sample" \
+    -o -name "*.scss" \
+    -o -name "*.scssc" \
+    -o -name "*.scssx" \
     -o -name "*.sed" \
+    -o -name "*.springBeans" \
     -o -name "*.sql" \
     -o -name "*.stackdump" \
+    -o -name "*.svg" \
+    -o -name "*.swc" \
+    -o -name "*.swf" \
     -o -name "*.tex" \
+    -o -name "*.tgrp" \
+    -o -name "*.tif" \
     -o -name "*.tld" \
     -o -name "*.tsv" \
+    -o -name "*.ttf" \
     -o -name "*.txt" \
+    -o -name "*.vm" \
     -o -name "*.war" \
+    -o -name "*.woff" \
+    -o -name "*.wsdl" \
     -o -name "*.xhtml" \
     -o -name "*.xls" \
     -o -name "*.xls" \
+    -o -name "*.xlsx" \
     -o -name "*.xml" \
+    -o -name "*.xsd" \
     -o -name "*.xsl" \
     -o -name "*.xslt" \
     -o -name "*.xslx" \
     -o -name "*.zip" \
+    -o -name "*.zlib" \
     -o -name "ChangeLog" \
     -o -name "Makefile" \
     -o -name "README" \
