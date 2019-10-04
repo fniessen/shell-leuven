@@ -563,6 +563,8 @@ if tput setaf 1 &> /dev/null; then
     RESET=$(tput sgr0)
 #+end_src
 
+See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
+
 #+begin_src shell
 # Colors.
 BLK="\[$(tput setaf 0; tput bold)\]"
@@ -1200,7 +1202,7 @@ if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
     # Fix Colorize man pages (with `less` pager) not working in Cygwin MinTTY
     export MANROFFOPT="-c"
     # in your shell rc file. This has the same effect as
-    # export GROFF_NO_SGR=1
+    # export GROFF_NO_SGR=1               # For konsole and gnome-terminal.
     # but only affects man. I'm not sure if groff is used for anything else
     # besides man pages, but this seems safer to prevent unintended side
     # effects.
@@ -1540,7 +1542,7 @@ making text red.
 
 #+begin_src shell
 # Coloring stderr.
-STDERRED_ESC_CODE=$'\e[01;31m'
+STDERRED_ESC_CODE=$'\e[33;1;41m'
 zmodload zsh/system
 color_stderr_red() {
     # Sysread & syswrite are part of `zsh/system'.
@@ -1833,13 +1835,13 @@ alias more='less'
 ~git help~:
 
 #+begin_src shell
-export LESS_TERMCAP_mb=$'\e[01;31m'
-export LESS_TERMCAP_md=$'\e[01;31m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;44;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[01;32m'
+export LESS_TERMCAP_mb=$'\e[01;31m'     # Begin bold.
+export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink.
+export LESS_TERMCAP_me=$'\e[0m'         # Reset bold/blink.
+export LESS_TERMCAP_so=$'\e[01;44;33m'  # Begin reverse video.
+export LESS_TERMCAP_se=$'\e[0m'         # Reset reverse video.
+export LESS_TERMCAP_us=$'\e[01;32m'     # Begin underline.
+export LESS_TERMCAP_ue=$'\e[0m'         # Reset underline.
 #+end_src
 
 If you see ~\e[0m~ etc appearing when you view the man page, add this line as
@@ -2676,7 +2678,7 @@ things.
 Change the color of ~grep~:
 
 #+begin_src shell
-export GREP_COLORS='0;30;43'
+export GREP_COLOR='0;33;1;44'            # Bold Yellow on blue.
 #+end_src
 
 #+begin_note
