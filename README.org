@@ -1030,14 +1030,14 @@ if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; th
     zinc_default_user="f.niessen"
     zinc_default_host="XIPHIAS"
 
-    prompt_zinc_setup rprompt-previous-line
-
     # Input your own strftime format: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
     zincs_time() {
         REPLY="%D{%H:%M}"
     }
 
     prompt_zinc_setup fniessen-p9k-port
+
+    prompt_zinc_setup rprompt-previous-line
 
 fi
 
