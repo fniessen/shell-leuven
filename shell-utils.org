@@ -85,6 +85,14 @@ Options explained:
 
 * Shell aliases
 
+** Remove duplicate lines without sorting
+
+How to *delete duplicate lines* in a file *without sorting* it?
+
+: awk '!seen[$0]++' file.txt
+
+https://stackoverflow.com/questions/1444406/how-to-delete-duplicate-lines-in-a-file-without-sorting-it-in-unix
+
 ** Find all of the distinct file extensions in a folder hierarchy
 
 Find executable file extensions:
