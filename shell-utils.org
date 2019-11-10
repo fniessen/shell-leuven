@@ -183,9 +183,6 @@ pname() {
 
 ** Find files
 
-Avoid buffered output (when piping to sed) -- see
-https://stackoverflow.com/questions/58788393/how-to-flush-contents-in-shell-pipes.
-
 #+begin_src shell :tangle ~/.dotfiles/bin/fd
 find . -type d -iname "*$1*" -printf '%P\n'
 #+end_src
@@ -193,6 +190,13 @@ find . -type d -iname "*$1*" -printf '%P\n'
 #+begin_src shell :tangle ~/.dotfiles/bin/ff
 find . -type f -iname "*$1*" -printf '%P\n'
 #+end_src
+
+Alternatively, if piping commands, avoid *buffered output* by applying ~stdbuf -oL~
+to ~find~.
+
+: stdbuf -oL find . -type f -iname "*$1*" -print | sed "s#\./##"
+
+The buffering is on the output side of the pipe, not the input side.
 
 ** Find recent files
 
