@@ -15,6 +15,8 @@
 
 * Context
 
+https://explainshell.com/explain?cmd=find%20.%20-type%20f%20-iname%20%22*.m%22%20-exec%20rgrep.1%20-i%20%22Content%22%20%7B%7D%20%2B
+
 ** Description
 
 The shell utilities are core shell functions and scripts which I wrote when
@@ -181,12 +183,15 @@ pname() {
 
 ** Find files
 
+Avoid buffered output (when piping to sed) -- see
+https://stackoverflow.com/questions/58788393/how-to-flush-contents-in-shell-pipes.
+
 #+begin_src shell :tangle ~/.dotfiles/bin/fd
-find . -type d -iname "*$1*" | sed "s#^\./##"
+find . -type d -iname "*$1*" -printf '%P\n'
 #+end_src
 
 #+begin_src shell :tangle ~/.dotfiles/bin/ff
-find . -type f -iname "*$1*" | sed "s#^\./##"
+find . -type f -iname "*$1*" -printf '%P\n'
 #+end_src
 
 ** Find recent files
