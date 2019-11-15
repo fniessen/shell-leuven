@@ -2290,8 +2290,38 @@ svn COMMAND $(svn-remote-get-url)       # Retrieve the full RepoURL.
 
 See [[file:~/.dotfiles/plugins/git-config/SVN.org][SVN aliases]] for more information about these:
 
+#+begin_src shell :tangle ~/.dotfiles/bin/svn-short-log
+#!/usr/bin/awk -f
+
+# Original author: Plexus.
+
+# Convert the "svn log" output into a one liner format, which is easier to grep
+# or use in scripts. Pipe "svn log" into this script
+
+# When we get a line that starts with a revision number, put the data in variables
+/^r[0-9]+/ {
+    rev=$1
+    user=$3
+    date=$5
+    time=$6
+}
+
+# Anything that isn't a revision line, a separator line or an empty line
+# will be part of the commit message. Concatenate these into the comment variable
+! (/^r[0-9+]/ || /^-+$/ || /^$/) {
+  comment = comment $0 " "
+}
+
+# With every separator line, output what we stored before and reset the comment variable
+# To skip the first line we also check if we've already stored a revision
+/^-+$/ && rev {
+   print rev " | " date " | " user " | " comment
+   comment = ""
+}
+#+end_src
+
 #+begin_src shell
-alias svn-log="svn log | perl -l40pe 's/^-+/\n/' | less"
+alias svn-log="svn log | svn-short-log | sed -e 's/^\(.*\) | \(.*\) | \(.*\) | \(.*\)$/\o33\[1;33m\1\o33[0m \o33\[1;32m\2\o33[0m \o33\[1;34m\3\o33[0m \4/' | less -RF"
 #+end_src
 
 #+begin_src shell
