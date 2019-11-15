@@ -2312,9 +2312,16 @@ alias svn-changed='svn log -v -r'
 #+end_src
 
 #+begin_src shell
-# svn-logfile path/to/file
-svn-logfile() {
-    svn log -q "$1" | grep "^r"
+# svn-filelog path/to/file
+svn-filelog() {
+    svn log -q "$1" | grep --color=never "^r"
+}
+#+end_src
+
+#+begin_src shell
+# svn-filelog-p path/to/file
+svn-filelog-p() {
+    svn log --diff "$1" | less
 }
 #+end_src
 
@@ -2322,13 +2329,6 @@ svn-logfile() {
 # svn-unmodify path/to/file
 svn-unmodify() {
     svn revert "$1"
-}
-#+end_src
-
-#+begin_src shell
-# svn-logfile-p path/to/file
-svn-logfile-p() {
-    svn log --diff "$1" | less
 }
 #+end_src
 
