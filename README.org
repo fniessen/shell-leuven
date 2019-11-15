@@ -2189,8 +2189,13 @@ alias -- -='cd -'
 #+end_src
 
 #+begin_src shell
-alias c:='cd /mnt/c'
-alias d:='cd /mnt/d'
+# # For WSL.
+# alias c:='cd /mnt/c'
+# alias d:='cd /mnt/d'
+#
+# # For Cygwin.
+# alias c:='cd /cygdrive/c'
+# alias d:='cd /cygdrive/d'
 #+end_src
 
 #+begin_src shell
@@ -2302,8 +2307,8 @@ svn-showtool() {
 #+end_src
 
 #+begin_src shell
-# svn-whatchanged [path/to/file]
-alias svn-whatchanged='svn log -v'
+# svn-changed release-number
+alias svn-changed='svn log -v -r'
 #+end_src
 
 #+begin_src shell
@@ -2433,6 +2438,7 @@ alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
 # # 040210 Grep.
 # alias g='find . -type f -print0 | xargs -0 grep'
+alias rgrep="grep -r"
 #+end_src
 
 #+begin_src shell
