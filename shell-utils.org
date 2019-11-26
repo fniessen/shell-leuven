@@ -87,6 +87,8 @@ Options explained:
 
 * Shell aliases
 
+XXX Do they need to be added to =~/.bash_aliases=?
+
 ** Remove duplicate lines without sorting
 
 How to *delete duplicate lines* in a file *without sorting* it?
@@ -202,15 +204,15 @@ The buffering is on the output side of the pipe, not the input side.
 
 #+begin_src shell
 # List all files modified TODAY only (since start of day only, i.e. 00:00).
-alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
 
 # List all files modified YESTERDAY.
-alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
 
 # List all files modified THIS WEEK.
-alias thisweek1='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
-alias thisweek2='find . -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
-alias thisweek3='find . -daystart -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" | sed "s#\./##"'
+alias thisweek1='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+alias thisweek2='find . -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+alias thisweek3='find . -daystart -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
 #+end_src
 
 XXX Check out %C, %T and %A!!!
@@ -238,20 +240,18 @@ Options (to ~es~, Everything):
 
 #+begin_src shell :tangle ~/.dotfiles/bin/dc
 # Date Created.
-find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %p\n" \
+find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
     | sort -n \
-    | cut -d " " -f 2- \
-    | sed "s#\./##" \
+    | cut -d " " -f 2- \ \
     | grep -i "$@";
 #+end_src
 
 #+begin_src shell :tangle ~/.dotfiles/bin/dm
 # Date Modified.
-# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
-find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
+# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
+find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
     | sort -n \
-    | cut -d " " -f 2- \
-    | sed "s#\./##" \
+    | cut -d " " -f 2- \ \
     | grep -i "$@";
 #+end_src
 
@@ -260,12 +260,15 @@ find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %p\n" \
 
 XXX Includes copies?
 
+#+begin_src shell
+alias last-modified='find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head'
+#+end_src
+
 #+begin_src shell :tangle ~/.dotfiles/bin/rc
 # Recent Change.
-find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %p\n" \
+find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
     | sort -n \
-    | cut -d " " -f 2- \
-    | sed "s#\./##" \
+    | cut -d " " -f 2- \ \
     | grep -i "$@";
 #+end_src
 
