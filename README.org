@@ -1849,11 +1849,20 @@ export LESS_TERMCAP_us=$'\e[01;32m'     # Begin underline.
 export LESS_TERMCAP_ue=$'\e[0m'         # Reset underline.
 #+end_src
 
-If you see ~\e[0m~ etc appearing when you view the man page, add this line as
+If you see ~\e[0m~ etc. appearing when you view the man page, add this line as
 well:
 
 #+begin_src shell
 export LESS='-R'
+#+end_src
+
+If you see ~<E9>~ (in reverse video) etc. appearing when you view accents in an
+ISO Latin 1 file (in a UTF-8 terminal), add this:
+
+#+begin_src shell
+# Format for displaying non-printable, non-control characters (see `man less').
+export LESSBINFMT="*n<%02X>"            # Do not use reverse video.
+export LESSBINFMT="*d?"                 # Use bold ?.
 #+end_src
 
 Commands for *searching*:
@@ -1864,7 +1873,7 @@ Commands for *searching*:
 - ~N~ :: Repeat previous search in reverse direction.
 - ~ESC-u~ :: Undo (toggle) search highlighting.
 - ~&pattern~ :: Display only matching lines. \\
-     If pattern is empty (if you type & immediately followed by ENTER), any
+     If pattern is empty (if you type ~&~ immediately followed by ~RET~), any
      filtering is turned off, and all lines are displayed.
 
 Commands for *jumping*:
