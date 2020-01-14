@@ -150,10 +150,12 @@ die() {
 
 ** Check for executable files
 
+~has~ checks presence of various command line tools on the PATH.
+
 #+begin_src shell
-files_executables_p() {
-    for x in $@; do
-        command -v $x > /dev/null || die "$x not found."
+has() {
+    for cmd in "$@"; do
+        command -v $cmd > /dev/null || die "$cmd not found."
     done
 }
 #+end_src
@@ -165,7 +167,7 @@ executables (for example, ~whoami~ and ~hostname~) are found before their Window
 counterpart -- to avoid problems of spurious ~\r~ added to the output.
 
 #+begin_src shell
-files_cygwin_executables_p() {
+has-cygwin() {
     for x in $@; do
         [ "$(command -v $x)" = "/usr/bin/$x" ] \
             || die "$x is not a Cygwin executable."
@@ -418,7 +420,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # check for Cygwin executable files (and not their Windows counterpart)
-files_cygwin_executables_p "whoami" "hostname"
+has-cygwin "whoami" "hostname"
 
 # default values
 SUBJECT="none"
@@ -450,8 +452,8 @@ fi
 # check presence of stdin contents
 [ -t 0 ] && die "Message body is missing."
 
-# check for executable files
-files_executables_p "blat"
+# check presence of blat command
+has "blat"
 
 ATT_SWITCH=""
 for attach in $ATTFILES
