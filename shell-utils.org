@@ -196,7 +196,7 @@ find . -type f -iname "*$1*" -printf '%P\n'
 #+end_src
 
 Alternatively, if piping commands, avoid *buffered output* by applying ~stdbuf -oL~
-to ~find~.
+to ~find~ (force flushing of output).
 
 : stdbuf -oL find . -type f -iname "*$1*" -print | sed "s#\./##"
 
