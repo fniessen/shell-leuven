@@ -527,18 +527,19 @@ if test -t 1; then
 fi
 #+end_src
 
-** Source global rc file (if any)
+** Local customizations
 
 #+begin_src shell
-# Source global definitions only if the session is interactive.
-if [[ $(expr index "$-" i) -ne 0 ]] && [[ -f /etc/bashrc ]]; then
-    . /etc/bashrc
+# Allow local Shell customizations.
+if [ -f "$HOME"/.shell_local_before ]; then
+    . "$HOME"/.shell_local_before
+fi
+
+# Allow local Bash customizations.
+if [ -f "$HOME"/.bashrc_local_before ]; then
+    . "$HOME"/.bashrc_local_before
 fi
 #+end_src
-
-A common cause is ~mesg y~ in =/etc/bashrc= on the remote machine, hence the user
-has to try avoiding sourcing it (on the *remote* machine) in non-interactive
-sessions.
 
 ** Prompt
 
@@ -822,17 +823,15 @@ bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 ** Ready for more?
 
-=config-shell= contains miscellaneous settings common to Bash and Zsh.
-
 #+begin_src shell
-# Common configuration.
-. "$HOME"/config-shell                      # Error displayed if not found.
-#+end_src
+# Allow local Bash customizations.
+if [ -f "$HOME"/.bashrc_local_after ]; then
+    . "$HOME"/.bashrc_local_after
+fi
 
-#+begin_src shell
-# Enable overriding.
-if [[ -f "$HOME"/.bashrc_local ]]; then
-    . "$HOME"/.bashrc_local
+# Allow local Shell customizations.
+if [ -f "$HOME"/.shell_local_after ]; then
+    . "$HOME"/.shell_local_after
 fi
 #+end_src
 
@@ -858,6 +857,20 @@ Examples:
 # Keywords: zsh, dotfile, config
 
 # Code:
+#+end_src
+
+** Local customizations
+
+#+begin_src shell
+# Allow local Shell customizations.
+if [ -f "$HOME"/.shell_local_before ]; then
+    . "$HOME"/.shell_local_before
+fi
+
+# Allow local Zsh customizations.
+if [ -f "$HOME"/.zshrc_local_before ]; then
+    . "$HOME"/.zshrc_local_before
+fi
 #+end_src
 
 ** Prompt
@@ -948,7 +961,7 @@ settings.
 #+begin_src shell
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
     ZSH="$HOME"/.dotfiles/plugins/oh-my-zsh
-    # ${ZSH_CUSTOM:-~/.dotfiles/plugins/oh-my-zsh/custom}
+    # ${ZSH_CUSTOM:-"$HOME"/.dotfiles/plugins/oh-my-zsh/custom}
     ZSH_CUSTOM="$ZSH/custom"
 
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
@@ -1562,28 +1575,30 @@ exec 2> >( color_stderr_red )
 ** Ready for more?
 
 #+begin_src shell
-# Common configuration.
-. "$HOME"/config-shell                      # Error displayed if not found.
-#+end_src
+# Allow local Zsh customizations.
+if [ -f "$HOME"/.zshrc_local_after ]; then
+    . "$HOME"/.zshrc_local_after
+fi
 
-#+begin_src shell
-# Enable overriding.
-if [[ -f "$HOME"/.zshrc_local ]]; then
-    . "$HOME"/.zshrc_local
+# Allow local Shell customizations.
+if [ -f "$HOME"/.shell_local_after ]; then
+    . "$HOME"/.shell_local_after
 fi
 #+end_src
 
-* Common Configuration
+* Shell Configuration (Bash / Zsh)
 :PROPERTIES:
-:header-args+: :tangle ../../home/config-shell
+:header-args+: :tangle ../../home/.shell_local_after
 :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
 by both shells.
 
+=.shell_local_after= contains miscellaneous settings common to Bash and Zsh.
+
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## config-shell --- Common features between Bash and Z Shell
+## .shell_local_after --- Common features between Bash and Z Shell
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
@@ -2023,7 +2038,7 @@ Agnoster theme (checking for the presence of the ~hg~ command).
 
 *** Common aliases
 
-#+begin_src shell :tangle ../../home/config-shell
+#+begin_src shell :tangle ../../home/.shell_local_after
 alias which-shell='ps -p $$'
 #+end_src
 
@@ -2088,7 +2103,7 @@ https://github.com/athityakumar/colorls
 
 #+begin_src shell
 # This alias reloads this file.
-alias reload='unalias -a && . "$HOME"/config-shell'
+alias reload='unalias -a && . "$HOME"/.shell_local_after'
 #+end_src
 
 Sort of tree:
