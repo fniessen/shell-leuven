@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-ln -f -s $(pwd)/../bash/.bash_profile       ~/.bash_profile
-ln -f -s $(pwd)/../bash/.bashrc             ~/.bashrc
-ln -f -s $(pwd)/../bash/.inputrc            ~/.inputrc
-ln -f -s $(pwd)/../shell/.shell_local_after ~/.shell_local_after
-ln -f -s $(pwd)/../zsh/.zshrc               ~/.zshrc
+ln -f -s $(pwd)/../bash/.bash_profile ~/.bash_profile
+ln -f -s $(pwd)/../bash/.bashrc       ~/.bashrc
+ln -f -s $(pwd)/../bash/.inputrc      ~/.inputrc
+ln -f -s $(pwd)/../shell/.shellrc     ~/.shellrc
+ln -f -s $(pwd)/../zsh/.zshrc         ~/.zshrc

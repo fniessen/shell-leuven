@@ -392,6 +392,11 @@ color_stderr_red() {
 
 exec 2> >( color_stderr_red )
 
+# Common configuration.
+if [ -f "$HOME"/.shellrc ]; then
+    . "$HOME"/.shellrc
+fi
+
 # Allow local Zsh customizations.
 if [ -f "$HOME"/.zshrc_local_after ]; then
     . "$HOME"/.zshrc_local_after
