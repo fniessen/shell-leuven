@@ -9,8 +9,8 @@
 # Code:
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_before ]; then
-    . "$HOME"/.shell_local_before
+if [ -f "$HOME"/.shellrc_local_before ]; then
+    . "$HOME"/.shellrc_local_before
 fi
 
 # Allow local Zsh customizations.
@@ -403,6 +403,6 @@ if [ -f "$HOME"/.zshrc_local_after ]; then
 fi
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_after ]; then
-    . "$HOME"/.shell_local_after
+if [ -f "$HOME"/.shellrc_local_after ]; then
+    . "$HOME"/.shellrc_local_after
 fi

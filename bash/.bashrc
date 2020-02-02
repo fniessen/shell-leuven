@@ -15,13 +15,13 @@
 # If running in terminal...
 if test -t 1; then
     # ... start Zsh
-    echo "Zsh"
+    echo "Start Zsh..."
     exec zsh
 fi
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_before ]; then
-    . "$HOME"/.shell_local_before
+if [ -f "$HOME"/.shellrc_local_before ]; then
+    . "$HOME"/.shellrc_local_before
 fi
 
 # Allow local Bash customizations.
@@ -156,6 +156,6 @@ if [ -f "$HOME"/.bashrc_local_after ]; then
 fi
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_after ]; then
-    . "$HOME"/.shell_local_after
+if [ -f "$HOME"/.shellrc_local_after ]; then
+    . "$HOME"/.shellrc_local_after
 fi

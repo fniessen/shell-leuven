@@ -522,7 +522,7 @@ To start directly Zsh when opening /Bash on Ubuntu on Windows/:
 # If running in terminal...
 if test -t 1; then
     # ... start Zsh
-    echo "Zsh"
+    echo "Start Zsh..."
     exec zsh
 fi
 #+end_src
@@ -531,8 +531,8 @@ fi
 
 #+begin_src shell
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_before ]; then
-    . "$HOME"/.shell_local_before
+if [ -f "$HOME"/.shellrc_local_before ]; then
+    . "$HOME"/.shellrc_local_before
 fi
 
 # Allow local Bash customizations.
@@ -835,8 +835,8 @@ if [ -f "$HOME"/.bashrc_local_after ]; then
 fi
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_after ]; then
-    . "$HOME"/.shell_local_after
+if [ -f "$HOME"/.shellrc_local_after ]; then
+    . "$HOME"/.shellrc_local_after
 fi
 #+end_src
 
@@ -868,8 +868,8 @@ Examples:
 
 #+begin_src shell
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_before ]; then
-    . "$HOME"/.shell_local_before
+if [ -f "$HOME"/.shellrc_local_before ]; then
+    . "$HOME"/.shellrc_local_before
 fi
 
 # Allow local Zsh customizations.
@@ -1597,8 +1597,8 @@ if [ -f "$HOME"/.zshrc_local_after ]; then
 fi
 
 # Allow local Shell customizations.
-if [ -f "$HOME"/.shell_local_after ]; then
-    . "$HOME"/.shell_local_after
+if [ -f "$HOME"/.shellrc_local_after ]; then
+    . "$HOME"/.shellrc_local_after
 fi
 #+end_src
 
@@ -2031,10 +2031,10 @@ An alias cannot have an argument like ~$1~.
 
 #+begin_note
 Single quotes are evaluated dynamically:
-: alias QS='echo $PWD'
+: alias qs='echo $PWD'
 
 Double quotes are evaluated at time of creation and, thereafter, never changes:
-: alias QD="echo $PWD"
+: alias qd="echo $PWD"
 #+end_note
 
 *** History
@@ -2045,14 +2045,14 @@ Print the history lines matching a pattern.
 alias hgrep='history | grep -i'
 #+end_src
 
-#+begin_warning
+#+begin_tip
 We can't call this alias ~hg~ as that conflicts with the Mercurial prompt of the
 Agnoster theme (checking for the presence of the ~hg~ command).
-#+end_warning
+#+end_tip
 
 *** Common aliases
 
-#+begin_src shell :tangle shell/.shellrc
+#+begin_src shell
 alias which-shell='ps -p $$'
 #+end_src
 
@@ -2243,7 +2243,7 @@ Normally, you can use ~cd +1~ to go to the previous directory and so on.
 Oh My Zsh made this even more straightforward, now you can use just the number
 of the entry in the directory history you want to visit... ~1~.
 
-*** Shortcuts (single char)for some commands)
+*** Shortcuts (single char for some commands)
 
 #+begin_src shell
 alias c='clear'
