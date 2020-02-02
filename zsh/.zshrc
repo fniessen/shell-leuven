@@ -63,26 +63,6 @@ fi
 #     }
 # fi
 
-# if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-#     ZSH_THEME="powerlevel9k/powerlevel9k"
-#
-#     # Single-line prompt.
-#     POWERLEVEL9K_PROMPT_ON_NEWLINE=false
-#     POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
-#
-#     POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-#     POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=''
-#
-#     # Customise the Powerlevel9k prompts.
-#     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
-#     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time background_jobs)
-#
-#     POWERLEVEL9K_STATUS_VERBOSE=false
-#     POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
-#     POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=10
-#     POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
-# fi
-
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; then
 
     ZSH_THEME=""
@@ -310,17 +290,14 @@ alias -g T7="| awk -F $'\t' '{print \$7}'"
 alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
 
-alias -- cdwd='cd $(pwd)'
-alias -- cwd='echo $cwd'
-
-alias -g GTHISWEEK=' --since=1.week.ago'
-alias -g GTHISMONTH=' --since=1.month.ago'
-alias -g GTHISYEAR=' --since=1.year.ago'
-
 # When entering a directory, list the contents.
 cd() {
     builtin cd "$@" && ls
 }
+
+alias -g GTHISWEEK=' --since=1.week.ago'
+alias -g GTHISMONTH=' --since=1.month.ago'
+alias -g GTHISYEAR=' --since=1.year.ago'
 
 export LEDGER=ledger
 export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat

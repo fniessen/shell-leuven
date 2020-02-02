@@ -1009,34 +1009,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 # fi
 #+end_src
 
-** Install Powerlevel9k!
-
-#+begin_src shell :tangle no
-git clone https://github.com/bhilburn/powerlevel9k.git \
-    "$ZSH_CUSTOM"/themes/powerlevel9k
-#+end_src
-
-#+begin_src shell
-# if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-#     ZSH_THEME="powerlevel9k/powerlevel9k"
-#
-#     # Single-line prompt.
-#     POWERLEVEL9K_PROMPT_ON_NEWLINE=false
-#     POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
-#
-#     POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-#     POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=''
-#
-#     # Customise the Powerlevel9k prompts.
-#     POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(ssh dir vcs)
-#     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time background_jobs)
-#
-#     POWERLEVEL9K_STATUS_VERBOSE=false
-#     POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
-#     POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=10
-#     POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
-# fi
-#+end_src
+** Install Zinc (successor of Powerlevel9k!)
 
 #+begin_src shell :tangle no
 git clone https://gitlab.com/robobenklein/zinc \
@@ -1470,9 +1443,13 @@ alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
 #+end_src
 
+*** Directories
+
 #+begin_src shell
-alias -- cdwd='cd $(pwd)'
-alias -- cwd='echo $cwd'
+# When entering a directory, list the contents.
+cd() {
+    builtin cd "$@" && ls
+}
 #+end_src
 
 *** Git
@@ -1483,15 +1460,6 @@ Git this week / month / year:
 alias -g GTHISWEEK=' --since=1.week.ago'
 alias -g GTHISMONTH=' --since=1.month.ago'
 alias -g GTHISYEAR=' --since=1.year.ago'
-#+end_src
-
-*** Directories
-
-#+begin_src shell
-# When entering a directory, list the contents.
-cd() {
-    builtin cd "$@" && ls
-}
 #+end_src
 
 *** Ledger
