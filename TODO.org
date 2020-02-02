@@ -17,13 +17,6 @@ http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
 http://wiki.bash-hackers.org/scripting/style
 
-** TODO Look at the Cygwin skeletons
-
-- [[file:c:/cygwin/etc/skel/.bashrc]]
-- [[file:c:/cygwin/etc/skel/.bash_profile]]
-- [[file:c:/cygwin/etc/skel/.inputrc]]
-- [[file:c:/cygwin/etc/skel/.profile]]
-
 ** TODO Remove Bashisms
 
 - https://wiki.ubuntu.com/DashAsBinSh
@@ -34,7 +27,7 @@ http://wiki.bash-hackers.org/scripting/style
 See http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html.
 
 ** TODO Unset TZ (from Eli Zaretskii)
-   [2015-03-30 Mon 16:51]
+[2015-03-30 Mon 16:51]
 
 #+begin_verse
 > Though, this morning, in the above configuration (Cygwin GDB + pretest
@@ -68,28 +61,3 @@ See [[file:bin/bash-goodies][file:~/bin/bash-goodies]]
 
 https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 Very interesting settings!
-
-** TODO Keep functions to help us manage environment variables
-
-#+begin_src shell :tangle no
-# setenv [VAR] [value] - set environment variable
-setenv() { eval $1="\$2" export $1; }
-
-# unsetenv [VAR] - unset environment variable
-unsetenv() { unset "$@"; }
-
-# ifnset [VAR] [value] - set environment variable only if not set yet
-ifnset() { eval $1=\${$1-"\$2"} export $1; }
-
-# ifnull [VAR] [value] - set environment variable if not set yet or if NULL
-ifnull() { eval $1=\${$1:-"\$2"} export $1; }
-
-# append [VAR] [path] - append path separated by `:'
-append() { eval $1=\${$1:+\$$1${2:+:}}\$2 export $1; }
-
-# prepend [VAR] [path] - prepend path separated by `:'
-prepend() { eval $1=\$2\${$1:+${2:+:}\$$1} export $1; }
-
-# showvalue [VAR]... - print out the value of variables given their name
-showvalue() { for i in $*; do eval echo "$i = \\\`\$$i\'"; done; }
-#+end_src
