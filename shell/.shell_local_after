@@ -1,0 +1,446 @@
+# Hey Emacs, this is a -*- sh -*- file
+## .shell_local_after --- Common features between Bash and Z Shell
+
+# Copyright (C) 2009-2020 Fabrice Niessen
+
+# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
+# Keywords: bash, zsh, dotfile, config
+
+uname -s -n -r -m
+
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
+if [[ $EUID -eq 0 ]]; then
+    umask 077                           # Stricter.
+fi
+
+# # For Bash on Ubuntu on Windows.
+# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
+export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+
+export LANG=C.UTF-8
+
+# For scripts in R language.
+export LC_CTYPE=
+
+# Add user paths.
+for MAYBE_PATH in "$HOME"/.dotfiles/bin \
+                  "$HOME"/.dotfiles/plugins/shell-extras/bin \
+                  "$HOME"/.dotfiles/expect; do
+    # `-e' or `-x'?
+    if [[ -d "$MAYBE_PATH" ]]; then
+        PATH="$MAYBE_PATH":"$PATH"
+    fi
+done
+
+# Extend the PATH var (where to look for executable files).  For Cygwin only.
+if [[ "$OSTYPE" = cygwin* ]]; then
+    for MAYBE_CYG_PATH in "$HOME"/.dotfiles/winbin; do
+        # `-e' or `-x'?
+        if [[ -d "$MAYBE_CYG_PATH" ]]; then
+            PATH="$MAYBE_CYG_PATH":"$PATH"
+        fi
+    done
+fi
+
+# Add the current directory as last component in the search path (not to include
+# for `root', for security reasons).
+if [[ $EUID -ne 0 ]]; then
+    PATH="$PATH":.
+fi
+
+# Search current directory and home directory.
+export CDPATH=.:"$HOME"
+
+# set MANPATH so it includes user's private man if it exists
+# do the same with MANPATH
+# if [[ -d "$HOME"/man ]]; then
+#     export MANPATH="$HOME/man":"$MANPATH"
+# fi
+
+# colon separated list of directories to search for manual pages
+#ifnset MANPATH "/usr/man"
+    # TODO don't define it like that: does not work under Ubuntu!
+    # See `/etc/manpath.config'
+
+# Info readers (standalone + Emacs Info mode)
+INFOPATH=/usr/share/info:"$INFOPATH"
+# include a trailing colon on `INFOPATH' to concatenate the Emacs
+# `Info-default-directory-list' when searching for info files
+# INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
+
+# Find a suitable editor.
+for editor in emacsclientw emacsclient emacs; do
+    if command -v "$editor" > /dev/null 2>&1; then
+        # Set EDITOR.
+        case $editor in
+            emacsclient*)
+                # # doesn't bother waiting for a response
+                # export EDITOR="$editor --no-wait"
+
+                # From the man page for emacsclient(1):
+                # If the Emacs server is not running, run `emacs --daemon' to
+                # start Emacs in daemon mode, and try to connect to it.
+                export EDITOR="$editor --alternate-editor=''"
+                ;;
+            *)
+                export EDITOR="$editor"
+                ;;
+        esac
+
+        alias e='$EDITOR'
+        break
+    fi
+done
+
+alias ek="emacsclient -e '(kill-emacs)'"
+
+# Use `$EDITOR' for programs wanting an editor.
+export VISUAL="$EDITOR"                 # For `crontab'.
+export CVSEDITOR="$EDITOR"
+export SVN_EDITOR="$EDITOR"
+export EDIT="$EDITOR"
+export ERROR_EDITOR="$EDITOR"
+export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
+                                        # command.
+
+alias em=emacs-minimal
+
+# ec FILE - open FILE in a running Emacs
+ec() {
+    emacsclient --no-wait "$1"
+}
+
+export PAGER="less"
+
+alias more='less'
+
+export LESS_TERMCAP_mb=$'\e[01;31m'     # Begin bold.
+export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink.
+export LESS_TERMCAP_me=$'\e[0m'         # Reset bold/blink.
+export LESS_TERMCAP_so=$'\e[01;44;33m'  # Begin reverse video.
+export LESS_TERMCAP_se=$'\e[0m'         # Reset reverse video.
+export LESS_TERMCAP_us=$'\e[01;32m'     # Begin underline.
+export LESS_TERMCAP_ue=$'\e[0m'         # Reset underline.
+
+export LESS='-R'
+
+# Format for displaying non-printable, non-control characters (see `man less').
+export LESSBINFMT="*n<%02X>"            # Do not use reverse video.
+export LESSBINFMT="*d?"                 # Use bold ?.
+
+export LESS='-F -i -M -R -X'
+# export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
+
+# Start x11 server (if a process instance is not already running).
+# ps -ae | grep XWin || startxwin > /dev/null 2>&1 &   # XXX For Cygwin only!
+# To check that have the package xinit installed, try 'startxwin' without redirecting anything.
+
+# Set DISPLAY environment variable.
+export DISPLAY=:0.0
+
+alias hgrep='history | grep -i'
+
+alias which-shell='ps -p $$'
+
+LS_OPTIONS="$LS_OPTIONS --show-control-chars"
+
+# Make `ls' produce ISO 8601 format.
+export TIME_STYLE=long-iso
+
+# Enable color support of `ls'.
+if [[ "$TERM" != "dumb" ]]; then
+
+    # Add my coloration scheme to directory listings.
+    if [[ -f "$HOME"/.dircolors ]]; then
+        eval "$(dircolors -b $HOME/.dircolors)"
+        # See https://github.com/seebi/dircolors-solarized.
+    else
+        eval "$(dircolors -b)"
+    fi
+
+    alias ls='ls --color=auto -F'
+    alias ll='ls --color=auto -a --group-directories-first -G -h -l'
+                                        # Long listing and hidden files.
+else
+    alias ls='ls -CF'
+fi
+
+# This alias reloads this file.
+alias reload='unalias -a && . "$HOME"/.shell_local_after'
+
+alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
+
+alias df='df -kTh'
+
+alias du='du -kh'
+
+alias du='du -h'
+alias du1='du -h --max-depth=1'
+alias dus='du -ms * | sort -rn'         # Ordered by size.
+
+alias mount='mount | column -t'
+
+alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
+
+# Play safe!  Prevent some accidental mistakes.
+alias rm='rm -i'                        # Confirm removing file.
+alias cp='cp -i'                        # Confirm copy over an existing file.
+alias mv='mv -i'                        # Confirm move over an existing file.
+
+# Make an extract function!
+alias tgz='tar -zxvf'
+alias tbz2='tar -jxvf'
+
+# Print a more readable PATH (each directory on a new line).
+alias path='echo "$PATH" | sed -e "s/:/\n/g"'
+alias path='sed "s/:/\n/g" <<< "$PATH"' # here-strings (undefined in POSIX sh).
+alias path='tr ":" "\n" <<< "$PATH"'    # here-strings.
+alias path='echo -e "${PATH//:/\\n}"'   # Parameter expansion (string replacement undefined in POSIX sh/dash).
+# https://ubuntuplace.info/questions/4532/comment-afficher-les-chemins-dans-path-separement
+
+# Path.
+alias where='type -a'                   # Good?
+
+alias mkall='./configure && make && sudo make install'
+
+# Using sudo with an alias.
+alias sudo='sudo '
+
+# Become root.
+alias root='sudo -i'
+
+# Make executable.
+alias exe='chmod +x'
+alias addx='chmod +x'
+
+# Chown current dir and subdirs.
+alias own='sudo chown -R $USER'
+
+alias -- ..='cd ..'
+
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# Aliases '-' to 'cd -'.
+alias -- -='cd -'
+
+# # For WSL.
+# alias c:='cd /mnt/c'
+# alias d:='cd /mnt/d'
+#
+# # For Cygwin.
+# alias c:='cd /cygdrive/c'
+# alias d:='cd /cygdrive/d'
+
+# list last used directories (directory history).
+alias d='dirs -v'
+
+alias c='clear'
+alias j='jobs -l'
+alias l='ls'                            # xx
+alias m='man'
+# alias p='$PAGER'
+alias q='exit'
+alias s='sudo'
+alias t='tail -f'
+# alias x='exit' # Conflict with extract (from Oh-my-Zsh?)
+
+# Make `diff' automatically call `colordiff' (Install `colordiff' package...).
+alias diff='colordiff'
+
+alias g='git'
+
+# alias gitroot='cd $(git rev-parse --show-toplevel)' # Conflict with Oh My Zsh?
+
+# Good alias that will not blow up cd if you aren't in a Git directory.
+alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
+
+alias tigs='tig status'                 # Use it all of the time!
+alias tigb='tig blame'
+alias tigall='tig --all'
+alias tigreleases='tig --all --simplify-by-decoration'
+
+# Search through files, ignoring .svn directories.
+alias svn-find='find . -not \( -name .svn -prune \)'
+
+# Grep a string in every SVN revision of a file.
+# Usage: svn-grep-all-rev PATTERN FILE
+svn-grep-all-rev() {
+    svn log "$2" \
+        | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' \
+        | (
+              while read revision; do
+                  printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
+                  svn cat -r "$revision" "$2" | grep "$1"
+                  printf '\n'
+              done
+          )
+}
+
+# SVN repository path
+alias svn-remote-get-url="svn info | egrep '^URL: (.*)' | sed s/URL\:\ //"
+
+alias svn-log="svn log \
+                   | svn-short-log \
+                   | sed -e 's/^\(.*\) | \(.*\) | \(.*\) | \(.*\)$/\o33\[0;33m\1\o33[0m \o33\[0;32m\2\o33[0m \4\o33\[0;34m<\3>/' \
+                   | less -RF"
+
+alias svn-status="svn status \
+                      | sed -e 's/^\(\([A-Z]\s\+\(+\s\+\)\?\)\?C .*\)$/\o33\[1;35m\1\o33[0m/' \
+                            -e 's/^\(\s*M.*\)$/\o33\[1;33m\1\o33[0m/' \
+                            -e 's/^\(A.*\)$/\o33\[1;32m\1\o33[0m/' \
+                            -e 's/^\(?.*\)$/\o33\[0;36m\1\o33[0m/' \
+                            -e 's/^\(\(D\|~\).*\)$/\o33\[1;31m\1\o33[0m/' \
+                      | less -RF"
+alias svn-st=svn-status
+
+# Usage: svn-show @REV
+svn-show() {
+    svn diff -c "$1" | less
+}
+
+# svn-showtool @REV PATH
+svn-showtool() {
+    svn diff --diff-cmd='meld' -c "$1" "$2"
+}
+
+# Usage: svn-changed-files @REV
+alias svn-changed-files='svn log -v -r'
+
+# Usage: svn-file-history PATH
+svn-file-history() {
+    svn log -q "$1" | grep --color=never "^r"
+}
+
+# Usage: svn-file-history-diff PATH
+svn-file-history-diff() {
+    svn log --diff "$1" | less
+}
+
+# Usage: svn-unmodify PATH
+svn-unmodify() {
+    svn revert "$1"
+}
+
+alias svn-nevermind='read -p "Destroy all local changes? [y/N]" && [[ $REPLY =~ ^[yY] ]] && svn revert . -R && rm -rf $(awk -f <(echo "/^?/{print \$2}") <(svn status) ;)'
+
+alias remove-bom='sed -i "1s/^\xEF\xBB\xBF//"'
+
+org_test() {
+    (
+        cd "$HOME"/Public/Repositories/org-mode
+        mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
+        TMPDIR=/tmp/tmp-orgtest \
+            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+    )
+}
+
+# Display the matched pattern in color.
+alias grep='grep --color=auto'
+alias egrep='grep -E --color=auto'
+alias fgrep='grep -F --color=auto'
+
+export GREP_COLOR='0;33;1;44'            # Bold Yellow on blue.
+
+# export GREP_COLORS="sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36"
+
+# Grep through the running processes.
+alias pgrep='pgrep -fl'
+alias 'ps?'='ps ax | grep '
+
+alias rg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold'"
+alias srg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold' --sort-files"
+
+# GraphicsMagick.
+alias GIF='gm convert -verbose -interlace LINE'
+alias thumb='gm convert -geometry 100x100 -interlace LINE -verbose'
+alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
+alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
+alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
+
+gmresize() {
+    FILES="$@"
+    SCALE="1024x768"
+  # for i in *.(gif|jpeg|jpg|png);
+    for i in $FILES; do
+        echo "Processing image $i ..."
+        gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
+        # Obscure but useful string operations.
+        # (See http://www.arachnoid.com/linux/shell_programming.html.)
+    done
+}
+
+# find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
+
+export GS_OPTIONS='-sPAPERSIZE=a4'
+alias pdfmerge='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf' # pdfjoin
+alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
+# for Win32, choose gswin32c
+
+# clean [-r] - Remove useless files (recursively).
+clean() {
+    if [[ "$1" = "-r" ]]; then
+        find . \( -name "#*" -o -name "*~" -o -name ".*~" \
+             -o -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" \
+             -o -name "*.~BASE~" -o -name ".*.~BASE~" \) \
+             -ok rm "{}" ";"
+    else
+        rm -i \#* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
+    fi
+}
+
+# swap FILE1 FILE2 - Swap FILE1 and FILE2.
+# Useful when you want to try a config file obtained from elsewhere, and also
+# keep the old version.
+swap() {
+    if [[ $# != 2 ]]; then
+        return 2
+    fi
+    tmpfile=/tmp/.swapper.$$.$RANDOM
+    mv -f "$1" $tmpfile
+    mv -f "$2" "$1"
+    mv -f $tmpfile "$2"
+    return 0
+}
+
+saneperms() {
+    find . -type d -print0 | xargs -0 chmod 755
+    find . -type f -print0 | xargs -0 chmod "${1:=644}"
+}
+
+# # Search for various types or README file in dir and display them in $PAGER.
+# readme() {
+#     local files
+#     files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
+#     if (($#files)); then
+#         $PAGER $files
+#     else
+#         print 'No README files.'
+#     fi
+# }
+
+safetmp() {
+    test -d "$HOME" || exit 1
+    test -d "$HOME"/tmp || mkdir "$HOME"/tmp
+    echo "$HOME/tmp/safetmp.$(hostname).$(date +%s).$$"
+}
+
+# Immediately opens the first match.
+texman() {
+    locate "$*" | grep pdf | grep texlive | head -1 | xargs open
+}
+
+texlist() {
+    locate "$*" | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)"
+}
+
+alert() {
+    $@
+    echo -e "\a"
+}
+
+alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

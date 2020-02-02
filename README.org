@@ -426,7 +426,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
 
-#+begin_src shell :tangle ../../home/.bash_profile
+#+begin_src shell :tangle bash/.bash_profile
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
@@ -480,7 +480,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Bash Configuration
 :PROPERTIES:
-:header-args+: :tangle ../../home/.bashrc
+:header-args+: :tangle bash/.bashrc
 :END:
 
 #+name: current-year
@@ -728,7 +728,7 @@ $ gm convert !*
 
 *** Command line editor
 :PROPERTIES:
-:header-args+: :tangle ../../home/.inputrc
+:header-args+: :tangle bash/.inputrc
 :END:
 
 The =.inputrc= file controls the behavior of line input editing for programs that
@@ -837,7 +837,7 @@ fi
 
 * Zsh Configuration
 :PROPERTIES:
-:header-args+: :tangle ../../home/.zshrc
+:header-args+: :tangle zsh/.zshrc
 :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -1594,7 +1594,7 @@ fi
 
 * Shell Configuration (Bash / Zsh)
 :PROPERTIES:
-:header-args+: :tangle ../../home/.shell_local_after
+:header-args+: :tangle shell/.shell_local_after
 :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
@@ -2042,7 +2042,7 @@ Agnoster theme (checking for the presence of the ~hg~ command).
 
 *** Common aliases
 
-#+begin_src shell :tangle ../../home/.shell_local_after
+#+begin_src shell :tangle shell/.shell_local_after
 alias which-shell='ps -p $$'
 #+end_src
 

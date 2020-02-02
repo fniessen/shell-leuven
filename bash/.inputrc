@@ -1,0 +1,56 @@
+# Hey Emacs, this is a -*- sh -*- file
+## .inputrc --- my Readline Init File
+
+# Copyright (C) 2005-2020 Fabrice Niessen
+
+# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
+# Keywords: readline, dotfile, config
+
+# First, include any system-wide settings (ignored if one has his own
+# `.inputrc').
+$include /etc/skel/.inputrc
+$include /etc/inputrc
+
+# Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
+set convert-meta on
+
+# Behave like Emacs when editing.
+set editing-mode emacs                  # Ctrl-a/e      Start/End of line.
+                                        # Ctrl-f/b      Forward/Backward one character.
+                                        # Ctrl-d        Delete one character.
+                                        # Ctrl-k        Kill line.
+                                        # Ctrl-p/n      Previous/Next command in history.
+                                        # Ctrl-r        Search for command in history.
+                                        # Ctrl-i/TAB    File name completion.
+
+# Some defaults / modifications for the Emacs mode.
+$if mode=emacs
+
+# <C-up/down> for searching matching commands from the history.
+"\e[1;5A": history-search-backward
+"\e[1;5B": history-search-forward
+
+# <C-left/right> to move by whole words.
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+Meta-p: history-search-backward
+Meta-n: history-search-forward
+
+$endif
+
+# Ignore case while completing.
+set completion-ignore-case on
+
+# # Display all alternatives for completion after one tab keypress.
+# set show-all-if-ambiguous on
+
+# # Get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+
+# # Don't strip characters to 7 bits when reading.
+# set input-meta on
+# # (Synonym of 'meta-flag'.)
+
+# # Display characters with the eighth bit set directly rather than as
+# # meta-prefixed characters.
+# set output-meta on
