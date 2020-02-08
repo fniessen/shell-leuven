@@ -1,4 +1,4 @@
-#+TITLE:     ShellRC
+#+TITLE:     Shell-Leuven
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION:
@@ -19,8 +19,8 @@ XXX https://pissedoffadmins.com/
 
 * Summary
 
-ShellRC is a set of configuration files to take advantage of Bash and Zsh on Mac
-OS X, Linux and Windows (with Cygwin).
+Shell-Leuven is a set of configuration files to take advantage of Bash and Zsh
+on Mac OS X, Linux and Windows (with Cygwin).
 
 * COMMENT Tasks
 
@@ -325,7 +325,7 @@ place to set it is in the global *Windows environment variables*.
 
 ** Basic installation
 
-ShellRC is installed by doing the following:
+Shell-Leuven is installed by doing the following:
 
 1. *Clone the repository:*
 
@@ -334,7 +334,7 @@ ShellRC is installed by doing the following:
    ~/.dotfiles/install
    #+end_src
 
-2. *Source ShellRC configuration files*
+2. *Source Shell-Leuven configuration files*
 
    #+begin_src shell
    . ~/.bash_profile
@@ -345,7 +345,7 @@ ShellRC is installed by doing the following:
    #+end_src
 
 Once you open up a new terminal window with Bash or Zsh, it should load with
-ShellRC's configuration.
+Shell-Leuven's configuration.
 
 ** Custom directory
 
@@ -2292,7 +2292,7 @@ This alias can be used as:
 svn COMMAND $(svn-remote-get-url)       # Retrieve the full RepoURL.
 #+end_src
 
-See [[file:~/.dotfiles/plugins/git-config/SVN.org][SVN aliases]] for more information about these:
+See [[file:~/.dotfiles/plugins/git-leuven/SVN.org][SVN aliases]] for more information about these:
 
 #+begin_src shell :tangle ~/.dotfiles/bin/svn-short-log
 #!/usr/bin/awk -f
