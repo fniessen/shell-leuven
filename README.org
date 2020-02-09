@@ -30,6 +30,59 @@ https://bitbucket.org/ambrevar/dotfiles/src/ac47e01e1b25942d5a3f83616a91f9eab638
 
 (pdfscan, etc.)
 
+** TODO Bash aliases
+
+http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+
+** TODO Follow coding conventions
+
+http://wiki.bash-hackers.org/scripting/style
+
+** TODO Remove Bashisms
+
+- https://wiki.ubuntu.com/DashAsBinSh
+- http://mywiki.wooledge.org/Bashism
+
+*** TODO Use printf instead of echo -e
+
+See http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html.
+
+** TODO Unset TZ (from Eli Zaretskii)
+[2015-03-30 Mon 16:51]
+
+#+begin_verse
+> Though, this morning, in the above configuration (Cygwin GDB + pretest
+> of Emacs 24.5), I had a problem with the Org timestamps: they were one
+> hour late, like if the computer clock hadn't been updated with the
+> "summer" times here in Europe (since this Saturday).
+>
+> I finally found that the problem does not come from Emacs itself, but
+> from the fact it's launched from Cygwin GDB!
+
+Probably because GDB sets TZ to something a native Windows program
+cannot grok.  Or something like that.
+
+> Any idea how this problem can be circumvented?
+
+You could unset TZ inside GDB before running Emacs (assuming my guess
+is correct; what does "M-x getenv RET TZ RET" show inside Emacs?).
+
+But the best way is to use a native port of GDB, of course.  Let me
+know if you need a pointer to a binary distribution ready to be
+installed.
+#+end_verse
+
+From [[gnus:INBOX#83zj6uy1vr.fsf@gnu.org][Email from Eli Zaretskii: Re: bug#20179: 24.4; Crash whe]]
+
+** TODO Integrate goodies
+
+See [[file:bin/bash-goodies][file:~/bin/bash-goodies]]
+
+** TODO Look at color Bash prompt
+
+https://wiki.archlinux.org/index.php/Color_Bash_Prompt
+Very interesting settings!
+
 * Getting started
 
 ** Prerequisites for Windows
@@ -426,7 +479,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
 
-#+begin_src shell :tangle bash/.bash_profile
+#+begin_src shell :tangle .bash/.bash_profile
 # User dependent .bash_profile file
 
 # Source the user's .bashrc if it exists.
@@ -480,7 +533,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Bash Configuration
 :PROPERTIES:
-:header-args+: :tangle bash/.bashrc
+:header-args+: :tangle .bash/.bashrc
 :END:
 
 #+name: current-year
@@ -728,7 +781,7 @@ $ gm convert !*
 
 *** Command line editor
 :PROPERTIES:
-:header-args+: :tangle bash/.inputrc
+:header-args+: :tangle .bash/.inputrc
 :END:
 
 The =.inputrc= file controls the behavior of line input editing for programs that
@@ -842,7 +895,7 @@ fi
 
 * Zsh Configuration
 :PROPERTIES:
-:header-args+: :tangle zsh/.zshrc
+:header-args+: :tangle .zsh/.zshrc
 :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -1572,7 +1625,7 @@ fi
 
 * Shell Configuration (Bash / Zsh)
 :PROPERTIES:
-:header-args+: :tangle shell/.shellrc
+:header-args+: :tangle .shell/.shellrc
 :END:
 
 Everything in common between Bash and Z shell will come here, since it is read
@@ -2260,137 +2313,7 @@ alias tigreleases='tig --all --simplify-by-decoration'
 
 http://stackoverflow.com/tags/tig/hot
 
-*** SVN
-
-#+begin_src shell
-# Search through files, ignoring .svn directories.
-alias svn-find='find . -not \( -name .svn -prune \)'
-
-# Grep a string in every SVN revision of a file.
-# Usage: svn-grep-all-rev PATTERN FILE
-svn-grep-all-rev() {
-    svn log "$2" \
-        | perl -n -e 'print "$1\n" if m/^r(\d*)\s+/' \
-        | (
-              while read revision; do
-                  printf "\e[0;33m%s\e[0m\n" "Revision $revision:"
-                  svn cat -r "$revision" "$2" | grep "$1"
-                  printf '\n'
-              done
-          )
-}
-#+end_src
-
-#+begin_src shell
-# SVN repository path
-alias svn-remote-get-url="svn info | egrep '^URL: (.*)' | sed s/URL\:\ //"
-#+end_src
-
-This alias can be used as:
-
-#+begin_src shell :tangle no
-svn COMMAND $(svn-remote-get-url)       # Retrieve the full RepoURL.
-#+end_src
-
-See [[file:~/.dotfiles/plugins/git-leuven/SVN.org][SVN aliases]] for more information about these:
-
-#+begin_src shell :tangle ~/.dotfiles/bin/svn-short-log
-#!/usr/bin/awk -f
-
-# Original author: Plexus.
-
-# Convert the "svn log" output into a one liner format, which is easier to grep
-# or use in scripts. Pipe "svn log" into this script
-
-# When we get a line that starts with a revision number, put the data in variables
-/^r[0-9]+/ {
-    rev=$1
-    user=$3
-    date=$5
-    time=$6
-}
-
-# Anything that isn't a revision line, a separator line or an empty line
-# will be part of the commit message. Concatenate these into the comment variable
-! (/^r[0-9+]/ || /^-+$/ || /^$/) {
-  comment = comment $0 " "
-}
-
-# With every separator line, output what we stored before and reset the comment variable
-# To skip the first line we also check if we've already stored a revision
-/^-+$/ && rev {
-   print rev " | " date " | " user " | " comment
-   comment = ""
-}
-#+end_src
-
-#+begin_src shell
-alias svn-log="svn log \
-                   | svn-short-log \
-                   | sed -e 's/^\(.*\) | \(.*\) | \(.*\) | \(.*\)$/\o33\[0;33m\1\o33[0m \o33\[0;32m\2\o33[0m \4\o33\[0;34m<\3>/' \
-                   | less -RF"
-#+end_src
-
-#+begin_src shell
-alias svn-status="svn status \
-                      | sed -e 's/^\(\([A-Z]\s\+\(+\s\+\)\?\)\?C .*\)$/\o33\[1;35m\1\o33[0m/' \
-                            -e 's/^\(\s*M.*\)$/\o33\[1;33m\1\o33[0m/' \
-                            -e 's/^\(A.*\)$/\o33\[1;32m\1\o33[0m/' \
-                            -e 's/^\(?.*\)$/\o33\[0;36m\1\o33[0m/' \
-                            -e 's/^\(\(D\|~\).*\)$/\o33\[1;31m\1\o33[0m/' \
-                      | less -RF"
-alias svn-st=svn-status
-#+end_src
-
-#+begin_src shell
-# Usage: svn-show @REV
-svn-show() {
-    svn diff -c "$1" | less
-}
-
-# svn-showtool @REV PATH
-svn-showtool() {
-    svn diff --diff-cmd='meld' -c "$1" "$2"
-}
-#+end_src
-
-#+begin_src shell
-# Usage: svn-changed-files @REV
-alias svn-changed-files='svn log -v -r'
-#+end_src
-
-#+begin_src shell
-# Usage: svn-file-history PATH
-svn-file-history() {
-    svn log -q "$1" | grep --color=never "^r"
-}
-#+end_src
-
-#+begin_src shell
-# Usage: svn-file-history-diff PATH
-svn-file-history-diff() {
-    svn log --diff "$1" | less
-}
-#+end_src
-
-#+begin_src shell
-# Usage: svn-unmodify PATH
-svn-unmodify() {
-    svn revert "$1"
-}
-#+end_src
-
-#+begin_src shell
-alias svn-nevermind='read -p "Destroy all local changes? [y/N]" && [[ $REPLY =~ ^[yY] ]] && svn revert . -R && rm -rf $(awk -f <(echo "/^?/{print \$2}") <(svn status) ;)'
-#+end_src
-
-Nuclear version which:
-- reverts tracked files (discards changes in the working directory), and
-- cleans untracked files and directories (removes any new files).
-
-See https://stackoverflow.com/questions/6204572/is-there-a-subversion-command-to-reset-the-working-copy.
-
-**** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
+*** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
 
 http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-regex-in-shell
 
