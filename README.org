@@ -1696,10 +1696,9 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
 # Add user paths.
-for MAYBE_PATH in "$HOME"/bin \
-                  "$HOME"/.dotfiles/bin \
-                  "$HOME"/.dotfiles/plugins/shell-extras/bin \
-                  "$HOME"/.dotfiles/expect; do
+for MAYBE_PATH in "$HOME"/.dotfiles/bin \
+                  "$HOME"/bin \
+                  "$HOME"/expect; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then
         PATH="$MAYBE_PATH":"$PATH"
