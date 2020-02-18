@@ -1918,9 +1918,9 @@ export LESSBINFMT="*d?"                 # Use bold ?.
 
 Commands for *searching*:
 
-- ~/pattern~ :: Search forward for (~N~-th) matching line.
-- ~?pattern~ :: Search backward for (~N~-th) matching line.
-- ~n~ :: Repeat previous search (for ~N~-th occurrence).
+- ~/pattern~ :: Search forward for matching line.
+- ~?pattern~ :: Search backward for matching line.
+- ~n~ :: Repeat previous search.
 - ~N~ :: Repeat previous search in reverse direction.
 - ~ESC-u~ :: Undo (toggle) search highlighting.
 - ~&pattern~ :: Display only matching lines. \\
@@ -1929,8 +1929,8 @@ Commands for *searching*:
 
 Commands for *jumping*:
 
-- g :: Go to *first line* in file.
-- G :: Go to *last line* in file.
+- g :: Jump to start (go to *first line* in file).
+- G :: Jump to end (go to *last line* in file).
 
 Miscellaneous commands:
 
@@ -1944,43 +1944,57 @@ export LESS='-F -i -M -R -X'
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 #+end_src
 
---quit-if-one-screen or -F: Exit if the entire file can be displayed in one screen. This is usually desirable as there is no incentive to stay in less if a single screen can display all the contents.
---ignore-case or -i: Cause search in less to ignore case unless an uppercase letter is present in the search pattern.
---status-column or -J: Display a status column on the left to indicate lines that match current search or indicate the first unread line after moving a full page.
---LONG-PROMPT or -M: Prompt more verbosely.
---RAW-CONTROL-CHARS or -R: Cause ANSI "color" escape sequences to be displayed in their raw form. This is for the color display explained later in the next section.
---HILITE-UNREAD or -W: Highlight the first unread line after scrolling the screen for more than one lines.
---tabs=4 or -x4: Display a tab as 4-character width, since most modern text files assume 4-character width for a tab. However, you can still change this to your preference if, for example, you frequently read Linux kernel source code which uses 8-character width for a tab.
---no-init or -X: Disable sending the termcap initialization and deinitialization strings to the terminal. The purpose here is to prevent clearing screen after exiting. If you do not want this feature and want to remove it, please keep in mind that --quit-if-one-screen also relies on this option to work properly. For a workaround, please check out here.
---window=-4 or -z-4: Change the default scrolling size to 4 lines fewer than the current screen size, so always keep 4 lines overlapping with previous screen when scrolling with the space key.
+: export LESS=-i -g -M -R -x4 -X -f -F -z-1
+: export PAGER=less LESS='-wiXz-2$j15' LESSBINFMT=.
 
 ~less~ options:
 
 - ~-e~ or ~--quit-at-eof~ ::
-     Causes ~less~ to automatically exit the second time it reaches end-of-file.
-     By default, the only way to exit ~less~ is via the ~q~ command.
+     Causes ~less~ to automatically *exit the /second/ time it reaches EOF*.  By
+     default, the only way to exit ~less~ is via the ~q~ command.
 
-- ~-F~ ::
-     Causes ~less~ to automatically *exit if the entire file can be displayed on
-     the first screen*.
+- -f or --force ::
+     *Forces non-regular files* to be *opened*.  (A non-regular file is a directory
+     or a device special file.)  Also suppresses the warning message when
+     a binary file is opened.
+
+- ~-F~ or --quit-if-one-screen ::
+     Causes ~less~ to automatically *exit if the entire file can be displayed in
+     one screen*. This is usually desirable as there is no incentive to stay in
+     ~less~ if a single screen can display all the contents.
+
+     It means you can just pipe any old thing into it, and if it's only a couple
+     of lines, you don't have to quit manually.
 
      #+begin_warning
      After quitting so, the screen is reset and you end up not seeing the
-     content; the ~-X~ option does away with that behavior.
+     content; the ~-X~ option does away with that behavior: *don't reinit the
+     screen* when the pager exits.  ~-F~ relies on this option to work properly.
      #+end_warning
+
+- -g or --hilite-search ::
+     Normally, less will highlight ALL strings which match the last search
+     command.  The -g option changes this behavior to *highlight only the
+     particular string which was found by the last search command*.  This can
+     cause less to run somewhat faster than the default.
 
 - ~-i~ or ~--ignore-case~ ::
      Causes *searches* to *ignore case*; that is, uppercase and lowercase are
-     considered identical.  This option is ignored if any uppercase letters
-     appear in the search pattern; in other words, if a pattern contains
+     considered identical.  This option is /ignored if any uppercase letters
+     appear in the search pattern/; in other words, if a pattern contains
      uppercase letters, then that search does not ignore case.
+
+- -J or --status-column ::
+     Displays a status column at the left edge of the screen.  The status column
+     indicates the *lines that matched the current search*, and the first unread
+     line after moving a full page (if the -w or -W option is in effect).
 
 - ~-m~ or ~--long-prompt~ ::
      Causes less to prompt verbosely (like ~more~), with the percent into the
      file.  By default, ~less~ prompts with a colon.
 
 - ~-M~ or ~--LONG-PROMPT~ ::
-     Causes ~less~ to prompt even more verbosely than ~more~.
+     Causes ~less~ to *prompt* even *more verbosely* than ~more~.
 
 - ~-r~ or ~--raw-control-chars~ ::
      Causes "raw" control characters to be displayed.  The default is to display
@@ -2001,9 +2015,28 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
      #+begin_note
      Without ~--RAW-CONTROL-CHARS~ (or ~--raw-control-chars~), ~less~ outputs the
-     colors as raw escape codes; that is, it does not *interpret colors*. With
-     that option, ~git diff~ finally shows colors...
+     colors as raw escape codes; that is, it does not interpret colors. With
+     that option, ~git diff~ finally *displays colors*...
+
+     In other words, I definitely recommend ~-R~ if you don't enjoy periodic
+     symbol junk terminal confusion.
      #+end_note
+
+- -w or --hilite-unread ::
+     Temporarily highlights the first "new" line after a forward movement of
+     a full page.  The first "new" line is the line immediately following the
+     line previously at the bottom of the screen.  Also highlights the target
+     line after a g or p command.  The highlight is removed at the next command
+     which causes movement.  The entire line is highlighted, unless the -J
+     option is in effect, in which case only the status column is high- lighted.
+
+- -W or --HILITE-UNREAD ::
+     Like -w, but temporarily *highlights the first unread line* after any
+     scrolling larger than one line.
+
+- -x4 or --tabs=4 ::
+     Sets tab stops at multiples of 4, since most modern text files assume
+     4-character width for a tab.. The default is 8.
 
 - ~-X~ or ~--no-init~ ::
      *Disables* sending the termcap initialization and deinitialization strings to
@@ -2014,6 +2047,11 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
      If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
      option.
      #+end_note
+
+- -z-4 or --window=-4 ::
+     Changes the default scrolling window size to *4 lines less than the current
+     screen size*, so always keep 4 lines overlapping with previous screen when
+     scrolling with the space key.
 
 ** DISPLAY
 :PROPERTIES:
