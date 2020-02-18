@@ -127,6 +127,7 @@ fi
 # # set the zincs_execution_time min time:
 # zincs_execution_time[threshold]=10
 
+setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 # Does not work on Bash on Ubuntu on Windows.

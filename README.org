@@ -1182,6 +1182,7 @@ to avoid an unnecessary shellout at each prompt evaluation.
 #+end_tip
 
 #+begin_src shell
+setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 # Does not work on Bash on Ubuntu on Windows.
