@@ -1,0 +1,66 @@
+#+begin_src shell
+export LEDGER=ledger
+export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
+
+# hledger print [REGEXP]... - Show entries in Ledger format.
+    #! `hledger' is better than `ledger' in the sense that it does output
+    #! 2 decimals whatever the figure, and that it does not output trailing
+    #! spaces. There is no other difference (not even in indentation).
+
+# Other problem with ledger: reports onto 81 columns when using other DATEFMT...
+
+alias -g LG="\$LEDGER -f \$LEDGER_FILE"
+alias -g DATEFMT='-y %Y/%m/%d'  # for output
+alias -g DAILY='--period "daily"'
+alias -g DLM='--display "d>=[last month]"'  # display of last month
+alias -g CLM='-p "last month"'  # computed total of last month
+alias -g D1='--display "l<=1" --depth 1'
+alias -g D2='--display "l<=2" --depth 2'
+alias -g BALANCE_SHEET='^Assets ^Liabilities'
+alias -g PROFIT_LOSS='^Expenses ^Income'
+
+alias lastmonth='LG reg TLM'
+
+# Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]
+# Ledger using `ledger', `hledger' or `beancount' (see `$LEDGER')
+Ledger() {
+    if [[ $# -lt 1 ]]; then
+        cat << EOF > /dev/stderr
+Usage: $(basename "$0") -f FILE [OPTIONS] [COMMAND [PATTERNS]]
+    or $(basename "$0") FILE   (if LEDGER=beancount)
+EOF
+    fi
+
+    case "$LEDGER" in
+        "beancount" )
+            ;;
+        ,* )                            # Default option.
+            shift                       # For the useless (but expected) `-f'.
+            ;;
+    esac
+    local LEDGER_M4_FILE=$1; shift
+
+    local LEDGER_FILE=sample-ledger.dat
+    case "$LEDGER" in
+        "beancount" )
+            m4 -D LEDGER=beancount "$LEDGER_M4_FILE" \
+                | sed -e 's/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g' > "$LEDGER_FILE"
+            bean-web "$LEDGER_FILE" $@   # beancount Web interface
+            ;;
+        ,* )   # default option
+            m4 "$LEDGER_M4_FILE" \
+               | sed -e 's/^@/;@/' > "$LEDGER_FILE"
+            "$LEDGER" -f "$LEDGER_FILE" $@
+            ;;
+    esac
+    rm "$LEDGER_FILE"
+}
+#+end_src
+
+#+begin_src shell :tangle no
+# cat file.ledger | sed -e 's/@check/;@check/' | xargs bean-web
+
+# Use wrapper scripts around gpg with armor on (The --armor option means ascii
+# versus binary). You'll have to enter a password every time you want to run
+# ledger.
+#+end_src
