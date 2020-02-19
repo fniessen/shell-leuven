@@ -658,24 +658,10 @@ leuven-before-prompt() {
         HILIT_RET_STATUS=$RED
     fi
 
-    # Replace the `$HOME' prefix by `~' in the current directory.
-    if [[ "$HOME" = "${PWD:0:${#HOME}}" ]]; then
-        local myPWD="~${PWD:${#HOME}}"
-    else
-        local myPWD=$PWD
-    fi
-
-    # Prompt character.
-    if [[ $EUID -eq 0 ]]; then
-        local PROMPT_CHAR="#"
-    else
-        local PROMPT_CHAR="$"
-    fi
-
     if [[ "$color_prompt" = "yes" ]]; then
-        PS1="${HILIT_RET_STATUS}$RET_STATUS${reset_color} $grn\u@\h$BLK:${reset_color}$yel$myPWD${reset_color} $PROMPT_CHAR "
+        PS1="${HILIT_RET_STATUS}$RET_STATUS${reset_color} $grn\u@\h$BLK:${reset_color}$yel\w${reset_color} \$ "
     else
-        PS1="$RET_STATUS\u@\h:$myPWD $PROMPT_CHAR "
+        PS1="$RET_STATUS\u@\h:\w \$ "
     fi
 }
 
@@ -691,6 +677,7 @@ case "$TERM" in
         PROMPT_COMMAND=leuven-before-prompt
         ;;
 esac
+PS1+='$(if test $? -ne 0; then tput bel; fi)'
 
 export PS2="incomplete? continue here-> "
 
