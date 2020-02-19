@@ -18,8 +18,26 @@ if [ -f "$HOME"/.zshrc_local_before ]; then
     . "$HOME"/.zshrc_local_before
 fi
 
-# Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
-PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
+# # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
+# PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
+
+# Custom prompt settings.
+# PROMPT="$grn%n@%m$BLK:$yel%2. %(?.$GRN.$RED)%?$reset_color%(!.#.$) "
+                                        # ? - Exit code of the previous command.
+                                        # n - User name.
+                                        # m - Machine name.
+                                        # . - Abbreviated pwd.
+                                        # ! - su?
+PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
+PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%1~%f%b %# '
+
+setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
+BEL=$(tput bel)
+PROMPT+='%(?::$BEL)'
+
+[[ "$TERM" = "dumb" ]] && PROMPT="> "
+
+[[ "$TERM" = "dumb" ]] && RPROMPT=""
 
 FILE="$HOME"/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh && test -f "$FILE" && . "$FILE"
 
@@ -126,15 +144,6 @@ fi
 #
 # # set the zincs_execution_time min time:
 # zincs_execution_time[threshold]=10
-
-setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
-BEL=$(tput bel)
-PROMPT+='%(?::$BEL)'
-# Does not work on Bash on Ubuntu on Windows.
-
-[[ "$TERM" = "dumb" ]] && PROMPT="> "
-
-[[ "$TERM" = "dumb" ]] && RPROMPT=""
 
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
 
@@ -293,69 +302,12 @@ alias -g T9="| awk -F $'\t' '{print \$9}'"
 
 # When entering a directory, list the contents.
 cd() {
-    builtin cd "$@" && ls
+    builtin cd "$@" && ls --color=auto -F
 }
 
 alias -g GTHISWEEK=' --since=1.week.ago'
 alias -g GTHISMONTH=' --since=1.month.ago'
 alias -g GTHISYEAR=' --since=1.year.ago'
-
-export LEDGER=ledger
-export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
-
-# hledger print [REGEXP]... - Show entries in Ledger format.
-    #! `hledger' is better than `ledger' in the sense that it does output
-    #! 2 decimals whatever the figure, and that it does not output trailing
-    #! spaces. There is no other difference (not even in indentation).
-
-# Other problem with ledger: reports onto 81 columns when using other DATEFMT...
-
-alias -g LG="\$LEDGER -f \$LEDGER_FILE"
-alias -g DATEFMT='-y %Y/%m/%d'  # for output
-alias -g DAILY='--period "daily"'
-alias -g DLM='--display "d>=[last month]"'  # display of last month
-alias -g CLM='-p "last month"'  # computed total of last month
-alias -g D1='--display "l<=1" --depth 1'
-alias -g D2='--display "l<=2" --depth 2'
-alias -g BALANCE_SHEET='^Assets ^Liabilities'
-alias -g PROFIT_LOSS='^Expenses ^Income'
-
-alias lastmonth='LG reg TLM'
-
-# Ledger -f FILE [OPTIONS] [COMMAND [PATTERNS]]
-# Ledger using `ledger', `hledger' or `beancount' (see `$LEDGER')
-Ledger() {
-    if [[ $# -lt 1 ]]; then
-        cat << EOF > /dev/stderr
-Usage: $(basename "$0") -f FILE [OPTIONS] [COMMAND [PATTERNS]]
-    or $(basename "$0") FILE   (if LEDGER=beancount)
-EOF
-    fi
-
-    case "$LEDGER" in
-        "beancount" )
-            ;;
-        * )                            # Default option.
-            shift                       # For the useless (but expected) `-f'.
-            ;;
-    esac
-    local LEDGER_M4_FILE=$1; shift
-
-    local LEDGER_FILE=sample-ledger.dat
-    case "$LEDGER" in
-        "beancount" )
-            m4 -D LEDGER=beancount "$LEDGER_M4_FILE" \
-                | sed -e 's/\(.*\)(\(.*\)) \(.*\)/\1\3 | \2/g' > "$LEDGER_FILE"
-            bean-web "$LEDGER_FILE" $@   # beancount Web interface
-            ;;
-        * )   # default option
-            m4 "$LEDGER_M4_FILE" \
-               | sed -e 's/^@/;@/' > "$LEDGER_FILE"
-            "$LEDGER" -f "$LEDGER_FILE" $@
-            ;;
-    esac
-    rm "$LEDGER_FILE"
-}
 
 # Coloring stderr.
 STDERRED_ESC_CODE=$'\e[33;1;41m'

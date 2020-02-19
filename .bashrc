@@ -73,14 +73,6 @@ leuven-before-prompt() {
         local myPWD=$PWD
     fi
 
-    # How many characters of the path should be kept.
-    local pwd_max_length=15
-
-    if [[ ${#myPWD} -gt $pwd_max_length ]]; then
-        local pwd_offset=$(( ${#myPWD} - pwd_max_length ))
-        myPWD="...${myPWD:$pwd_offset:$pwd_max_length}"
-    fi
-
     # Prompt character.
     if [[ $EUID -eq 0 ]]; then
         local PROMPT_CHAR="#"
@@ -89,9 +81,9 @@ leuven-before-prompt() {
     fi
 
     if [[ "$color_prompt" = "yes" ]]; then
-        PS1="$grn\u@\h$BLK:${reset_color}$yel$myPWD${HILIT_RET_STATUS} $RET_STATUS${reset_color}$PROMPT_CHAR "
+        PS1="${HILIT_RET_STATUS}$RET_STATUS${reset_color} $grn\u@\h$BLK:${reset_color}$yel$myPWD${reset_color} $PROMPT_CHAR "
     else
-        PS1="\u@\h:$myPWD $RET_STATUS$PROMPT_CHAR "
+        PS1="$RET_STATUS\u@\h:$myPWD $PROMPT_CHAR "
     fi
 }
 
@@ -107,6 +99,8 @@ case "$TERM" in
         PROMPT_COMMAND=leuven-before-prompt
         ;;
 esac
+
+export PS2="incomplete? continue here-> "
 
 # PS4 --- Used by "set -x" to prefix tracing output
 
