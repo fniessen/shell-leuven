@@ -48,6 +48,8 @@ case "$TERM" in
         PS1="> "
         ;;
     cygwin|xterm*|rxvt-unicode)
+        # `M-x shell' under Cygwin Emacs.
+        # `M-x term' under Cygwin Emacs.
         PS1='\
 `if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
 \[\033]0;$TITLEPREFIX:$PWD\007\] \
@@ -57,6 +59,7 @@ case "$TERM" in
 \[\033[0m\]\n$ '
         ;;
     *) # emacs
+        # `M-x shell' under EmacsW32.
         PS1="$RET_STATUS\u@\h:\w \$ "
         ;;
 esac

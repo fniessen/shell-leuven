@@ -620,6 +620,8 @@ if tput setaf 1 &> /dev/null; then
 
 See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
 
+Change Bash prompt color based on exit code of last command:
+
 #+begin_src shell
 # Colors.
 BLK="\[$(tput setaf 0; tput bold)\]"
@@ -640,6 +642,8 @@ case "$TERM" in
         PS1="> "
         ;;
     cygwin|xterm*|rxvt-unicode)
+        # `M-x shell' under Cygwin Emacs.
+        # `M-x term' under Cygwin Emacs.
         PS1='\
 `if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
 \[\033]0;$TITLEPREFIX:$PWD\007\] \
@@ -649,13 +653,18 @@ case "$TERM" in
 \[\033[0m\]\n$ '
         ;;
     ,*) # emacs
+        # `M-x shell' under EmacsW32.
         PS1="$RET_STATUS\u@\h:\w \$ "
         ;;
 esac
 # PS1+='$(if test $? -ne 0; then tput bel; fi)'
+#+end_src
 
+#+begin_src shell
 export PS2="incomplete? continue here-> "
+#+end_src
 
+#+begin_src shell
 # PS4 --- Used by "set -x" to prefix tracing output
 
 # Get line numbers when you run with `-x'.
