@@ -25,8 +25,7 @@ export LANG=C.UTF-8
 export LC_CTYPE=
 
 # Add user paths.
-for MAYBE_PATH in "$HOME"/.dotfiles/bin \
-                  "$HOME"/bin \
+for MAYBE_PATH in "$HOME"/bin \
                   "$HOME"/expect; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then

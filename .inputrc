@@ -6,10 +6,8 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
 
-# First, include any system-wide settings (ignored if one has his own
-# `.inputrc').
-$include /etc/skel/.inputrc
-$include /etc/inputrc
+# Ignore case while completing.
+set completion-ignore-case on
 
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
@@ -38,9 +36,6 @@ Meta-p: history-search-backward
 Meta-n: history-search-forward
 
 $endif
-
-# Ignore case while completing.
-set completion-ignore-case on
 
 # # Display all alternatives for completion after one tab keypress.
 # set show-all-if-ambiguous on

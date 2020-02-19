@@ -7,7 +7,7 @@
 #+OPTIONS:   num:nil ^:{}
 
 #+PROPERTY:  header-args :eval no
-#+SETUPFILE: ~/.dotfiles/org/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
 
 XXX (See Fish web_config for sorting things out)
 
@@ -76,7 +76,7 @@ From [[gnus:INBOX#83zj6uy1vr.fsf@gnu.org][Email from Eli Zaretskii: Re: bug#2017
 
 ** TODO Integrate goodies
 
-See [[file:bin/bash-goodies][file:~/bin/bash-goodies]]
+See [[file:~/bin/bash-goodies]].
 
 ** TODO Look at color Bash prompt
 
@@ -572,12 +572,12 @@ It's important to refrain from outputting anything in those cases.
 To start directly Zsh when opening /Bash on Ubuntu on Windows/:
 
 #+begin_src shell :noweb yes
-# If running in terminal...
-if test -t 1; then
-    # ... start Zsh
-    echo "Start Zsh..."
-    exec zsh
-fi
+# # If running in terminal...
+# if test -t 1; then
+#     # ... start Zsh
+#     echo "Start Zsh..."
+#     exec zsh
+# fi
 #+end_src
 
 ** Local customizations
@@ -798,10 +798,8 @@ See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
 
-# First, include any system-wide settings (ignored if one has his own
-# `.inputrc').
-$include /etc/skel/.inputrc
-$include /etc/inputrc
+# Ignore case while completing.
+set completion-ignore-case on
 
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
@@ -830,9 +828,6 @@ Meta-p: history-search-backward
 Meta-n: history-search-forward
 
 $endif
-
-# Ignore case while completing.
-set completion-ignore-case on
 
 # # Display all alternatives for completion after one tab keypress.
 # set show-all-if-ambiguous on
@@ -1339,7 +1334,7 @@ Launch Windows applications from CLI (with ~start~ script -- see
 https://github.com/babun/babun/issues/299#issuecomment-123925935):
 
 #+begin_src shell
-compdef '_files -g "*"' start
+# compdef '_files -g "*"' start
 #+end_src
 
 *** Expansion and Globbing
@@ -1697,8 +1692,7 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
 # Add user paths.
-for MAYBE_PATH in "$HOME"/.dotfiles/bin \
-                  "$HOME"/bin \
+for MAYBE_PATH in "$HOME"/bin \
                   "$HOME"/expect; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then
@@ -1791,7 +1785,7 @@ Be sure one of these *editors* is *in your search path*!
 
 #+begin_warning
 Right now, I have instead hard-coded the path to Emacs in the
-[[file:~/.dotfiles/local/bin/emacsclient]] script.
+[[file:~/bin/emacsclient]] script.
 #+end_warning
 
 #+begin_src shell

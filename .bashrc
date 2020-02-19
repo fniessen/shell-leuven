@@ -12,12 +12,12 @@
 # isInteractive=$(echo $- | grep i)
 [[ "$-" != *i* ]] && return
 
-# If running in terminal...
-if test -t 1; then
-    # ... start Zsh
-    echo "Start Zsh..."
-    exec zsh
-fi
+# # If running in terminal...
+# if test -t 1; then
+#     # ... start Zsh
+#     echo "Start Zsh..."
+#     exec zsh
+# fi
 
 # Allow local Shell customizations.
 if [ -f "$HOME"/.shellrc_local_before ]; then

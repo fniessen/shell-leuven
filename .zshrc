@@ -186,7 +186,7 @@ setopt AUTO_LIST                # Automatically list choices on an ambiguous com
 # Case-insensitive completion.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-compdef '_files -g "*"' start
+# compdef '_files -g "*"' start
 
 setopt EXTENDED_GLOB            # Use additional pattern matching features.
 setopt NOMATCH                  # Unmatched patterns cause an error.
