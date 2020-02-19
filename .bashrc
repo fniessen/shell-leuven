@@ -41,51 +41,26 @@ reset_color="\[$(tput sgr0)\]"
 
 # + PROMPT='${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)$(branch_prompt_info)%{$fg_bold[blue]%} % %{$reset_color%}'
 
-
-# To be called just before the prompt is printed.
-leuven-before-prompt() {
-    RET_STATUS=$?
-
-    # Set a color prompt (unless in Emacs).
-    case $TERM in
-        cygwin|xterm*|rxvt-unicode)
-            # `M-x shell' under Cygwin Emacs.
-            # `M-x term' under Cygwin Emacs.
-            local color_prompt=yes
-            ;;
-        emacs)
-            # `M-x shell' under EmacsW32.
-            local color_prompt=no
-            ;;
-    esac
-
-    # Colorful prompt, based on whether the previous command succeeded or not.
-    if [[ $RET_STATUS -eq 0 ]]; then
-        HILIT_RET_STATUS=$GRN
-    else
-        HILIT_RET_STATUS=$RED
-    fi
-
-    if [[ "$color_prompt" = "yes" ]]; then
-        PS1="${HILIT_RET_STATUS}$RET_STATUS${reset_color} $grn\u@\h$BLK:${reset_color}$yel\w${reset_color} \$ "
-    else
-        PS1="$RET_STATUS\u@\h:\w \$ "
-    fi
-}
-
-# Execute the content of the `PROMPT_COMMAND' just before displaying the `PS1'
-# variable.
 case "$TERM" in
     "dumb")
         # No fancy multi-line prompt for TRAMP (see `tramp-terminal-type').
         # Don't confuse it!
         PS1="> "
         ;;
-    *)
-        PROMPT_COMMAND=leuven-before-prompt
+    cygwin|xterm*|rxvt-unicode)
+        PS1='\
+`if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
+\[\033]0;$TITLEPREFIX:$PWD\007\] \
+\[\033[32m\]\u@\h \
+\[\033[33m\]\w\
+\[\033[36m\]`__git_ps1`\
+\[\033[0m\]\n$ '
+        ;;
+    *) # emacs
+        PS1="$RET_STATUS\u@\h:\w \$ "
         ;;
 esac
-PS1+='$(if test $? -ne 0; then tput bel; fi)'
+# PS1+='$(if test $? -ne 0; then tput bel; fi)'
 
 export PS2="incomplete? continue here-> "
 
