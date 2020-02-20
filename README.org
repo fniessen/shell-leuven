@@ -83,368 +83,6 @@ See [[file:~/bin/bash-goodies]].
 https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 Very interesting settings!
 
-* Getting started
-
-** Prerequisites for Windows
-
-Install [[https://www.cygwin.com/][Cygwin]] (http://mirrors.kernel.org).
-
-*** ~PATH~
-
-After Cygwin is installed, modify the System ~PATH~ variable: prepend it with
-=C:\cygwin64\bin= (before ~%SystemRoot%\system32~).
-
-#+begin_warning
-If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
-Cygwin, please check that those directories don't contain =cygwin1.dll= or
-such. That was why I had troubles running ~git~ commands...
-#+end_warning
-
-In =c:/cygwin64/etc/profile=,
-
-- =/usr/local/bin= is appended to the ~PATH~!!
-
-  And, except when root, it is almost always wrong to have =/usr/local/bin= after
-  any system path.
-
-- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
-  when called from =c:/cygwin/Cygwin.bat=!!
-
-*** HOME, the user's home directory
-
-Add an ~HOME~ environment variable (with no trailing backslash!).
-
-Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
-of your *home directory*.
-
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-~db_home~ setting (comment the example line) to =/etc/nsswitch.conf=.
-
-#+begin_note
-If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
-you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
-editing your user's entry in that file. Your ~HOME~ directory is the penultimate
-element on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
-from that field).
-#+end_note
-
-*** Packages
-
-*************** TODO See http://www.4thinker.com/cygwin-setup.html
-*************** END
-
-[[http://cygwin.com/cgi-bin2/package-grep.cgi][Cygwin Package Search]]
-
-In order to *install Cygwin's packages* through the terminal instead of running
-the setup every single time you need one, you can install ~apt-cyg~.  As
-a requirement, you'll need to install ~lynx~ through the cygwin setup first.
-After that, just run the following commands:
-
-#+begin_src shell
-lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
-install apt-cyg /bin
-#+end_src
-
-- Archive
-  + [X] ~unzip~
-  + [X] ~zip~ (used by the "Org to ODT" exporter)
-
-- Database
-  + [X] ~freetds~ (for ~tsql~)
-
-- Devel
-  + [ ] ~autoconf~
-  + [ ] ~bzr~
-  + [ ] ~ctags~ (Exuberant Ctags)
-  + [ ] ~gcc-core~ (C compiler)
-  + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
-  + [X] ~gdb~
-  + [X] ~git~
-  + [X] ~make~ (for making info for Git Org mode)
-  + [X] ~meld~ (for diffing -- requires ~xinit~)
-  + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
-  + [X] ~patch~
-  + [X] ~patchutils~
-  + [X] ~subversion~ (for ~svn~ command)
-
-- Editors
-  + [X] ~emacs~
-  + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
-  + [X] ~emacs-w32~ (for graphical Cygwin Emacs with the w32 graphics toolkit)
-
-- Graphics
-  + [X] ~ghostscript~ (needed by various utilities -- ~texlive~ for example)
-  + [ ] ~gnuplot~
-  + [X] ~graphviz~ (~dot~)
-  + [X] ~poppler~ (for ~pdftotext~)
-
-- Interpreters
-  + [ ] ~m4~
-
-- Libs
-  + [ ] ~libbz2-devel~ (needed for installing RODBC inside R)
-  + [ ] ~libiconv~
-  + [ ] ~libicu-devel~ (needed for installing RODBC inside R)
-  + [ ] ~libiodbc-devel~ (needed for installing RODBC inside R)
-
-- Math
-  + [X] ~R~
-
-- Net
-  + [X] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
-  + [X] ~curl~
-  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
-  + [ ] ~nc~ (see socat)
-  + [ ] ~openssh~
-  + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
-  + [ ] ~rsync~
-  + [X] ~sitecopy~
-  + [ ] ~socat~ (see ~nc~)
-
-- Perl
-  + [ ] ~perl~
-
-- Publishing
-  + [X] ~texlive~ (= TeX only, not LaTeX!  It requires ~fontconfig~ and ~ghostscript~)
-  + [X] ~texlive-collection-binextra~ (for ~latexmk~)
-  + [X] ~texlive-collection-fontsextra~ (for =libertine.sty=)
-  + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
-  + [X] ~texlive-collection-genericrecommended~ (for =ulem.sty=, etc.)
-  + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
-  + [X] ~texlive-collection-latex~
-  + [X] ~texlive-collection-latexextra~ (for =draftwatermark.sty=, etc.)
-  + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
-
-- Python
-  + [X] ~python~
-
-- Ruby
-  + [ ] ~ruby~
-
-- Shells
-  + [ ] ~rxvt~
-  + [X] ~zsh~
-
-- System
-  + [X] ~procps-ng~ (to get ~top~ and ~pkill~)
-  + [ ] ~psmisc~ (to get ~killall~)
-
-- Tcl
-  + [ ] ~expect~
-
-- Text
-  + [ ] ~antiword~
-  + [X] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
-    one instead if you need "nl" language...)
-  + [ ] ~jq~ (for displaying JSON)
-  + [ ] ~most~
-  + [ ] ~opensp~ (for ~nsgmls~ validator)
-  + [X] ~texinfo~ (for ~makeinfo~)
-  + [ ] ~tidy~
-
-- Utils
-  + [X] ~colordiff~ (for ~svn~)
-  + [ ] ~dos2unix~
-  + [ ] ~fdupes~
-  + [ ] ~file~ to determine file type
-  + [ ] ~flog~ (logger, to syslog)
-  + [X] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
-    the Win32 driver which is adviced!)
-  + [X] ~moreutils~ (provides ~sponge~)
-  + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
-    installer, though you can use ~C-l~ to get the same result)
-  + [ ] ~screen~
-  + [ ] ~sgrep~ (installs the XPath command ~xmllint~, with ~libxml2~)
-  + [X] ~the_silver_searcher~ (ag)
-  + [X] ~tig~ (Git browser)
-  + [X] ~xmlstarlet~
-
-- X11
-  + [ ] ~fontconfig~ (needed by XeTeX)
-  + [X] ~xinit~ (needed by ~meld~)
-    See [[id:02ba0b6b-f205-42e2-a801-4271aa4691eb][Display]].
-
-- Web
-  + [ ] ~wget~
-
-Many Unix commands have already newer and more feature-rich
-replacements:
-
-- df :: pydf
-- less :: most
-- tail :: multitail
-- top :: htop
-- tracepath :: mtr
-- traceroute :: mtr
-
-*** Terminal emulators
-
-For a better Emacs experience than with the Cygwin console, use:
-
-- MinTTY
-- (u)rxvt
-- xterm
-
-#+begin_tip
-*~Alt-F2~ opens a new terminal window*
-
-*~Shift-PageUp~ and ~Shift-PageDown~!*
-
-For rapidly paging through previous lines of output, you can press ~Shift-PageUp~
-and ~Shift-PageDown~, just like the Linux console.
-
-*Searching text in scrollback buffer (in Cygwin MinTTY)*
-
-In mintty, ~Alt-F3~ opens a search bar with an input field for a search string.
-Matches are highlighted in the scrollback buffer.  ~Enter~ / ~Shift+Enter~ find the
-~next~ / ~previous~ position of the match and scrolls the scrollback buffer
-accordingly.  The appearance of the search bar and the matching highlight
-colours can be customized.
-
-See [[https://mintty.github.io/mintty.1.html][man page]].
-#+end_tip
-
-*** Terminal types
-
-- ~dumb~
-- ~cygwin~
-- ~emacs~
-- ~screen~
-- ~xterm~
-- ~xterm-256color~
-- ~eterm-color~
-
-Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
-ugly default 8 colors):
-
-#+begin_src shell :tangle no
-export TERM=xterm-256color
-#+end_src
-
-#+begin_tip
-In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
-the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
-This is because a shell may be used with multiple terminal emulators, and
-setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
-The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
-something like =~/.minttyrc=.
-#+end_tip
-
-Initialize the terminal according to the type of terminal in the environmental
-variable ~TERM~.
-
-#+begin_src shell
-# tput init                             # This resets the Solarized color theme!!!
-#+end_src
-
-#+begin_note
-This command should be included in everyone's =.profile= after the environmental
-variable ~TERM~ has been exported.
-#+end_note
-
-#+begin_seealso
-Use the script ~colortest~ (on Linux distros) to output the default colors.
-#+end_seealso
-
-See what your color palet is for the terminal session:
-
-#+begin_src shell :tangle no
-tput colors
-#+end_src
-
-*** GnuPG
-
-When first running ~gpg~:
-
-- Directory =~/.gnupg= created
-- New configuration file =~/.gnupg/gpg.conf= created
-- Keyring =~/.gnupg/secring.gpg= created
-- Keyring =~/.gnupg/pubring.gpg= created
-
-*** Suppress the Cygwin DOS path warning
-
-When first running ~M-x ediff-buffers~, I got this Cygwin warning:
-
-#+begin_example
-MS-DOS style path detected: c:/Users/...
-Preferred POSIX equivalent is: /cygdrive/c/Users/...
-CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-Consult the user's guide for more details about POSIX paths:
-  http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-#+end_example
-
-Though, setting it in =.bashrc= or something like that does not work. A good
-place to set it is in the global *Windows environment variables*.
-
-** Basic installation
-
-Shell-Leuven is installed by doing the following:
-
-1. *Clone the repository:*
-
-   #+begin_src shell
-   git clone git@github.com:fniessen/dotfiles.git ~/.dotfiles
-   ~/.dotfiles/install
-   #+end_src
-
-2. *Source Shell-Leuven configuration files*
-
-   #+begin_src shell
-   . ~/.bash_profile
-   #+end_src
-
-   #+begin_src shell
-   . ~/.zshrc
-   #+end_src
-
-Once you open up a new terminal window with Bash or Zsh, it should load with
-Shell-Leuven's configuration.
-
-** Custom directory
-
-If you'd like to change the install directory with the ~ZSH~ environment variable,
-either by running
-
-: export ZSH=/your/path
-
-before installing,
-
-* About portability
-
-To find out if a given command exists, don't use ~which~ (because it is not in
-POSIX so its output format is unspecified, and it complains when nothing is
-found instead of being silent):
-
-#+begin_src shell
-if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
-#+end_src
-
-Instead use:
-
-#+begin_src shell
-have() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo "$1 not found."
-        return 2                        # An error occurred.
-    fi
-}
-#+end_src
-
-#+begin_src shell
-have ag && alias grep='ag'
-#+end_src
-
-See also
-https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
-
-[[ supports a wider range of tests in both cases, and has custom parsing rules
-that avoid the need for quoting variables, operators, and so on. If you're
-specifically using either Bash or zsh, use [[. If you're writing a portable
-script, write to the POSIX-compatible [ / test command (which may or may not be
-a real command on your running system).
-
-Just use [[ there and forget [ exists.
-
 * Startup files
 
 # See http://zsh.sourceforge.net/Guide/zshguide02.html
@@ -2795,6 +2433,332 @@ alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || ec
 Use like so:
 
 : sleep 10; alert
+
+* Getting started
+
+** Prerequisites for Windows
+
+Install [[https://www.cygwin.com/][Cygwin]] (http://mirrors.kernel.org).
+
+*** ~PATH~
+
+After Cygwin is installed, modify the System ~PATH~ variable: prepend it with
+=C:\cygwin64\bin= (before ~%SystemRoot%\system32~).
+
+#+begin_warning
+If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
+Cygwin, please check that those directories don't contain =cygwin1.dll= or
+such. That was why I had troubles running ~git~ commands...
+#+end_warning
+
+In =c:/cygwin64/etc/profile=,
+
+- =/usr/local/bin= is appended to the ~PATH~!!
+
+  And, except when root, it is almost always wrong to have =/usr/local/bin= after
+  any system path.
+
+- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
+  when called from =c:/cygwin/Cygwin.bat=!!
+
+*** HOME, the user's home directory
+
+Add an ~HOME~ environment variable (with no trailing backslash!).
+
+Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
+of your *home directory*.
+
+Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
+~db_home~ setting (comment the example line) to =/etc/nsswitch.conf=.
+
+#+begin_note
+If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
+you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
+editing your user's entry in that file. Your ~HOME~ directory is the penultimate
+element on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
+from that field).
+#+end_note
+
+*** Packages
+
+*************** TODO See http://www.4thinker.com/cygwin-setup.html
+*************** END
+
+[[http://cygwin.com/cgi-bin2/package-grep.cgi][Cygwin Package Search]]
+
+In order to *install Cygwin's packages* through the terminal instead of running
+the setup every single time you need one, you can install ~apt-cyg~.  As
+a requirement, you'll need to install ~lynx~ through the cygwin setup first.
+After that, just run the following commands:
+
+#+begin_src shell
+lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+install apt-cyg /bin
+#+end_src
+
+- Archive
+  + [X] ~unzip~
+  + [X] ~zip~ (used by the "Org to ODT" exporter)
+
+- Database
+  + [X] ~freetds~ (for ~tsql~)
+
+- Devel
+  + [ ] ~autoconf~
+  + [ ] ~bzr~
+  + [ ] ~ctags~ (Exuberant Ctags)
+  + [ ] ~gcc-core~ (C compiler)
+  + [ ] ~gcc4~ (needed for installing some Perl packages, for CSV2Ledger)
+  + [X] ~gdb~
+  + [X] ~git~
+  + [X] ~make~ (for making info for Git Org mode)
+  + [X] ~meld~ (for diffing -- requires ~xinit~)
+  + [ ] ~mercurial~ (for ~hg~ command, used by Beamer)
+  + [X] ~patch~
+  + [X] ~patchutils~
+  + [X] ~subversion~ (for ~svn~ command)
+
+- Editors
+  + [X] ~emacs~
+  + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
+  + [X] ~emacs-w32~ (for graphical Cygwin Emacs with the w32 graphics toolkit)
+
+- Graphics
+  + [X] ~ghostscript~ (needed by various utilities -- ~texlive~ for example)
+  + [ ] ~gnuplot~
+  + [X] ~graphviz~ (~dot~)
+  + [X] ~poppler~ (for ~pdftotext~)
+
+- Interpreters
+  + [ ] ~m4~
+
+- Libs
+  + [ ] ~libbz2-devel~ (needed for installing RODBC inside R)
+  + [ ] ~libiconv~
+  + [ ] ~libicu-devel~ (needed for installing RODBC inside R)
+  + [ ] ~libiodbc-devel~ (needed for installing RODBC inside R)
+
+- Math
+  + [X] ~R~
+
+- Net
+  + [X] ~bind-utils~ (for ~dig~, ~host~, ~nslookup~, etc.)
+  + [X] ~curl~
+  + [X] ~inetutils~ (for getting ~telnet~ to work with expect)
+  + [ ] ~nc~ (see socat)
+  + [ ] ~openssh~
+  + [ ] ~ping~ (Note: Allow to "Run this program as an administrator")
+  + [ ] ~rsync~
+  + [X] ~sitecopy~
+  + [ ] ~socat~ (see ~nc~)
+
+- Perl
+  + [ ] ~perl~
+
+- Publishing
+  + [X] ~texlive~ (= TeX only, not LaTeX!  It requires ~fontconfig~ and ~ghostscript~)
+  + [X] ~texlive-collection-binextra~ (for ~latexmk~)
+  + [X] ~texlive-collection-fontsextra~ (for =libertine.sty=)
+  + [X] ~texlive-collection-fontsrecommended~ (for =marvosym.sty=, etc.)
+  + [X] ~texlive-collection-genericrecommended~ (for =ulem.sty=, etc.)
+  + [X] ~texlive-collection-langfrench~ (for ~frenchb~)
+  + [X] ~texlive-collection-latex~
+  + [X] ~texlive-collection-latexextra~ (for =draftwatermark.sty=, etc.)
+  + [X] ~texlive-collection-science~ (for =siunitx.sty=, etc.)
+
+- Python
+  + [X] ~python~
+
+- Ruby
+  + [ ] ~ruby~
+
+- Shells
+  + [ ] ~rxvt~
+  + [X] ~zsh~
+
+- System
+  + [X] ~procps-ng~ (to get ~top~ and ~pkill~)
+  + [ ] ~psmisc~ (to get ~killall~)
+
+- Tcl
+  + [ ] ~expect~
+
+- Text
+  + [ ] ~antiword~
+  + [X] ~aspell~ (Note that the Win32 binary has *much* more dictionaries! Use that
+    one instead if you need "nl" language...)
+  + [ ] ~jq~ (for displaying JSON)
+  + [ ] ~most~
+  + [ ] ~opensp~ (for ~nsgmls~ validator)
+  + [X] ~texinfo~ (for ~makeinfo~)
+  + [ ] ~tidy~
+
+- Utils
+  + [X] ~colordiff~ (for ~svn~)
+  + [ ] ~dos2unix~
+  + [ ] ~fdupes~
+  + [ ] ~file~ to determine file type
+  + [ ] ~flog~ (logger, to syslog)
+  + [X] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
+    the Win32 driver which is adviced!)
+  + [X] ~moreutils~ (provides ~sponge~)
+  + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
+    installer, though you can use ~C-l~ to get the same result)
+  + [ ] ~screen~
+  + [ ] ~sgrep~ (installs the XPath command ~xmllint~, with ~libxml2~)
+  + [X] ~the_silver_searcher~ (ag)
+  + [X] ~tig~ (Git browser)
+  + [X] ~xmlstarlet~
+
+- X11
+  + [ ] ~fontconfig~ (needed by XeTeX)
+  + [X] ~xinit~ (needed by ~meld~)
+    See [[id:02ba0b6b-f205-42e2-a801-4271aa4691eb][Display]].
+
+- Web
+  + [ ] ~wget~
+
+Many Unix commands have already newer and more feature-rich
+replacements:
+
+- df :: pydf
+- less :: most
+- tail :: multitail
+- top :: htop
+- tracepath :: mtr
+- traceroute :: mtr
+
+*** Terminal emulators
+
+For a better Emacs experience than with the Cygwin console, use:
+
+- MinTTY
+- (u)rxvt
+- xterm
+
+#+begin_tip
+*~Alt-F2~ opens a new terminal window*
+
+*~Shift-PageUp~ and ~Shift-PageDown~!*
+
+For rapidly paging through previous lines of output, you can press ~Shift-PageUp~
+and ~Shift-PageDown~, just like the Linux console.
+
+*Searching text in scrollback buffer (in Cygwin MinTTY)*
+
+In mintty, ~Alt-F3~ opens a search bar with an input field for a search string.
+Matches are highlighted in the scrollback buffer.  ~Enter~ / ~Shift+Enter~ find the
+~next~ / ~previous~ position of the match and scrolls the scrollback buffer
+accordingly.  The appearance of the search bar and the matching highlight
+colours can be customized.
+
+See [[https://mintty.github.io/mintty.1.html][man page]].
+#+end_tip
+
+*** Terminal types
+
+- ~dumb~
+- ~cygwin~
+- ~emacs~
+- ~screen~
+- ~xterm~
+- ~xterm-256color~
+- ~eterm-color~
+
+Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
+ugly default 8 colors):
+
+#+begin_src shell :tangle no
+export TERM=xterm-256color
+#+end_src
+
+#+begin_tip
+In fact, we are advised to *NOT* set ~TERM~ variable in dotfiles that are related to
+the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
+This is because a shell may be used with multiple terminal emulators, and
+setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
+The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
+something like =~/.minttyrc=.
+#+end_tip
+
+Initialize the terminal according to the type of terminal in the environmental
+variable ~TERM~.
+
+#+begin_src shell
+# tput init                             # This resets the Solarized color theme!!!
+#+end_src
+
+#+begin_note
+This command should be included in everyone's =.profile= after the environmental
+variable ~TERM~ has been exported.
+#+end_note
+
+#+begin_seealso
+Use the script ~colortest~ (on Linux distros) to output the default colors.
+#+end_seealso
+
+See what your color palet is for the terminal session:
+
+#+begin_src shell :tangle no
+tput colors
+#+end_src
+
+*** GnuPG
+
+When first running ~gpg~:
+
+- Directory =~/.gnupg= created
+- New configuration file =~/.gnupg/gpg.conf= created
+- Keyring =~/.gnupg/secring.gpg= created
+- Keyring =~/.gnupg/pubring.gpg= created
+
+*** Suppress the Cygwin DOS path warning
+
+When first running ~M-x ediff-buffers~, I got this Cygwin warning:
+
+#+begin_example
+MS-DOS style path detected: c:/Users/...
+Preferred POSIX equivalent is: /cygdrive/c/Users/...
+CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+Consult the user's guide for more details about POSIX paths:
+  http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+#+end_example
+
+Though, setting it in =.bashrc= or something like that does not work. A good
+place to set it is in the global *Windows environment variables*.
+
+** TODO Basic installation (OBSOLETE)
+
+Shell-Leuven is installed by doing the following:
+
+1. *Clone the repository:*
+
+   #+begin_src shell
+   git clone git@github.com:fniessen/dotfiles.git ~/.dotfiles
+   ~/.dotfiles/install
+   #+end_src
+
+2. *Source Shell-Leuven configuration files*
+
+   #+begin_src shell
+   . ~/.bash_profile
+   #+end_src
+
+   #+begin_src shell
+   . ~/.zshrc
+   #+end_src
+
+Once you open up a new terminal window with Bash or Zsh, it should load with
+Shell-Leuven's configuration.
+
+** Custom directory
+
+If you'd like to change the install directory with the ~ZSH~ environment variable,
+either by running
+
+: export ZSH=/your/path
+
+before installing,
 
 * Java
 
