@@ -21,7 +21,8 @@ fi
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
-PROMPT="%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
+PROMPT="
+%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
 %(!.#.$) "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
