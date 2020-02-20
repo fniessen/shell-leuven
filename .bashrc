@@ -45,22 +45,22 @@ case "$TERM" in
     "dumb")
         # No fancy multi-line prompt for TRAMP (see `tramp-terminal-type').
         # Don't confuse it!
-        PS1="> "
+        PS1="\n> "
         ;;
     cygwin|xterm*|rxvt-unicode)
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
-        PS1='\
+        PS1='\n\
 `if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
 \[\033]0;$TITLEPREFIX:$PWD\007\] \
-\[\033[32m\]\u@\h \
+\[\033[0;32m\]\u@\h \
 \[\033[33m\]\w\
 \[\033[36m\]`__git_ps1`\
 \[\033[0m\]\n$ '
         ;;
     *) # emacs
         # `M-x shell' under EmacsW32.
-        PS1="$RET_STATUS\u@\h:\w \$ "
+        PS1="\n$?\u@\h:\w \$ "
         ;;
 esac
 # PS1+='$(if test $? -ne 0; then tput bel; fi)'
