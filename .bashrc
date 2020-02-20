@@ -37,9 +37,7 @@ GRN="\[$(tput setaf 2; tput bold)\]"
 yel="\[$(tput setaf 3)\]"
 reset_color="\[$(tput sgr0)\]"
 
-# PROMPT_COMMAND + PS1 --- Default interaction prompt
-
-# + PROMPT='${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)$(branch_prompt_info)%{$fg_bold[blue]%} % %{$reset_color%}'
+# PS1 --- Default interaction prompt
 
 case "$TERM" in
     "dumb")
@@ -50,14 +48,15 @@ case "$TERM" in
     cygwin|xterm*|rxvt-unicode)
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
+        BEL=$(tput bel)
         PS1='\n\
-$(st=$?; if [[ $st -gt 0 ]]; then printf "\[\033[01;31m\]$st"; tput bel; else printf "\[\033[01;32m\]v"; fi)\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi)\
 \[\033]0;$PWD\007\] \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
-\[\033[36m\]`__git_ps1`\
-\[\033[0m\]\n$ '
+\[\033[36m\]`__git_ps1`\n\
+\[\033[32m\]$\[\033[0m\] '
         ;;
     *) # emacs
         # `M-x shell' under EmacsW32.
