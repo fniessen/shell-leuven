@@ -620,7 +620,8 @@ if tput setaf 1 &> /dev/null; then
 
 See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
 
-Change Bash prompt color based on exit code of last command:
+- Insert an empty line before the prompt
+- Change Bash prompt color based on exit code of last command
 
 #+begin_src shell
 # Colors.
@@ -647,8 +648,9 @@ case "$TERM" in
         PS1='\n\
 `if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
 \[\033]0;$TITLEPREFIX:$PWD\007\] \
-\[\033[0;32m\]\u@\h \
-\[\033[33m\]\w\
+\[\033[0;32m\]\u@\h\
+\[\033[01;30m\]:\
+\[\033[;;33m\]\w\
 \[\033[36m\]`__git_ps1`\
 \[\033[0m\]\n$ '
         ;;
@@ -923,14 +925,16 @@ test passes, show ~true-string~; if it fails, show ~false-string~ after the seco
 dot.
 
 #+begin_src shell
-# PROMPT="$grn%n@%m$BLK:$yel%2. %(?.$GRN.$RED)%?$reset_color%(!.#.$) "
+PROMPT="
+%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
+%(!.#.$) "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
-PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
-PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%1~%f%b %# '
+# PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
+# PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%~%f%b %# '
 #+end_src
 
 Insert beep when last command has failed.

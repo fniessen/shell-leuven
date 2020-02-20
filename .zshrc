@@ -21,14 +21,15 @@ fi
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
-# PROMPT="$grn%n@%m$BLK:$yel%2. %(?.$GRN.$RED)%?$reset_color%(!.#.$) "
+PROMPT="%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
+%(!.#.$) "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
-PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
-PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%1~%f%b %# '
+# PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
+# PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%~%f%b %# '
 
 setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 BEL=$(tput bel)
