@@ -21,18 +21,22 @@ fi
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
+zstyle ':vcs_info:git:*' formats '%F{6}(%b)%f'
+zstyle ':vcs_info:*' enable git
+
 PROMPT="
-%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
-%(!.#.$) "
+%B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%F{green}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
-# PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
-# PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%~%f%b %# '
 
-setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 

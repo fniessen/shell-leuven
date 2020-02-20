@@ -51,8 +51,8 @@ case "$TERM" in
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
         PS1='\n\
-`if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
-\[\033]0;$TITLEPREFIX:$PWD\007\] \
+$(st=$?; if [[ $st -gt 0 ]]; then printf "\[\033[01;31m\]$st"; tput bel; else printf "\[\033[01;32m\]v"; fi)\
+\[\033]0;$PWD\007\] \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\

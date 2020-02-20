@@ -261,6 +261,11 @@ See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
 - Insert an empty line before the prompt
 - Change Bash prompt color based on exit code of last command
 
+#+begin_src shell :tangle no
+# Define empty function (if not yet defined).
+type -t __git_ps1 || __git_ps1() { :; }
+#+end_src
+
 #+begin_src shell
 # Colors.
 BLK="\[$(tput setaf 0; tput bold)\]"
@@ -284,8 +289,8 @@ case "$TERM" in
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
         PS1='\n\
-`if [[ $? -gt 0 ]]; then printf "\[\033[01;31m\]x"; tput bel; else printf "\[\033[01;32m\]v"; fi`\
-\[\033]0;$TITLEPREFIX:$PWD\007\] \
+$(st=$?; if [[ $st -gt 0 ]]; then printf "\[\033[01;31m\]$st"; tput bel; else printf "\[\033[01;32m\]v"; fi)\
+\[\033]0;$PWD\007\] \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
@@ -542,16 +547,6 @@ Zsh expects that every character in ~PS1~ will advance the cursor one space.  Wr
 any non-printing escape sequences in ~%{...%}~, and it should work. So use
 ~%{\e[31m%}~, etc.
 
-#+begin_src shell :tangle no
-# Some colors.
-BLK=$(tput setaf 0; tput bold)
-RED=$(tput setaf 1; tput bold)
-grn=$(tput setaf 2)
-GRN=$(tput setaf 2; tput bold)
-yel=$(tput setaf 3)
-reset_color=$(tput sgr0)
-#+end_src
-
 *************** TODO Define colors using ~terminfo~
 See http://superuser.com/questions/239290/how-can-i-make-zsh-show-that-there-are-stashed-revisions-on-a-git-repo-whenever
 *************** END
@@ -563,16 +558,23 @@ test passes, show ~true-string~; if it fails, show ~false-string~ after the seco
 dot.
 
 #+begin_src shell
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
+zstyle ':vcs_info:git:*' formats '%F{6}(%b)%f'
+zstyle ':vcs_info:*' enable git
+#+end_src
+
+#+begin_src shell
 PROMPT="
-%(?.$GRN.$RED)%?$reset_color $grn%n@%m$BLK:$reset_color$yel%~ $reset_color
-%(!.#.$) "
+%B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%F{green}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
-# PROMPT="%{$fg[cyan]%}%n@%{$fg[blue]%}%m%} "
-# PROMPT='%(?.%F{green}v.%F{red}%?)%f %B%F{240}%~%f%b %# '
 #+end_src
 
 Insert beep when last command has failed.
@@ -586,7 +588,6 @@ to avoid an unnecessary shellout at each prompt evaluation.
 #+end_tip
 
 #+begin_src shell
-setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 #+end_src
