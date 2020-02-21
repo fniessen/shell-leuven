@@ -1,5 +1,5 @@
 # Hey Emacs, this is a -*- sh -*- file
-## bash_profile --- Bourne Again Shell configuration file (for interactive shells)
+## bash_profile --- Bash configuration file (for interactive shells)
 
 # Copyright (C) 2003-2020 Fabrice Niessen
 
@@ -81,10 +81,10 @@ shopt -s cdspell
 # Make sure display get updated when terminal window get resized.
 shopt -q -s checkwinsize
 
-# Append rather than overwrite history.
+# When running two bash windows, allow both to write to the history.
 shopt -s histappend
 
-# Make multi-line commandsline in history.
+# Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 
 # Store 10000 commands in history buffer.
@@ -94,10 +94,10 @@ export HISTSIZE=10000
 export HISTFILESIZE=10000
 
 # Avoid recording common commands (like ls, top and clear).
-export HISTIGNORE=”ls*:top:clear”
+export HISTIGNORE="ls*:top:clear"
 
 # Ignore duplicate commands and commands starting with space.
-export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
+export HISTCONTROL="ignoreboth"         # Prefix a command with a space to keep it out of the history.
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup

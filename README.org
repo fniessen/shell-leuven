@@ -181,7 +181,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## bash_profile --- Bourne Again Shell configuration file (for interactive shells)
+## bash_profile --- Bash configuration file (for interactive shells)
 
 # Copyright (C) 2003-<<current-year()>> Fabrice Niessen
 
@@ -343,10 +343,10 @@ shopt -s cdspell
 # Make sure display get updated when terminal window get resized.
 shopt -q -s checkwinsize
 
-# Append rather than overwrite history.
+# When running two bash windows, allow both to write to the history.
 shopt -s histappend
 
-# Make multi-line commandsline in history.
+# Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 #+end_src
 
@@ -362,10 +362,10 @@ export HISTSIZE=10000
 export HISTFILESIZE=10000
 
 # Avoid recording common commands (like ls, top and clear).
-export HISTIGNORE=”ls*:top:clear”
+export HISTIGNORE="ls*:top:clear"
 
 # Ignore duplicate commands and commands starting with space.
-export HISTCONTROL=ignoreboth           # Prefix a command with a space to keep it out of the history.
+export HISTCONTROL="ignoreboth"         # Prefix a command with a space to keep it out of the history.
 #+end_src
 
 Le ~!~ en shell permet plein de trucs sympa.
@@ -511,7 +511,7 @@ Examples:
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## .zshrc --- Z Shell configuration file (for interactive shells)
+## .zshrc --- Zsh configuration file (for interactive shells)
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
@@ -1097,15 +1097,6 @@ alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
 #+end_src
 
-*** Directories
-
-#+begin_src shell
-# When entering a directory, list the contents.
-cd() {
-    builtin cd "$@" && ls --color=auto -F
-}
-#+end_src
-
 *** Git
 
 Git this week / month / year:
@@ -1155,25 +1146,25 @@ if [ -f "$HOME"/.shellrc_local_after ]; then
 fi
 #+end_src
 
-* Shell Configuration (Bash / Zsh)
+* Shell agnostic Configuration
 :PROPERTIES:
 :header-args+: :tangle .shellrc
 :END:
 
-Everything in common between Bash and Z shell will come here, since it is read
-by both shells.
-
-=.shellrc= contains miscellaneous settings common to Bash and Zsh.
+=.shellrc= contains miscellaneous settings *common to Bash and Zsh* -- it is read by
+both shells.
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
-## .shellrc --- Common features between Bash and Z Shell
+## .shellrc --- Shell agnostic configuration file
 
 # Copyright (C) 2009-<<current-year()>> Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
+#+end_src
 
+#+begin_src shell
 uname -s -n -r -m
 #+end_src
 
@@ -1216,6 +1207,15 @@ These variables work as follows:
 - The other LC_ variables set the specified aspect of the locale information.
 - LANG is a fallback value, it will be used if none of the LC_ variables are
   specified.
+
+*** Tool paths
+
+**** Java
+
+- Download Ant and add its =/bin= directory to ~PATH~.
+
+- Add =C:\Program Files\Java\jdk1.8.0_91= to ~JAVA_HOME~ and add ~%JAVA_HOME%/bin~
+  to ~PATH~.
 
 ** $PATH
 
@@ -2422,7 +2422,7 @@ Add an "alert" alias for *long running commands*.
 #+begin_src shell
 alert() {
     $@
-    echo -e "\a"
+    echo -e "\a"                        # Beep.
 }
 #+end_src
 
@@ -2433,6 +2433,15 @@ alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || ec
 Use like so:
 
 : sleep 10; alert
+
+** Directories
+
+#+begin_src shell
+# When entering a directory, list the contents.
+cd() {
+    builtin cd "$@" && ls --color=auto -F
+}
+#+end_src
 
 * Getting started
 
@@ -2759,13 +2768,6 @@ either by running
 : export ZSH=/your/path
 
 before installing,
-
-* Java
-
-- Download Ant and add its =/bin= directory to ~PATH~.
-
-- Add =C:\Program Files\Java\jdk1.7.0_80= to ~JAVA_HOME~ and add ~%JAVA_HOME%/bin~
-  to ~PATH~.
 
 * FAQ
 

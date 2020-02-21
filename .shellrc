@@ -1,5 +1,5 @@
 # Hey Emacs, this is a -*- sh -*- file
-## .shellrc --- Common features between Bash and Z Shell
+## .shellrc --- Shell agnostic configuration file
 
 # Copyright (C) 2009-2020 Fabrice Niessen
 
@@ -371,7 +371,12 @@ texlist() {
 
 alert() {
     $@
-    echo -e "\a"
+    echo -e "\a"                        # Beep.
 }
 
 alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# When entering a directory, list the contents.
+cd() {
+    builtin cd "$@" && ls --color=auto -F
+}

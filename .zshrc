@@ -1,5 +1,5 @@
 # Hey Emacs, this is a -*- sh -*- file
-## .zshrc --- Z Shell configuration file (for interactive shells)
+## .zshrc --- Zsh configuration file (for interactive shells)
 
 # Copyright (C) 2009-2020 Fabrice Niessen
 
@@ -304,11 +304,6 @@ alias -g T6="| awk -F $'\t' '{print \$6}'"
 alias -g T7="| awk -F $'\t' '{print \$7}'"
 alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
-
-# When entering a directory, list the contents.
-cd() {
-    builtin cd "$@" && ls --color=auto -F
-}
 
 alias -g GTHISWEEK=' --since=1.week.ago'
 alias -g GTHISMONTH=' --since=1.month.ago'
