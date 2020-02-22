@@ -233,13 +233,16 @@ setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
 setopt INC_APPEND_HISTORY       # Write after each command.
 setopt SHARE_HISTORY            # Share history between sessions.
 
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
+alias history="history -i"
+
 HISTSIZE=10000                  # In memory.
 SAVEHIST=$HISTSIZE              # To file.
 
 # Behave like Emacs when editing.
 bindkey -e
 
-# Mappings for `Ctrl-up/down' for matching commands from the history.
+# <C-up/down> for searching matching commands from the history.
 bindkey ';5A' history-search-backward
 bindkey ';5B' history-search-forward
 

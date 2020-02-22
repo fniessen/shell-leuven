@@ -94,8 +94,8 @@ shopt -q -s cmdhist
 export HISTSIZE=10000
 export HISTFILESIZE=$HISTSIZE
 
-HISTTIMEFORMAT="%y-%m-%d %H:%M:%S "
-# export HISTTIMEFORMAT="[%F %T] "
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
+export HISTTIMEFORMAT="%y-%m-%d %H:%M  "
 
 # Blacklist - Avoid recording common commands (like ls, top and clear).
 export HISTIGNORE="ls*:top:clear"

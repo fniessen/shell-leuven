@@ -454,8 +454,8 @@ Access and modify commands that you had previously typed at the command line.
 export HISTSIZE=10000
 export HISTFILESIZE=$HISTSIZE
 
-HISTTIMEFORMAT="%y-%m-%d %H:%M:%S "
-# export HISTTIMEFORMAT="[%F %T] "
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
+export HISTTIMEFORMAT="%y-%m-%d %H:%M  "
 
 # Blacklist - Avoid recording common commands (like ls, top and clear).
 export HISTIGNORE="ls*:top:clear"
@@ -1145,6 +1145,11 @@ setopt SHARE_HISTORY            # Share history between sessions.
 #+end_src
 
 #+begin_src shell
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
+alias history="history -i"
+#+end_src
+
+#+begin_src shell
 HISTSIZE=10000                  # In memory.
 SAVEHIST=$HISTSIZE              # To file.
 #+end_src
@@ -1177,7 +1182,7 @@ See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bi
 # Behave like Emacs when editing.
 bindkey -e
 
-# Mappings for `Ctrl-up/down' for matching commands from the history.
+# <C-up/down> for searching matching commands from the history.
 bindkey ';5A' history-search-backward
 bindkey ';5B' history-search-forward
 
