@@ -22,10 +22,12 @@ fi
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
 autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
+precmd_vcs_info() {
+    vcs_info
+}
 precmd_functions+=( precmd_vcs_info )
 setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
-zstyle ':vcs_info:git:*' formats '%F{6}(%b)%f'
+zstyle ':vcs_info:git:*' formats '%F{magenta}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 PROMPT="
@@ -37,13 +39,11 @@ PROMPT="
                                         # . - Abbreviated pwd.
                                         # ! - su?
 
-# function set_terminal_title() {
-#   echo -en "\e]2;$@\a"
-# }
-#
-# function precmd() {
-#   set_terminal_title
-# }
+case "$TERM" in
+    xterm*|rxvt*)
+        precmd() {  print -Pn "\e]0;%m: %~\a" }
+        preexec() { print -n "\e]0;$HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
+esac
 
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
@@ -197,6 +197,12 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 
+cde() {
+  cd ${(Q)~$(emacsclient -e '(with-current-buffer
+                               (window-buffer (selected-window))
+                               default-directory) ')}
+}
+
 setopt AUTO_CD                  # Change directory given just path.
 
 # Load general completion.
@@ -239,16 +245,24 @@ alias history="history -i"
 HISTSIZE=10000                  # In memory.
 SAVEHIST=$HISTSIZE              # To file.
 
-# Behave like Emacs when editing.
-bindkey -e
+# # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
+# bindkey -e
 
-# <C-up/down> for searching matching commands from the history.
-bindkey ';5A' history-search-backward
-bindkey ';5B' history-search-forward
+# 1 Commands For Moving ----------------
 
-# Mappings for `Ctrl-left/right' for word moving.
-bindkey ';5C' forward-word
-bindkey ';5D' backward-word
+# Set <C-left/right> to move by whole words.
+bindkey '\e[1;5C' forward-word
+bindkey '\e[1;5D' backward-word
+
+# 2 Commands For Manipulating The History
+
+# <up/down> for searching matching commands from the history.
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\eOA' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+bindkey '\eOB' history-beginning-search-forward
+
+# 3 Commands For Changing Text ---------
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
@@ -259,6 +273,19 @@ backward-delete-char-beep() {
 }
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
+
+# 4 Killing And Yanking ----------------
+
+# Use Alt/Meta + Delete to delete the preceding word
+"\e[3;3~": kill-word
+
+# 5 Specifying Numeric Arguments -------
+
+# 6 Letting Readline Type For You ------
+
+# 7 Keyboard Macros --------------------
+
+# 8 Some Miscellaneous Commands --------
 
 alias -g 21="2>&1"
 alias -g A='| awk'

@@ -103,9 +103,42 @@ export HISTIGNORE="ls*:top:clear"
 # Ignore duplicate commands and commands starting with space.
 HISTCONTROL=ignoredups:ignorespace
 
+# 1 Commands For Moving ----------------
+
+# Set <C-left/right> to move by whole words.
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+
+# 2 Commands For Manipulating The History
+
+# Very nice history search.  Type text (as prefix) and hit up <up/down> to
+# search witin command history.  No C-r required.
+bind '"\e[B": history-search-forward'
+bind '"\e[A": history-search-backward'
+
+# 3 Commands For Changing Text ---------
+
+# Set Delete/Insert keys to delete/insert chars on line
+bind '"\e[3~": delete-char'
+bind '"\e[2~": quoted-insert'
+
+# 4 Killing And Yanking ----------------
+
+# Use Alt-DEL to delete the preceding word.
+bind '"\e[3;3~": kill-word'
+
+# 5 Specifying Numeric Arguments -------
+
+# 6 Letting Readline Type For You ------
+
+# 7 Keyboard Macros --------------------
+
+# 8 Some Miscellaneous Commands --------
+
 complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 
+# ESC-h (or M-h) = run-help.
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 # Common configuration.

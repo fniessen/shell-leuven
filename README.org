@@ -41,11 +41,9 @@ History expansion (e.g. !!, !<string>, and !$).
 
 Here is also list with all Clink command shortcuts
 C-@     : set-mark
-C-a     : beginning-of-line
 C-b     : backward-char
 C-c     : ctrl-c
 C-d     : delete-char
-C-e     : end-of-line
 C-f     : forward-char
 C-g     : abort
 C-h     : backward-delete-char
@@ -88,10 +86,8 @@ A->     : end-of-history
 A-?     : possible-completions
 A-     : delete-horizontal-space
 A-_     : yank-last-arg
-A-b     : backward-word
 A-c     : capitalize-word
 A-d     : kill-word
-A-f     : forward-word
 A-h     : show-rl-help
 A-l     : downcase-word
 A-n     : non-incremental-forward-search-history
@@ -499,7 +495,7 @@ $ gm convert !*
 See also http://dvorka.github.io/hstr/ to easily view, navigate and search your
 command history with shell history suggest box.
 
-** Bindings
+** Key Bindings
 
 *** Command line editor
 :PROPERTIES:
@@ -563,46 +559,40 @@ set skip-completed-text on
 
 # Show extra file information when completing similar to `ls -F`.
 set visible-stats on
+#+end_src
 
-# -- Key Bindings --------------------------------------------------------------
-
-# 1 Commands For Moving
+#+begin_src shell :tangle .bashrc
+# 1 Commands For Moving ----------------
 
 # Set <C-left/right> to move by whole words.
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
 
 # 2 Commands For Manipulating The History
 
-# <C-up/down> for searching matching commands from the history.
-"\e[1;5A": history-search-backward
-"\e[1;5B": history-search-forward
+# Very nice history search.  Type text (as prefix) and hit up <up/down> to
+# search witin command history.  No C-r required.
+bind '"\e[B": history-search-forward'
+bind '"\e[A": history-search-backward'
 
-# Use any entered text as the prefix for searching command history
-"\e[B": history-search-forward
-"\e[A": history-search-backward
-
-Meta-p: history-search-backward
-Meta-n: history-search-forward
-
-# 3 Commands For Changing Text
+# 3 Commands For Changing Text ---------
 
 # Set Delete/Insert keys to delete/insert chars on line
-"\e[3~": delete-char
-"\e[2~": quoted-insert
+bind '"\e[3~": delete-char'
+bind '"\e[2~": quoted-insert'
 
-# 4 Killing And Yanking
+# 4 Killing And Yanking ----------------
 
-# Use Alt/Meta + Delete to delete the preceding word
-"\e[3;3~": kill-word
+# Use Alt-DEL to delete the preceding word.
+bind '"\e[3;3~": kill-word'
 
-# 5 Specifying Numeric Arguments
+# 5 Specifying Numeric Arguments -------
 
-# 6 Letting Readline Type For You
+# 6 Letting Readline Type For You ------
 
-# 7 Keyboard Macros
+# 7 Keyboard Macros --------------------
 
-# 8 Some Miscellaneous Commands
+# 8 Some Miscellaneous Commands --------
 #+end_src
 
 *** Tab completion
@@ -628,6 +618,7 @@ command...
 Add this functionality to the Bash shell:
 
 #+begin_src shell
+# ESC-h (or M-h) = run-help.
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 #+end_src
 
@@ -711,10 +702,12 @@ dot.
 
 #+begin_src shell
 autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
+precmd_vcs_info() {
+    vcs_info
+}
 precmd_functions+=( precmd_vcs_info )
 setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
-zstyle ':vcs_info:git:*' formats '%F{6}(%b)%f'
+zstyle ':vcs_info:git:*' formats '%F{magenta}(%b)%f'
 zstyle ':vcs_info:*' enable git
 #+end_src
 
@@ -729,14 +722,17 @@ PROMPT="
                                         # ! - su?
 #+end_src
 
+One of the hardest things is to set the xterm title "correctly", because most
+people do it wrong in some way, and then it will break when you have literal
+tabs or percent signs or tildes in your command line. Here is what I currently
+use:
+
 #+begin_src shell
-# function set_terminal_title() {
-#   echo -en "\e]2;$@\a"
-# }
-#
-# function precmd() {
-#   set_terminal_title
-# }
+case "$TERM" in
+    xterm*|rxvt*)
+        precmd() {  print -Pn "\e]0;%m: %~\a" }
+        preexec() { print -n "\e]0;$HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
+esac
 #+end_src
 
 Insert beep when last command has failed.
@@ -1069,6 +1065,21 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
 fi
 #+end_src
 
+** Functions
+
+If you are an avid Emacs user like me, you'll find this function useful.  It
+*enters the directory of the file currently active in Emacs* resides in:
+
+#+begin_src shell
+cde() {
+  cd ${(Q)~$(emacsclient -e '(with-current-buffer
+                               (window-buffer (selected-window))
+                               default-directory) ')}
+}
+#+end_src
+
+You need the emacs-server functionality enabled for this to work.
+
 ** Variables
 
 *** Changing Directories
@@ -1120,6 +1131,8 @@ setopt NOTIFY                   # Immediately report changes in background job s
 
 *** Zle
 
+Zsh has its own line editor (ZLE) and doesn't read readline's =.inputrc=.
+
 #+begin_src shell
 # Beep when there's an error with the command text you're typing in (e.g. if you
 # hit tab and there are no matching files) -- not as a result of normal commands
@@ -1154,7 +1167,27 @@ HISTSIZE=10000                  # In memory.
 SAVEHIST=$HISTSIZE              # To file.
 #+end_src
 
-** Bindings
+** Key Bindings
+
+10.4 Some interesting keybindings
+
+| Keybinding | Meaning                                                            |
+|------------+--------------------------------------------------------------------|
+| ctrl-d     | complete + EOF                                                     |
+| ctrl-l     | clear screen                                                       |
+| ctrl-w     | delete last word                                                   |
+| ctrl-_     | undo                                                               |
+| tab        | complete and take first result                                     |
+| esc-.      | insert last parameter of last typed command (similar to typing !$) |
+| ctrl-a     | begin of line                                                      |
+| ctrl-e     | end of line                                                        |
+| alt-'      | quote-line ('')                                                    |
+| alt-?      | which-command                                                      |
+| ctrl-k     | kill line                                                          |
+| ctrl-u     | kill while line (kill-ring)                                        |
+| ctrl-w     | copy last word (kill-ring)                                         |
+| ctrl-y     | yank (insert kill-ring)                                            |
+| esc-q      | push line                                                          |
 
 Useful keybindings of the Zsh *command line editor*:
 
@@ -1178,17 +1211,31 @@ Useful commands:
 See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
 #+end_note
 
+Run `bindkey` to get a listing of currently active keybindings.
+
+For a more general approach you start your terminal, press CTRL-V followed by
+the key combination you want the escape code (the name) of, and put the output
+for each key combination in between the two quotes.
+
 #+begin_src shell
-# Behave like Emacs when editing.
-bindkey -e
+# # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
+# bindkey -e
 
-# <C-up/down> for searching matching commands from the history.
-bindkey ';5A' history-search-backward
-bindkey ';5B' history-search-forward
+# 1 Commands For Moving ----------------
 
-# Mappings for `Ctrl-left/right' for word moving.
-bindkey ';5C' forward-word
-bindkey ';5D' backward-word
+# Set <C-left/right> to move by whole words.
+bindkey '\e[1;5C' forward-word
+bindkey '\e[1;5D' backward-word
+
+# 2 Commands For Manipulating The History
+
+# <up/down> for searching matching commands from the history.
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\eOA' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+bindkey '\eOB' history-beginning-search-forward
+
+# 3 Commands For Changing Text ---------
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
@@ -1199,6 +1246,19 @@ backward-delete-char-beep() {
 }
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
+
+# 4 Killing And Yanking ----------------
+
+# Use Alt/Meta + Delete to delete the preceding word
+"\e[3;3~": kill-word
+
+# 5 Specifying Numeric Arguments -------
+
+# 6 Letting Readline Type For You ------
+
+# 7 Keyboard Macros --------------------
+
+# 8 Some Miscellaneous Commands --------
 #+end_src
 
 ** Abbreviations
