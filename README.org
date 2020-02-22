@@ -1337,6 +1337,60 @@ both shells.
 uname -s -n -r -m
 #+end_src
 
+** Functions
+
+*** Exit with an error
+
+The exit status follows the conventions for programs such as ~grep~, ~cmp~, and
+~diff~: it is 2 (or greater) if an error occurred.
+
+#+begin_src shell
+die() {
+    printf "$(basename $0): $@\n" > /dev/stderr
+    exit 2                              # An error occurred.
+}
+#+end_src
+
+~Die~ *must be a function* so that the calling script does exit with an error.
+
+*** Check for executable files
+
+~has~ checks presence of various command line tools on the PATH.
+
+#+begin_src shell
+has() {
+    for cmd in "$@"; do
+        command -v $cmd > /dev/null || die "$cmd not found."
+    done
+}
+#+end_src
+
+To find out if a given command exists, don't use ~which~ (because it is not in
+POSIX so its output format is unspecified, and it complains when nothing is
+found instead of being silent):
+
+#+begin_src shell :tangle no
+if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
+#+end_src
+
+Instead use:
+
+#+begin_src shell
+has() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo "$1 not found."
+        return 2                        # An error occurred.
+    fi
+}
+#+end_src
+
+#+begin_src shell :tangle no
+has ag && alias grep='ag'
+#+end_src
+
+See also
+https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
+
 ** Variables
 
 *** umask
@@ -2423,9 +2477,9 @@ export GREP_COLORS="sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=3
 
 - sl :: *Matching Lines* ("selected" lines)
 - cx :: Context Lines
-- mt :: *Matching Text*
-- ms ::
-- mc ::
+- mt :: *Matching Text* in any matching line
+- ms :: Matching text in a Selected line
+- mc :: Matching text in a Context line
 - fn :: File Name
 - ln :: Line Number
 - bn :: Byte Number
@@ -2887,8 +2941,8 @@ When first running ~gpg~:
 
 - Directory =~/.gnupg= created
 - New configuration file =~/.gnupg/gpg.conf= created
-- Keyring =~/.gnupg/secring.gpg= created
-- Keyring =~/.gnupg/pubring.gpg= created
+- Keyring =~/.gnupg/secring.gpg= created (empty)
+- Keyring =~/.gnupg/pubring.gpg= created (empty)
 
 *** Suppress the Cygwin DOS path warning
 

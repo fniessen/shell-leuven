@@ -8,6 +8,24 @@
 
 uname -s -n -r -m
 
+die() {
+    printf "$(basename $0): $@\n" > /dev/stderr
+    exit 2                              # An error occurred.
+}
+
+has() {
+    for cmd in "$@"; do
+        command -v $cmd > /dev/null || die "$cmd not found."
+    done
+}
+
+has() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo "$1 not found."
+        return 2                        # An error occurred.
+    fi
+}
+
 # Permissions on newly created files.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
