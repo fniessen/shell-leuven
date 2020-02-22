@@ -17,6 +17,98 @@ XXX https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 XXX https://www.linuxtrainingacademy.com/23-handy-bash-shell-aliases-for-unix-linux-and-mac-os-x/
 XXX https://pissedoffadmins.com/
 
+Autojump
+
+- Context sensitive completion;
+  + Executables (and aliases).
+  + Directory commands.
+  + Environment variables
+  + Thirdparty tools; Git, Mercurial, SVN, Go, and P4.
+- New keyboard shortcuts;
+  + Paste from clipboard (Ctrl-V).
+  + Incremental history search (Ctrl-R/Ctrl-S).
+  + Powerful completion (TAB).
+  + Undo (Ctrl-Z).
+  + Automatic "cd .." (Ctrl-Alt-U).
+  + Environment variable expansion (Ctrl-Alt-E).
+  + (press Alt-H for many more...)
+
+Undo/Redo (Ctrl-_ or Ctrl-X, Ctrl-U)
+Improved command line history.
+Persists across sessions.
+Searchable (Ctrl-R and Ctrl-S).
+History expansion (e.g. !!, !<string>, and !$).
+
+Here is also list with all Clink command shortcuts
+C-@     : set-mark
+C-a     : beginning-of-line
+C-b     : backward-char
+C-c     : ctrl-c
+C-d     : delete-char
+C-e     : end-of-line
+C-f     : forward-char
+C-g     : abort
+C-h     : backward-delete-char
+C-i     : clink-completion-shim
+C-j     : accept-line
+C-k     : kill-line
+C-l     : clear-screen
+C-m     : accept-line
+C-n     : next-history
+C-p     : previous-history
+C-q     : reload-lua-state
+C-r     : reverse-search-history
+C-s     : forward-search-history
+C-t     : transpose-chars
+C-u     : unix-line-discard
+C-v     : paste-from-clipboard
+C-w     : unix-word-rubout
+C-y     : yank
+C-z     : undo
+C-]     : character-search
+C-_     : undo
+A-C-c   : copy-line-to-clipboard
+A-C-e   : expand-env-vars
+A-C-g   : abort
+A-C-h   : backward-kill-word
+A-C-i   : tab-insert
+A-C-r   : revert-line
+A-C-u   : up-directory
+A-C-y   : yank-nth-arg
+A-C-[   : complete
+A-C-]   : character-search-backward
+A-      : set-mark
+A-#     : insert-comment
+A-&     : tilde-expand
+A-*     : insert-completions
+A-.     : yank-last-arg
+A-<     : beginning-of-history
+A-=     : possible-completions
+A->     : end-of-history
+A-?     : possible-completions
+A-     : delete-horizontal-space
+A-_     : yank-last-arg
+A-b     : backward-word
+A-c     : capitalize-word
+A-d     : kill-word
+A-f     : forward-word
+A-h     : show-rl-help
+A-l     : downcase-word
+A-n     : non-incremental-forward-search-history
+A-p     : non-incremental-reverse-search-history
+A-r     : revert-line
+A-t     : transpose-words
+A-u     : upcase-word
+A-y     : yank-pop
+A-~     : tilde-expand
+C-x,C-g : abort
+C-x,C-r : re-read-init-file
+C-x,C-u : undo
+C-x,C-x : exchange-point-and-mark
+C-x,(   : start-kbd-macro
+C-x,)   : end-kbd-macro
+C-x,e   : call-last-kbd-macro
+
 * Summary
 
 Shell-Leuven is a set of configuration files to take advantage of Bash and Zsh
@@ -436,11 +528,43 @@ bind -v | grep keymap
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
 
-# Ignore case while completing.
+# -- Variable Settings ---------------------------------------------------------
+
+# Ignore case while completing filenames.
 set completion-ignore-case on
+
+# Treat hypens and underscores as the same if completion-ignore-case is on.
+set completion-map-case on
 
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
+
+# Don't strip characters to 7 bits when reading (permit UTF-8).
+set input-meta on
+
+# Denote symlinks to directories with an appended slash.
+set mark-symlinked-directories on
+
+# Do not autocomplete hidden files unless the pattern begins with a dot.
+set match-hidden-files off
+
+# Display characters with the 8th bit set directly rather than as meta-prefixed
+# characters (permit UTF-8).
+set output-meta on
+
+# # Show all autocomplete results at once instead of via the internal pager.
+# set page-completions off
+
+# List all matches in case multiple possible completions are possible.
+set show-all-if-ambiguous on
+
+# Factor any text after the cursor position into completion matching.
+set skip-completed-text on
+
+# Show extra file information when completing similar to `ls -F`.
+set visible-stats on
+
+# -- Key Bindings --------------------------------------------------------------
 
 # Some modifications for the Emacs keymap.
 # <C-up/down> for searching matching commands from the history.
@@ -454,19 +578,22 @@ set convert-meta on
 Meta-p: history-search-backward
 Meta-n: history-search-forward
 
+# -- Key Bindings --------------------------------------------------------------
 
-# # Display all alternatives for completion after one tab keypress.
-# set show-all-if-ambiguous on
+# Set Delete/Insert keys to delete/insert chars on line
+"\e[3~": delete-char
+"\e[2~": quoted-insert
 
-# # Get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+# Set Ctrl+Left-arrow/Ctrl+Right-arrow to move to adjacent word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
-# # Don't strip characters to 7 bits when reading.
-# set input-meta on
-# # (Synonym of 'meta-flag'.)
+# Use any entered text as the prefix for searching command history
+"\e[B": history-search-forward
+"\e[A": history-search-backward
 
-# # Display characters with the eighth bit set directly rather than as
-# # meta-prefixed characters.
-# set output-meta on
+# Use Alt/Meta + Delete to delete the preceding word
+"\e[3;3~": kill-word
 #+end_src
 
 *** Tab completion

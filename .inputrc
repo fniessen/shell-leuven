@@ -6,11 +6,43 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: readline, dotfile, config
 
-# Ignore case while completing.
+# -- Variable Settings ---------------------------------------------------------
+
+# Ignore case while completing filenames.
 set completion-ignore-case on
+
+# Treat hypens and underscores as the same if completion-ignore-case is on.
+set completion-map-case on
 
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
+
+# Don't strip characters to 7 bits when reading (permit UTF-8).
+set input-meta on
+
+# Denote symlinks to directories with an appended slash.
+set mark-symlinked-directories on
+
+# Do not autocomplete hidden files unless the pattern begins with a dot.
+set match-hidden-files off
+
+# Display characters with the 8th bit set directly rather than as meta-prefixed
+# characters (permit UTF-8).
+set output-meta on
+
+# # Show all autocomplete results at once instead of via the internal pager.
+# set page-completions off
+
+# List all matches in case multiple possible completions are possible.
+set show-all-if-ambiguous on
+
+# Factor any text after the cursor position into completion matching.
+set skip-completed-text on
+
+# Show extra file information when completing similar to `ls -F`.
+set visible-stats on
+
+# -- Key Bindings --------------------------------------------------------------
 
 # Some modifications for the Emacs keymap.
 # <C-up/down> for searching matching commands from the history.
@@ -24,16 +56,19 @@ set convert-meta on
 Meta-p: history-search-backward
 Meta-n: history-search-forward
 
+# -- Key Bindings --------------------------------------------------------------
 
-# # Display all alternatives for completion after one tab keypress.
-# set show-all-if-ambiguous on
+# Set Delete/Insert keys to delete/insert chars on line
+"\e[3~": delete-char
+"\e[2~": quoted-insert
 
-# # Get Bash to display accented characters (Emacs *Meta Key* Problems in XTerm)
+# Set Ctrl+Left-arrow/Ctrl+Right-arrow to move to adjacent word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
-# # Don't strip characters to 7 bits when reading.
-# set input-meta on
-# # (Synonym of 'meta-flag'.)
+# Use any entered text as the prefix for searching command history
+"\e[B": history-search-forward
+"\e[A": history-search-backward
 
-# # Display characters with the eighth bit set directly rather than as
-# # meta-prefixed characters.
-# set output-meta on
+# Use Alt/Meta + Delete to delete the preceding word
+"\e[3;3~": kill-word
