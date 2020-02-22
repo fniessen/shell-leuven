@@ -49,14 +49,17 @@ case "$TERM" in
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
-        PS1='\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi)\
-\[\033]0;$PWD\007\] \
+        PS1='\[\033]0;$PWD\007\]\n\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi) \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
 \[\033[36m\]`__git_ps1`\n\
-\[\033[32m\]$\[\033[0m\] '
+\[\033[35m\]$\[\033[0m\] '
+
+# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ '
+
+
         ;;
     *) # emacs
         # `M-x shell' under EmacsW32.
@@ -81,23 +84,24 @@ shopt -s cdspell
 # Make sure display get updated when terminal window get resized.
 shopt -q -s checkwinsize
 
-# When running two bash windows, allow both to write to the history.
+# When running two Bash windows, allow both to write to the history.
 shopt -s histappend
 
 # Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 
-# Store 10000 commands in history buffer.
+# Store 10,000 commands in history.
 export HISTSIZE=10000
+export HISTFILESIZE=$HISTSIZE
 
-# Store 10000 commands in history FILE.
-export HISTFILESIZE=10000
+HISTTIMEFORMAT="%y-%m-%d %H:%M:%S "
+# export HISTTIMEFORMAT="[%F %T] "
 
-# Avoid recording common commands (like ls, top and clear).
+# Blacklist - Avoid recording common commands (like ls, top and clear).
 export HISTIGNORE="ls*:top:clear"
 
 # Ignore duplicate commands and commands starting with space.
-export HISTCONTROL="ignoreboth"         # Prefix a command with a space to keep it out of the history.
+HISTCONTROL=ignoredups:ignorespace
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup

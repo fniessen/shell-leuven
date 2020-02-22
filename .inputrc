@@ -12,18 +12,7 @@ set completion-ignore-case on
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
 
-# Behave like Emacs when editing.
-set editing-mode emacs                  # Ctrl-a/e      Start/End of line.
-                                        # Ctrl-f/b      Forward/Backward one character.
-                                        # Ctrl-d        Delete one character.
-                                        # Ctrl-k        Kill line.
-                                        # Ctrl-p/n      Previous/Next command in history.
-                                        # Ctrl-r        Search for command in history.
-                                        # Ctrl-i/TAB    File name completion.
-
-# Some defaults / modifications for the Emacs mode.
-$if mode=emacs
-
+# Some modifications for the Emacs keymap.
 # <C-up/down> for searching matching commands from the history.
 "\e[1;5A": history-search-backward
 "\e[1;5B": history-search-forward
@@ -35,7 +24,6 @@ $if mode=emacs
 Meta-p: history-search-backward
 Meta-n: history-search-forward
 
-$endif
 
 # # Display all alternatives for completion after one tab keypress.
 # set show-all-if-ambiguous on

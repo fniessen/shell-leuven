@@ -287,14 +287,17 @@ case "$TERM" in
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
-        PS1='\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi)\
-\[\033]0;$PWD\007\] \
+        PS1='\[\033]0;$PWD\007\]\n\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi) \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
 \[\033[36m\]`__git_ps1`\n\
-\[\033[32m\]$\[\033[0m\] '
+\[\033[35m\]$\[\033[0m\] '
+
+# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ '
+
+
         ;;
     ,*) # emacs
         # `M-x shell' under EmacsW32.
@@ -343,7 +346,7 @@ shopt -s cdspell
 # Make sure display get updated when terminal window get resized.
 shopt -q -s checkwinsize
 
-# When running two bash windows, allow both to write to the history.
+# When running two Bash windows, allow both to write to the history.
 shopt -s histappend
 
 # Make multi-line commands 1 line in history.
@@ -355,18 +358,33 @@ shopt -q -s cmdhist
 Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
-# Store 10000 commands in history buffer.
+# Store 10,000 commands in history.
 export HISTSIZE=10000
+export HISTFILESIZE=$HISTSIZE
 
-# Store 10000 commands in history FILE.
-export HISTFILESIZE=10000
+HISTTIMEFORMAT="%y-%m-%d %H:%M:%S "
+# export HISTTIMEFORMAT="[%F %T] "
 
-# Avoid recording common commands (like ls, top and clear).
+# Blacklist - Avoid recording common commands (like ls, top and clear).
 export HISTIGNORE="ls*:top:clear"
-
-# Ignore duplicate commands and commands starting with space.
-export HISTCONTROL="ignoreboth"         # Prefix a command with a space to keep it out of the history.
 #+end_src
+
+Prefix a command with a space to hide it from history (suitable for sensitive
+information like passwords):
+
+#+begin_src shell
+# Ignore duplicate commands and commands starting with space.
+HISTCONTROL=ignoredups:ignorespace
+#+end_src
+
+#+begin_tip
+There is no reason to ~export~ the ~HISTCONTROL~ and ~PROMPT_COMMAND~ variables: you
+are defining them in .bashrc so they will be defined in every shell (even in
+non-interactive ones, which is also wasteful). -- dolmen
+#+end_tip
+
+See also [[https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows][Preserve bash history in multiple terminal windows]] to keep Bash history
+in sync between multiple terminals.
 
 Le ~!~ en shell permet plein de trucs sympa.
 
@@ -386,6 +404,9 @@ bash: convret: command not found
 $ gm convert !*
 #+end_src
 
+See also http://dvorka.github.io/hstr/ to easily view, navigate and search your
+command history with shell history suggest box.
+
 ** Bindings
 
 *** Command line editor
@@ -397,6 +418,14 @@ The =.inputrc= file controls the behavior of line input editing for programs tha
 use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 
 See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
+
+by default, Bash uses Emacs style keyboard shortcuts when editing (C-a, C-e,
+etc.).  Check your active bash keymap with:
+
+#+begin_src shell :tangle no
+bind -v | grep editing-mode
+bind -v | grep keymap
+#+end_src
 
 #+begin_src shell :noweb yes
 # Hey Emacs, this is a -*- sh -*- file
@@ -413,18 +442,7 @@ set completion-ignore-case on
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 set convert-meta on
 
-# Behave like Emacs when editing.
-set editing-mode emacs                  # Ctrl-a/e      Start/End of line.
-                                        # Ctrl-f/b      Forward/Backward one character.
-                                        # Ctrl-d        Delete one character.
-                                        # Ctrl-k        Kill line.
-                                        # Ctrl-p/n      Previous/Next command in history.
-                                        # Ctrl-r        Search for command in history.
-                                        # Ctrl-i/TAB    File name completion.
-
-# Some defaults / modifications for the Emacs mode.
-$if mode=emacs
-
+# Some modifications for the Emacs keymap.
 # <C-up/down> for searching matching commands from the history.
 "\e[1;5A": history-search-backward
 "\e[1;5B": history-search-forward
@@ -436,7 +454,6 @@ $if mode=emacs
 Meta-p: history-search-backward
 Meta-n: history-search-forward
 
-$endif
 
 # # Display all alternatives for completion after one tab keypress.
 # set show-all-if-ambiguous on
@@ -568,12 +585,22 @@ zstyle ':vcs_info:*' enable git
 #+begin_src shell
 PROMPT="
 %B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
-%F{green}%(!.#.$)%f "
+%F{magenta}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
+#+end_src
+
+#+begin_src shell
+# function set_terminal_title() {
+#   echo -en "\e]2;$@\a"
+# }
+#
+# function precmd() {
+#   set_terminal_title
+# }
 #+end_src
 
 Insert beep when last command has failed.
@@ -976,13 +1003,14 @@ setopt HIST_IGNORE_ALL_DUPS     #! Ignore duplicate commands regardless of comma
 setopt HIST_IGNORE_DUPS         # Ignore duplicate commands.
 setopt HIST_REDUCE_BLANKS       # Leave blanks out.
 setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
+
 setopt INC_APPEND_HISTORY       # Write after each command.
 setopt SHARE_HISTORY            # Share history between sessions.
 #+end_src
 
 #+begin_src shell
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=10000                  # In memory.
+SAVEHIST=$HISTSIZE              # To file.
 #+end_src
 
 ** Bindings
@@ -1681,7 +1709,7 @@ LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 # Make `ls' produce ISO 8601 format.
 export TIME_STYLE=long-iso
 
-# Enable color support of `ls'.
+# Colorize `ls' output.
 if [[ "$TERM" != "dumb" ]]; then
 
     # Add my coloration scheme to directory listings.

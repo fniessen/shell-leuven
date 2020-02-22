@@ -30,12 +30,20 @@ zstyle ':vcs_info:*' enable git
 
 PROMPT="
 %B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
-%F{green}%(!.#.$)%f "
+%F{magenta}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
                                         # . - Abbreviated pwd.
                                         # ! - su?
+
+# function set_terminal_title() {
+#   echo -en "\e]2;$@\a"
+# }
+#
+# function precmd() {
+#   set_terminal_title
+# }
 
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
@@ -221,11 +229,12 @@ setopt HIST_IGNORE_ALL_DUPS     #! Ignore duplicate commands regardless of comma
 setopt HIST_IGNORE_DUPS         # Ignore duplicate commands.
 setopt HIST_REDUCE_BLANKS       # Leave blanks out.
 setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
+
 setopt INC_APPEND_HISTORY       # Write after each command.
 setopt SHARE_HISTORY            # Share history between sessions.
 
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=10000                  # In memory.
+SAVEHIST=$HISTSIZE              # To file.
 
 # Behave like Emacs when editing.
 bindkey -e

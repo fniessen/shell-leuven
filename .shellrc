@@ -149,7 +149,7 @@ LS_OPTIONS="$LS_OPTIONS --show-control-chars"
 # Make `ls' produce ISO 8601 format.
 export TIME_STYLE=long-iso
 
-# Enable color support of `ls'.
+# Colorize `ls' output.
 if [[ "$TERM" != "dumb" ]]; then
 
     # Add my coloration scheme to directory listings.
