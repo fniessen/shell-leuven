@@ -162,9 +162,6 @@ bind '"\e[A": history-search-backward'
 bind '"\e[3~": delete-char'
 bind '"\e[2~": quoted-insert'
 
-# Use Alt-DEL to delete the preceding word.
-bind '"\e[3;3~": kill-word'
-
 # Make TAB cycle through commands after listing.
 bind '"\t": menu-complete'
 

@@ -86,7 +86,6 @@ A-?     : possible-completions
 A-     : delete-horizontal-space
 A-_     : yank-last-arg
 A-c     : capitalize-word
-A-d     : kill-word
 A-h     : show-rl-help
 A-l     : downcase-word
 A-n     : non-incremental-forward-search-history
@@ -598,11 +597,6 @@ bind '"\e[2~": quoted-insert'
 #+end_src
 
 *** Killing And Yanking
-
-#+begin_src shell
-# Use Alt-DEL to delete the preceding word.
-bind '"\e[3;3~": kill-word'
-#+end_src
 
 *** Specifying Numeric Arguments
 
@@ -1291,9 +1285,6 @@ zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
 
 # 4 Killing And Yanking ----------------
-
-# Use Alt/Meta + Delete to delete the preceding word
-"\e[3;3~": kill-word
 
 # 5 Specifying Numeric Arguments -------
 

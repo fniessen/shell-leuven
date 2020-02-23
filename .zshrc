@@ -276,9 +276,6 @@ bindkey "^?" backward-delete-char-beep
 
 # 4 Killing And Yanking ----------------
 
-# Use Alt/Meta + Delete to delete the preceding word
-"\e[3;3~": kill-word
-
 # 5 Specifying Numeric Arguments -------
 
 # 6 Letting Readline Type For You ------
