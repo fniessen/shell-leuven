@@ -90,6 +90,42 @@ shopt -s histappend
 # Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 
+# -- Variable Settings ---------------------------------------------------------
+
+# Ignore case while completing filenames.
+bind "set completion-ignore-case on"
+
+# Treat hypens and underscores as the same if completion-ignore-case is on.
+bind "set completion-map-case on"
+
+# Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
+bind "set convert-meta on"
+
+# Don't strip characters to 7 bits when reading (permit UTF-8).
+bind "set input-meta on"
+
+# Denote symlinks to directories with an appended slash.
+bind "set mark-symlinked-directories on"
+
+# Do not autocomplete hidden files unless the pattern begins with a dot.
+bind "set match-hidden-files off"
+
+# Display characters with the 8th bit set directly rather than as meta-prefixed
+# characters (permit UTF-8).
+bind "set output-meta on"
+
+# # Show all autocomplete results at once instead of via the internal pager.
+# bind "set page-completions off"
+
+# List all matches in case multiple possible completions are possible.
+bind "set show-all-if-ambiguous on"
+
+# Factor any text after the cursor position into completion matching.
+bind "set skip-completed-text on"
+
+# Show extra file information when completing similar to `ls -F`.
+bind "set visible-stats on"
+
 # Store 10,000 commands in history.
 export HISTSIZE=10000
 export HISTFILESIZE=$HISTSIZE

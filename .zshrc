@@ -287,6 +287,13 @@ bindkey "^?" backward-delete-char-beep
 
 # 8 Some Miscellaneous Commands --------
 
+# C-M-u: up-directory
+up-directory() {
+    \cd .. && zle reset-prompt
+}
+zle -N up-directory
+bindkey '\CU' up-directory
+
 alias -g 21="2>&1"
 alias -g A='| awk'
 alias -g BG='& exit'

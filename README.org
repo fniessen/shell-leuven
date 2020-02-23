@@ -71,7 +71,6 @@ A-C-g   : abort
 A-C-h   : backward-kill-word
 A-C-i   : tab-insert
 A-C-r   : revert-line
-A-C-u   : up-directory
 A-C-y   : yank-nth-arg
 A-C-[   : complete
 A-C-]   : character-search-backward
@@ -441,6 +440,44 @@ shopt -s histappend
 shopt -q -s cmdhist
 #+end_src
 
+#+begin_src shell
+# -- Variable Settings ---------------------------------------------------------
+
+# Ignore case while completing filenames.
+bind "set completion-ignore-case on"
+
+# Treat hypens and underscores as the same if completion-ignore-case is on.
+bind "set completion-map-case on"
+
+# Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
+bind "set convert-meta on"
+
+# Don't strip characters to 7 bits when reading (permit UTF-8).
+bind "set input-meta on"
+
+# Denote symlinks to directories with an appended slash.
+bind "set mark-symlinked-directories on"
+
+# Do not autocomplete hidden files unless the pattern begins with a dot.
+bind "set match-hidden-files off"
+
+# Display characters with the 8th bit set directly rather than as meta-prefixed
+# characters (permit UTF-8).
+bind "set output-meta on"
+
+# # Show all autocomplete results at once instead of via the internal pager.
+# bind "set page-completions off"
+
+# List all matches in case multiple possible completions are possible.
+bind "set show-all-if-ambiguous on"
+
+# Factor any text after the cursor position into completion matching.
+bind "set skip-completed-text on"
+
+# Show extra file information when completing similar to `ls -F`.
+bind "set visible-stats on"
+#+end_src
+
 ** History
 
 Access and modify commands that you had previously typed at the command line.
@@ -513,52 +550,6 @@ etc.).  Check your active bash keymap with:
 #+begin_src shell :tangle no
 bind -v | grep editing-mode
 bind -v | grep keymap
-#+end_src
-
-#+begin_src shell :noweb yes
-# Hey Emacs, this is a -*- sh -*- file
-## .inputrc --- my Readline Init File
-
-# Copyright (C) 2005-<<current-year()>> Fabrice Niessen
-
-# Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
-# Keywords: readline, dotfile, config
-
-# -- Variable Settings ---------------------------------------------------------
-
-# Ignore case while completing filenames.
-set completion-ignore-case on
-
-# Treat hypens and underscores as the same if completion-ignore-case is on.
-set completion-map-case on
-
-# Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
-set convert-meta on
-
-# Don't strip characters to 7 bits when reading (permit UTF-8).
-set input-meta on
-
-# Denote symlinks to directories with an appended slash.
-set mark-symlinked-directories on
-
-# Do not autocomplete hidden files unless the pattern begins with a dot.
-set match-hidden-files off
-
-# Display characters with the 8th bit set directly rather than as meta-prefixed
-# characters (permit UTF-8).
-set output-meta on
-
-# # Show all autocomplete results at once instead of via the internal pager.
-# set page-completions off
-
-# List all matches in case multiple possible completions are possible.
-set show-all-if-ambiguous on
-
-# Factor any text after the cursor position into completion matching.
-set skip-completed-text on
-
-# Show extra file information when completing similar to `ls -F`.
-set visible-stats on
 #+end_src
 
 #+begin_src shell :tangle .bashrc
@@ -1259,6 +1250,13 @@ bindkey "^?" backward-delete-char-beep
 # 7 Keyboard Macros --------------------
 
 # 8 Some Miscellaneous Commands --------
+
+# C-M-u: up-directory
+up-directory() {
+    \cd .. && zle reset-prompt
+}
+zle -N up-directory
+bindkey '\CU' up-directory
 #+end_src
 
 ** Abbreviations
