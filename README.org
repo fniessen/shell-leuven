@@ -104,10 +104,23 @@ C-x,(   : start-kbd-macro
 C-x,)   : end-kbd-macro
 C-x,e   : call-last-kbd-macro
 
-* Summary
+* How Shell-Leuven is different from the default configuration
 
-Shell-Leuven is a set of configuration files to take advantage of Bash and Zsh
-on Mac OS X, Linux and Windows (with Cygwin).
+Shell-Leuven is a set of configuration files to customize your Bash and Zsh
+experience on Windows (with Cygwin or Git BASH), Linux and Mac OS.
+
+The features that differentiate Shell-Leuven from the default configuration
+include:
+
+- *Autosuggestions --* Shell-Leuven suggests commands (in muted gray) as you type,
+  based on your command history and command completions.
+
+- *Man Page Completions --* Shell-Leuven generates command completion options
+  automatically by parsing installed man pages.
+
+- *Syntax highlighting --* Shell-Leuven uses different colors for parts of
+  commands to help users focus on different things (e.g., commands versus
+  arguments).
 
 * COMMENT Tasks
 
@@ -424,25 +437,6 @@ well.
 ** Variables
 
 #+begin_src shell
-# Automatically cd into a  directory without the `cd' in front of it.
-shopt -s autocd
-
-# Correct dir spellings.
-shopt -s cdspell
-
-# Make sure display get updated when terminal window get resized.
-shopt -q -s checkwinsize
-
-# When running two Bash windows, allow both to write to the history.
-shopt -s histappend
-
-# Make multi-line commands 1 line in history.
-shopt -q -s cmdhist
-#+end_src
-
-#+begin_src shell
-# -- Variable Settings ---------------------------------------------------------
-
 # Ignore case while completing filenames.
 bind "set completion-ignore-case on"
 
@@ -471,11 +465,40 @@ bind "set output-meta on"
 # List all matches in case multiple possible completions are possible.
 bind "set show-all-if-ambiguous on"
 
+# bind "set menu-complete-display-prefix on"
+
+
+set show-all-if-unmodified on
+# Color the common prefix
+set colored-completion-prefix on
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix on
+# Note that this may cause completion text blink in some terminals (e.g. xterm).
+set colored-stats on
+
+
 # Factor any text after the cursor position into completion matching.
 bind "set skip-completed-text on"
 
 # Show extra file information when completing similar to `ls -F`.
-bind "set visible-stats on"
+bind "set visible-stats off"
+#+end_src
+
+#+begin_src shell
+# Automatically cd into a  directory without the `cd' in front of it.
+shopt -s autocd
+
+# Correct dir spellings.
+shopt -s cdspell
+
+# Make sure display get updated when terminal window get resized.
+shopt -q -s checkwinsize
+
+# When running two Bash windows, allow both to write to the history.
+shopt -s histappend
+
+# Make multi-line commands 1 line in history.
+shopt -q -s cmdhist
 #+end_src
 
 ** History
@@ -534,64 +557,70 @@ command history with shell history suggest box.
 
 ** Key Bindings
 
-*** Command line editor
-:PROPERTIES:
-:header-args+: :tangle .inputrc
-:END:
-
-The =.inputrc= file controls the behavior of line input editing for programs that
-use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
+The =.inputrc= file controls the behavior of the *command line editor* for programs
+that use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
 
 See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
 
 by default, Bash uses Emacs style keyboard shortcuts when editing (C-a, C-e,
-etc.).  Check your active bash keymap with:
+etc.).  Check your active Bash keymap with:
 
 #+begin_src shell :tangle no
 bind -v | grep editing-mode
 bind -v | grep keymap
 #+end_src
 
-#+begin_src shell :tangle .bashrc
-# 1 Commands For Moving ----------------
+The key bindings can also be part of =.bashrc= (by adding single quotes).
 
+*** Commands For Moving
+
+#+begin_src shell
 # Set <C-left/right> to move by whole words.
 bind '"\e[1;5C": forward-word'
 bind '"\e[1;5D": backward-word'
+#+end_src
 
-# 2 Commands For Manipulating The History
+*** Commands For Manipulating The History
 
+#+begin_src shell
 # Very nice history search.  Type text (as prefix) and hit up <up/down> to
-# search witin command history.  No C-r required.
+# search witin command history (no C-r required).
 bind '"\e[B": history-search-forward'
 bind '"\e[A": history-search-backward'
+#+end_src
 
-# 3 Commands For Changing Text ---------
+*** Commands For Changing Text
 
+#+begin_src shell
 # Set Delete/Insert keys to delete/insert chars on line
 bind '"\e[3~": delete-char'
 bind '"\e[2~": quoted-insert'
-
-# 4 Killing And Yanking ----------------
-
-# Use Alt-DEL to delete the preceding word.
-bind '"\e[3;3~": kill-word'
-
-# 5 Specifying Numeric Arguments -------
-
-# 6 Letting Readline Type For You ------
-
-# 7 Keyboard Macros --------------------
-
-# 8 Some Miscellaneous Commands --------
 #+end_src
 
-*** Tab completion
+*** Killing And Yanking
+
+#+begin_src shell
+# Use Alt-DEL to delete the preceding word.
+bind '"\e[3;3~": kill-word'
+#+end_src
+
+*** Specifying Numeric Arguments
+
+*** Letting Readline Type For You
+
+#+begin_src shell
+# Make TAB cycle through commands after listing.
+bind '"\t": menu-complete'
+#+end_src
+
+**** Tab completion
 
 - The programs man and whatis show all installed manual pages as completions.
-- The make program uses all targets in the Makefile in the current directory as completions.
+- The make program uses all targets in the Makefile in the current directory as
+  completions.
 - The mount command uses all mount points specified in fstab as completions.
-- The ssh command uses all hosts that are stored in the known_hosts file as completions. (See the ssh documentation for more information)
+- The ssh command uses all hosts that are stored in the known_hosts file as
+  completions. (See the ssh documentation for more information)
 - The su command uses all users on the system as completions.
 - The apt-get, rpm and yum commands use all installed packages as completions.
 
@@ -600,7 +629,30 @@ complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 #+end_src
 
-*** Getting Help
+*** Keyboard Macros
+
+*** Some Miscellaneous Commands
+
+This makes Ctrl+Alt+L append "| less" to the line and run it (Ctrl+M is
+equivalent to Enter):
+
+"\e\C-l": "\C-e | less\C-m"
+
+The next one prefixes the line with 'yes |' when pressing Ctrl+Alt+Y, confirming
+any yes/no question the command might ask:
+
+"\e\C-y": "\C-ayes | \C-m"
+
+This example wraps the line in su -c '', if Alt+S is pressed:
+
+"\es": "\C-a su -c '\C-e'\C-m"
+
+This example prefixes the line with sudo , if Alt+S is pressed. It's safer
+because it won't input the Enter key.
+
+"\es": "\C-asudo \C-e"
+
+**** Getting Help
 
 In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
 exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
@@ -741,21 +793,21 @@ BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 #+end_src
 
-# To get a blank line before the prompt, you can write a function to echo a blank
-# line and adding it to your ~preexec~ or ~precmd~ hooks.
-#
-# Technically, it doesn't insert a line after each commands output, but inserts
-# a blank line before building the prompt. However, the end result is the
-# same.
-#
-# #+begin_src shell
-# echo_blank() {
-#     echo
-# }
-#
-# # preexec_functions+=echo_blank
-# precmd_functions+=echo_blank
-# #+end_src
+To get a *blank line before the prompt*, you can simply write a function to echo
+a blank line and add it to your ~preexec~ or ~precmd~ hooks.
+
+Technically, it doesn't insert a line after each commands output, but inserts
+a blank line before building the prompt.  However, the end result is the
+same.
+
+#+begin_src shell :tangle no
+echo_blank() {
+    echo
+}
+
+# preexec_functions+=echo_blank
+precmd_functions+=echo_blank
+#+end_src
 
 Don't confuse TRAMP:
 

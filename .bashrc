@@ -75,23 +75,6 @@ export PS2="incomplete? continue here-> "
 # Get line numbers when you run with `-x'.
 PS4='+'$grn'[$0:$LINENO]+ '${reset_color}
 
-# Automatically cd into a  directory without the `cd' in front of it.
-shopt -s autocd
-
-# Correct dir spellings.
-shopt -s cdspell
-
-# Make sure display get updated when terminal window get resized.
-shopt -q -s checkwinsize
-
-# When running two Bash windows, allow both to write to the history.
-shopt -s histappend
-
-# Make multi-line commands 1 line in history.
-shopt -q -s cmdhist
-
-# -- Variable Settings ---------------------------------------------------------
-
 # Ignore case while completing filenames.
 bind "set completion-ignore-case on"
 
@@ -120,11 +103,38 @@ bind "set output-meta on"
 # List all matches in case multiple possible completions are possible.
 bind "set show-all-if-ambiguous on"
 
+# bind "set menu-complete-display-prefix on"
+
+
+set show-all-if-unmodified on
+# Color the common prefix
+set colored-completion-prefix on
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix on
+# Note that this may cause completion text blink in some terminals (e.g. xterm).
+set colored-stats on
+
+
 # Factor any text after the cursor position into completion matching.
 bind "set skip-completed-text on"
 
 # Show extra file information when completing similar to `ls -F`.
-bind "set visible-stats on"
+bind "set visible-stats off"
+
+# Automatically cd into a  directory without the `cd' in front of it.
+shopt -s autocd
+
+# Correct dir spellings.
+shopt -s cdspell
+
+# Make sure display get updated when terminal window get resized.
+shopt -q -s checkwinsize
+
+# When running two Bash windows, allow both to write to the history.
+shopt -s histappend
+
+# Make multi-line commands 1 line in history.
+shopt -q -s cmdhist
 
 # Store 10,000 commands in history.
 export HISTSIZE=10000
@@ -139,37 +149,24 @@ export HISTIGNORE="ls*:top:clear"
 # Ignore duplicate commands and commands starting with space.
 HISTCONTROL=ignoredups:ignorespace
 
-# 1 Commands For Moving ----------------
-
 # Set <C-left/right> to move by whole words.
 bind '"\e[1;5C": forward-word'
 bind '"\e[1;5D": backward-word'
 
-# 2 Commands For Manipulating The History
-
 # Very nice history search.  Type text (as prefix) and hit up <up/down> to
-# search witin command history.  No C-r required.
+# search witin command history (no C-r required).
 bind '"\e[B": history-search-forward'
 bind '"\e[A": history-search-backward'
-
-# 3 Commands For Changing Text ---------
 
 # Set Delete/Insert keys to delete/insert chars on line
 bind '"\e[3~": delete-char'
 bind '"\e[2~": quoted-insert'
 
-# 4 Killing And Yanking ----------------
-
 # Use Alt-DEL to delete the preceding word.
 bind '"\e[3;3~": kill-word'
 
-# 5 Specifying Numeric Arguments -------
-
-# 6 Letting Readline Type For You ------
-
-# 7 Keyboard Macros --------------------
-
-# 8 Some Miscellaneous Commands --------
+# Make TAB cycle through commands after listing.
+bind '"\t": menu-complete'
 
 complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
