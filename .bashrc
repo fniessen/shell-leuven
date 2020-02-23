@@ -168,7 +168,7 @@ bind '"\t": menu-complete'
 complete -A helptopic help
 complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
 
-# ESC-h (or M-h) = run-help.
+# M-h = run-help.
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 # Common configuration.

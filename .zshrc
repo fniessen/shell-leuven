@@ -27,7 +27,7 @@ precmd_vcs_info() {
 }
 precmd_functions+=( precmd_vcs_info )
 setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
-zstyle ':vcs_info:git:*' formats '%F{magenta}(%b)%f'
+zstyle ':vcs_info:git:*' formats '%F{cyan}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 PROMPT="
@@ -41,7 +41,7 @@ PROMPT="
 
 case "$TERM" in
     xterm*|rxvt*)
-        precmd() {  print -Pn "\e]0;%m: %~\a" }
+        precmd()  { print -Pn "\e]0;%m: %~\a" }
         preexec() { print -n "\e]0;$HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
 esac
 
@@ -248,21 +248,15 @@ SAVEHIST=$HISTSIZE              # To file.
 # # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
 
-# 1 Commands For Moving ----------------
-
 # Set <C-left/right> to move by whole words.
 bindkey '\e[1;5C' forward-word
 bindkey '\e[1;5D' backward-word
-
-# 2 Commands For Manipulating The History
 
 # <up/down> for searching matching commands from the history.
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\eOA' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 bindkey '\eOB' history-beginning-search-forward
-
-# 3 Commands For Changing Text ---------
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
@@ -274,22 +268,12 @@ backward-delete-char-beep() {
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep
 
-# 4 Killing And Yanking ----------------
-
-# 5 Specifying Numeric Arguments -------
-
-# 6 Letting Readline Type For You ------
-
-# 7 Keyboard Macros --------------------
-
-# 8 Some Miscellaneous Commands --------
-
 # C-M-u: up-directory
 up-directory() {
-    \cd .. && zle reset-prompt
+    builtin cd .. && zle reset-prompt
 }
 zle -N up-directory
-bindkey '\CU' up-directory
+bindkey '\e\C-u' up-directory
 
 alias -g 21="2>&1"
 alias -g A='| awk'
