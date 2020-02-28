@@ -121,6 +121,21 @@ include:
   commands to help users focus on different things (e.g., commands versus
   arguments).
 
+* Installation
+
+** Try Online
+
+Run the following command in your shell to try Shell-Leuven without installing:
+
+#+begin_src shell
+# Source file.
+. < (curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/XXX.zsh)
+#+end_src
+
+** Manual Installation
+
+Download and source XXX.bash or XXX.zsh in your shell config.
+
 * COMMENT Tasks
 
 ** TODO Look at shell scripts
@@ -386,8 +401,8 @@ case "$TERM" in
         # `M-x shell' under Cygwin Emacs.
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
-        PS1='\[\033]0;$PWD\007\]\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]v"; else printf "\[\033[01;31m\]$BEL$st"; fi) \
+        PS1='\[\033]0;Bash $PWD\007\]\n\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]\\u2713"; else printf "\[\033[01;31m\]$BEL$st"; fi) \
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
@@ -654,6 +669,22 @@ side (that is, to insert the text "> output" into the line)
 
 "\C-d": kill-whole-line Map control-d to kill the whole line.
 
+
+
+
+
+FZF Key bindings for command line
+- CTRL-T - Paste the selected files and directories onto the command line
+  Set FZF_CTRL_T_COMMAND to override the default command
+  Set FZF_CTRL_T_OPTS to pass additional options
+- CTRL-R - Paste the selected command from history onto the command line
+  If you want to see the commands in chronological order, press CTRL-R again which toggles sorting by relevance
+  Set FZF_CTRL_R_OPTS to pass additional options
+- ALT-C - cd into the selected directory
+  Set FZF_ALT_C_COMMAND to override the default command
+  Set FZF_ALT_C_OPTS to pass additional options
+
+
 **** Getting Help
 
 In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
@@ -758,7 +789,7 @@ zstyle ':vcs_info:*' enable git
 
 #+begin_src shell
 PROMPT="
-%B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%B%(?.%F{green}"$'\u2713'".%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
 %F{magenta}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
@@ -776,7 +807,7 @@ use:
 case "$TERM" in
     xterm*|rxvt*)
         precmd()  { print -Pn "\e]0;%m: %~\a" }
-        preexec() { print -n "\e]0;$HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
+        preexec() { print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
 esac
 #+end_src
 
@@ -1270,19 +1301,17 @@ for each key combination in between the two quotes.
 *** Commands For Moving
 
 #+begin_src shell
-# Set <C-left/right> to move by whole words.
-bindkey '\e[1;5C' forward-word
-bindkey '\e[1;5D' backward-word
+# Move by whole words.
+bindkey '\e[1;5C' forward-word          # <C-right>
+bindkey '\e[1;5D' backward-word # <C-left>
 #+end_src
 
 *** Commands For Manipulating The History
 
 #+begin_src shell
-# <up/down> for searching matching commands from the history.
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\eOA' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-bindkey '\eOB' history-beginning-search-forward
+# Search matching commands from the history.
+bindkey '\e[A' history-beginning-search-backward # <up>
+bindkey '\e[B' history-beginning-search-forward  # <down>
 #+end_src
 
 *** Commands For Changing Text
@@ -1308,6 +1337,11 @@ bindkey "^?" backward-delete-char-beep
 *** Keyboard Macros
 
 *** Some Miscellaneous Commands
+
+From Dan Davison:
+bindkey '\ee' edit-command-line-in-shell-mode
+bindkey '^W' kill-region
+bindkey '^x^r' replace-string
 
 #+begin_src shell
 # C-M-u: up-directory
@@ -2133,6 +2167,15 @@ alias root='sudo -i'
 #+end_src
 
 #+begin_src shell
+alias update='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt autoremove -y'
+#+end_src
+
+#+begin_src shell
+alias poweroff="systemctl poweroff"
+alias reboot="systemctl reboot"
+#+end_src
+
+#+begin_src shell
 # Make executable.
 alias exe='chmod +x'
 alias addx='chmod +x'
@@ -2348,6 +2391,29 @@ alias dkm='docker-machine'
 
 alias dk-ips="docker ps -q | xargs -n 1 docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} {{ .Name }}' | sed 's/ \//\t/'"
 alias dk-clean='docker-clean'
+
+
+
+alias db='docker build'
+alias dc='docker-compose'
+alias de='docker exec'
+alias del='docker exec -it $(docker ps -q | head -n1) bash'
+alias di='docker images'
+alias docker-clean='docker-rm-all && docker-prune'
+alias docker-prune='docker rmi $(docker images -f "dangling=true" -q)'
+alias docker-rm-all='docker rm -f $(docker ps -a -q)'
+alias dps='docker ps'
+alias dr='docker run'
+alias drl="docker-run-last"
+
+
+
+alias dl="docker ps -l -q"
+alias dps="docker ps"
+alias di="docker images"
+alias dkd="docker run -d -P"
+alias dki="docker run -i -t -P"
+alias dex="docker exec -i -t"
 #+end_src
 
 #+begin_src shell

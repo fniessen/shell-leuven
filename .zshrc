@@ -31,7 +31,7 @@ zstyle ':vcs_info:git:*' formats '%F{cyan}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 PROMPT="
-%B%(?.%F{green}v.%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%B%(?.%F{green}"$'\u2713'".%F{red}$(tput bel)%?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
 %F{magenta}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
@@ -42,7 +42,7 @@ PROMPT="
 case "$TERM" in
     xterm*|rxvt*)
         precmd()  { print -Pn "\e]0;%m: %~\a" }
-        preexec() { print -n "\e]0;$HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
+        preexec() { print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
 esac
 
 BEL=$(tput bel)
@@ -248,15 +248,13 @@ SAVEHIST=$HISTSIZE              # To file.
 # # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
 
-# Set <C-left/right> to move by whole words.
-bindkey '\e[1;5C' forward-word
-bindkey '\e[1;5D' backward-word
+# Move by whole words.
+bindkey '\e[1;5C' forward-word          # <C-right>
+bindkey '\e[1;5D' backward-word # <C-left>
 
-# <up/down> for searching matching commands from the history.
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\eOA' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-bindkey '\eOB' history-beginning-search-forward
+# Search matching commands from the history.
+bindkey '\e[A' history-beginning-search-backward # <up>
+bindkey '\e[B' history-beginning-search-forward  # <down>
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
