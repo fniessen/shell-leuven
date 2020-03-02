@@ -2167,12 +2167,15 @@ alias root='sudo -i'
 #+end_src
 
 #+begin_src shell
-alias update='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt autoremove -y'
+alias poweroff="systemctl poweroff"
+alias reboot="systemctl reboot"
 #+end_src
 
 #+begin_src shell
-alias poweroff="systemctl poweroff"
-alias reboot="systemctl reboot"
+alias sysupdate='sudo apt-get update \
+    && sudo apt-get upgrade -y \
+    && sudo apt-get dist-upgrade -y \
+    && sudo apt-get autoremove -y'
 #+end_src
 
 #+begin_src shell
@@ -2610,11 +2613,6 @@ alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
 alias mirror='wget -v --tries=0 --continue --force-directories --mirror --no-parent'
 
 alias download_web_site='wget --random-wait -r -p -e robots=off -U mozilla'
-#+end_src
-
-#+begin_src shell
-# Pöwer off.
-alias off='sudo /sbin/shutdown -h now'
 #+end_src
 
 *** Org
