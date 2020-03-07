@@ -5,7 +5,7 @@
 #+KEYWORDS:
 #+LANGUAGE:  en
 
-#+SETUPFILE: ~/.dotfiles/org/theme-readtheorg-local-abs.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
 
 * Tasks
 

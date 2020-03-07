@@ -2477,60 +2477,6 @@ alias ports='netstat -tulanp'
 alias ports='netstat -tulap'
 
 alias openports='netstat -nape --inet'
-
-# Scan all open/listening ports.
-# sudo nmap -n -PN -sT -sU -p- localhost
-#+end_src
-
-#+begin_src shell
-# alias scan='nmap -sS -O'
-alias nm='nmap -sS -O -PI -PT'
-alias portscan='nmap -sT -PT -R '
-alias nmap_fast='nmap -F -T5 --top-ports 300'
-#+end_src
-
-#+begin_src shell
-# nmap() {
-#     echo "Enter port #"
-#     read port
-#     echo "Enter IP range"
-#     read range
-#     sudo nmap -sT -p $port -P0 -v -T 4 -oG dump-$port-${range////_}.txt $range
-#     grep -i open dump-$port-${range////_}.txt
-# }
-#+end_src
-
-#+begin_src shell :tangle no
-have nmap && {
-    # -- [ nmap ] ---------------------------------------------------
-    #  -sS - TCP SYN scan
-    #  -v - verbose
-    #  -T1 - timing of scan. Options are paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)
-    #  -sF - FIN scan (can sneak through non-stateful firewalls)
-    #  -PE - ICMP echo discovery probe
-    #  -PP - timestamp discovery probe
-    #  -PY - SCTP init ping
-    #  -g - use given number as source port
-    #  -A - enable OS detection, version detection, script scanning, and traceroute (aggressive)
-    #  -O - enable OS detection
-    #  -sA - TCP ACK scan
-    #  -F - fast scan
-    #  --script=vulscan - also access vulnerabilities in target
-    alias nmap_open_ports='nmap --open'
-    alias nmap_list_interfaces='nmap --iflist'
-    alias nmap_slow='nmap -sS -v -T1'
-    alias nmap_fin='nmap -sF -v'
-    alias nmap_full='nmap -sS -T4 -PE -PP -PS80,443 -PY -g 53 -A -p1-65535 -v'
-    alias nmap_check_for_firewall='nmap -sA -p1-65535 -v -T4'
-    alias nmap_ping_through_firewall="nmap -PS -PA"
-    alias nmap_fast="nmap -F -T5 --version-light --top-ports 300"
-    alias nmap_detect_versions="nmap -sV -p1-65535 -O --osscan-guess -T4 -Pn"
-    alias nmap_check_for_vulns="nmap --script=vulscan"
-    alias nmap_full_udp="nmap -sS -sU -T4 -A -v -PE -PS22,25,80 -PA21,23,80,443,3389 "
-    alias nmap_traceroute="nmap -sP -PE -PS22,25,80 -PA21,23,80,3389 -PU -PO --traceroute "
-    alias nmap_full_with_scripts="sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all "
-    alias nmap_web_safe_osscan="sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy "
-}
 #+end_src
 
 #+begin_src shell
@@ -2543,64 +2489,6 @@ localnet() {
 
     # calculate network value
     echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
-}
-
-# whoisonline [TARGET] - List hosts that are online.
-whoisonline() {
-    local net
-    if [[ -n "$1" ]]; then
-        net="$1"
-    else
-        net=$(localnet)
-    fi
-    echo "Discovering online hosts in $net..."
-    sudo nmap -sP $net | awk '/Host / && / up/ { print $0; }'
-}
-
-# localps [TARGET] - List open ports on hosts that are online.
-localps() {
-    local hostip
-    local t1
-    local t2
-    local t3
-
-    local net
-    if [[ -n "$1" ]]; then
-        net="$1"
-    else
-        net=$(localnet)
-    fi
-
-    for hostip in $(nmap -sP $net | grep -E 'Host .* up' | cut -d " " -f2-2); do
-        t1=$(ping -c 4 $hostip | grep -e PING | cut -d " " -f1-2 | cut -d " " -f2-4)
-        t2=$(ping -c 4 $hostip | grep -e rtt | cut -d "/" -f5-5)
-        t3=$(sudo nmap -sS $hostip | grep " open ")
-        echo -e $t1 " " $t2 "ms\n" $t3 "\n"
-    done
-}
-
-# watchport HOST PORT - Watch TCP port PORT on machine HOST.
-watchport() {
-    while true; do
-        clear
-        nmap "$1" -PN -p "$2"
-        sleep 5
-    done
-}
-
-# rdns [TARGET] - Perform reverse DNS lookups.
-rdns() {
-    local net
-    if [[ -n "$1" ]]; then
-        net="$1"
-    else
-        net=$(localnet)
-    fi
-    echo "Performing reverse DNS lookups in $net..."
-    nmap -R -sL $net |\
-    awk '{if ($3 != "not") print "Host " $3 " is " $2}' | grep '('
-    # You could add "--dns-servers x.x.x.x" after the "-sL" if you need the
-    # lookups to be performed on a specific DNS server.
 }
 #+end_src
 
