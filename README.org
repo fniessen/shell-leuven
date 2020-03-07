@@ -1727,6 +1727,16 @@ done
 #+begin_src shell :tangle no
 alias e="emacsclient --alternate-editor=emacs --no-wait" # --no-wait is an essential part.
 alias e="emacsclient --tty --alternate-editor=''"
+
+# `e` with no arguments opens the current directory in Emacs, otherwise
+# opens the given location
+function e() {
+    if [ $# -eq 0 ]; then
+        emacsclient .;
+    else
+        emacsclient "$@";
+    fi;
+}
 #+end_src
 
 #+begin_src shell
@@ -1797,7 +1807,7 @@ alias more='less'
 
 #+begin_src shell
 export LESS_TERMCAP_mb=$'\e[01;31m'     # Begin bold.
-export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink.
+export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink (section titles in cyan).
 export LESS_TERMCAP_me=$'\e[0m'         # Reset bold/blink.
 export LESS_TERMCAP_so=$'\e[01;44;33m'  # Begin reverse video.
 export LESS_TERMCAP_se=$'\e[0m'         # Reset reverse video.
@@ -1949,8 +1959,8 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
      does something unnecessary, like *clearing the screen*.
 
      #+begin_note
-     If you want that ~less~ does not *clear the terminal* when quitting, use the ~-X~
-     option.
+     Add the ~-X~ option to ~less~ in ~MANPAGER~, for example, if you do not want to
+     *clear the screen* when quitting a manual page.
      #+end_note
 
 - -z-4 or --window=-4 ::
@@ -2159,7 +2169,7 @@ alias mkall='./configure && make && sudo make install'
 #+end_src
 
 #+begin_src shell
-# Using sudo with an alias.
+# Enable aliases to be sudo’ed.
 alias sudo='sudo '
 
 # Become root.
@@ -2440,6 +2450,21 @@ alias receive='nc -vlp 51330 | tar xzvp'
 #+end_src
 
 #+begin_src shell
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# Empty the Trash on all mounted volumes and the main HDD
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
+#+end_src
+
+#+begin_src shell
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
+#+end_src
+
+#+begin_src shell
 # Honor embedded linefeeds when displaying packets.
 alias ngrep='ngrep -W byline'
 
@@ -2449,9 +2474,9 @@ alias ngrep='ngrep -W byline'
 # ngrep -i 'rcpt to|mail from' tcp port smtp
 # ngrep -q -t -wi "login" port 23
 
-alias sniff='sudo ngrep -d "en0" -t "^(GET|POST) " "tcp and port 80"'
-
-alias httpdump="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+# View HTTP traffic.
+alias sniff='sudo ngrep -d "eth1" -t "^(GET|POST) " "tcp and port 80"'
+alias httpdump="sudo tcpdump -i eth1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 #+end_src
 
 #+begin_src shell
@@ -2467,6 +2492,13 @@ done
 digga() {
     dig +nocmd "$1" any +multiline +noall +answer
 }
+#+end_src
+
+#+begin_src shell
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 #+end_src
 
 #+begin_src shell

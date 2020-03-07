@@ -134,7 +134,7 @@ export PAGER="less"
 alias more='less'
 
 export LESS_TERMCAP_mb=$'\e[01;31m'     # Begin bold.
-export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink.
+export LESS_TERMCAP_md=$'\e[01;36m'     # Begin blink (section titles in cyan).
 export LESS_TERMCAP_me=$'\e[0m'         # Reset bold/blink.
 export LESS_TERMCAP_so=$'\e[01;44;33m'  # Begin reverse video.
 export LESS_TERMCAP_se=$'\e[0m'         # Reset reverse video.
@@ -220,7 +220,7 @@ alias where='type -a'                   # Good?
 
 alias mkall='./configure && make && sudo make install'
 
-# Using sudo with an alias.
+# Enable aliases to be sudo’ed.
 alias sudo='sudo '
 
 # Become root.
