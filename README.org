@@ -402,7 +402,7 @@ case "$TERM" in
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
         PS1='\[\033]0;Bash $PWD\007\]\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]\\u2713"; else printf "\[\033[01;31m\]$BEL\\u2718 $st"; fi) \
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u2718 $st "; fi)\
 \[\033[0;32m\]\u@\h\
 \[\033[01;30m\]:\
 \[\033[;;33m\]\w\
@@ -789,7 +789,7 @@ zstyle ':vcs_info:*' enable git
 
 #+begin_src shell
 PROMPT="
-%B%(?.%F{green}"$'\u2713'".%F{red}$(tput bel)"$'\u2718'" %?)%f%b %F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%B%(?.%F{green}.%F{red}$(tput bel)"$'\u2718'" %? )%f%b%F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
 %F{magenta}%(!.#.$)%f "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
