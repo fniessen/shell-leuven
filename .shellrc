@@ -26,22 +26,6 @@ has() {
     fi
 }
 
-# Permissions on newly created files.
-umask 022                               # Prevent new dirs and files from being
-                                        # group and world writable.
-if [[ $EUID -eq 0 ]]; then
-    umask 077                           # Stricter.
-fi
-
-# # For Bash on Ubuntu on Windows.
-# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
-export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
-
-export LANG=C.UTF-8
-
-# For scripts in R language.
-export LC_CTYPE=
-
 # Add user paths.
 for MAYBE_PATH in "$HOME"/bin \
                   "$HOME"/expect; do
@@ -86,6 +70,22 @@ INFOPATH=/usr/share/info:"$INFOPATH"
 # include a trailing colon on `INFOPATH' to concatenate the Emacs
 # `Info-default-directory-list' when searching for info files
 # INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
+
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
+if [[ $EUID -eq 0 ]]; then
+    umask 077                           # Stricter.
+fi
+
+# # For Bash on Ubuntu on Windows.
+# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
+export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+
+export LANG=C.UTF-8
+
+# For scripts in R language.
+export LC_CTYPE=
 
 # Find a suitable editor.
 for editor in emacsclientw emacsclient emacs; do
@@ -241,14 +241,25 @@ alias addx='chmod +x'
 # Chown current dir and subdirs.
 alias own='sudo chown -R $USER'
 
-alias -- ..='cd ..'
-
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
-# Aliases '-' to 'cd -'.
-alias -- -='cd -'
+alias -- -='cd -'                       # Alias '-' to 'cd -'.
+
+# Print the current directory stack (list directory history).
+alias d='dirs -v | head -n 10'
+
+alias 1='cd -'
+alias 2='cd +2'
+alias 3='cd +3'
+alias 4='cd +4'
+alias 5='cd +5'
+alias 6='cd +6'
+alias 7='cd +7'
+alias 8='cd +8'
+alias 9='cd +9'
 
 # # For WSL.
 # alias c:='cd /mnt/c'
@@ -257,9 +268,6 @@ alias -- -='cd -'
 # # For Cygwin.
 # alias c:='cd /cygdrive/c'
 # alias d:='cd /cygdrive/d'
-
-# list last used directories (directory history).
-alias d='dirs -v'
 
 alias c='clear'
 alias j='jobs -l'
@@ -401,8 +409,3 @@ alert() {
 }
 
 alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# When entering a directory, list the contents.
-cd() {
-    builtin cd "$@" && ls --color=auto -F
-}

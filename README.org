@@ -332,7 +332,7 @@ To start directly Zsh when opening /Bash on Ubuntu on Windows/:
 # fi
 #+end_src
 
-** Local customizations
+** Startup (Where are Local customizations?)
 
 #+begin_src shell
 # Allow local Shell customizations.
@@ -345,6 +345,8 @@ if [ -f "$HOME"/.bashrc_local_before ]; then
     . "$HOME"/.bashrc_local_before
 fi
 #+end_src
+
+** Colors
 
 ** Prompt
 
@@ -446,9 +448,24 @@ If you are looking at performance issues, put ~$SECONDS~ in the PS4 prompt as
 well.
 #+end_tip
 
-** Functions
+** Getting Help
 
-** Variables
+In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
+exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
+command...
+
+Add this functionality to the Bash shell:
+
+#+begin_src shell
+# M-h = run-help.
+bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+#+end_src
+
+** Syntax Highlighting
+
+** Autosuggestions
+
+** Tab Completions
 
 #+begin_src shell
 # Ignore case while completing filenames.
@@ -456,7 +473,62 @@ bind "set completion-ignore-case on"
 
 # Treat hypens and underscores as the same if completion-ignore-case is on.
 bind "set completion-map-case on"
+#+end_src
 
+Program specific completions:
+- The programs ~man~ and ~whatis~ show all installed manual pages as completions.
+- The ~make~ program uses all targets in the =Makefile= in the current directory as
+  completions.
+- The ~mount~ command uses all mount points specified in =fstab= as completions.
+- The ~ssh~ command uses all hosts that are stored in the =known_hosts= file as
+  completions. (See the ssh documentation for more information)
+- The ~su~ command uses all users on the system as completions.
+- The ~apt-get~, ~rpm~ and ~yum~ commands use all installed packages as completions.
+
+#+begin_src shell
+complete -A helptopic help
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+#+end_src
+
+** Changing Working Directory
+
+#+begin_src shell
+# When entering a directory, push it to the directory stack and list its
+# contents.
+cd() {
+    builtin pushd "$@" > /dev/null      # = setopt auto_pushd, in Zsh.
+    dirs_remove_dups                    # = setopt pushd_ignore_dups, in Zsh.
+    ls --color=auto -F
+}
+
+# Remove dups.
+dirs_remove_dups() {
+    declare -a new=() copy=("${DIRSTACK[@]:1}")
+    declare -A seen
+    local v i
+    seen[$PWD]=1
+    for v in "${copy[@]}"; do
+        if [ -z "${seen[$v]}" ]; then
+            new+=("$v")
+            seen[$v]=1
+        fi
+    done
+    dirs -c
+    for ((i=${#new[@]}-1; i>=0; i--)); do
+        builtin pushd -n "${new[i]}" > /dev/null
+    done
+}
+#+end_src
+
+** Functions
+
+** Variables
+
+*** PATH variables
+
+*** Special variables
+
+#+begin_src shell
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 bind "set convert-meta on"
 
@@ -507,17 +579,21 @@ shopt -s cdspell
 
 # Make sure display get updated when terminal window get resized.
 shopt -q -s checkwinsize
+#+end_src
 
+*** Locale variables
+
+** History
+
+Access and modify commands that you had previously typed at the command line.
+
+#+begin_src shell
 # When running two Bash windows, allow both to write to the history.
 shopt -s histappend
 
 # Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 #+end_src
-
-** History
-
-Access and modify commands that you had previously typed at the command line.
 
 #+begin_src shell
 # Store 10,000 commands in history.
@@ -541,7 +617,7 @@ HISTCONTROL=ignoredups:ignorespace
 
 #+begin_tip
 There is no reason to ~export~ the ~HISTCONTROL~ and ~PROMPT_COMMAND~ variables: you
-are defining them in .bashrc so they will be defined in every shell (even in
+are defining them in =.bashrc= so they will be defined in every shell (even in
 non-interactive ones, which is also wasteful). -- dolmen
 #+end_tip
 
@@ -569,7 +645,7 @@ $ gm convert !*
 See also http://dvorka.github.io/hstr/ to easily view, navigate and search your
 command history with shell history suggest box.
 
-** Key Bindings
+** Key Bindings (Command line editor)
 
 The =.inputrc= file controls the behavior of the *command line editor* for programs
 that use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gdb.
@@ -585,6 +661,40 @@ bind -v | grep keymap
 #+end_src
 
 The key bindings can also be part of =.bashrc= (by adding single quotes).
+
+
+- Tab completes the current token. Shift, Tab completes the current token and starts the pager's search mode.
+- Alt+?,Left and Alt+?,Right move the cursor one word left or right (to the next space or punctuation mark), or moves forward/backward in the directory history if the command line is empty. If the cursor is already at the end of the line, and an autosuggestion is available, Alt+?,Right (or Alt+F) accepts the first word in the suggestion.
+- Shift,?,Left and Shift,?,Right move the cursor one word left or right, without stopping on punctuation.
+- ? (Up) and ? (Down) (or Control+P and Control+N for emacs aficionados) search the command history for the previous/next command containing the string that was specified on the commandline before the search was started. If the commandline was empty when the search started, all commands match. See the history section for more information on history searching.
+- Alt+?,Up and Alt+?,Down search the command history for the previous/next token containing the token under the cursor before the search was started. If the commandline was not on a token when the search started, all tokens match. See the history section for more information on history searching.
+- Control+C cancels the entire line.
+- Control+D delete one character to the right of the cursor. If the command line is empty, Control+D will exit fish.
+- Control+U moves contents from the beginning of line to the cursor to the killring.
+- Control+L clears and repaints the screen.
+- Control+W moves the previous path component (everything up to the previous "/", ":" or "@") to the killring.
+- Control+X copies the current buffer to the system's clipboard, Control+V inserts the clipboard contents.
+- Alt+d moves the next word to the killring.
+- Alt+h (or F1) shows the manual page for the current command, if one exists.
+- Alt+l lists the contents of the current directory, unless the cursor is over a directory argument, in which case the contents of that directory will be listed.
+- Alt+p adds the string '| less;' to the end of the job under the cursor. The result is that the output of the command will be paged.
+- Alt+w prints a short description of the command under the cursor.
+- Alt+e edit the current command line in an external editor. The editor is chosen from the first available of the $VISUAL or $EDITOR variables.
+- Alt+v Same as Alt+e.
+- Alt+s Prepends sudo to the current commandline.
+
+Emacs mode commands
+- Home or Control+A moves the cursor to the beginning of the line.
+- End or Control+E moves to the end of line. If the cursor is already at the end of the line, and an autosuggestion is available, End or Control+E accepts the autosuggestion.
+- ? (Left) (or Control+B) and ? (Right) (or Control+F) move the cursor left or right by one character. If the cursor is already at the end of the line, and an autosuggestion is available, the ? (Right) key and the Control+F combination accept the suggestion.
+- Delete and Backspace removes one character forwards or backwards respectively.
+- Control+K moves contents from the cursor to the end of line to the killring.
+- Alt+c capitalizes the current word.
+- Alt+u makes the current word uppercase.
+- Control+t transposes the last two characters
+- Alt+t transposes the last two words
+- You can change these key bindings using the bind builtin.
+
 
 *** Commands For Moving
 
@@ -622,22 +732,6 @@ bind '"\e[2~": quoted-insert'
 bind '"\t": menu-complete'
 #+end_src
 
-**** Tab completion
-
-- The programs man and whatis show all installed manual pages as completions.
-- The make program uses all targets in the Makefile in the current directory as
-  completions.
-- The mount command uses all mount points specified in fstab as completions.
-- The ssh command uses all hosts that are stored in the known_hosts file as
-  completions. (See the ssh documentation for more information)
-- The su command uses all users on the system as completions.
-- The apt-get, rpm and yum commands use all installed packages as completions.
-
-#+begin_src shell
-complete -A helptopic help
-complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
-#+end_src
-
 *** Keyboard Macros
 
 *** Some Miscellaneous Commands
@@ -646,11 +740,6 @@ This makes Ctrl+Alt+L append "| less" to the line and run it (Ctrl+M is
 equivalent to Enter):
 
 "\e\C-l": "\C-e | less\C-m"
-
-The next one prefixes the line with 'yes |' when pressing Ctrl+Alt+Y, confirming
-any yes/no question the command might ask:
-
-"\e\C-y": "\C-ayes | \C-m"
 
 This example wraps the line in su -c '', if Alt+S is pressed:
 
@@ -683,20 +772,6 @@ FZF Key bindings for command line
 - ALT-C - cd into the selected directory
   Set FZF_ALT_C_COMMAND to override the default command
   Set FZF_ALT_C_OPTS to pass additional options
-
-
-**** Getting Help
-
-In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
-exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
-command...
-
-Add this functionality to the Bash shell:
-
-#+begin_src shell
-# M-h = run-help.
-bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
-#+end_src
 
 ** Ready for more?
 
@@ -741,7 +816,7 @@ Examples:
 # Code:
 #+end_src
 
-** Local customizations
+** Startup (Where are Local customizations?)
 
 #+begin_src shell
 # Allow local Shell customizations.
@@ -753,6 +828,28 @@ fi
 if [ -f "$HOME"/.zshrc_local_before ]; then
     . "$HOME"/.zshrc_local_before
 fi
+#+end_src
+
+** Colors
+
+*** Stderr in red
+
+Wrap text that goes to file with descriptor ~2~ with proper ANSI escape codes,
+making text red.
+
+#+begin_src shell
+# Coloring stderr.
+STDERRED_ESC_CODE=$'\e[33;1;41m'
+zmodload zsh/system
+color_stderr_red() {
+    # Sysread & syswrite are part of `zsh/system'.
+    emulate -LR zsh
+    while sysread; do
+        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
+    done
+}
+
+exec 2> >( color_stderr_red )
 #+end_src
 
 ** Prompt
@@ -861,7 +958,7 @@ Don't confuse TRAMP:
 [[ "$TERM" = "dumb" ]] && RPROMPT=""
 #+end_src
 
-** Add a new theme: Solarized
+*** Add a new theme: Solarized
 
 - [[https://github.com/altercation/solarized/issues/90][How should bold/bright be handled by terminal emulators?]]
 - [[https://github.com/mintty/mintty/issues/683][Solarized bold colors are gray]]
@@ -898,7 +995,7 @@ https://stackoverflow.com/questions/24229406/how-to-get-vim-on-cygwin-to-display
 See great (more portable) stuff at
 https://github.com/jimeh/git-aware-prompt/blob/master/colors.sh!
 
-** Install Powerline-patched fonts
+*** Install Powerline-patched fonts
 
 *Powerline patched* versions of the most popular mono *fonts* are available at
 [[https://github.com/powerline/fonts][powerline/fonts]].
@@ -926,7 +1023,7 @@ Good-looking fonts:
 
 For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 
-** Install "Oh My Zsh"
+*** Install "Oh My Zsh"
 
 Oh My Zsh is just awesome!
 
@@ -953,7 +1050,7 @@ fi
 
 http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
 
-** Change the Oh My Zsh theme to "agnoster"
+*** Change the Oh My Zsh theme to "agnoster"
 
 # I am fan of ~agnoster~.
 #
@@ -963,7 +1060,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 # fi
 # #+end_src
 
-*** Agnoster Theme Adaption for SVN
+**** Agnoster Theme Adaption for SVN
 
 #+begin_src shell
 # if [[ -r "$ZSH" ]]; then
@@ -985,7 +1082,7 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 # fi
 #+end_src
 
-** Install Zinc (successor of Powerlevel9k!)
+*** Install Zinc (successor of Powerlevel9k!)
 
 #+begin_src shell :tangle no
 git clone https://gitlab.com/robobenklein/zinc \
@@ -1058,7 +1155,7 @@ fi
 # zincs_execution_time[threshold]=10
 #+end_src
 
-** Plugins
+*** Plugins
 
 #+begin_src shell
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
@@ -1074,7 +1171,7 @@ if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
 fi
 #+end_src
 
-*** Colored man pages plugin
+**** Colored man pages plugin
 
 #+begin_seealso
 [[file:~/.minttyrc][.minttyrc]] to *fix colors* and fonts.  See [[http://mintty.googlecode.com/svn-history/r1065/trunk/docs/mintty.1.html][mintty Manual Reference Pages]] for more
@@ -1141,6 +1238,22 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
 fi
 #+end_src
 
+** Tab Completions
+
+** Changing Working Directory
+
+#+begin_src shell
+# When entering a directory, push it to the directory stack and list its
+# contents.
+setopt auto_pushd
+setopt pushd_ignore_dups
+
+cd() {
+    builtin cd "$@" > /dev/null
+    ls --color=auto -F
+}
+#+end_src
+
 ** Functions
 
 If you are an avid Emacs user like me, you'll find this function useful.  It
@@ -1158,13 +1271,17 @@ You need the emacs-server functionality enabled for this to work.
 
 ** Variables
 
-*** Changing Directories
+*** PATH variables
+
+*** Special variables
+
+**** Changing Directories
 
 #+begin_src shell
 setopt AUTO_CD                  # Change directory given just path.
 #+end_src
 
-*** Completion
+**** Completion
 
 Zsh will attempt to complete wildcards by expanding them in the command line.
 
@@ -1178,7 +1295,7 @@ autoload -Uz compinit
 setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
 #+end_src
 
-*** 20. Completion System
+**** 20. Completion System
 
 #+begin_src shell
 # Case-insensitive completion.
@@ -1192,20 +1309,20 @@ https://github.com/babun/babun/issues/299#issuecomment-123925935):
 # compdef '_files -g "*"' start
 #+end_src
 
-*** Expansion and Globbing
+**** Expansion and Globbing
 
 #+begin_src shell
 setopt EXTENDED_GLOB            # Use additional pattern matching features.
 setopt NOMATCH                  # Unmatched patterns cause an error.
 #+end_src
 
-*** Job Control
+**** Job Control
 
 #+begin_src shell
 setopt NOTIFY                   # Immediately report changes in background job status.
 #+end_src
 
-*** Zle
+**** Zle
 
 Zsh has its own line editor (ZLE) and doesn't read readline's =.inputrc=.
 
@@ -1216,10 +1333,17 @@ Zsh has its own line editor (ZLE) and doesn't read readline's =.inputrc=.
 setopt BEEP
 #+end_src
 
+*** Locale variables
+
 ** History
 
 #+begin_src shell
-# History.
+HISTFILE=~/.zsh_history         # Zsh doesn't save the history to a file by default.
+HISTSIZE=10000                  # In memory.
+SAVEHIST=$HISTSIZE              # To file.
+#+end_src
+
+#+begin_src shell
 setopt APPEND_HISTORY           # Append rather than overwrite history file.
 setopt EXTENDED_HISTORY         # Save timestamp and runtime information.
 setopt HIST_EXPIRE_DUPS_FIRST   # Allow dups, but expire old ones when I hit HISTSIZE.
@@ -1238,12 +1362,7 @@ setopt SHARE_HISTORY            # Share history between sessions.
 alias history="history -i"
 #+end_src
 
-#+begin_src shell
-HISTSIZE=10000                  # In memory.
-SAVEHIST=$HISTSIZE              # To file.
-#+end_src
-
-** Key Bindings
+** Key Bindings (Command line editor)
 
 10.4 Some interesting keybindings
 
@@ -1352,7 +1471,7 @@ zle -N up-directory
 bindkey '\e\C-u' up-directory
 #+end_src
 
-** Abbreviations
+** Abbreviations (aliases)
 
 Some global aliases (expand whatever their position).
 
@@ -1425,26 +1544,6 @@ Git this week / month / year:
 alias -g GTHISWEEK=' --since=1.week.ago'
 alias -g GTHISMONTH=' --since=1.month.ago'
 alias -g GTHISYEAR=' --since=1.year.ago'
-#+end_src
-
-** Stderr in red
-
-Wrap text that goes to file with descriptor ~2~ with proper ANSI escape codes,
-making text red.
-
-#+begin_src shell
-# Coloring stderr.
-STDERRED_ESC_CODE=$'\e[33;1;41m'
-zmodload zsh/system
-color_stderr_red() {
-    # Sysread & syswrite are part of `zsh/system'.
-    emulate -LR zsh
-    while sysread; do
-        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
-    done
-}
-
-exec 2> >( color_stderr_red )
 #+end_src
 
 ** Ready for more?
@@ -1544,56 +1643,9 @@ https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-the
 
 ** Variables
 
-*** umask
+*** PATH variables
 
-#+begin_src shell
-# Permissions on newly created files.
-umask 022                               # Prevent new dirs and files from being
-                                        # group and world writable.
-if [[ $EUID -eq 0 ]]; then
-    umask 077                           # Stricter.
-fi
-#+end_src
-
-*** BROWSER
-
-#+begin_src shell
-# # For Bash on Ubuntu on Windows.
-# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
-export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
-#+end_src
-
-*** LANG, LC_ALL, LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC and LC_TIME
-
-You may need to manually set your language environment (among others, for ~svn~
-with accented file names in the repository).
-
-#+begin_src shell
-export LANG=C.UTF-8
-
-# For scripts in R language.
-export LC_CTYPE=
-#+end_src
-
-These variables work as follows:
-- LC_ALL forces all the aspects of the locale to the specified value.  If LC_ALL
-  is set, all other locale variables will be ignored.
-- The other LC_ variables set the specified aspect of the locale information.
-- LANG is a fallback value, it will be used if none of the LC_ variables are
-  specified.
-
-*** Tool paths
-
-**** Java
-
-- Download Ant and add its =/bin= directory to ~PATH~.
-
-- Add =C:\Program Files\Java\jdk1.8.0_91= to ~JAVA_HOME~ and add ~%JAVA_HOME%/bin~
-  to ~PATH~.
-
-** $PATH
-
-*** Search path
+**** Search path
 
 Specify the directories that the shell is to look through to find a command.
 These directories are searched in the order in which they appear.
@@ -1653,7 +1705,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 #+end_src
 
-*** CDPATH
+**** CDPATH
 
 Much like the ~PATH~ environment variable defines a search order for the
 executable you want, ~CDPATH~ provides a selection of directories which will be
@@ -1664,7 +1716,7 @@ checked for the folder you are trying to ~cd~ into.
 export CDPATH=.:"$HOME"
 #+end_src
 
-*** MANPATH
+**** MANPATH
 
 #+begin_src shell
 # set MANPATH so it includes user's private man if it exists
@@ -1679,7 +1731,7 @@ export CDPATH=.:"$HOME"
     # See `/etc/manpath.config'
 #+end_src
 
-*** INFOPATH
+**** INFOPATH
 
 #+begin_src shell
 # Info readers (standalone + Emacs Info mode)
@@ -1688,6 +1740,58 @@ INFOPATH=/usr/share/info:"$INFOPATH"
 # `Info-default-directory-list' when searching for info files
 # INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
 #+end_src
+
+**** Tool paths
+
+***** Java
+
+- Download Ant and add its =/bin= directory to ~PATH~.
+
+- Add =C:\Program Files\Java\jdk1.8.0_91= to ~JAVA_HOME~ and add ~%JAVA_HOME%/bin~
+  to ~PATH~.
+
+*** Special variables
+
+**** umask
+
+#+begin_src shell
+# Permissions on newly created files.
+umask 022                               # Prevent new dirs and files from being
+                                        # group and world writable.
+if [[ $EUID -eq 0 ]]; then
+    umask 077                           # Stricter.
+fi
+#+end_src
+
+**** BROWSER
+
+#+begin_src shell
+# # For Bash on Ubuntu on Windows.
+# export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
+export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+#+end_src
+
+*** Locale variables
+
+LANG, LC_ALL, LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC and
+LC_TIME set the language option for the shell and subprograms.
+
+You may need to manually set your language environment (among others, for ~svn~
+with accented file names in the repository).
+
+#+begin_src shell
+export LANG=C.UTF-8
+
+# For scripts in R language.
+export LC_CTYPE=
+#+end_src
+
+These variables work as follows:
+- LC_ALL forces all the aspects of the locale to the specified value.  If LC_ALL
+  is set, all other locale variables will be ignored.
+- The other LC_ variables set the specified aspect of the locale information.
+- LANG is a fallback value, it will be used if none of the LC_ variables are
+  specified.
 
 ** EDITOR
 
@@ -1982,7 +2086,7 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 export DISPLAY=:0.0
 #+end_src
 
-** Abbreviations
+** Abbreviations (aliases)
 
 An *alias* is a simple string substitution.
 
@@ -2197,17 +2301,36 @@ alias addx='chmod +x'
 alias own='sudo chown -R $USER'
 #+end_src
 
-*** Directories
+*** Changing Working Directory
 
 #+begin_src shell
-alias -- ..='cd ..'
-
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
-# Aliases '-' to 'cd -'.
-alias -- -='cd -'
+alias -- -='cd -'                       # Alias '-' to 'cd -'.
+#+end_src
+
+#+begin_src shell
+# Print the current directory stack (list directory history).
+alias d='dirs -v | head -n 10'
+#+end_src
+
+Normally, you can use ~cd +1~ to go to the previous directory in the list, and so
+on.  Here, this even more straightforward; you can use just the number of the
+entry in the *directory history* you want to visit: ~1~.
+
+#+begin_src shell
+alias 1='cd -'
+alias 2='cd +2'
+alias 3='cd +3'
+alias 4='cd +4'
+alias 5='cd +5'
+alias 6='cd +6'
+alias 7='cd +7'
+alias 8='cd +8'
+alias 9='cd +9'
 #+end_src
 
 #+begin_src shell
@@ -2219,15 +2342,6 @@ alias -- -='cd -'
 # alias c:='cd /cygdrive/c'
 # alias d:='cd /cygdrive/d'
 #+end_src
-
-#+begin_src shell
-# list last used directories (directory history).
-alias d='dirs -v'
-#+end_src
-
-Normally, you can use ~cd +1~ to go to the previous directory and so on.
-Oh My Zsh made this even more straightforward, now you can use just the number
-of the entry in the directory history you want to visit... ~1~.
 
 *** Shortcuts (single char for some commands)
 
@@ -2757,15 +2871,6 @@ alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || ec
 Use like so:
 
 : sleep 10; alert
-
-** Directories
-
-#+begin_src shell
-# When entering a directory, list the contents.
-cd() {
-    builtin cd "$@" && ls --color=auto -F
-}
-#+end_src
 
 * Getting started
 

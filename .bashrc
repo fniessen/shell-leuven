@@ -75,11 +75,43 @@ export PS2="incomplete? continue here-> "
 # Get line numbers when you run with `-x'.
 PS4='+'$grn'[$0:$LINENO]+ '${reset_color}
 
+# M-h = run-help.
+bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+
 # Ignore case while completing filenames.
 bind "set completion-ignore-case on"
 
 # Treat hypens and underscores as the same if completion-ignore-case is on.
 bind "set completion-map-case on"
+
+complete -A helptopic help
+complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
+
+# When entering a directory, push it to the directory stack and list its
+# contents.
+cd() {
+    builtin pushd "$@" > /dev/null      # = setopt auto_pushd, in Zsh.
+    dirs_remove_dups                    # = setopt pushd_ignore_dups, in Zsh.
+    ls --color=auto -F
+}
+
+# Remove dups.
+dirs_remove_dups() {
+    declare -a new=() copy=("${DIRSTACK[@]:1}")
+    declare -A seen
+    local v i
+    seen[$PWD]=1
+    for v in "${copy[@]}"; do
+        if [ -z "${seen[$v]}" ]; then
+            new+=("$v")
+            seen[$v]=1
+        fi
+    done
+    dirs -c
+    for ((i=${#new[@]}-1; i>=0; i--)); do
+        builtin pushd -n "${new[i]}" > /dev/null
+    done
+}
 
 # Allow Meta (Alt) key bindings [line added to the top of my `.inputrc'].
 bind "set convert-meta on"
@@ -164,12 +196,6 @@ bind '"\e[2~": quoted-insert'
 
 # Make TAB cycle through commands after listing.
 bind '"\t": menu-complete'
-
-complete -A helptopic help
-complete -A hostname ssh telnet nmap ftp ping host traceroute nslookup
-
-# M-h = run-help.
-bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 # Common configuration.
 if [ -f "$HOME"/.shellrc ]; then

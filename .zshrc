@@ -18,6 +18,19 @@ if [ -f "$HOME"/.zshrc_local_before ]; then
     . "$HOME"/.zshrc_local_before
 fi
 
+# Coloring stderr.
+STDERRED_ESC_CODE=$'\e[33;1;41m'
+zmodload zsh/system
+color_stderr_red() {
+    # Sysread & syswrite are part of `zsh/system'.
+    emulate -LR zsh
+    while sysread; do
+        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
+    done
+}
+
+exec 2> >( color_stderr_red )
+
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
@@ -197,6 +210,16 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 
+# When entering a directory, push it to the directory stack and list its
+# contents.
+setopt auto_pushd
+setopt pushd_ignore_dups
+
+cd() {
+    builtin cd "$@" > /dev/null
+    ls --color=auto -F
+}
+
 cde() {
   cd ${(Q)~$(emacsclient -e '(with-current-buffer
                                (window-buffer (selected-window))
@@ -226,7 +249,10 @@ setopt NOTIFY                   # Immediately report changes in background job s
 # returning errors.
 setopt BEEP
 
-# History.
+HISTFILE=~/.zsh_history         # Zsh doesn't save the history to a file by default.
+HISTSIZE=10000                  # In memory.
+SAVEHIST=$HISTSIZE              # To file.
+
 setopt APPEND_HISTORY           # Append rather than overwrite history file.
 setopt EXTENDED_HISTORY         # Save timestamp and runtime information.
 setopt HIST_EXPIRE_DUPS_FIRST   # Allow dups, but expire old ones when I hit HISTSIZE.
@@ -241,9 +267,6 @@ setopt SHARE_HISTORY            # Share history between sessions.
 
 # Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
 alias history="history -i"
-
-HISTSIZE=10000                  # In memory.
-SAVEHIST=$HISTSIZE              # To file.
 
 # # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
@@ -333,19 +356,6 @@ alias -g T9="| awk -F $'\t' '{print \$9}'"
 alias -g GTHISWEEK=' --since=1.week.ago'
 alias -g GTHISMONTH=' --since=1.month.ago'
 alias -g GTHISYEAR=' --since=1.year.ago'
-
-# Coloring stderr.
-STDERRED_ESC_CODE=$'\e[33;1;41m'
-zmodload zsh/system
-color_stderr_red() {
-    # Sysread & syswrite are part of `zsh/system'.
-    emulate -LR zsh
-    while sysread; do
-        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
-    done
-}
-
-exec 2> >( color_stderr_red )
 
 # Common configuration.
 if [ -f "$HOME"/.shellrc ]; then
