@@ -1288,19 +1288,35 @@ Zsh will attempt to complete wildcards by expanding them in the command line.
 #+begin_src shell
 # Load general completion.
 autoload -Uz compinit
-# compinit                      # Security check (insecure directories)!
+
+# Start the Zsh completion system.
+compinit -i                     # Silently ignore all insecure files and directories.
 #+end_src
 
 #+begin_src shell
 setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
+
+# setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
+# setopt auto_menu                # show completion menu on successive tab press. needs unsetop menu_complete to work
+# setopt auto_name_dirs           # any parameter that is set to the absolute name of a directory immediately becomes a name for that directory
+# unsetopt auto_name_dirs         # do not set auto_name_dirs because it messes up prompts
+# setopt complete_in_word         # allow completion from within a word/phrase
+# setopt auto_list                # automatically list choices on ambiguous completion.
+# unsetopt completealiases        # an alias of a command should complete to the command completion
+# unsetopt menu_complete          # do not autoselect the first completion entry
+# unsetopt flowcontrol            # do not freezes output to the terminal until you type ^q
 #+end_src
 
 **** 20. Completion System
 
 #+begin_src shell
-# Case-insensitive completion.
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Small and capital letters will match small and capital letters only if there
+# are no case-sensitive matches.
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 #+end_src
+
+See also
+https://superuser.com/questions/1092033/how-can-i-make-zsh-tab-completion-fix-capitalization-errors-for-directorys-and.
 
 Launch Windows applications from CLI (with ~start~ script -- see
 https://github.com/babun/babun/issues/299#issuecomment-123925935):

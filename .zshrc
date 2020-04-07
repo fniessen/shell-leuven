@@ -230,12 +230,25 @@ setopt AUTO_CD                  # Change directory given just path.
 
 # Load general completion.
 autoload -Uz compinit
-# compinit                      # Security check (insecure directories)!
+
+# Start the Zsh completion system.
+compinit -i                     # Silently ignore all insecure files and directories.
 
 setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
 
-# Case-insensitive completion.
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
+# setopt auto_menu                # show completion menu on successive tab press. needs unsetop menu_complete to work
+# setopt auto_name_dirs           # any parameter that is set to the absolute name of a directory immediately becomes a name for that directory
+# unsetopt auto_name_dirs         # do not set auto_name_dirs because it messes up prompts
+# setopt complete_in_word         # allow completion from within a word/phrase
+# setopt auto_list                # automatically list choices on ambiguous completion.
+# unsetopt completealiases        # an alias of a command should complete to the command completion
+# unsetopt menu_complete          # do not autoselect the first completion entry
+# unsetopt flowcontrol            # do not freezes output to the terminal until you type ^q
+
+# Small and capital letters will match small and capital letters only if there
+# are no case-sensitive matches.
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 # compdef '_files -g "*"' start
 
