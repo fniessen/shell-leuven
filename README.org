@@ -652,7 +652,7 @@ that use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gd
 
 See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
 
-by default, Bash uses Emacs style keyboard shortcuts when editing (C-a, C-e,
+by default, Bash uses /Emacs/ style keyboard shortcuts when editing (~C-a~, ~C-e~,
 etc.).  Check your active Bash keymap with:
 
 #+begin_src shell :tangle no
@@ -772,6 +772,11 @@ FZF Key bindings for command line
 - ALT-C - cd into the selected directory
   Set FZF_ALT_C_COMMAND to override the default command
   Set FZF_ALT_C_OPTS to pass additional options
+
+#+begin_src shell
+# C-M-u: up-directory
+bind '"\e\C-u": "cd ..\n"'
+#+end_src
 
 ** Ready for more?
 
@@ -1422,11 +1427,11 @@ Useful commands:
 See [[file:~/.dotfiles/plugins/oh-my-zsh/lib/key-bindings.zsh]] for extra key bindings.
 #+end_note
 
-Run `bindkey` to get a listing of currently active keybindings.
+Run ~bindkey~ to get a listing of currently active keybindings.
 
-For a more general approach you start your terminal, press CTRL-V followed by
-the key combination you want the escape code (the name) of, and put the output
-for each key combination in between the two quotes.
+For a more general approach you start your terminal, press ~C-v~ followed by the
+key combination you want the escape code (the name) of, and put the output for
+each key combination in between the two quotes.
 
 #+begin_src shell
 # # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
@@ -1438,7 +1443,7 @@ for each key combination in between the two quotes.
 #+begin_src shell
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
-bindkey '\e[1;5D' backward-word # <C-left>
+bindkey '\e[1;5D' backward-word         # <C-left>
 #+end_src
 
 *** Commands For Manipulating The History

@@ -286,7 +286,7 @@ alias history="history -i"
 
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
-bindkey '\e[1;5D' backward-word # <C-left>
+bindkey '\e[1;5D' backward-word         # <C-left>
 
 # Search matching commands from the history.
 bindkey '\e[A' history-beginning-search-backward # <up>

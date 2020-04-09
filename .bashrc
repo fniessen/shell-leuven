@@ -197,6 +197,9 @@ bind '"\e[2~": quoted-insert'
 # Make TAB cycle through commands after listing.
 bind '"\t": menu-complete'
 
+# C-M-u: up-directory
+bind '"\e\C-u": "cd ..\n"'
+
 # Common configuration.
 if [ -f "$HOME"/.shellrc ]; then
     . "$HOME"/.shellrc
