@@ -220,12 +220,6 @@ cd() {
     ls --color=auto -F
 }
 
-cde() {
-  cd ${(Q)~$(emacsclient -e '(with-current-buffer
-                               (window-buffer (selected-window))
-                               default-directory) ')}
-}
-
 setopt AUTO_CD                  # Change directory given just path.
 
 # Load general completion.
