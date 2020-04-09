@@ -281,7 +281,7 @@ setopt SHARE_HISTORY            # Share history between sessions.
 # Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
 alias history="history -i"
 
-# # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
+# # Behave like Emacs when editing. (Default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
 
 # Move by whole words.
@@ -292,6 +292,8 @@ bindkey '\e[1;5D' backward-word         # <C-left>
 bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 
+bindkey "\e[3~" delete-char             # <delete>
+
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
     if (( CURSOR == 0 )); then
@@ -300,7 +302,7 @@ backward-delete-char-beep() {
     zle backward-delete-char
 }
 zle -N backward-delete-char-beep
-bindkey "^?" backward-delete-char-beep
+bindkey "^?" backward-delete-char-beep  # <backspace>
 
 # C-M-u: up-directory
 up-directory() {

@@ -1434,7 +1434,7 @@ key combination you want the escape code (the name) of, and put the output for
 each key combination in between the two quotes.
 
 #+begin_src shell
-# # Behave like Emacs when editing. (default if $VISUAL or $EDITOR does not contain string 'vi'?)
+# # Behave like Emacs when editing. (Default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
 #+end_src
 
@@ -1457,6 +1457,8 @@ bindkey '\e[B' history-beginning-search-forward  # <down>
 *** Commands For Changing Text
 
 #+begin_src shell
+bindkey "\e[3~" delete-char             # <delete>
+
 # Make Zsh beep like Bash when backspacing on an empty command line.
 backward-delete-char-beep() {
     if (( CURSOR == 0 )); then
@@ -1465,7 +1467,7 @@ backward-delete-char-beep() {
     zle backward-delete-char
 }
 zle -N backward-delete-char-beep
-bindkey "^?" backward-delete-char-beep
+bindkey "^?" backward-delete-char-beep  # <backspace>
 #+end_src
 
 *** Killing And Yanking
