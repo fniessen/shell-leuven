@@ -17,6 +17,9 @@ XXX https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 XXX https://www.linuxtrainingacademy.com/23-handy-bash-shell-aliases-for-unix-linux-and-mac-os-x/
 XXX https://pissedoffadmins.com/
 
+XXX nine colors: black, red, green, yellow, blue, magenta, cyan, white, and
+default (the terminal's default foreground)
+
 Autojump
 
 - Context sensitive completion;
@@ -611,14 +614,21 @@ Prefix a command with a space to hide it from history (suitable for sensitive
 information like passwords):
 
 #+begin_src shell
-# Ignore duplicate commands and commands starting with space.
-HISTCONTROL=ignoredups:ignorespace
+# Ignore duplicate commands and commands starting with spaces.
+HISTCONTROL=ignoreboth:erasedups
 #+end_src
+
+~ignoredups~, implied by ~ignoreboth~, doesn't add a command to history if it's the
+same as *the immediate previous command*. It doesn't look further back in
+history.
+
+A value of ~erasedups~ causes *all previous lines* matching the current line
+to be removed from the history list before that line is saved.
 
 #+begin_tip
 There is no reason to ~export~ the ~HISTCONTROL~ and ~PROMPT_COMMAND~ variables: you
 are defining them in =.bashrc= so they will be defined in every shell (even in
-non-interactive ones, which is also wasteful). -- dolmen
+non-interactive ones, which is also wasteful).
 #+end_tip
 
 See also [[https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows][Preserve bash history in multiple terminal windows]] to keep Bash history
@@ -634,16 +644,12 @@ Le ~!~ en shell permet plein de trucs sympa.
 - ~!cmd:$~ est le dernier mot du dernier ligne de commande commençant par ~cmd~
 - ~!*~ est l'ensemble de la dernière ligne de commande à part le premier mot
 
-Pourquoi ce dernier est-il utile ?  Pense à ceci :
-
-#+begin_src shell :tangle no
-$ gm convret -size 120x120 input.png -resize 120x120 -draw "gravity southeast text 0,0 'Dave Neary'" output.jpg
-bash: convret: command not found
-$ gm convert !*
-#+end_src
-
 See also http://dvorka.github.io/hstr/ to easily view, navigate and search your
 command history with shell history suggest box.
+
+#+begin_src shell
+alias h="history"
+#+end_src
 
 ** Key Bindings (Command line editor)
 
@@ -652,13 +658,15 @@ that use the Gnu *Readline* library. Existing programs include FTP, Bash, and Gd
 
 See https://code.google.com/p/mintty/wiki/Tips#Readline_configuration.
 
-by default, Bash uses /Emacs/ style keyboard shortcuts when editing (~C-a~, ~C-e~,
+By default, Bash uses /Emacs/ style keyboard shortcuts when editing (~C-a~, ~C-e~,
 etc.).  Check your active Bash keymap with:
 
 #+begin_src shell :tangle no
 bind -v | grep editing-mode
 bind -v | grep keymap
 #+end_src
+
+List with ~bind -P~.
 
 The key bindings can also be part of =.bashrc= (by adding single quotes).
 
@@ -1285,6 +1293,15 @@ autoload -Uz compinit
 compinit -i                     # Silently ignore all insecure files and directories.
 #+end_src
 
+How to fix "zsh compinit: insecure directories"?  Stripping these directories of
+the group write permission:
+
+#+begin_src shell :tangle no
+compaudit | xargs chmod g-w
+#+end_src
+
+will do the trick, see [[http://www.wezm.net/technical/2008/09/zsh-cygwin-and-insecure-directories/][zsh, Cygwin and Insecure Directories]].
+
 #+begin_src shell
 setopt AUTO_LIST                # Automatically list choices on an ambiguous completion.
 
@@ -1368,29 +1385,29 @@ setopt SHARE_HISTORY            # Share history between sessions.
 #+begin_src shell
 # Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
 alias history="history -i"
+alias h="history -i"
 #+end_src
 
 ** Key Bindings (Command line editor)
 
 10.4 Some interesting keybindings
 
-| Keybinding | Meaning                                                            |
-|------------+--------------------------------------------------------------------|
-| ctrl-d     | complete + EOF                                                     |
-| ctrl-l     | clear screen                                                       |
-| ctrl-w     | delete last word                                                   |
-| ctrl-_     | undo                                                               |
-| tab        | complete and take first result                                     |
-| esc-.      | insert last parameter of last typed command (similar to typing !$) |
-| ctrl-a     | begin of line                                                      |
-| ctrl-e     | end of line                                                        |
-| alt-'      | quote-line ('')                                                    |
-| alt-?      | which-command                                                      |
-| ctrl-k     | kill line                                                          |
-| ctrl-u     | kill while line (kill-ring)                                        |
-| ctrl-w     | copy last word (kill-ring)                                         |
-| ctrl-y     | yank (insert kill-ring)                                            |
-| esc-q      | push line                                                          |
+| Key binding | Meaning                                         |
+|-------------+-------------------------------------------------|
+| C-d         | complete + EOF                                  |
+|-------------+-------------------------------------------------|
+| C-k         | kill line                                       |
+| C-u         | kill while line (kill-ring)                     |
+| C-w         | copy last word (kill-ring) OR delete last word? |
+| C-y         | yank (insert kill-ring)                         |
+|-------------+-------------------------------------------------|
+| <tab>       | complete and take first result                  |
+|-------------+-------------------------------------------------|
+| C-_         | undo                                            |
+|-------------+-------------------------------------------------|
+| M-?         | which-command                                   |
+| M-'         | quote-line ('')                                 |
+| esc-q       | push line                                       |
 
 Useful keybindings of the Zsh *command line editor*:
 
@@ -1398,9 +1415,6 @@ Useful keybindings of the Zsh *command line editor*:
      Type another command in the middle of a long command (look at ~man~, etc.):
      you can push the current command to the buffer stack, and after executing
      another command, you can see the top of the stack popped.
-
-- ~M-.~ ::
-     Recall the last argument of the previous command, and so on.
 
 - ~C-r~ ::
      Do an interactive search across all of the *command history*.
@@ -1427,6 +1441,12 @@ each key combination in between the two quotes.
 
 *** Commands For Moving
 
+| Key binding | Meaning                                   |
+|-------------+-------------------------------------------|
+| C-a         | Move to the beginning of the current line |
+| C-e         | Move to the end of the current line       |
+| C-l         | Clear the screen                          |
+
 #+begin_src shell
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
@@ -1440,6 +1460,10 @@ bindkey '\e[1;5D' backward-word         # <C-left>
 bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 #+end_src
+
+| Key binding | Meaning                                                                            |
+|-------------+------------------------------------------------------------------------------------|
+| ~M-.~         | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
 
 *** Commands For Changing Text
 
@@ -3224,16 +3248,6 @@ either by running
 before installing,
 
 * FAQ
-
-** How to fix "zsh compinit: insecure directories"?
-
-Stripping these directories of the group write permission:
-
-#+begin_src shell
-compaudit | xargs chmod g-w
-#+end_src
-
-will do the trick, see [[http://www.wezm.net/technical/2008/09/zsh-cygwin-and-insecure-directories/][zsh, Cygwin and Insecure Directories]].
 
 ** How to run Windows Emacs without showing a terminal window?
 

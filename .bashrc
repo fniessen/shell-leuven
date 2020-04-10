@@ -178,8 +178,10 @@ export HISTTIMEFORMAT="%y-%m-%d %H:%M  "
 # Blacklist - Avoid recording common commands (like ls, top and clear).
 export HISTIGNORE="ls*:top:clear"
 
-# Ignore duplicate commands and commands starting with space.
-HISTCONTROL=ignoredups:ignorespace
+# Ignore duplicate commands and commands starting with spaces.
+HISTCONTROL=ignoreboth:erasedups
+
+alias h="history"
 
 # Set <C-left/right> to move by whole words.
 bind '"\e[1;5C": forward-word'

@@ -274,6 +274,7 @@ setopt SHARE_HISTORY            # Share history between sessions.
 
 # Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
 alias history="history -i"
+alias h="history -i"
 
 # # Behave like Emacs when editing. (Default if $VISUAL or $EDITOR does not contain string 'vi'?)
 # bindkey -e
