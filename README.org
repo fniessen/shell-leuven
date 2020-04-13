@@ -1358,6 +1358,14 @@ Zsh has its own line editor (ZLE) and doesn't read readline's =.inputrc=.
 setopt BEEP
 #+end_src
 
+Make Zsh ~forward-word~ behavior same as in *Bash* / Emacs, where only alphanumeric
+characters are considered word characters:
+
+#+begin_src shell
+autoload -U select-word-style
+select-word-style bash
+#+end_src
+
 *** Locale variables
 
 ** History
