@@ -18,7 +18,10 @@ XXX https://www.linuxtrainingacademy.com/23-handy-bash-shell-aliases-for-unix-li
 XXX https://pissedoffadmins.com/
 
 XXX nine colors: black, red, green, yellow, blue, magenta, cyan, white, and
-default (the terminal's default foreground)
+reset (the terminal's default foreground)
+See
+https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux/20983251#20983251
+for extended explanation about ~tput~ and color codes.
 
 Autojump
 
