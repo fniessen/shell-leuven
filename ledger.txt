@@ -1,3 +1,12 @@
+Here's a way to emulate a per-directory config file (in bash). The script uses
+./.hledger as an argument file if present:
+
+#+begin_src shell
+function h() {
+    [[ -e .hledger ]] && hledger @.hledger "$@" || hledger "$@" ;
+}
+#+end_src
+
 #+begin_src shell
 export LEDGER=ledger
 export LEDGER_FILE=/Users/fni/Personal/Business/Accounting/LEDGER.dat
