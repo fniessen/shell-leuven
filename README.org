@@ -22,6 +22,8 @@ reset (the terminal's default foreground)
 See
 https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux/20983251#20983251
 for extended explanation about ~tput~ and color codes.
+*tput looks up the appropriate codes according to the value of TERM and renders
+the correctly escaped ANSI code for you.*
 
 Autojump
 
