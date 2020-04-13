@@ -256,6 +256,9 @@ setopt NOTIFY                   # Immediately report changes in background job s
 # returning errors.
 setopt BEEP
 
+autoload -U select-word-style
+select-word-style bash
+
 HISTFILE=~/.zsh_history         # Zsh doesn't save the history to a file by default.
 HISTSIZE=10000                  # In memory.
 SAVEHIST=$HISTSIZE              # To file.

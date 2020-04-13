@@ -2343,15 +2343,16 @@ alias root='sudo -i'
 #+end_src
 
 #+begin_src shell
-alias poweroff="systemctl poweroff"
-alias reboot="systemctl reboot"
+alias apt-updater='sudo apt-get update \
+    && sudo apt-get dist-upgrade -Vy \
+    && sudo apt-get autoremove -y \
+    && sudo apt-get autoclean \
+    && sudo apt-get clean'
 #+end_src
 
 #+begin_src shell
-alias sysupdate='sudo apt-get update \
-    && sudo apt-get upgrade -y \
-    && sudo apt-get dist-upgrade -y \
-    && sudo apt-get autoremove -y'
+alias poweroff="systemctl poweroff"
+alias reboot="systemctl reboot"
 #+end_src
 
 #+begin_src shell

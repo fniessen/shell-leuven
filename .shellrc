@@ -232,13 +232,14 @@ alias sudo='sudo '
 # Become root.
 alias root='sudo -i'
 
+alias apt-updater='sudo apt-get update \
+    && sudo apt-get dist-upgrade -Vy \
+    && sudo apt-get autoremove -y \
+    && sudo apt-get autoclean \
+    && sudo apt-get clean'
+
 alias poweroff="systemctl poweroff"
 alias reboot="systemctl reboot"
-
-alias sysupdate='sudo apt-get update \
-    && sudo apt-get upgrade -y \
-    && sudo apt-get dist-upgrade -y \
-    && sudo apt-get autoremove -y'
 
 # Make executable.
 alias exe='chmod +x'
