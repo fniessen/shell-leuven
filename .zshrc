@@ -302,6 +302,12 @@ backward-delete-char-beep() {
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep  # <backspace>
 
+autoload edit-command-line
+zle -N edit-command-line
+bindkey "\ee"      edit-command-line
+bindkey "\ev"      edit-command-line
+bindkey "\C-x\C-e" edit-command-line
+
 # C-M-u: up-directory
 up-directory() {
     builtin cd .. && zle reset-prompt

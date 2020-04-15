@@ -692,8 +692,6 @@ The key bindings can also be part of =.bashrc= (by adding single quotes).
 - Alt+l lists the contents of the current directory, unless the cursor is over a directory argument, in which case the contents of that directory will be listed.
 - Alt+p adds the string '| less;' to the end of the job under the cursor. The result is that the output of the command will be paged.
 - Alt+w prints a short description of the command under the cursor.
-- Alt+e edit the current command line in an external editor. The editor is chosen from the first available of the $VISUAL or $EDITOR variables.
-- Alt+v Same as Alt+e.
 - Alt+s Prepends sudo to the current commandline.
 
 Emacs mode commands
@@ -785,6 +783,12 @@ FZF Key bindings for command line
 - ALT-C - cd into the selected directory
   Set FZF_ALT_C_COMMAND to override the default command
   Set FZF_ALT_C_OPTS to pass additional options
+
+#+begin_src shell
+bind '"\ee": edit-and-execute-command'
+bind '"\ev": edit-and-execute-command'
+# Same as C-x C-e.
+#+end_src
 
 #+begin_src shell
 # C-M-u: up-directory
@@ -1504,10 +1508,23 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 
 *** Some Miscellaneous Commands
 
+| Key binding | Meaning                                                                                                                    |
+|-------------+----------------------------------------------------------------------------------------------------------------------------|
+| ~M-e~         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
+| M-v         | Same as ~M-e~                                                                                                                |
+| C-x C-e     | Same as ~M-e~                                                                                                                |
+
 From Dan Davison:
-bindkey '\ee' edit-command-line-in-shell-mode
 bindkey '^W' kill-region
 bindkey '^x^r' replace-string
+
+#+begin_src shell
+autoload edit-command-line
+zle -N edit-command-line
+bindkey "\ee"      edit-command-line
+bindkey "\ev"      edit-command-line
+bindkey "\C-x\C-e" edit-command-line
+#+end_src
 
 #+begin_src shell
 # C-M-u: up-directory
