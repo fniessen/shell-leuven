@@ -94,46 +94,22 @@ export LANG=C.UTF-8
 export LC_CTYPE=
 
 # Find a suitable editor.
-for editor in emacsclientw emacsclient emacs; do
-    if command -v "$editor" > /dev/null 2>&1; then
-        # Set EDITOR.
-        case $editor in
-            emacsclient*)
-                # # doesn't bother waiting for a response
-                # export EDITOR="$editor --no-wait"
-
-                # From the man page for emacsclient(1):
-                # If the Emacs server is not running, run `emacs --daemon' to
-                # start Emacs in daemon mode, and try to connect to it.
-                export EDITOR="$editor --alternate-editor=''"
-                ;;
-            *)
-                export EDITOR="$editor"
-                ;;
-        esac
-
-        alias e='$EDITOR'
-        break
-    fi
-done
-
-alias ek="emacsclient -e '(kill-emacs)'"
+if [ -z "$SSH_CONNECTION" ]; then
+    export EDITOR="emacsclient"
+    export ALTERNATE_EDITOR=""
+    alias e="emacsclient -n" # 'e .' opens the current directory in Emacs.
+    alias ee="emacsclient -n --alternate-editor=emacs"
+    alias bgemacs='emacs &'
+else
+    EDITOR=$(command -v emacs \
+                 || command -v subl \
+                 || command -v atom \
+                 || command -v nano)
+    alias e='$EDITOR'
+fi
 
 # Use `$EDITOR' for programs wanting an editor.
-export VISUAL="$EDITOR"                 # For `crontab'.
-export CVSEDITOR="$EDITOR"
-export SVN_EDITOR="$EDITOR"
-export EDIT="$EDITOR"
-export ERROR_EDITOR="$EDITOR"
-export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
-                                        # command.
-
-alias em=emacs-minimal
-
-# ec FILE - open FILE in a running Emacs
-ec() {
-    emacsclient --no-wait "$1"
-}
+export VISUAL="$EDITOR"
 
 export PAGER="less"
 

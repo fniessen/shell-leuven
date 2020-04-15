@@ -1857,99 +1857,32 @@ These variables work as follows:
 
 ** EDITOR
 
-Be sure one of these *editors* is *in your search path*!
-
-#+begin_warning
-Right now, I have instead hard-coded the path to Emacs in the
-[[file:~/bin/emacsclient]] script.
-#+end_warning
-
 #+begin_src shell
 # Find a suitable editor.
-for editor in emacsclientw emacsclient emacs; do
-    if command -v "$editor" > /dev/null 2>&1; then
-        # Set EDITOR.
-        case $editor in
-            emacsclient*)
-                # # doesn't bother waiting for a response
-                # export EDITOR="$editor --no-wait"
-
-                # From the man page for emacsclient(1):
-                # If the Emacs server is not running, run `emacs --daemon' to
-                # start Emacs in daemon mode, and try to connect to it.
-                export EDITOR="$editor --alternate-editor=''"
-                ;;
-            ,*)
-                export EDITOR="$editor"
-                ;;
-        esac
-
-        alias e='$EDITOR'
-        break
-    fi
-done
+if [ -z "$SSH_CONNECTION" ]; then
+    export EDITOR="emacsclient"
+    export ALTERNATE_EDITOR=""
+    alias e="emacsclient -n" # 'e .' opens the current directory in Emacs.
+    alias ee="emacsclient -n --alternate-editor=emacs"
+    alias bgemacs='emacs &'
+else
+    EDITOR=$(command -v emacs \
+                 || command -v subl \
+                 || command -v atom \
+                 || command -v nano)
+    alias e='$EDITOR'
+fi
 #+end_src
 
-#+begin_src shell :tangle no
-alias e="emacsclient --alternate-editor=emacs --no-wait" # --no-wait is an essential part.
-alias e="emacsclient --tty --alternate-editor=''"
-
-# `e` with no arguments opens the current directory in Emacs, otherwise
-# opens the given location
-function e() {
-    if [ $# -eq 0 ]; then
-        emacsclient .;
-    else
-        emacsclient "$@";
-    fi;
-}
-#+end_src
-
-#+begin_src shell
-alias ek="emacsclient -e '(kill-emacs)'"
-#+end_src
-
-#+begin_note
-Shouldn't we alias ~EDITOR~ to ~emacs --tty~?
-#+end_note
+When setting the environment variables ~EDITOR~ and/or ~VISUAL~, you better omit the
+~--no-wait~ (~-n~) option: if ~emacsclient~ doesn't wait, the program that opens the
+editor will think you exited it. In the case of our ~git commit~, we would end up
+with a blank commit message!
 
 #+begin_src shell
 # Use `$EDITOR' for programs wanting an editor.
-export VISUAL="$EDITOR"                 # For `crontab'.
-export CVSEDITOR="$EDITOR"
-export SVN_EDITOR="$EDITOR"
-export EDIT="$EDITOR"
-export ERROR_EDITOR="$EDITOR"
-export FCEDIT="$EDITOR"                 # For the `fc' (fix command) builtin
-                                        # command.
+export VISUAL="$EDITOR"
 #+end_src
-
-#+begin_src shell
-alias em=emacs-minimal
-#+end_src
-
-#+begin_src shell
-# ec FILE - open FILE in a running Emacs
-ec() {
-    emacsclient --no-wait "$1"
-}
-#+end_src
-
-I connect to the server with either a terminal or a GUI client like this:
-
-#+begin_example
-alias et=emacsclient --tty              # New GUI frame.
-alias ec=emacsclient --create-frame     # New terminal frame.
-#+end_example
-
-A good way to start emacsclient is with this line:
-
-#+begin_example
-alias e="emacsclient --no-wait --alternate-editor=\"\" --create-frame"
-#+end_example
-
-You may also set the environment variables =EDITOR= and/or =VISUAL=, but then you
-better omit the "=--no-wait=" option.
 
 ** PAGER
 
