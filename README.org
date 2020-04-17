@@ -692,7 +692,11 @@ The key bindings can also be part of =.bashrc= (by adding single quotes).
 - Alt+l lists the contents of the current directory, unless the cursor is over a directory argument, in which case the contents of that directory will be listed.
 - Alt+p adds the string '| less;' to the end of the job under the cursor. The result is that the output of the command will be paged.
 - Alt+w prints a short description of the command under the cursor.
+
 - Alt+s Prepends sudo to the current commandline.
+
+  # Insert 'sudo ' at the beginning of the line.
+  bindkey -M "$keymap" "$key_info[Control]X$key_info[Control]S" prepend-sudo
 
 Emacs mode commands
 - Home or Control+A moves the cursor to the beginning of the line.
@@ -1513,6 +1517,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 | ~M-e~         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
 | M-v         | Same as ~M-e~                                                                                                                |
 | C-x C-e     | Same as ~M-e~                                                                                                                |
+| C-M-u       | Go up one directory                                                                                                        |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1528,11 +1533,7 @@ bindkey "\C-x\C-e" edit-command-line
 
 #+begin_src shell
 # C-M-u: up-directory
-up-directory() {
-    builtin cd .. && zle reset-prompt
-}
-zle -N up-directory
-bindkey '\e\C-u' up-directory
+bindkey -s '\e\C-u' "cd ..\n"
 #+end_src
 
 ** Abbreviations (aliases)
