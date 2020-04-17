@@ -690,7 +690,6 @@ The key bindings can also be part of =.bashrc= (by adding single quotes).
 - Alt+d moves the next word to the killring.
 - Alt+h (or F1) shows the manual page for the current command, if one exists.
 - Alt+l lists the contents of the current directory, unless the cursor is over a directory argument, in which case the contents of that directory will be listed.
-- Alt+p adds the string '| less;' to the end of the job under the cursor. The result is that the output of the command will be paged.
 - Alt+w prints a short description of the command under the cursor.
 
 - Alt+s Prepends sudo to the current commandline.
@@ -751,10 +750,11 @@ bind '"\t": menu-complete'
 
 *** Some Miscellaneous Commands
 
-This makes Ctrl+Alt+L append "| less" to the line and run it (Ctrl+M is
-equivalent to Enter):
+This makes ~M-p~ (see Fish) append " | less" to the line and run it:
 
-"\e\C-l": "\C-e | less\C-m"
+#+begin_src shell
+bind '"\ep": "\C-e | less\C-m"'
+#+end_src
 
 This example wraps the line in su -c '', if Alt+S is pressed:
 
@@ -1482,6 +1482,11 @@ bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 #+end_src
 
+#+begin_src shell
+# Insert last word with Alt+. -- cool!  BY DEFAULT!???
+# bindkey '\e.' insert-last-word
+#+end_src
+
 | Key binding | Meaning                                                                            |
 |-------------+------------------------------------------------------------------------------------|
 | ~M-.~         | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
@@ -1514,7 +1519,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 
 | Key binding | Meaning                                                                                                                    |
 |-------------+----------------------------------------------------------------------------------------------------------------------------|
-| ~M-e~         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
+| M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
 | M-v         | Same as ~M-e~                                                                                                                |
 | C-x C-e     | Same as ~M-e~                                                                                                                |
 | C-M-u       | Go up one directory                                                                                                        |
@@ -1529,6 +1534,23 @@ zle -N edit-command-line
 bindkey "\ee"      edit-command-line
 bindkey "\ev"      edit-command-line
 bindkey "\C-x\C-e" edit-command-line
+#+end_src
+
+#+begin_src shell :tangle no
+# Mapping Alt+S to custom function that inserts sudo
+insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo insert_sudo
+bindkey '\es' insert-sudo
+#+end_src
+
+M-p (see Fish) adds the string " | less" to the end of the job under the
+cursor. The result is that the output of the command will be paged.
+
+#+begin_src shell
+# Map M-p to custom function that adds less.
+insert_less () { zle end-of-line; zle -U " | less" }
+zle -N insert-less insert_less
+bindkey '\ep' insert-less
 #+end_src
 
 #+begin_src shell

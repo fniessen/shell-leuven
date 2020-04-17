@@ -199,6 +199,8 @@ bind '"\e[2~": quoted-insert'
 # Make TAB cycle through commands after listing.
 bind '"\t": menu-complete'
 
+bind '"\ep": "\C-e | less\C-m"'
+
 bind '"\ee": edit-and-execute-command'
 bind '"\ev": edit-and-execute-command'
 # Same as C-x C-e.

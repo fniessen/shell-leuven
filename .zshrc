@@ -290,6 +290,9 @@ bindkey '\e[1;5D' backward-word         # <C-left>
 bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 
+# Insert last word with Alt+. -- cool!  BY DEFAULT!???
+# bindkey '\e.' insert-last-word
+
 bindkey "\e[3~" delete-char             # <delete>
 
 # Make Zsh beep like Bash when backspacing on an empty command line.
@@ -307,6 +310,11 @@ zle -N edit-command-line
 bindkey "\ee"      edit-command-line
 bindkey "\ev"      edit-command-line
 bindkey "\C-x\C-e" edit-command-line
+
+# Map M-p to custom function that adds less.
+insert_less () { zle end-of-line; zle -U " | less" }
+zle -N insert-less insert_less
+bindkey '\ep' insert-less
 
 # C-M-u: up-directory
 bindkey -s '\e\C-u' "cd ..\n"
