@@ -27,6 +27,10 @@ the correctly escaped ANSI code for you.*
 
 Autojump
 
+Cygwin Ports provides *notify-send* in the *libnotify* package. You will also need
+a running daemon (any of notification-daemon, mate-notification-daemon,
+xfce4-notifyd, notify-osd, qtnotifydaemon).
+
 - Context sensitive completion;
   + Executables (and aliases).
   + Directory commands.
@@ -37,9 +41,7 @@ Autojump
   + Incremental history search (Ctrl-R/Ctrl-S).
   + Powerful completion (TAB).
   + Undo (Ctrl-Z).
-  + Automatic "cd .." (Ctrl-Alt-U).
   + Environment variable expansion (Ctrl-Alt-E).
-  + (press Alt-H for many more...)
 
 Undo/Redo (Ctrl-_ or Ctrl-X, Ctrl-U)
 Improved command line history.
@@ -461,7 +463,7 @@ well.
 
 ** Getting Help
 
-In the Zsh shell, ~Alt-h~ shows the *manual page* for the current command, if one
+In the Zsh shell, ~M-h~ shows the *manual page* for the current command, if one
 exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
 command...
 
@@ -752,6 +754,8 @@ bind '"\t": menu-complete'
 *** Keyboard Macros
 
 *** Some Miscellaneous Commands
+
+https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html#Bindable-Readline-Commands
 
 This makes ~M-p~ (see Fish) append " | less" to the line and run it:
 
@@ -1536,7 +1540,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
 | M-v         | Same as ~M-e~                                                                                                                |
 | C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| C-M-u       | Go up one directory                                                                                                        |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
 
 From Dan Davison:
 bindkey '^W' kill-region
