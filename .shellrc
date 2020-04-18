@@ -386,9 +386,31 @@ texlist() {
     locate "$*" | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)"
 }
 
+## Commandline Fu
+cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
+        | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;}
+
+##Check if websites are down
+down4me() { curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';}
+
+## Google Translate Functions ##
+
+say() {
+   find ~/Downloads/en -name "$1.ogg" -exec ogg123 {} \;
+   # mplayer -user-agent Mozilla -prefer-ipv4 \
+   # "http://translate.google.md/translate_tts?ie=UTF-8&tl="$1"&q=$(echo "$@" \
+   # | cut -d ' ' -f2- | sed 's/ /\+/g')" > /dev/null 2>&1 ;
+}
+
+say-translation() {
+   lang=$1
+   trans=$(translate {=$lang} "$(echo "$@" | cut -d ' ' -f2- | sed 's/ /\+/g')" )
+   echo $trans
+   mplayer -user-agent Mozilla \
+   "http://translate.google.com/translate_tts?ie=UTF-8&tl=$lang&q=$trans" > /dev/null 2>&1 ;
+}
+
 alert() {
     $@
     echo -e "\a"                        # Beep.
 }
-
-alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

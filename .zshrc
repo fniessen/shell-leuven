@@ -311,10 +311,10 @@ bindkey "\ee"      edit-command-line
 bindkey "\ev"      edit-command-line
 bindkey "\C-x\C-e" edit-command-line
 
-# Map M-p to custom function that adds less.
-insert_less () { zle end-of-line; zle -U " | less" }
-zle -N insert-less insert_less
-bindkey '\ep' insert-less
+# M-p: append-less
+append_less() { zle end-of-line; zle -U " | less" }
+zle -N append-less append_less
+bindkey '\ep' append-less
 
 # C-M-u: up-directory
 bindkey -s '\e\C-u' "cd ..\n"

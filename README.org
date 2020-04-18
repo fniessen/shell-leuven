@@ -137,7 +137,7 @@ Run the following command in your shell to try Shell-Leuven without installing:
 
 #+begin_src shell
 # Source file.
-. < (curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/XXX.zsh)
+. < (curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc)
 #+end_src
 
 ** Manual Installation
@@ -1491,6 +1491,17 @@ bindkey '\e[B' history-beginning-search-forward  # <down>
 |-------------+------------------------------------------------------------------------------------|
 | ~M-.~         | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
 
+Bonus Tip
+
+In Bash, there are some great but lesser-known default bindings. You may know
+that M-. will insert the last argument of the previous command (e.g. running ls
+~/Desktop and then typing cd and pressing M-. will turn it into cd ~/Desktop),
+but did you know you can actually yank the argument at any index from the last
+command (without using history or ! operators)?
+
+Just press M-[#], where # is the position of the argument you want, then type
+M-. to insert it in the current command.
+
 *** Commands For Changing Text
 
 #+begin_src shell
@@ -1521,7 +1532,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 |-------------+----------------------------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
 | M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~                                                                                                                |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
 | C-M-u       | Go up one directory                                                                                                        |
 
 From Dan Davison:
@@ -1537,20 +1548,20 @@ bindkey "\C-x\C-e" edit-command-line
 #+end_src
 
 #+begin_src shell :tangle no
-# Mapping Alt+S to custom function that inserts sudo
-insert_sudo () { zle beginning-of-line; zle -U "sudo " }
-zle -N insert-sudo insert_sudo
-bindkey '\es' insert-sudo
+# M-s: prepend-sudo
+prepend_sudo() { zle beginning-of-line; zle -U "sudo " }
+zle -N prepend-sudo prepend_sudo
+bindkey '\es' prepend-sudo
 #+end_src
 
-M-p (see Fish) adds the string " | less" to the end of the job under the
-cursor. The result is that the output of the command will be paged.
+M-p (see Fish) appends the string " | less" to the current command. The result
+is that the output of the command will be paged.
 
 #+begin_src shell
-# Map M-p to custom function that adds less.
-insert_less () { zle end-of-line; zle -U " | less" }
-zle -N insert-less insert_less
-bindkey '\ep' insert-less
+# M-p: append-less
+append_less() { zle end-of-line; zle -U " | less" }
+zle -N append-less append_less
+bindkey '\ep' append-less
 #+end_src
 
 #+begin_src shell
@@ -2878,6 +2889,32 @@ texlist() {
 
 *** Extra
 
+#+begin_src shell
+## Commandline Fu
+cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
+        | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;}
+
+##Check if websites are down
+down4me() { curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';}
+
+## Google Translate Functions ##
+
+say() {
+   find ~/Downloads/en -name "$1.ogg" -exec ogg123 {} \;
+   # mplayer -user-agent Mozilla -prefer-ipv4 \
+   # "http://translate.google.md/translate_tts?ie=UTF-8&tl="$1"&q=$(echo "$@" \
+   # | cut -d ' ' -f2- | sed 's/ /\+/g')" > /dev/null 2>&1 ;
+}
+
+say-translation() {
+   lang=$1
+   trans=$(translate {=$lang} "$(echo "$@" | cut -d ' ' -f2- | sed 's/ /\+/g')" )
+   echo $trans
+   mplayer -user-agent Mozilla \
+   "http://translate.google.com/translate_tts?ie=UTF-8&tl=$lang&q=$trans" > /dev/null 2>&1 ;
+}
+#+end_src
+
 #+begin_src shell :tangle no
 console() {
     if [[ $# > 0 ]]; then
@@ -2900,7 +2937,7 @@ alert() {
 }
 #+end_src
 
-#+begin_src shell
+#+begin_src shell :tangle no
 alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 #+end_src
 
@@ -3232,7 +3269,7 @@ either by running
 
 : export ZSH=/your/path
 
-before installing,
+before installing.
 
 * FAQ
 
