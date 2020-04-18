@@ -133,12 +133,15 @@ include:
 
 ** Try Online
 
-Run the following command in your shell to try Shell-Leuven without installing:
+Run the following command in your shell to try (part of) Shell-Leuven without
+installing anything:
 
 #+begin_src shell
-# Source file.
-. < (curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc)
+# Source .zshrc.
+. <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc)
 #+end_src
+
+(=.shellrc= won't be loaded.)
 
 ** Manual Installation
 
