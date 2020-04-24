@@ -38,24 +38,16 @@ xfce4-notifyd, notify-osd, qtnotifydaemon).
   + Thirdparty tools; Git, Mercurial, SVN, Go, and P4.
 - New keyboard shortcuts;
   + Paste from clipboard (Ctrl-V).
-  + Incremental history search (Ctrl-R/Ctrl-S).
   + Powerful completion (TAB).
   + Undo (Ctrl-Z).
   + Environment variable expansion (Ctrl-Alt-E).
 
 Undo/Redo (Ctrl-_ or Ctrl-X, Ctrl-U)
-Improved command line history.
-Persists across sessions.
-Searchable (Ctrl-R and Ctrl-S).
-History expansion (e.g. !!, !<string>, and !$).
 
 Here is also list with all Clink command shortcuts
 C-@     : set-mark
 C-b     : backward-char
-C-d     : delete-char
-C-f     : forward-char
 C-g     : abort
-C-h     : backward-delete-char
 C-i     : clink-completion-shim
 C-j     : accept-line
 C-k     : kill-line
@@ -64,9 +56,6 @@ C-m     : accept-line
 C-n     : next-history
 C-p     : previous-history
 C-q     : reload-lua-state
-C-r     : reverse-search-history
-C-s     : forward-search-history
-C-t     : transpose-chars
 C-u     : unix-line-discard
 C-v     : paste-from-clipboard
 C-w     : unix-word-rubout
@@ -92,13 +81,9 @@ M-<     : beginning-of-history
 M->     : end-of-history
 M-     : delete-horizontal-space
 M-_     : yank-last-arg
-M-c     : capitalize-word
-M-l     : downcase-word
 M-n     : non-incremental-forward-search-history
 M-p     : non-incremental-reverse-search-history
 M-r     : revert-line
-M-t     : transpose-words
-M-u     : upcase-word
 M-y     : yank-pop
 M-~     : tilde-expand
 C-x,C-g : abort
@@ -126,6 +111,9 @@ include:
 - *Syntax highlighting --* Shell-Leuven uses different colors for parts of
   commands to help users focus on different things (e.g., commands versus
   arguments).
+
+- *Improved command line history --* Persists across sessions. Searchable
+  incrementally (~C-r~ and ~C-s~). History expansion (e.g. ~!!~, ~!<string>~, and ~!$~).
 
 * Installation
 
@@ -681,9 +669,7 @@ The key bindings can also be part of =.bashrc= (by adding single quotes).
 - ? (Up) and ? (Down) (or Control+P and Control+N for emacs aficionados) search the command history for the previous/next command containing the string that was specified on the commandline before the search was started. If the commandline was empty when the search started, all commands match. See the history section for more information on history searching.
 - Alt+?,Up and Alt+?,Down search the command history for the previous/next token containing the token under the cursor before the search was started. If the commandline was not on a token when the search started, all tokens match. See the history section for more information on history searching.
 - Control+C cancels the entire line.
-- Control+D delete one character to the right of the cursor. If the command line is empty, Control+D will exit fish.
 - Control+U moves contents from the beginning of line to the cursor to the killring.
-- Control+L clears and repaints the screen.
 - Control+W moves the previous path component (everything up to the previous "/", ":" or "@") to the killring.
 - Control+X copies the current buffer to the system's clipboard, Control+V inserts the clipboard contents.
 - Alt+d moves the next word to the killring.
@@ -695,12 +681,7 @@ Emacs mode commands
 - Home or Control+A moves the cursor to the beginning of the line.
 - End or Control+E moves to the end of line. If the cursor is already at the end of the line, and an autosuggestion is available, End or Control+E accepts the autosuggestion.
 - ? (Left) (or Control+B) and ? (Right) (or Control+F) move the cursor left or right by one character. If the cursor is already at the end of the line, and an autosuggestion is available, the ? (Right) key and the Control+F combination accept the suggestion.
-- Delete and Backspace removes one character forwards or backwards respectively.
 - Control+K moves contents from the cursor to the end of line to the killring.
-- Alt+c capitalizes the current word.
-- Alt+u makes the current word uppercase.
-- Control+t transposes the last two characters
-- Alt+t transposes the last two words
 - You can change these key bindings using the bind builtin.
 
 
@@ -764,7 +745,8 @@ Others:
 Control-o: "> output" C-o is bound to run the macro expressed on the right hand
 side (that is, to insert the text "> output" into the line)
 
-"\C-d": kill-whole-line Map control-d to kill the whole line.
+# Map C-k to kill the whole line.
+"\C-k": kill-whole-line
 
 
 | Key binding | Meaning                                                                                         |
@@ -1418,7 +1400,7 @@ alias h="history -i"
 
 | Key binding | Meaning                                         |
 |-------------+-------------------------------------------------|
-| C-d         | complete + EOF                                  |
+| M-=         | complete + EOF                                  |
 |-------------+-------------------------------------------------|
 | C-k         | kill line                                       |
 | C-u         | kill while line (kill-ring)                     |
@@ -1781,7 +1763,6 @@ cde() {
 
 You need the ~emacs-server~ functionality enabled for this to work.
 
-# 11nov2014  +chris+
 # 13dec2017  +leah+  print when not on a tty
 # 26nov2019  +leah+  append $1
 cde() {
@@ -1806,20 +1787,16 @@ cate() {
 #+end_src
 
 # zombies - list all zombies and their parents to kill
-# 23jul2014  +chris+  zsh function
 zombies() {
   ps f -eo state,pid,ppid,comm | awk '
     { cmds[$2] = $NF }
     /^Z/ { print $(NF-1) "/" $2 " zombie child of " cmds[$3] "/" $3 }'
 }
 
-
 # null - throw away input
-# 01dec2014  +chris+
 null() { LC_ALL=C tr -cd '' }
 
 # absolute [FILE...] - print absolute file name/PWD
-# 02dec2014  +chris+
 # 18oct2016  +chris+  also abspath
 # 18nov2016  +chris+  print hostname to tty when logged in via ssh
 absolute abspath () {
@@ -1828,36 +1805,29 @@ absolute abspath () {
 }
 
 # homediff FILE
-# 02dec2014  +chris+
-# 26feb2019  +leah+
 homediff() {
   diff -u "${1?no file given}" <(curl -sL http://leahneukirchen.org/dotfiles/$1)
 }
 
 # ssh-copy-term - copy terminfo via ssh
-# 10dec2014  +chris+
 ssh-copy-term() {
   infocmp $TERM | ssh "$@" 't="$(mktemp)" && cat >"$t" && tic -s "$t"'
 }
 
 # cppdef - print predefined C macros
-# 09mar2015  +chris+
 # 31mar2016  +chris+  use $1 as cc
 cppdef() { ${1:-cc} $@[2,-1] -dM -E - </dev/null }
 
 # cppgrep - grep in C/C++ headers
-# 10aug2017  +leah+
 cppgrep() {
   printf '#include "%s"' "$@[2,-1]" | gcc -E -M -MP -x c++ - |
     awk -F: '/:$/ {print $1}' | xe -N0 grep -nP "$1"
 }
 
 # crustdiff - diff of uncrustify result
-# 31aug2017  +leah+
 crustdiff() { for f; uncrustify -f $f | diff -u $f - }
 
 # crustdiff - diff of perltidy result
-# 15dec2019  +leah+
 perltidydiff() { for f; perltidy < $f | diff -u --label $f --label $f $f - }
 
 # ltime - start and run time of last commands
@@ -1868,7 +1838,6 @@ ltime() { fc -liDI | tail -n ${1:-10} }
 #   CMD will be run as zsh command if it contains a $
 #   without explicit '--', assume CMD is first argument
 #   {} (or $1) may be used to access argument
-# 01apr2015  +chris+
 zapply() {
   local s="$@[(i)--]" xopt=
   (( s > $# )) && argv[2]=(-- "$argv[2]") && s=2
@@ -1879,7 +1848,6 @@ zapply() {
 }
 
 # gman - format manpage using GNU troff
-# 10apr2015  +chris+
 gman() {
   ( man -w "$@" 2>/dev/null || printf '%s\n' "$@" ) |
     xargs cat |
@@ -1887,17 +1855,14 @@ gman() {
 }
 
 # hman - format manpage as monospace HTML
-# 10feb2018  +leah+
 hman() { man -T utf8 "$@" | ul | aha }
 
 # myman - format manpage of own projects
-# 22feb2016  +chris+
 # 27jul2016  +chris+  mandoc doesnt like being called from xe
 #myman() { locate -0 -e $HOME/*/$1.[0-9] | xe -0RN0 man -l }
 myman() { man -l $(locate -e $HOME/*/$1.[0-9]) }
 
 # twoman - show inline "manpage"
-# 13feb2017  +leah+
 twoman() {
   for cmd; do
     sed -n '1{/^[^#][^!]/q;d};0,/^$\|^[^#]/s/^# //p' ${commands[$cmd]?not found}
@@ -1906,7 +1871,6 @@ twoman() {
 
 # soak [OUTPUT] - write stdin to OUTPUT (or stdout), not clobbering OUTPUT.
 # Also don't clobber on empty input.
-# 03may2015  +chris+
 soak() {
   perl -we 'undef $/; my $s = <STDIN>;
             $ARGV[0] and $s and open(STDOUT, ">", $ARGV[0]) || die "soak: $!\n";
@@ -1914,7 +1878,6 @@ soak() {
 }
 
 # inp [FILE] [FILTER...] - run FILTER in-place on FILE
-# 16mar2016  +chris+
 inp() { () { "$@[3,-1]" <$2 >$1 && [[ -s $1 ]] && mv $1 $2 } =(:) "$@" }
 
 # sslcat HOST:PORT - print SSL certificate and details
@@ -1926,7 +1889,6 @@ sslcat() {
 }
 
 # clot - fill screen with garbage, as visual separator
-# 17aug2015  +chris+
 # 11mar2016  +chris+ print seperate lines
 clot() {
   head -c $((LINES*COLUMNS)) </dev/urandom |
@@ -1935,14 +1897,12 @@ clot() {
 }
 
 # spot - show changes compared to previous line
-# 03nov2017  +leah+
 spot() {
   awk '{ for (i = 1; i <= length($0); i++)
            printf("%c", ((l = substr($0, i, 1))!=" " && l!="\t" &&
                           substr(p, i, 1)==l ? "." : l))
          printf("\n"); p = $0; }'
 }
-
 
 ** Variables
 
