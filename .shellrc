@@ -26,6 +26,7 @@ has() {
     fi
 }
 
+# Cd to working directory of current Emacs buffer.
 cde() {
   builtin cd $(emacsclient -e '(with-current-buffer
                                    (window-buffer (selected-window))

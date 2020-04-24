@@ -279,8 +279,8 @@ setopt SHARE_HISTORY            # Share history between sessions.
 alias history="history -i"
 alias h="history -i"
 
-# # Behave like Emacs when editing. (Default if $VISUAL or $EDITOR does not contain string 'vi'?)
-# bindkey -e
+# Behave like Emacs when editing.
+bindkey -e
 
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
@@ -304,6 +304,8 @@ backward-delete-char-beep() {
 }
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep  # <backspace>
+
+bindkey '\e=' list-choices
 
 autoload edit-command-line
 zle -N edit-command-line
@@ -394,3 +396,14 @@ fi
 if [ -f "$HOME"/.shellrc_local_after ]; then
     . "$HOME"/.shellrc_local_after
 fi
+
+# Print current Emacs buffer.
+cate() {
+  () {
+    emacsclient -e '(with-current-buffer
+                        (window-buffer (selected-window))
+                      (write-region (point-min) (point-max) "'$1'" nil :quiet))
+                   ' >/dev/null &&
+    cat $1
+  } =(:)
+}

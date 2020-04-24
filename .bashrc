@@ -75,7 +75,7 @@ export PS2="incomplete? continue here-> "
 # Get line numbers when you run with `-x'.
 PS4='+'$grn'[$0:$LINENO]+ '${reset_color}
 
-# M-h = run-help.
+# M-h: run-help.
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 # Ignore case while completing filenames.
@@ -200,6 +200,12 @@ bind '"\e[2~": quoted-insert'
 bind '"\t": menu-complete'
 
 bind '"\ep": "\C-e | less\C-m"'
+
+bind '"\es": "\C-asudo \C-e\C-m"'
+
+bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
+
+# See bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 bind '"\ee": edit-and-execute-command'
 bind '"\ev": edit-and-execute-command'

@@ -52,7 +52,6 @@ History expansion (e.g. !!, !<string>, and !$).
 Here is also list with all Clink command shortcuts
 C-@     : set-mark
 C-b     : backward-char
-C-c     : ctrl-c
 C-d     : delete-char
 C-f     : forward-char
 C-g     : abort
@@ -75,36 +74,33 @@ C-y     : yank
 C-z     : undo
 C-]     : character-search
 C-_     : undo
-A-C-c   : copy-line-to-clipboard
-A-C-e   : expand-env-vars
-A-C-g   : abort
-A-C-h   : backward-kill-word
-A-C-i   : tab-insert
-A-C-r   : revert-line
-A-C-y   : yank-nth-arg
-A-C-[   : complete
-A-C-]   : character-search-backward
-A-      : set-mark
-A-#     : insert-comment
-A-&     : tilde-expand
-A-*     : insert-completions
-A-.     : yank-last-arg
-A-<     : beginning-of-history
-A-=     : possible-completions
-A->     : end-of-history
-A-?     : possible-completions
-A-     : delete-horizontal-space
-A-_     : yank-last-arg
-A-c     : capitalize-word
-A-h     : show-rl-help
-A-l     : downcase-word
-A-n     : non-incremental-forward-search-history
-A-p     : non-incremental-reverse-search-history
-A-r     : revert-line
-A-t     : transpose-words
-A-u     : upcase-word
-A-y     : yank-pop
-A-~     : tilde-expand
+M-C-c   : copy-line-to-clipboard
+M-C-e   : expand-env-vars
+M-C-g   : abort
+M-C-h   : backward-kill-word
+M-C-i   : tab-insert
+M-C-r   : revert-line
+M-C-y   : yank-nth-arg
+M-C-[   : complete
+M-C-]   : character-search-backward
+M-      : set-mark
+M-#     : insert-comment
+M-&     : tilde-expand
+M-*     : insert-completions
+M-.     : yank-last-arg
+M-<     : beginning-of-history
+M->     : end-of-history
+M-     : delete-horizontal-space
+M-_     : yank-last-arg
+M-c     : capitalize-word
+M-l     : downcase-word
+M-n     : non-incremental-forward-search-history
+M-p     : non-incremental-reverse-search-history
+M-r     : revert-line
+M-t     : transpose-words
+M-u     : upcase-word
+M-y     : yank-pop
+M-~     : tilde-expand
 C-x,C-g : abort
 C-x,C-r : re-read-init-file
 C-x,C-u : undo
@@ -135,15 +131,14 @@ include:
 
 ** Try Online
 
-Run the following command in your shell to try (part of) Shell-Leuven without
-installing anything:
+Run the following command in your shell to try Shell-Leuven without installing
+anything:
 
 #+begin_src shell
-# Source .zshrc.
+# Source .zshrc and .shellrc.
 . <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc)
+. <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc)
 #+end_src
-
-(=.shellrc= won't be loaded.)
 
 ** Manual Installation
 
@@ -463,14 +458,13 @@ well.
 
 ** Getting Help
 
-In the Zsh shell, ~M-h~ shows the *manual page* for the current command, if one
-exists.  The Zsh way of doing things is much, much nicer than typing the ~man~
-command...
+In Zsh, ~M-h~ shows the *manual page* for the current command, if one exists.  The
+Zsh way of doing things is much, much nicer than typing the ~man~ command...
 
 Add this functionality to the Bash shell:
 
 #+begin_src shell
-# M-h = run-help.
+# M-h: run-help.
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 #+end_src
 
@@ -697,11 +691,6 @@ The key bindings can also be part of =.bashrc= (by adding single quotes).
 - Alt+l lists the contents of the current directory, unless the cursor is over a directory argument, in which case the contents of that directory will be listed.
 - Alt+w prints a short description of the command under the cursor.
 
-- Alt+s Prepends sudo to the current commandline.
-
-  # Insert 'sudo ' at the beginning of the line.
-  bindkey -M "$keymap" "$key_info[Control]X$key_info[Control]S" prepend-sudo
-
 Emacs mode commands
 - Home or Control+A moves the cursor to the beginning of the line.
 - End or Control+E moves to the end of line. If the cursor is already at the end of the line, and an autosuggestion is available, End or Control+E accepts the autosuggestion.
@@ -740,11 +729,11 @@ bind '"\e[3~": delete-char'
 bind '"\e[2~": quoted-insert'
 #+end_src
 
-*** Killing And Yanking
+*** Commands For Killing And Yanking
 
-*** Specifying Numeric Arguments
+*** Numeric Arguments
 
-*** Letting Readline Type For You
+*** Commands For Completion (Letting Readline Type For You)
 
 #+begin_src shell
 # Make TAB cycle through commands after listing.
@@ -753,7 +742,7 @@ bind '"\t": menu-complete'
 
 *** Keyboard Macros
 
-*** Some Miscellaneous Commands
+*** Miscellaneous Commands
 
 https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html#Bindable-Readline-Commands
 
@@ -763,14 +752,11 @@ This makes ~M-p~ (see Fish) append " | less" to the line and run it:
 bind '"\ep": "\C-e | less\C-m"'
 #+end_src
 
-This example wraps the line in su -c '', if Alt+S is pressed:
+~M-s~ prefixes the current commandlein with  "sudo ".
 
-"\es": "\C-a su -c '\C-e'\C-m"
-
-This example prefixes the line with sudo , if Alt+S is pressed. It's safer
-because it won't input the Enter key.
-
-"\es": "\C-asudo \C-e"
+#+begin_src shell
+bind '"\es": "\C-asudo \C-e\C-m"'
+#+end_src
 
 Others:
 - https://brettterpstra.com/2015/07/09/shell-tricks-inputrc-binding-fun/
@@ -781,6 +767,16 @@ side (that is, to insert the text "> output" into the line)
 "\C-d": kill-whole-line Map control-d to kill the whole line.
 
 
+| Key binding | Meaning                                                                                         |
+|-------------+-------------------------------------------------------------------------------------------------|
+| ~M-?~         | Execute the command ~which cmd~ where ~cmd~ is the current command; similar to ~which-command~ in Zsh |
+
+#+begin_src shell
+bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
+
+# See bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+
+#+end_src
 
 
 
@@ -1463,8 +1459,8 @@ key combination you want the escape code (the name) of, and put the output for
 each key combination in between the two quotes.
 
 #+begin_src shell
-# # Behave like Emacs when editing. (Default if $VISUAL or $EDITOR does not contain string 'vi'?)
-# bindkey -e
+# Behave like Emacs when editing.
+bindkey -e
 #+end_src
 
 *** Commands For Moving
@@ -1525,15 +1521,23 @@ zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep  # <backspace>
 #+end_src
 
-*** Killing And Yanking
+*** Commands For Killing And Yanking
 
-*** Specifying Numeric Arguments
+*** Numeric Arguments
 
-*** Letting Readline Type For You
+*** Commands For Completion (Letting the Z-Shell Line Editor Type For You)
+
+| Key binding | Meaning                                                                                         |
+|-------------+-------------------------------------------------------------------------------------------------|
+| ~M-=~         | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
+
+#+begin_src shell
+bindkey '\e=' list-choices
+#+end_src
 
 *** Keyboard Macros
 
-*** Some Miscellaneous Commands
+*** Miscellaneous Commands
 
 | Key binding | Meaning                                                                                                                    |
 |-------------+----------------------------------------------------------------------------------------------------------------------------|
@@ -1541,6 +1545,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 | M-v         | Same as ~M-e~                                                                                                                |
 | C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
 | C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
+| M-s         | Prepend "sudo " to the current command line                                                                                |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1575,6 +1580,20 @@ bindkey '\ep' append-less
 # C-M-u: up-directory
 bindkey -s '\e\C-u' "cd ..\n"
 #+end_src
+
+
+#                                       alt_gr + key
+bindkey -s l " | less -M -e "           #l
+bindkey -s XXX " | xargs "                #x
+bindkey -s ? " | grep -i "              #g
+bindkey -s XXX " | column -t "            #m
+# \n, jumps to a new line that has: pipe pipe quote> ' ' '
+bindkey -s XXX " | tr '\n' ' ' "          #t or p
+bindkey -s XXX " | cut -d ' ' -f "        #c
+bindkey -s ? " | xclip -in "            #i
+bindkey -s XXX " xclip -out "             #o
+bindkey -s d " find -iname '**' "	#f  #see drop()
+#bindkey -s " |  "
 
 ** Abbreviations (aliases)
 
@@ -1752,6 +1771,7 @@ If you are an avid Emacs user like me, you'll find this function useful.  It
 *enters the directory of the file currently active in Emacs* resides in:
 
 #+begin_src shell
+# Cd to working directory of current Emacs buffer.
 cde() {
   builtin cd $(emacsclient -e '(with-current-buffer
                                    (window-buffer (selected-window))
@@ -1760,6 +1780,169 @@ cde() {
 #+end_src
 
 You need the ~emacs-server~ functionality enabled for this to work.
+
+# 11nov2014  +chris+
+# 13dec2017  +leah+  print when not on a tty
+# 26nov2019  +leah+  append $1
+cde() {
+  local op=print
+  [[ -t 1 ]] && op=cd
+  $op ${(A):-${(Q)~$(emacsclient -e '(with-current-buffer
+                                       (window-buffer (selected-window))
+                                       default-directory) ')}${1:-/.}}
+}
+
+#+begin_src shell :tangle .zshrc
+# Print current Emacs buffer.
+cate() {
+  () {
+    emacsclient -e '(with-current-buffer
+                        (window-buffer (selected-window))
+                      (write-region (point-min) (point-max) "'$1'" nil :quiet))
+                   ' >/dev/null &&
+    cat $1
+  } =(:)
+}
+#+end_src
+
+# zombies - list all zombies and their parents to kill
+# 23jul2014  +chris+  zsh function
+zombies() {
+  ps f -eo state,pid,ppid,comm | awk '
+    { cmds[$2] = $NF }
+    /^Z/ { print $(NF-1) "/" $2 " zombie child of " cmds[$3] "/" $3 }'
+}
+
+
+# null - throw away input
+# 01dec2014  +chris+
+null() { LC_ALL=C tr -cd '' }
+
+# absolute [FILE...] - print absolute file name/PWD
+# 02dec2014  +chris+
+# 18oct2016  +chris+  also abspath
+# 18nov2016  +chris+  print hostname to tty when logged in via ssh
+absolute abspath () {
+  [[ -n "$SSH_CONNECTION" ]] && [[ -t 1 ]] && local prefix="$(hostname -f):"
+  print -l $prefix${^${@:-$PWD}:a}
+}
+
+# homediff FILE
+# 02dec2014  +chris+
+# 26feb2019  +leah+
+homediff() {
+  diff -u "${1?no file given}" <(curl -sL http://leahneukirchen.org/dotfiles/$1)
+}
+
+# ssh-copy-term - copy terminfo via ssh
+# 10dec2014  +chris+
+ssh-copy-term() {
+  infocmp $TERM | ssh "$@" 't="$(mktemp)" && cat >"$t" && tic -s "$t"'
+}
+
+# cppdef - print predefined C macros
+# 09mar2015  +chris+
+# 31mar2016  +chris+  use $1 as cc
+cppdef() { ${1:-cc} $@[2,-1] -dM -E - </dev/null }
+
+# cppgrep - grep in C/C++ headers
+# 10aug2017  +leah+
+cppgrep() {
+  printf '#include "%s"' "$@[2,-1]" | gcc -E -M -MP -x c++ - |
+    awk -F: '/:$/ {print $1}' | xe -N0 grep -nP "$1"
+}
+
+# crustdiff - diff of uncrustify result
+# 31aug2017  +leah+
+crustdiff() { for f; uncrustify -f $f | diff -u $f - }
+
+# crustdiff - diff of perltidy result
+# 15dec2019  +leah+
+perltidydiff() { for f; perltidy < $f | diff -u --label $f --label $f $f - }
+
+# ltime - start and run time of last commands
+# 05feb2018  +leah+  use tail -n
+ltime() { fc -liDI | tail -n ${1:-10} }
+
+# zapply [-jN] [-iv] CMD... -- ARGS... - run up to N CMD in parallel with ARGS
+#   CMD will be run as zsh command if it contains a $
+#   without explicit '--', assume CMD is first argument
+#   {} (or $1) may be used to access argument
+# 01apr2015  +chris+
+zapply() {
+  local s="$@[(i)--]" xopt=
+  (( s > $# )) && argv[2]=(-- "$argv[2]") && s=2
+  zparseopts -D -M -A xopt n: p t P: j:=P v=t i=p   # map to xargs(1) flags
+  (( $@[(i){}] < s )) && xopt[-I]={}
+  [[ $1 = *'$'* ]] && argv[1]=(zsh -c "$1" --) && (( s += 3 ))
+  printf '%s\0' "$@[s+1,-1]" | xargs -0 -r -n1 ${(kv)=xopt} "$@[1,s-1]"
+}
+
+# gman - format manpage using GNU troff
+# 10apr2015  +chris+
+gman() {
+  ( man -w "$@" 2>/dev/null || printf '%s\n' "$@" ) |
+    xargs cat |
+    groff -t -p -I/usr/share/man -Tutf8 -mandoc | less
+}
+
+# hman - format manpage as monospace HTML
+# 10feb2018  +leah+
+hman() { man -T utf8 "$@" | ul | aha }
+
+# myman - format manpage of own projects
+# 22feb2016  +chris+
+# 27jul2016  +chris+  mandoc doesnt like being called from xe
+#myman() { locate -0 -e $HOME/*/$1.[0-9] | xe -0RN0 man -l }
+myman() { man -l $(locate -e $HOME/*/$1.[0-9]) }
+
+# twoman - show inline "manpage"
+# 13feb2017  +leah+
+twoman() {
+  for cmd; do
+    sed -n '1{/^[^#][^!]/q;d};0,/^$\|^[^#]/s/^# //p' ${commands[$cmd]?not found}
+  done
+}
+
+# soak [OUTPUT] - write stdin to OUTPUT (or stdout), not clobbering OUTPUT.
+# Also don't clobber on empty input.
+# 03may2015  +chris+
+soak() {
+  perl -we 'undef $/; my $s = <STDIN>;
+            $ARGV[0] and $s and open(STDOUT, ">", $ARGV[0]) || die "soak: $!\n";
+            print $s;' -- "$@"
+}
+
+# inp [FILE] [FILTER...] - run FILTER in-place on FILE
+# 16mar2016  +chris+
+inp() { () { "$@[3,-1]" <$2 >$1 && [[ -s $1 ]] && mv $1 $2 } =(:) "$@" }
+
+# sslcat HOST:PORT - print SSL certificate and details
+sslcat() {
+  local cert="$(openssl s_client -connect $1 </dev/null | awk '/^--*BEGIN/,/^--*END/')"
+  printf '%s\n' "$cert" | openssl x509 -in /dev/stdin -text
+  printf '%s\n' "$cert" | openssl x509 -in /dev/stdin -noout -sha1 -fingerprint
+  printf '%s\n' "$cert" | openssl x509 -in /dev/stdin -noout -md5 -fingerprint
+}
+
+# clot - fill screen with garbage, as visual separator
+# 17aug2015  +chris+
+# 11mar2016  +chris+ print seperate lines
+clot() {
+  head -c $((LINES*COLUMNS)) </dev/urandom |
+    LC_ALL=C tr '\0-\377' ${(l:256::.*o@:)} |
+    fold -w $COLUMNS
+}
+
+# spot - show changes compared to previous line
+# 03nov2017  +leah+
+spot() {
+  awk '{ for (i = 1; i <= length($0); i++)
+           printf("%c", ((l = substr($0, i, 1))!=" " && l!="\t" &&
+                          substr(p, i, 1)==l ? "." : l))
+         printf("\n"); p = $0; }'
+}
+
 
 ** Variables
 
@@ -2540,7 +2723,6 @@ alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
 # 030925 Compare /proc with ps (against rootkits).
 alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
 
-# # 040210 Grep.
 # alias g='find . -type f -print0 | xargs -0 grep'
 alias rgrep="grep -r"
 #+end_src
@@ -2630,77 +2812,6 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
-#+end_src
-
-#+begin_src shell
-# Honor embedded linefeeds when displaying packets.
-alias ngrep='ngrep -W byline'
-
-# ngrep -i -w 'user|pass' port 110
-# ngrep -d eth0 -i 'USER|PASS' tcp port 80
-# ngrep google port 80
-# ngrep -i 'rcpt to|mail from' tcp port smtp
-# ngrep -q -t -wi "login" port 23
-
-# View HTTP traffic.
-alias sniff='sudo ngrep -d "eth1" -t "^(GET|POST) " "tcp and port 80"'
-alias httpdump="sudo tcpdump -i eth1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
-#+end_src
-
-#+begin_src shell
-ipf() {
-    curl -H 'Accept: application/json' "ipinfo.io/$1" | jq .
-}
-
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-  alias "$method"="curl -X '$method'"
-done
-
-# Run `dig` and display the most useful info
-digga() {
-    dig +nocmd "$1" any +multiline +noall +answer
-}
-#+end_src
-
-#+begin_src shell
-# IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
-#+end_src
-
-#+begin_src shell
-alias ports='netstat -alpe --ip'
-
-# Open ports.
-alias ports='netstat -tulanp'
-alias ports='netstat -tulap'
-
-alias openports='netstat -nape --inet'
-#+end_src
-
-#+begin_src shell
-# localnet - Find the local network in CIDR notation.
-localnet() {
-    IP_ADDRESS=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*addr:\([0-9.]*\).*/\1/")
-    # we could use `nm-tool' from `network-manager'
-
-    NETMASK=$(ifconfig | grep "inet addr:" | head -n 1 | sed "s/.*Mask:\([0-9.]*\).*/\1/")
-
-    # calculate network value
-    echo $(ipcalc -n -b $IP_ADDRESS $NETMASK | grep Network | awk '{print $2}')
-}
-#+end_src
-
-#+begin_src shell
-# Resume getting a partially-downloaded file.
-alias wget='wget -c'
-
-# Anonymous wget (using Privoxy and Tor).
-alias aget='wget --execute "http_proxy = http://127.0.0.1:8118" --proxy'
-alias mirror='wget -v --tries=0 --continue --force-directories --mirror --no-parent'
-
-alias download_web_site='wget --random-wait -r -p -e robots=off -U mozilla'
 #+end_src
 
 *** Org
@@ -3186,8 +3297,9 @@ See [[https://mintty.github.io/mintty.1.html][man page]].
 Set the *terminal type* explicitly to get a nice *256 color* palette (instead of the
 ugly default 8 colors):
 
-#+begin_src shell :tangle no
-export TERM=xterm-256color
+#+begin_src shell
+# export TERM=xterm-256color
+# Set the TERM in the terminal emulator instead!
 #+end_src
 
 #+begin_tip
@@ -3196,7 +3308,9 @@ the *shell*, as opposed to dotfiles related to the *terminal emulator* program.
 This is because a shell may be used with multiple terminal emulators, and
 setting ~TERM~ there is obviously a misplacement mistake, an all too common one...
 The proper place to override the ~TERM~ value is in a terminal emulator dotfile,
-something like =~/.minttyrc=.
+something like [[file:~/.minttyrc]]:
+
+: Term=xterm-256color
 #+end_tip
 
 Initialize the terminal according to the type of terminal in the environmental
