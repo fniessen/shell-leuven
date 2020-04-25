@@ -46,13 +46,9 @@ Undo/Redo (Ctrl-_ or Ctrl-X, Ctrl-U)
 
 Here is also list with all Clink command shortcuts
 C-@     : set-mark
-C-b     : backward-char
-C-g     : abort
 C-i     : clink-completion-shim
-C-j     : accept-line
 C-k     : kill-line
 C-l     : clear-screen
-C-m     : accept-line
 C-n     : next-history
 C-p     : previous-history
 C-q     : reload-lua-state
@@ -65,7 +61,6 @@ C-]     : character-search
 C-_     : undo
 M-C-c   : copy-line-to-clipboard
 M-C-e   : expand-env-vars
-M-C-g   : abort
 M-C-h   : backward-kill-word
 M-C-i   : tab-insert
 M-C-r   : revert-line
@@ -402,10 +397,10 @@ case "$TERM" in
         PS1='\[\033]0;Bash $PWD\007\]\n\
 $(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u2718 $st "; fi)\
 \[\033[0;32m\]\u@\h\
-\[\033[01;30m\]:\
-\[\033[;;33m\]\w\
+\[\033[1;30m\]:\
+\[\033[0;33m\]\w\
 \[\033[36m\]`__git_ps1`\n\
-\[\033[35m\]$\[\033[0m\] '
+\[\033[1;34m\]$\[\033[0m\] '
 
 # PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ '
 
@@ -658,7 +653,9 @@ bind -v | grep editing-mode
 bind -v | grep keymap
 #+end_src
 
-List with ~bind -P~.
+View all the readline variables with ~bind -v~.
+
+List both the keybindings and the corresponding function name with ~bind -p~.
 
 The key bindings can also be part of =.bashrc= (by adding single quotes).
 
@@ -3360,4 +3357,10 @@ Use the ~run~ command:
 
 #+begin_src shell
 C:\cygwin64\bin\run.exe /usr/bin/emacs
+#+end_src
+
+** Disable your local ~/.gitconfig by faking out $HOME
+
+#+begin_src shell
+HOME=/dev/null git show
 #+end_src
