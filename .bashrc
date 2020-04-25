@@ -29,6 +29,11 @@ if [ -f "$HOME"/.bashrc_local_before ]; then
     . "$HOME"/.bashrc_local_before
 fi
 
+git_info_msg() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+     # git branch 2> /dev/null | grep '^*' | colrm 1 2
+}
+
 # Colors.
 BLK="\[$(tput setaf 0; tput bold)\]"
 RED="\[$(tput setaf 1; tput bold)\]"
@@ -54,10 +59,10 @@ $(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[
 \[\033[0;32m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\
-\[\033[36m\]`__git_ps1`\n\
+\[\033[36m\]`git_info_msg`\n\
 \[\033[1;34m\]$\[\033[0m\] '
 
-# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ '
+# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_info_msg`\[\033[0m\]\n$ '
 
 
         ;;
