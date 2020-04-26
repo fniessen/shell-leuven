@@ -2659,7 +2659,7 @@ alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
 alias aps='aptitude search'
 #+end_src
 
-*** System admin (NMAP, etc.)
+*** System admin
 :PROPERTIES:
 :header-args+: :tangle no
 :END:
