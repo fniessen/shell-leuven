@@ -307,6 +307,10 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 
 bindkey '\e=' list-choices
 
+autoload -U replace-string
+zle -N replace-string
+bindkey "\e%"      replace-string
+
 autoload edit-command-line
 zle -N edit-command-line
 bindkey "\ee"      edit-command-line

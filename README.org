@@ -1525,12 +1525,18 @@ bindkey '\e=' list-choices
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
 | M-v         | Same as ~M-e~                                                                                                                |
 | C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
+| M-%         | Replace string                                                                                                             |
 | C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
 | M-s         | Prepend "sudo " to the current command line                                                                                |
 
 From Dan Davison:
 bindkey '^W' kill-region
-bindkey '^x^r' replace-string
+
+#+begin_src shell
+autoload -U replace-string
+zle -N replace-string
+bindkey "\e%"      replace-string
+#+end_src
 
 #+begin_src shell
 autoload edit-command-line
