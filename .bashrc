@@ -209,8 +209,7 @@ bind '"\ep": "\C-e | less\C-m"'
 bind '"\es": "\C-asudo \C-e\C-m"'
 
 bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
-
-# See bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
+# See this example: bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 bind '"\ee": edit-and-execute-command'
 bind '"\ev": edit-and-execute-command'

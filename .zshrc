@@ -322,8 +322,24 @@ append_less() { zle end-of-line; zle -U " | less" }
 zle -N append-less append_less
 bindkey '\ep' append-less
 
+# From https://github.com/romkatv/zsh4humans
+# Widgets for changing current working directory.
+z4h-redraw-prompt() {
+    emulate -L zsh
+    local f
+    for f in chpwd $chpwd_functions precmd $precmd_functions; do
+        (( $+functions[$f] )) && $f &>/dev/null
+    done
+    zle .reset-prompt
+    zle -R
+}
+
 # C-M-u: up-directory
-bindkey -s '\e\C-u' "cd ..\n"
+up-directory() {
+    builtin cd .. && z4h-redraw-prompt
+}
+zle -N up-directory
+bindkey '\e\C-u' up-directory
 
 alias -g 21="2>&1"
 alias -g A='| awk'

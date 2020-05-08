@@ -724,6 +724,11 @@ bind '"\t": menu-complete'
 
 *** Miscellaneous Commands
 
+#+begin_note
+In Bash, ~replace-string~ does not exist.  Instead, you could press ~C-x C-e~ to
+open the current line in your editor and do the substitution there.
+#+end_note
+
 https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html#Bindable-Readline-Commands
 
 This makes ~M-p~ (see Fish) append " | less" to the line and run it:
@@ -732,7 +737,7 @@ This makes ~M-p~ (see Fish) append " | less" to the line and run it:
 bind '"\ep": "\C-e | less\C-m"'
 #+end_src
 
-~M-s~ prefixes the current commandlein with  "sudo ".
+~M-s~ prefixes the current commandline with  "sudo ".
 
 #+begin_src shell
 bind '"\es": "\C-asudo \C-e\C-m"'
@@ -754,9 +759,7 @@ side (that is, to insert the text "> output" into the line)
 
 #+begin_src shell
 bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
-
-# See bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
-
+# See this example: bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 #+end_src
 
 
@@ -1564,10 +1567,25 @@ bindkey '\ep' append-less
 #+end_src
 
 #+begin_src shell
-# C-M-u: up-directory
-bindkey -s '\e\C-u' "cd ..\n"
-#+end_src
+# From https://github.com/romkatv/zsh4humans
+# Widgets for changing current working directory.
+z4h-redraw-prompt() {
+    emulate -L zsh
+    local f
+    for f in chpwd $chpwd_functions precmd $precmd_functions; do
+        (( $+functions[$f] )) && $f &>/dev/null
+    done
+    zle .reset-prompt
+    zle -R
+}
 
+# C-M-u: up-directory
+up-directory() {
+    builtin cd .. && z4h-redraw-prompt
+}
+zle -N up-directory
+bindkey '\e\C-u' up-directory
+#+end_src
 
 #                                       alt_gr + key
 bindkey -s l " | less -M -e "           #l
