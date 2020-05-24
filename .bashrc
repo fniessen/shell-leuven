@@ -55,7 +55,7 @@ case "$TERM" in
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
         PS1='\[\033]0;Bash $PWD\007\]\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u2718 $st "; fi)\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u00d7 $st "; fi)\
 \[\033[0;32m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\

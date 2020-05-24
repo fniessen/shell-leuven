@@ -397,7 +397,7 @@ case "$TERM" in
         # `M-x term' under Cygwin Emacs.
         BEL=$(tput bel)
         PS1='\[\033]0;Bash $PWD\007\]\n\
-$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u2718 $st "; fi)\
+$(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[01;31m\]$BEL\\u00d7 $st "; fi)\
 \[\033[0;32m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\
@@ -899,7 +899,7 @@ zstyle ':vcs_info:*' enable git
 
 #+begin_src shell
 PROMPT="
-%B%(?.%F{green}.%F{red}$(tput bel)"$'\u2718'" %? )%f%b%F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
+%B%(?.%F{green}.%F{red}$(tput bel)"$'\u00d7'" %? )%f%b%F{green}%n@%m%F{black}%B:%b%F{yellow}%~ %f\$vcs_info_msg_0_
 %B%F{blue}%(!.#.$)%f%b "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
@@ -1023,7 +1023,7 @@ If you right-click them, there should be install option in the menu. Or you can
 drag it straight to Windows Fonts folder
 #+end_note
 
-Test if it's working correctly by running:
+Test if UTF-8 characters are correctly rendered:
 
 #+begin_src shell :tangle no
 echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
