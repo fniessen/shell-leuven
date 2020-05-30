@@ -2500,7 +2500,7 @@ alias root='sudo -i'
 #+end_src
 
 #+begin_src shell
-alias apt-updater='sudo apt-get update \
+alias update-sys='sudo apt-get update \
     && sudo apt-get dist-upgrade -Vy \
     && sudo apt-get autoremove -y \
     && sudo apt-get autoclean \
@@ -2583,7 +2583,7 @@ alias t='tail -f'
 
 #+begin_src shell
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
-alias diff='colordiff'
+has colordiff && alias diff='colordiff'
 #+end_src
 
 *** Git
@@ -3207,12 +3207,13 @@ install apt-cyg /bin
 
 - Utils
   + [X] ~colordiff~ (for ~svn~)
-  + [ ] ~dos2unix~
-  + [ ] ~fdupes~
-  + [ ] ~file~ to determine file type
+  + [X] ~dos2unix~
+  + [X] ~fdupes~
+  + [X] ~file~ to determine file type
   + [ ] ~flog~ (logger, to syslog)
-  + [X] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
+  + [ ] ~gnupg~ (for ~gpg~) -- requiring ~libusb0~ (though you don't need to install
     the Win32 driver which is adviced!)
+  + [X] ~gnupg2~ (for ~gpg2~)
   + [X] ~moreutils~ (provides ~sponge~)
   + [X] ~ncurses~ (provides ~tput~ and the ~clear~ command used by the TeX Live
     installer, though you can use ~C-l~ to get the same result)
