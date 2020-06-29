@@ -2618,14 +2618,6 @@ http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-r
 
 highlight-lines-matching-regexp "ERROR"
 
-*** UTF-8 BOM
-
-Remove the UTF-8 encoded BOM if it exists (make no changes if it doesn't).
-
-#+begin_src shell
-alias remove-bom='sed -i "1s/^\xEF\xBB\xBF//"'
-#+end_src
-
 *** Screen
 
 Connect to a host in a new screen tab, with the device name as the tab title.

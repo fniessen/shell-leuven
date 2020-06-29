@@ -278,8 +278,6 @@ alias tigb='tig blame'
 alias tigall='tig --all'
 alias tigreleases='tig --all --simplify-by-decoration'
 
-alias remove-bom='sed -i "1s/^\xEF\xBB\xBF//"'
-
 org_test() {
     (
         cd "$HOME"/Public/Repositories/org-mode
