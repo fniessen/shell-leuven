@@ -1168,6 +1168,10 @@ fi
 # zincs_execution_time[threshold]=10
 #+end_src
 
+*** Alternative to Zinc: Pure
+
+https://github.com/sindresorhus/pure
+
 *** Plugins
 
 #+begin_src shell
