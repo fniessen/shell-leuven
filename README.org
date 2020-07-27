@@ -1954,7 +1954,7 @@ done
 
 # Extend the PATH var (where to look for executable files).  For Cygwin only.
 if [[ "$OSTYPE" = cygwin* ]]; then
-    for MAYBE_CYG_PATH in "$HOME"/.dotfiles/winbin; do
+    for MAYBE_CYG_PATH in "$HOME"/winbin; do
         # `-e' or `-x'?
         if [[ -d "$MAYBE_CYG_PATH" ]]; then
             PATH="$MAYBE_CYG_PATH":"$PATH"
