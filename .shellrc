@@ -9,7 +9,9 @@
 uname -s -n -r -m
 
 die() {
-    printf "$(basename $0): $@\n" > /dev/stderr
+    msg="${1:-"Unknown error"}"
+    logger "${msg}"
+    printf "$(basename $0): Fatal error: ${msg}\n" > /dev/stderr
     exit 2                              # An error occurred.
 }
 

@@ -1722,19 +1722,25 @@ uname -s -n -r -m
 
 ** Functions
 
-*** Exit with an error
+*** Deal with fatal errors
 
 The exit status follows the conventions for programs such as ~grep~, ~cmp~, and
 ~diff~: it is 2 (or greater) if an error occurred.
 
 #+begin_src shell
 die() {
-    printf "$(basename $0): $@\n" > /dev/stderr
+    msg="${1:-"Unknown error"}"
+    logger "${msg}"
+    printf "$(basename $0): Fatal error: ${msg}\n" > /dev/stderr
     exit 2                              # An error occurred.
 }
 #+end_src
 
 ~Die~ *must be a function* so that the calling script does exit with an error.
+
+#+begin_src shell :tangle no
+command || die "Something happened"
+#+end_src
 
 *** Check for executable files
 
