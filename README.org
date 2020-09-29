@@ -3135,7 +3135,7 @@ install apt-cyg /bin
 - Editors
   + [X] ~emacs~
   + [X] ~emacs-el~ (needed to get more up-to-date sources, such as for Org)
-  + [X] ~emacs-w32~ (for graphical Cygwin Emacs with the w32 graphics toolkit)
+  + [X] ~emacs-w32~ (for *graphical* Cygwin *Emacs* with the w32 graphics toolkit)
 
 - Graphics
   + [X] ~ghostscript~ (needed by various utilities -- ~texlive~ for example)
@@ -3247,7 +3247,7 @@ replacements:
 
 For a better Emacs experience than with the Cygwin console, use:
 
-- MinTTY
+- *MinTTY*
 - (u)rxvt
 - xterm
 
