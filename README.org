@@ -123,6 +123,11 @@ anything:
 . <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc)
 #+end_src
 
+#+begin_src shell
+curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc | zsh
+curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc | zsh
+#+end_src
+
 ** Manual Installation
 
 Download and source XXX.bash or XXX.zsh in your shell config.
@@ -2567,10 +2572,15 @@ alias 9='cd +9'
 # # For WSL.
 # alias c:='cd /mnt/c'
 # alias d:='cd /mnt/d'
-#
-# # For Cygwin.
-# alias c:='cd /cygdrive/c'
-# alias d:='cd /cygdrive/d'
+#+end_src
+
+#+begin_src shell
+# For Cygwin.
+if [[ "$OSTYPE" = cygwin* ]]; then
+    alias c:='cd /cygdrive/c'
+    alias d:='cd /cygdrive/d'
+    alias open='cygstart'
+fi
 #+end_src
 
 *** Shortcuts (single char for some commands)

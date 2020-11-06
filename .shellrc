@@ -250,10 +250,13 @@ alias 9='cd +9'
 # # For WSL.
 # alias c:='cd /mnt/c'
 # alias d:='cd /mnt/d'
-#
-# # For Cygwin.
-# alias c:='cd /cygdrive/c'
-# alias d:='cd /cygdrive/d'
+
+# For Cygwin.
+if [[ "$OSTYPE" = cygwin* ]]; then
+    alias c:='cd /cygdrive/c'
+    alias d:='cd /cygdrive/d'
+    alias open='cygstart'
+fi
 
 alias c='clear'
 alias j='jobs -l'
