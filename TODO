@@ -1,0 +1,34 @@
+# Hey Emacs, this is a -*- org -*- file ...
+#+TITLE:     TODO
+
+* Tasks
+
+* Notes
+
+** Usual exit codes
+
+#+begin_src shell
+    case $exit_status in
+        -1)   sig_name=FATAL ;;
+        1)    sig_name=WARN ;; # Miscellaneous errors, such as "divide by zero"
+        2)    sig_name=BUILTINMISUSE ;; # misuse of shell builtins (pretty rare)
+        126)  sig_name=CCANNOTINVOKE ;; # cannot invoke requested command (ex : source script_with_syntax_error)
+        127)  sig_name=CNOTFOUND ;; # command not found (ex : source script_not_existing)
+    esac
+#+end_src
+
+** Variables and built-in directives for dotfile templates
+
+When template processors run, they will be provided the following set of data.
+
+| Variable | Description       | Source                    |
+|----------+-------------------+---------------------------|
+| DISTRO   | Distribution      | lsb_release ‑si           |
+| HOSTNAME | Hostname          | hostname (without domain) |
+| OS       | Operating system  | uname ‑s [1]              |
+| USER     | Current user      | id ‑u ‑n                  |
+| SOURCE   | Template filename | (fully qualified path)    |
+
+[1] The OS for “Windows Subsystem for Linux” is reported as "WSL", even though
+uname identifies as "Linux".
+
