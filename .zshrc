@@ -54,8 +54,12 @@ PROMPT="
 
 case "$TERM" in
     xterm*|rxvt*)
-        precmd()  { print -Pn "\e]0;%m: %~\a" }
-        preexec() { print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a" }
+        precmd()  {
+            print -Pn "\e]0;%m: %~\a"
+        }
+        preexec() {
+            print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a"
+        }
 esac
 
 BEL=$(tput bel)
@@ -318,7 +322,10 @@ bindkey "\ev"      edit-command-line
 bindkey "\C-x\C-e" edit-command-line
 
 # M-p: append-less
-append_less() { zle end-of-line; zle -U " | less" }
+append_less() {
+    zle end-of-line
+    zle -U " | less"
+}
 zle -N append-less append_less
 bindkey '\ep' append-less
 

@@ -391,11 +391,15 @@ texlist() {
 }
 
 ## Commandline Fu
-cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
-        | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;}
+cmdfu() {
+    curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
+        | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;
+}
 
 ##Check if websites are down
-down4me() { curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';}
+down4me() {
+    curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';
+}
 
 ## Google Translate Functions ##
 
