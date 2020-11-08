@@ -3,6 +3,8 @@
 
 * Tasks
 
+** TODO Do sort -u instead of sort | uniq
+
 * Notes
 
 ** Usual exit codes
@@ -32,3 +34,6 @@ When template processors run, they will be provided the following set of data.
 [1] The OS for “Windows Subsystem for Linux” is reported as "WSL", even though
 uname identifies as "Linux".
 
+** Switch to another user and source personal bashrc file
+
+https://unix.stackexchange.com/questions/530841/switch-to-another-user-and-source-personal-bashrc-file
