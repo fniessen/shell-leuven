@@ -3,6 +3,86 @@
 
 * Tasks
 
+XXX (See Fish web_config for sorting things out)
+
+Look at https://github.com/jlevy/the-art-of-command-line!
+
+XXX https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+XXX https://www.linuxtrainingacademy.com/23-handy-bash-shell-aliases-for-unix-linux-and-mac-os-x/
+XXX https://pissedoffadmins.com/
+
+XXX nine colors: black, red, green, yellow, blue, magenta, cyan, white, and
+reset (the terminal's default foreground)
+See
+https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux/20983251#20983251
+for extended explanation about ~tput~ and color codes.
+*tput looks up the appropriate codes according to the value of TERM and renders
+the correctly escaped ANSI code for you.*
+
+Autojump
+
+Cygwin Ports provides *notify-send* in the *libnotify* package. You will also need
+a running daemon (any of notification-daemon, mate-notification-daemon,
+xfce4-notifyd, notify-osd, qtnotifydaemon).
+
+- Context sensitive completion;
+  + Executables (and aliases).
+  + Directory commands.
+  + Environment variables
+  + Thirdparty tools; Git, Mercurial, SVN, Go, and P4.
+- New keyboard shortcuts;
+  + Paste from clipboard (Ctrl-V).
+  + Powerful completion (TAB).
+  + Undo (Ctrl-Z).
+  + Environment variable expansion (Ctrl-Alt-E).
+
+Undo/Redo (Ctrl-_ or Ctrl-X, Ctrl-U)
+
+Here is also list with all Clink command shortcuts
+C-@     : set-mark
+C-i     : clink-completion-shim
+C-k     : kill-line
+C-l     : clear-screen
+C-n     : next-history
+C-p     : previous-history
+C-q     : reload-lua-state
+C-u     : unix-line-discard
+C-v     : paste-from-clipboard
+C-w     : unix-word-rubout
+C-y     : yank
+C-z     : undo
+C-]     : character-search
+C-_     : undo
+M-C-c   : copy-line-to-clipboard
+M-C-e   : expand-env-vars
+M-C-h   : backward-kill-word
+M-C-i   : tab-insert
+M-C-r   : revert-line
+M-C-y   : yank-nth-arg
+M-C-[   : complete
+M-C-]   : character-search-backward
+M-      : set-mark
+M-#     : insert-comment
+M-&     : tilde-expand
+M-*     : insert-completions
+M-.     : yank-last-arg
+M-<     : beginning-of-history
+M->     : end-of-history
+M-     : delete-horizontal-space
+M-_     : yank-last-arg
+M-n     : non-incremental-forward-search-history
+M-p     : non-incremental-reverse-search-history
+M-r     : revert-line
+M-y     : yank-pop
+M-~     : tilde-expand
+C-x,C-g : abort
+C-x,C-r : re-read-init-file
+C-x,C-u : undo
+C-x,C-x : exchange-point-and-mark
+C-x,(   : start-kbd-macro
+C-x,)   : end-kbd-macro
+C-x,e   : call-last-kbd-macro
+
 ** TODO Do sort -u instead of sort | uniq
 
 * Notes
