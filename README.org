@@ -7,7 +7,7 @@
 #+OPTIONS:   num:nil ^:{}
 
 #+PROPERTY:  header-args :eval no
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE: ~/org/theme-readtheorg.setup
 
 * How Shell-Leuven is different from the default configuration
 
@@ -2028,17 +2028,24 @@ export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
 
 *** Locale variables
 
-LANG, LC_ALL, LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC and
-LC_TIME set the language option for the shell and subprograms.
+See https://pubs.opengroup.org/onlinepubs/7908799/xbd/envvar.html
+
+~LANG~, ~LC_ALL~, ~LC_COLLATE~, ~LC_CTYPE~, ~LC_MESSAGES~, ~LC_MONETARY~, ~LC_NUMERIC~ and
+~LC_TIME~ set the language option for the shell and subprograms.
 
 You may need to manually set your language environment (among others, for ~svn~
 with accented file names in the repository).
 
 #+begin_src shell
 export LANG=C.UTF-8
+#+end_src
 
-# For scripts in R language.
-export LC_CTYPE=
+#+begin_src shell
+# # For scripts in R language.
+# export LC_CTYPE=
+
+# For Unicode ruler in diff-so-fancy.  See issue #364.
+unset LC_CTYPE
 #+end_src
 
 These variables work as follows:

@@ -93,8 +93,11 @@ export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
 
 export LANG=C.UTF-8
 
-# For scripts in R language.
-export LC_CTYPE=
+# # For scripts in R language.
+# export LC_CTYPE=
+
+# For Unicode ruler in diff-so-fancy.  See issue #364.
+unset LC_CTYPE
 
 # Find a suitable editor.
 if [ -z "$SSH_CONNECTION" ]; then
