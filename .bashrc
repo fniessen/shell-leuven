@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## bash_profile --- Bash configuration file (for interactive shells)
 
-# Copyright (C) 2003-2020 Fabrice Niessen
+# Copyright (C) 2003-2021 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config

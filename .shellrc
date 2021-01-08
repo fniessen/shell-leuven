@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .shellrc --- Shell agnostic configuration file
 
-# Copyright (C) 2009-2020 Fabrice Niessen
+# Copyright (C) 2009-2021 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -370,7 +370,7 @@ safetmp() {
     echo "$HOME/tmp/safetmp.$(hostname).$(date +%s).$$"
 }
 
-# Immediately opens the first match.
+# Open immediately the first match.
 texman() {
     locate "$*" | grep pdf | grep texlive | head -1 | xargs open
 }
@@ -379,13 +379,13 @@ texlist() {
     locate "$*" | grep "\(pdf\|dvi\)" | grep "\ (texlive\|gwTeX\)"
 }
 
-## Commandline Fu
+# Commandline Fu
 cmdfu() {
     curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
         | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;
 }
 
-##Check if websites are down
+# Check if websites are down
 down4me() {
     curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';
 }

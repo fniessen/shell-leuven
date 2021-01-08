@@ -969,7 +969,7 @@ For Consolas, use: https://github.com/runsisi/consolas-font-for-powerline.
 Oh My Zsh is just awesome!
 
 #+begin_src shell :tangle no
-git clone https://github.com/robbyrussell/oh-my-zsh.git
+git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 #+end_src
 
 #+begin_note
@@ -978,9 +978,8 @@ settings.
 #+end_note
 
 #+begin_src shell
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-    ZSH="$HOME"/.dotfiles/plugins/oh-my-zsh
-    # ${ZSH_CUSTOM:-"$HOME"/.dotfiles/plugins/oh-my-zsh/custom}
+if [[ -r "$HOME"/.oh-my-zsh ]]; then
+    ZSH="$HOME"/.oh-my-zsh
     ZSH_CUSTOM="$ZSH/custom"
 
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
@@ -1027,14 +1026,13 @@ http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-
 
 #+begin_src shell :tangle no
 git clone https://gitlab.com/robobenklein/zinc \
-    "$ZSH_CUSTOM"/themes/zinc
+    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/themes/zinc
 #+end_src
 
 #+begin_src shell
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; then
-
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh/custom/themes/zinc/zinc.zsh ]]; then
     ZSH_THEME=""
-    source "$ZSH_CUSTOM"/themes/zinc/zinc.zsh
+    source "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/themes/zinc/zinc.zsh
 
     zinc_default_user="f.niessen"
     zinc_default_host="XIPHIAS"
@@ -1104,7 +1102,6 @@ https://github.com/sindresorhus/pure
 
 #+begin_src shell
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-
     plugins=(
         colored-man-pages
         extract
@@ -1142,7 +1139,7 @@ to verify the correctness of your command.
 
 #+begin_src shell :tangle no
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    "$ZSH_CUSTOM"/plugins/zsh-syntax-highlighting
+    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
 #+end_src
 
 #+begin_src shell
@@ -1159,7 +1156,7 @@ To accept the autosuggestion, hit ~→~ (right arrow) or ~Ctrl-F~.
 
 #+begin_src shell :tangle no
 git clone https://github.com/zsh-users/zsh-autosuggestions \
-    "$ZSH_CUSTOM"/plugins/zsh-autosuggestions
+    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
 #+end_src
 
 #+begin_src shell
@@ -2937,7 +2934,7 @@ safetmp() {
 #+end_src
 
 #+begin_src shell
-# Immediately opens the first match.
+# Open immediately the first match.
 texman() {
     locate "$*" | grep pdf | grep texlive | head -1 | xargs open
 }
@@ -2950,13 +2947,13 @@ texlist() {
 *** Extra
 
 #+begin_src shell
-## Commandline Fu
+# Commandline Fu
 cmdfu() {
     curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
         | sed 's/ /-/g')/$(echo -n $@ | base64)/plaintext" ;
 }
 
-##Check if websites are down
+# Check if websites are down
 down4me() {
     curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';
 }

@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .zshrc --- Zsh configuration file (for interactive shells)
 
-# Copyright (C) 2009-2020 Fabrice Niessen
+# Copyright (C) 2009-2021 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
@@ -83,9 +83,8 @@ if [[ -d /cygdrive/c/ ]]; then
     echo -ne '\e]4;15;#FFFFFF\a'    # bold wht
 fi
 
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-    ZSH="$HOME"/.dotfiles/plugins/oh-my-zsh
-    # ${ZSH_CUSTOM:-"$HOME"/.dotfiles/plugins/oh-my-zsh/custom}
+if [[ -r "$HOME"/.oh-my-zsh ]]; then
+    ZSH="$HOME"/.oh-my-zsh
     ZSH_CUSTOM="$ZSH/custom"
 
     HIST_STAMPS="yyyy-mm-dd"            # See command `history'.
@@ -111,10 +110,9 @@ fi
 #     }
 # fi
 
-if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh//custom/themes/zinc/zinc.zsh ]]; then
-
+if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh/custom/themes/zinc/zinc.zsh ]]; then
     ZSH_THEME=""
-    source "$ZSH_CUSTOM"/themes/zinc/zinc.zsh
+    source "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/themes/zinc/zinc.zsh
 
     zinc_default_user="f.niessen"
     zinc_default_host="XIPHIAS"
@@ -176,7 +174,6 @@ fi
 # zincs_execution_time[threshold]=10
 
 if [[ -r "$HOME"/.dotfiles/plugins/oh-my-zsh ]]; then
-
     plugins=(
         colored-man-pages
         extract
