@@ -1907,7 +1907,8 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 #+begin_src shell
 # Add user paths.
 for MAYBE_PATH in "$HOME"/bin \
-                  "$HOME"/expect; do
+                  "$HOME"/expect \
+                  "$HOME"/R; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then
         PATH="$MAYBE_PATH":"$PATH"
