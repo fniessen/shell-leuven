@@ -883,21 +883,13 @@ same.
 Don't confuse TRAMP:
 
 #+begin_src shell
-[[ "$TERM" = "dumb" ]] && PROMPT="> "
+[[ "$TERM" = "dumb" ]] && PROMPT="> " && RPROMPT=""
 #+end_src
 
 #+begin_warning
 When you invoke the *shell from Emacs*, it is a *non-interactive* session, which
 might get different settings.
 #+end_warning
-
-*** Right prompt
-
-Don't confuse TRAMP:
-
-#+begin_src shell
-[[ "$TERM" = "dumb" ]] && RPROMPT=""
-#+end_src
 
 *** Add a new theme: Solarized
 
