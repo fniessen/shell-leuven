@@ -11,13 +11,13 @@ uname -s -n -r -m
 die() {
     msg="${1:-"Unknown error"}"
     logger "${msg}"
-    printf "$(basename $0): Fatal error: ${msg}\n" > /dev/stderr
+    printf '%s: Fatal error: %s\n' "$(basename $0)" "${msg}" > /dev/stderr
     exit 2                              # An error occurred.
 }
 
 has() {
     for cmd in "$@"; do
-        command -v $cmd > /dev/null || die "$cmd not found."
+        command -v "$cmd" > /dev/null || die "$cmd not found."
     done
 }
 
@@ -47,12 +47,10 @@ done
 
 # Extend the PATH var (where to look for executable files).  For Cygwin only.
 if [[ "$OSTYPE" = cygwin* ]]; then
-    for MAYBE_CYG_PATH in "$HOME"/winbin; do
-        # `-e' or `-x'?
-        if [[ -d "$MAYBE_CYG_PATH" ]]; then
-            PATH="$MAYBE_CYG_PATH":"$PATH"
-        fi
-    done
+    # `-e' or `-x'?
+    if [[ -d "$HOME"/winbin ]]; then
+        PATH="$HOME"/winbin:"$PATH"
+    fi
 fi
 
 # Add the current directory as last component in the search path (not to include
