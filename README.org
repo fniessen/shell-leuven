@@ -3051,11 +3051,11 @@ from that field).
 
 In order to *install Cygwin's packages* through the terminal instead of running
 the setup every single time you need one, you can install ~apt-cyg~.  As
-a requirement, you'll need to install ~lynx~ through the cygwin setup first.
+a requirement, you'll need to install ~wget~ through the Cygwin setup first.
 After that, just run the following commands:
 
 #+begin_src shell
-lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg
 install apt-cyg /bin
 #+end_src
 
