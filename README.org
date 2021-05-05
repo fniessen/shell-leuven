@@ -1548,10 +1548,25 @@ alias -g NN='> /dev/null 2>&1'
 alias -g S='| sort' ###
 alias -g T='| tail' ###
 alias -g W='| wc -l' ####
-alias -g X1='| xargs -n 1'
 alias -g X='| xargs'
 alias -g XL='| tr "\n" "\0" | xargs -0'
+alias -g X1='| xargs -n 1'
 #+end_src
+
+Intuitive ~Map~ function:
+
+#+begin_src shell
+alias -g Map="| tr '\n' '\0' | xargs -0 -n 1"
+#+end_src
+
+#+begin_note
+The extra ~| tr '\n' '\0' | xargs -0~ ensures that spaces as well as quotes in
+filenames work.
+#+end_note
+
+For example, to list all directories that contain a certain file:
+
+: find . -name .git Map dirname
 
 #+begin_src shell
 alias -g A1="| awk '{print \$1}'"
@@ -1819,7 +1834,7 @@ zapply() {
   zparseopts -D -M -A xopt n: p t P: j:=P v=t i=p   # map to xargs(1) flags
   (( $@[(i){}] < s )) && xopt[-I]={}
   [[ $1 = *'$'* ]] && argv[1]=(zsh -c "$1" --) && (( s += 3 ))
-  printf '%s\0' "$@[s+1,-1]" | xargs -0 -r -n1 ${(kv)=xopt} "$@[1,s-1]"
+  printf '%s\0' "$@[s+1,-1]" | xargs -0 -r -n 1 ${(kv)=xopt} "$@[1,s-1]"
 }
 
 # gman - format manpage using GNU troff
@@ -2704,7 +2719,7 @@ alias dk-clean='docker-clean'
 alias db='docker build'
 alias dc='docker-compose'
 alias de='docker exec'
-alias del='docker exec -it $(docker ps -q | head -n1) bash'
+alias del='docker exec -it $(docker ps -q | head -n 1) bash'
 alias di='docker images'
 alias docker-clean='docker-rm-all && docker-prune'
 alias docker-prune='docker rmi $(docker images -f "dangling=true" -q)'
@@ -2751,13 +2766,6 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 # Empty the Trash on all mounted volumes and the main HDD
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
-#+end_src
-
-#+begin_src shell
-# Intuitive map function
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
-alias map="xargs -n1"
 #+end_src
 
 *** Org
@@ -2990,7 +2998,7 @@ alert() {
 #+end_src
 
 #+begin_src shell :tangle no
-alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n 1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 #+end_src
 
 Use like so:

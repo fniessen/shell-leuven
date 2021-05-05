@@ -359,9 +359,11 @@ alias -g NN='> /dev/null 2>&1'
 alias -g S='| sort' ###
 alias -g T='| tail' ###
 alias -g W='| wc -l' ####
-alias -g X1='| xargs -n 1'
 alias -g X='| xargs'
 alias -g XL='| tr "\n" "\0" | xargs -0'
+alias -g X1='| xargs -n 1'
+
+alias -g Map="| tr '\n' '\0' | xargs -0 -n 1"
 
 alias -g A1="| awk '{print \$1}'"
 alias -g A2="| awk '{print \$2}'"
