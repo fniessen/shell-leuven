@@ -1912,23 +1912,16 @@ These directories are searched in the order in which they appear.
 The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
-# Add user paths.
+# Extend the PATH var (where to look for executable files).
 for MAYBE_PATH in "$HOME"/bin \
                   "$HOME"/expect \
+                  "$HOME"/winbin \
                   "$HOME"/R; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then
         PATH="$MAYBE_PATH":"$PATH"
     fi
 done
-
-# Extend the PATH var (where to look for executable files).  For Cygwin only.
-if [[ "$OSTYPE" = cygwin* ]]; then
-    # `-e' or `-x'?
-    if [[ -d "$HOME"/winbin ]]; then
-        PATH="$HOME"/winbin:"$PATH"
-    fi
-fi
 #+end_src
 
 #+begin_note
