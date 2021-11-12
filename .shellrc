@@ -81,7 +81,7 @@ fi
 
 # # For Bash on Ubuntu on Windows.
 # export BROWSER='/mnt/c/Windows/explorer.exe' # does not work.
-export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
+# export BROWSER='/mnt/c/Program Files (x86)/Mozilla Firefox/firefox.exe'
 
 export LANG=C.UTF-8
 
