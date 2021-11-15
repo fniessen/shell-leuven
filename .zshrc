@@ -19,7 +19,7 @@ if [ -f "$HOME"/.zshrc_local_before ]; then
 fi
 
 # Coloring stderr.
-STDERRED_ESC_CODE=$'\e[33;1;41m'
+STDERRED_ESC_CODE=$'\e[37;1;41m'
 zmodload zsh/system
 color_stderr_red() {
     # Sysread & syswrite are part of `zsh/system'.
