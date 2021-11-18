@@ -1919,13 +1919,19 @@ The global search ~PATH~ is defined in the file =/etc/environment=.
 # Extend the PATH var (where to look for executable files).
 for MAYBE_PATH in "$HOME"/bin \
                   "$HOME"/expect \
-                  "$HOME"/winbin \
                   "$HOME"/R; do
     # `-e' or `-x'?
     if [[ -d "$MAYBE_PATH" ]]; then
         PATH="$MAYBE_PATH":"$PATH"
     fi
 done
+
+# Add the winbin directory only if on Windows (and if it exists).
+if [[ "$OSTYPE" == "cygwin" ]]; then
+    if [[ -d "$HOME"/winbin ]]; then
+        PATH="$HOME"/winbin:"$PATH"
+    fi
+fi
 #+end_src
 
 #+begin_note
