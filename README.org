@@ -1178,6 +1178,24 @@ fi
 
 ** Tab Completions
 
+#+begin_src shell
+# Enable menu select (some kind of graphical menu)
+zstyle ':completion:*' menu select
+
+# Extensions to completion listings:
+# - ability to highlight matches in such a list,
+# - ability to scroll through long lists and
+# - different style of menu completion.
+zmodload zsh/complist
+#+end_src
+
+XXX See [[https://www.zsh.org/mla/users/2008/msg00703.html][Re: completion: highlight matching part]] for better highlighting:
+
+#+begin_src shell :tangle no
+autoload -U colors ; colors
+zstyle -e ':completion:' list-colors 'thingy=${PREFIX##/} reply=( "=(#b)($thingy)(?)*=00=$color[green]=$color[bg-green]" )'
+#+end_src
+
 ** Changing Working Directory
 
 #+begin_src shell

@@ -209,6 +209,15 @@ if [[ -r "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 fi
 
+# Enable menu select (some kind of graphical menu)
+zstyle ':completion:*' menu select
+
+# Extensions to completion listings:
+# - ability to highlight matches in such a list,
+# - ability to scroll through long lists and
+# - different style of menu completion.
+zmodload zsh/complist
+
 # When entering a directory, push it to the directory stack and list its
 # contents.
 setopt auto_pushd
