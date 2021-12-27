@@ -1713,9 +1713,9 @@ command || die "Something happened"
 
 *** Check for executable files
 
-~has~ checks presence of various command line tools on the PATH.
+~has~ checks presence of various command line tools on the ~PATH~.
 
-#+begin_src shell
+#+begin_src shell :tangle no
 has() {
     for cmd in "$@"; do
         command -v "$cmd" > /dev/null || die "$cmd not found."
@@ -2565,6 +2565,7 @@ if [[ "$OSTYPE" = cygwin* ]]; then
     alias c:='cd /cygdrive/c'
     alias d:='cd /cygdrive/d'
     alias open='cygstart'
+    alias xdg-open='cygstart'
 fi
 #+end_src
 

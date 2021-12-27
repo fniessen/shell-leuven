@@ -16,12 +16,6 @@ die() {
 }
 
 has() {
-    for cmd in "$@"; do
-        command -v "$cmd" > /dev/null || die "$cmd not found."
-    done
-}
-
-has() {
     if ! command -v "$1" > /dev/null 2>&1; then
         echo "$1 not found."
         return 2                        # An error occurred.
@@ -257,6 +251,7 @@ if [[ "$OSTYPE" = cygwin* ]]; then
     alias c:='cd /cygdrive/c'
     alias d:='cd /cygdrive/d'
     alias open='cygstart'
+    alias xdg-open='cygstart'
 fi
 
 alias c='clear'
