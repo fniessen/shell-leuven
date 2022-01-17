@@ -137,19 +137,23 @@ bind "set output-meta on"
 # # Show all autocomplete results at once instead of via the internal pager.
 # bind "set page-completions off"
 
-# List all matches in case multiple possible completions are possible.
+# Make first press of TAB list all matches (in case multiple possible
+# completions are possible).
 bind "set show-all-if-ambiguous on"
 
 # bind "set menu-complete-display-prefix on"
 
 
-set show-all-if-unmodified on
+bind "set show-all-if-unmodified on"
+
 # Color the common prefix
-set colored-completion-prefix on
+bind "set colored-completion-prefix on"
+
 # Color the common prefix in menu-complete
-set menu-complete-display-prefix on
+bind "set menu-complete-display-prefix on"
+
 # Note that this may cause completion text blink in some terminals (e.g. xterm).
-set colored-stats on
+bind "set colored-stats on"
 
 
 # Factor any text after the cursor position into completion matching.
@@ -201,7 +205,7 @@ bind '"\e[A": history-search-backward'
 bind '"\e[3~": delete-char'
 bind '"\e[2~": quoted-insert'
 
-# Make TAB cycle through commands after listing.
+# Make each subsequent press of TAB cycle through matches.
 bind '"\t": menu-complete'
 
 bind '"\ep": "\C-e | less\C-m"'
