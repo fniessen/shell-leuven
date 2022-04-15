@@ -668,13 +668,13 @@ open the current line in your editor and do the substitution there.
 
 https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html#Bindable-Readline-Commands
 
-This makes ~M-p~ (see Fish) append " | less" to the line and run it:
+This makes ~M-p~ (see Fish) append ~ | less~ to the line and run it:
 
 #+begin_src shell
 bind '"\ep": "\C-e | less\C-m"'
 #+end_src
 
-~M-s~ prefixes the current commandline with  "sudo ".
+~M-s~ prefixes the current commandline with ~sudo ~.
 
 #+begin_src shell
 bind '"\es": "\C-asudo \C-e\C-m"'
@@ -3333,7 +3333,7 @@ Shell-Leuven is installed by doing the following:
 1. *Clone the repository:*
 
    #+begin_src shell
-   git clone git@github.com:fniessen/dotfiles.git ~/.dotfiles
+   git clone https://github.com/fniessen/dotfiles ~/.dotfiles
    ~/.dotfiles/install
    #+end_src
 
