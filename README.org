@@ -2351,6 +2351,10 @@ Agnoster theme (checking for the presence of the ~hg~ command).
 *** Common aliases
 
 #+begin_src shell
+alias update-dotfiles="~/.dotfiles/bin/dot update"
+#+end_src
+
+#+begin_src shell
 alias which-shell='ps -p $$'
 #+end_src
 

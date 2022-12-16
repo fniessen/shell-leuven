@@ -140,6 +140,8 @@ export DISPLAY=:0.0
 
 alias hgrep='history | grep -i'
 
+alias update-dotfiles="~/.dotfiles/bin/dot update"
+
 alias which-shell='ps -p $$'
 
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
