@@ -44,7 +44,7 @@ zstyle ':vcs_info:git:*' formats ' %F{cyan}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 PROMPT="
-%B%(?.%F{green}.%F{red}$(tput bel)"$'\u00d7'" %? )%f%b%F{green}%n@%m%F{black}%B:%b%F{yellow}%~%f\$vcs_info_msg_0_%B%F{blue}%(!.#.>)%f%b "
+%B%(?.%F{green}.%F{red}$(tput bel)"$'\u00d7'" %? )%f%b%F{blue}%n@%m%F{black}%B:%b%F{yellow}%~%f\$vcs_info_msg_0_%B%F{green}%(!.#.>)%f%b "
                                         # ? - Exit code of the previous command.
                                         # n - User name.
                                         # m - Machine name.
