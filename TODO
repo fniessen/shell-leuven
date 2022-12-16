@@ -3,6 +3,15 @@
 
 * Tasks
 
+** Try to understand why RED messages (when error in Zsh) are sometimes multilined
+
+Try different commands, such as:
+
+- e
+- azer
+
+** Shortcuts
+
 XXX (See Fish web_config for sorting things out)
 
 Look at https://github.com/jlevy/the-art-of-command-line!
