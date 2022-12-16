@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## bash_profile --- Bash configuration file (for interactive shells)
 
-# Copyright (C) 2003-2021 Fabrice Niessen
+# Copyright (C) 2003-2022 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config
@@ -59,7 +59,7 @@ $(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[
 \[\033[0;32m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\
-\[\033[36m\]`git_info_msg`\n\
+\[\033[36m\]`git_info_msg` \
 \[\033[1;34m\]$\[\033[0m\] '
 
 # PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_info_msg`\[\033[0m\]\n$ '
