@@ -2295,13 +2295,9 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 :ID:       02ba0b6b-f205-42e2-a801-4271aa4691eb
 :END:
 
-#+begin_src shell
-# Start x11 server (if a process instance is not already running).
-# ps -ae | grep XWin || startxwin > /dev/null 2>&1 &   # XXX For Cygwin only!
-# To check that have the package xinit installed, try 'startxwin' without redirecting anything.
-
-# Set DISPLAY environment variable.
-export DISPLAY=:0.0
+#+begin_src shell :tangle no
+# Set DISPLAY environment variable (with the dynamic IP address of the WSL virtual machine).
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
 #+end_src
 
 ** Abbreviations (aliases)

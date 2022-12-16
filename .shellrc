@@ -129,13 +129,6 @@ export LESS='-F -i -M -R -X'
 # export LESS="-P ?c<- .?f%f:Standard input.  ?n:?eEND:?p%pj\%.. .?c%ccol . ?mFile %i of %m  .?xNext\ %x.%t   Press h for help"
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 
-# Start x11 server (if a process instance is not already running).
-# ps -ae | grep XWin || startxwin > /dev/null 2>&1 &   # XXX For Cygwin only!
-# To check that have the package xinit installed, try 'startxwin' without redirecting anything.
-
-# Set DISPLAY environment variable.
-export DISPLAY=:0.0
-
 alias hgrep='history | grep -i'
 
 alias update-dotfiles="~/.dotfiles/bin/dot update"
