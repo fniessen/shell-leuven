@@ -404,7 +404,7 @@ Program specific completions:
 - The ~ssh~ command uses all hosts that are stored in the =known_hosts= file as
   completions. (See the ssh documentation for more information)
 - The ~su~ command uses all users on the system as completions.
-- The ~apt-get~, ~rpm~ and ~yum~ commands use all installed packages as completions.
+- The ~apt~, ~rpm~ and ~yum~ commands use all installed packages as completions.
 
 #+begin_src shell
 complete -A helptopic help
@@ -1342,9 +1342,9 @@ setopt SHARE_HISTORY            # Share history between sessions.
 #+end_src
 
 #+begin_src shell
-# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
-alias history="history -i"
-alias h="history -i"
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format, and all entries.
+alias history="history -i 0"
+alias h="history -i 0"
 #+end_src
 
 ** Key Bindings (Command line editor)
@@ -2502,12 +2502,21 @@ alias root='sudo -i'
 #+end_src
 
 #+begin_src shell
-alias update-sys='sudo apt-get update \
-    && sudo apt-get dist-upgrade -Vy \
-    && sudo apt-get autoremove -y \
-    && sudo apt-get autoclean \
-    && sudo apt-get clean'
+# Upgrade everything.
+alias upgrade-sys='sudo apt update -y \
+    && sudo apt full-upgrade -y \
+    && sudo apt autoremove -y \
+    && sudo apt clean -y \
+    && sudo apt autoclean -y'
 #+end_src
+
+1. ~update~ - updates the list of packages but do not install
+2. ~upgrade~ - install new versions of packages if new versions are available
+3. ~full-upgrade~ - performs the function of upgrade but will remove currently
+   installed packages if this is needed to upgrade the system as a whole (fixing
+   bad dependencies then)
+4. ~autoremove~, ~autoclean~ and ~clean~ - clean old packages which are not needed any
+   more
 
 #+begin_src shell
 alias poweroff="systemctl poweroff"

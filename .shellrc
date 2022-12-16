@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .shellrc --- Shell agnostic configuration file
 
-# Copyright (C) 2009-2021 Fabrice Niessen
+# Copyright (C) 2009-2022 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -206,11 +206,12 @@ alias sudo='sudo '
 # Become root.
 alias root='sudo -i'
 
-alias update-sys='sudo apt-get update \
-    && sudo apt-get dist-upgrade -Vy \
-    && sudo apt-get autoremove -y \
-    && sudo apt-get autoclean \
-    && sudo apt-get clean'
+# Upgrade everything.
+alias upgrade-sys='sudo apt update -y \
+    && sudo apt full-upgrade -y \
+    && sudo apt autoremove -y \
+    && sudo apt clean -y \
+    && sudo apt autoclean -y'
 
 alias poweroff="systemctl poweroff"
 alias reboot="systemctl reboot"

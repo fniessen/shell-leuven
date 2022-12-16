@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .zshrc --- Zsh configuration file (for interactive shells)
 
-# Copyright (C) 2009-2021 Fabrice Niessen
+# Copyright (C) 2009-2022 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
@@ -283,9 +283,9 @@ setopt HIST_SAVE_NO_DUPS        # Don't save duplicates.
 setopt INC_APPEND_HISTORY       # Write after each command.
 setopt SHARE_HISTORY            # Share history between sessions.
 
-# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
-alias history="history -i"
-alias h="history -i"
+# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format, and all entries.
+alias history="history -i 0"
+alias h="history -i 0"
 
 # Behave like Emacs when editing.
 bindkey -e
