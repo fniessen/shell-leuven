@@ -280,6 +280,10 @@ alias tigb='tig blame'
 alias tigall='tig --all'
 alias tigreleases='tig --all --simplify-by-decoration'
 
+alias keylist='ssh-add -l'              # List all identities.
+alias keyon='ssh-add -t 4h'             # Add identity.
+alias keyoff='ssh-add -D'               # Remove all identities.
+
 org_test() {
     (
         cd "$HOME"/Public/Repositories/org-mode

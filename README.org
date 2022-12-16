@@ -2649,47 +2649,35 @@ alias resume='screen -D -R'
 alias sr='screen -r'
 #+end_src
 
-*** SSH agent / GPG agent
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
+*** SSH-agent / GPG agent
 
 Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
 keep a tunnel open on my laptop when away from the office:
 
-#+begin_src shell
+#+begin_src shell :tangle no
 zugzug() {
-    ssh -A -p <non_standard_port> -t <proxy_server> ssh "$1"
+    ssh -A -p NON_STANDARD_PORT -t PROXY_SERVER ssh "$1"
 }
 #+end_src
 
 While it's a function and not an alias, I find it invaluable.
 
 #+begin_src shell
-alias keyon='ssh-add -t 10800'          # Add identity.
-alias keyoff='ssh-add -D'               # Remove all identities.
 alias keylist='ssh-add -l'              # List all identities.
+alias keyon='ssh-add -t 4h'             # Add identity.
+alias keyoff='ssh-add -D'               # Remove all identities.
 #+end_src
 
-#+begin_src shell
+#+begin_src shell :tangle no
 # gpg.
 searchkey() {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@"
 }
 #+end_src
 
-#+begin_src shell
+#+begin_src shell :tangle no
 # Get gpg-key from keyserver.
 alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
-#+end_src
-
-*** Debian
-:PROPERTIES:
-:header-args+: :tangle no
-:END:
-
-#+begin_src shell
-alias aps='aptitude search'
 #+end_src
 
 *** System admin
