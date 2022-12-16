@@ -39,11 +39,9 @@ for MAYBE_PATH in "$HOME"/bin \
     fi
 done
 
-# Add the winbin directory only if on Windows (and if it exists).
-if [[ "$OSTYPE" == "cygwin" ]]; then
-    if [[ -d "$HOME"/winbin ]]; then
-        PATH="$HOME"/winbin:"$PATH"
-    fi
+# Add the winbin directory (if it exists).
+if [[ -d "$HOME"/winbin ]]; then
+    PATH="$PATH":"$HOME"/winbin
 fi
 
 # Add the current directory as last component in the search path (not to include

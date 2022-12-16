@@ -1945,11 +1945,9 @@ for MAYBE_PATH in "$HOME"/bin \
     fi
 done
 
-# Add the winbin directory only if on Windows (and if it exists).
-if [[ "$OSTYPE" == "cygwin" ]]; then
-    if [[ -d "$HOME"/winbin ]]; then
-        PATH="$HOME"/winbin:"$PATH"
-    fi
+# Add the winbin directory (if it exists).
+if [[ -d "$HOME"/winbin ]]; then
+    PATH="$PATH":"$HOME"/winbin
 fi
 #+end_src
 
@@ -3043,7 +3041,7 @@ After Cygwin is installed, modify the System ~PATH~ variable: prepend it with
 #+begin_warning
 If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
 Cygwin, please check that those directories don't contain =cygwin1.dll= or
-such. That was why I had troubles running ~git~ commands...
+such.  That was why I had troubles running ~git~ commands...
 #+end_warning
 
 In =c:/cygwin64/etc/profile=,
