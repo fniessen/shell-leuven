@@ -2562,9 +2562,11 @@ alias 9='cd +9'
 #+end_src
 
 #+begin_src shell
-# # For WSL.
-# alias c:='cd /mnt/c'
-# alias d:='cd /mnt/d'
+# For WSL.
+alias c:='cd /mnt/c'
+alias d:='cd /mnt/d'
+
+alias explorer='explorer.exe'
 #+end_src
 
 #+begin_src shell

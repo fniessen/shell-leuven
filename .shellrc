@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .shellrc --- Shell agnostic configuration file
 
-# Copyright (C) 2009-2022 Fabrice Niessen
+# Copyright (C) 2009-2023 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -236,9 +236,11 @@ alias 7='cd +7'
 alias 8='cd +8'
 alias 9='cd +9'
 
-# # For WSL.
-# alias c:='cd /mnt/c'
-# alias d:='cd /mnt/d'
+# For WSL.
+alias c:='cd /mnt/c'
+alias d:='cd /mnt/d'
+
+alias explorer='explorer.exe'
 
 # For Cygwin.
 if [[ "$OSTYPE" = cygwin* ]]; then

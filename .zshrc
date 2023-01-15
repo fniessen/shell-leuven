@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .zshrc --- Zsh configuration file (for interactive shells)
 
-# Copyright (C) 2009-2022 Fabrice Niessen
+# Copyright (C) 2009-2023 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: zsh, dotfile, config
