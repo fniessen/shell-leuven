@@ -131,8 +131,6 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
 alias hgrep='history | grep -i'
 
-alias update-dotfiles="~/.dotfiles/bin/dot update"
-
 alias which-shell='ps -p $$'
 
 LS_OPTIONS="$LS_OPTIONS --show-control-chars"
