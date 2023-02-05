@@ -22,11 +22,13 @@ has() {
     fi
 }
 
-# Cd to working directory of current Emacs buffer.
+# Cd to the directory of the current buffer in Emacs.
 cde() {
-  builtin cd $(emacsclient -e '(with-current-buffer
-                                   (window-buffer (selected-window))
-                                 default-directory)' | tr -d '"')
+  local dir
+  dir="$(emacsclient -e '(with-current-buffer
+                             (window-buffer (selected-window))
+                           default-directory) ' | tr -d '"')"
+  builtin cd "$dir"
 }
 
 # Extend the PATH var (where to look for executable files).
