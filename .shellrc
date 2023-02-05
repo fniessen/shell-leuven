@@ -208,10 +208,9 @@ alias poweroff="systemctl poweroff"
 alias reboot="systemctl reboot"
 
 # Make executable.
-alias exe='chmod +x'
-alias addx='chmod +x'
+alias exec='chmod +x'
 
-# Chown current dir and subdirs.
+# Recursively change the owner of all files and directories to the current user.
 alias own='sudo chown -R $USER'
 
 alias ...='cd ../..'
