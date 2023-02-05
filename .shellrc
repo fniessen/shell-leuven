@@ -179,15 +179,11 @@ alias mv='mv -i'                        # Confirm move over an existing file.
 alias tgz='tar -zxvf'
 alias tbz2='tar -jxvf'
 
-# Print a more readable PATH (each directory on a new line).
-alias path='echo "$PATH" | sed -e "s/:/\n/g"'
-alias path='sed "s/:/\n/g" <<< "$PATH"' # here-strings (undefined in POSIX sh).
-alias path='tr ":" "\n" <<< "$PATH"'    # here-strings.
-alias path='echo -e "${PATH//:/\\n}"'   # Parameter expansion (string replacement undefined in POSIX sh/dash).
-# https://ubuntuplace.info/questions/4532/comment-afficher-les-chemins-dans-path-separement
+# Display the contents of $PATH with each directory separated by a newline character.
+alias path='echo "$PATH" | tr ":" "\n"'
 
 # Path.
-alias where='type -a'                   # Good?
+alias where='type -a'
 
 alias mkall='./configure && make && sudo make install'
 
@@ -198,7 +194,7 @@ alias sudo='sudo '
 alias root='sudo -i'
 
 # Upgrade everything.
-alias upgrade-sys='sudo apt update -y \
+alias upgrade-system='sudo apt update -y \
     && sudo apt full-upgrade -y \
     && sudo apt autoremove -y \
     && sudo apt clean -y \
@@ -208,7 +204,7 @@ alias poweroff="systemctl poweroff"
 alias reboot="systemctl reboot"
 
 # Make executable.
-alias exec='chmod +x'
+alias exe='chmod +x'
 
 # Recursively change the owner of all files and directories to the current user.
 alias own='sudo chown -R $USER'
