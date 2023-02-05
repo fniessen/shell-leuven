@@ -419,9 +419,9 @@ alias -g T7="| awk -F $'\t' '{print \$7}'"
 alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
 
-alias -g GTHISWEEK=' --since=1.week.ago'
-alias -g GTHISMONTH=' --since=1.month.ago'
-alias -g GTHISYEAR=' --since=1.year.ago'
+alias -g Gitthisweek=' --since=1.week.ago'
+alias -g Gitthismonth=' --since=1.month.ago'
+alias -g Gitthisyear=' --since=1.year.ago'
 
 # Common configuration.
 if [ -f "$HOME"/.shellrc ]; then

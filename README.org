@@ -1582,15 +1582,15 @@ alias -g XL='| tr "\n" "\0" | xargs -0'
 alias -g X1='| xargs -n 1'
 #+end_src
 
-Intuitive ~Map~ function:
+Intuitive ~Map~ function (to process a list of items separated by newline characters):
 
 #+begin_src shell
 alias -g Map="| tr '\n' '\0' | xargs -0 -n 1"
 #+end_src
 
 #+begin_note
-The extra ~| tr '\n' '\0' | xargs -0~ ensures that spaces as well as quotes in
-filenames work.
+The extra ~| tr '\n' '\0' | xargs -0~ ensures that the alias is robust to items
+that contain spaces or other special characters.
 #+end_note
 
 For example, to list all directories that contain a certain file:
@@ -1650,9 +1650,9 @@ alias -g T9="| awk -F $'\t' '{print \$9}'"
 Git this week / month / year:
 
 #+begin_src shell
-alias -g GTHISWEEK=' --since=1.week.ago'
-alias -g GTHISMONTH=' --since=1.month.ago'
-alias -g GTHISYEAR=' --since=1.year.ago'
+alias -g Gitthisweek=' --since=1.week.ago'
+alias -g Gitthismonth=' --since=1.month.ago'
+alias -g Gitthisyear=' --since=1.year.ago'
 #+end_src
 
 ** Ready for more?
@@ -2406,10 +2406,10 @@ fi
 https://github.com/athityakumar/colorls
 *************** END
 
-Sort of tree:
+Display the directory tree structure.
 
 #+begin_src shell
-alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
+alias dirtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 #+end_src
 
 ~df~ options:
@@ -2423,7 +2423,7 @@ alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/
 - ~-T~ ::
      Print file system type.
 
-Make ~df~ human readable.
+Display the disk space usage for each mounted file system in a human-readable format.
 
 #+begin_src shell
 alias df='df -kTh'
@@ -2432,21 +2432,26 @@ alias df='df -kTh'
 Make ~du~ human readable.
 
 #+begin_src shell
-alias du='du -kh'
-
 alias du='du -h'
 alias du1='du -h --max-depth=1'
-alias dus='du -ms * | sort -rn'         # Ordered by size.
 #+end_src
+
+Sort in descending order of disk usage.
+
+#+begin_src shell
+alias dusort='du -ms * | sort -rn'
+#+end_src
+
+Summarize the disk usage of all directories in the current directory, ordered by size.
+
+#+begin_src shell
+alias du-summary='du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh'
+#+end_src
+
+List mounted file systems in a readable, tabulated format.
 
 #+begin_src shell
 alias mount='mount | column -t'
-#+end_src
-
-List all the files in this directory, and sort by human-readable file size.
-
-#+begin_src shell
-alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
 #+end_src
 
 #+begin_src shell

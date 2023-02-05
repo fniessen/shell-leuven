@@ -156,19 +156,18 @@ else
     alias ls='ls -CF'
 fi
 
-alias dirf='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
+alias dirtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 alias df='df -kTh'
 
-alias du='du -kh'
-
 alias du='du -h'
 alias du1='du -h --max-depth=1'
-alias dus='du -ms * | sort -rn'         # Ordered by size.
+
+alias dusort='du -ms * | sort -rn'
+
+alias du-summary='du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh'
 
 alias mount='mount | column -t'
-
-alias sizes="du --max-depth=1 -k | sort -nr | cut -f2 | xargs -d '\n' du -sh"
 
 # Play safe!  Prevent some accidental mistakes.
 alias rm='rm -i'                        # Confirm removing file.
