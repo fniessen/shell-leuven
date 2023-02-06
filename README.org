@@ -1764,28 +1764,27 @@ If you are an avid Emacs user like me, you'll find this function useful.  It
 #+begin_src shell
 # Cd to the directory of the current buffer in Emacs.
 cde() {
-  local dir
-  dir="$(emacsclient -e '(with-current-buffer
-                             (window-buffer (selected-window))
-                           default-directory) ' | tr -d '"')"
-  builtin cd "$dir"
+    if ! command -v emacsclient > /dev/null 2>&1; then
+        printf "Error: emacsclient not found.\n" >&2
+        printf "Please install Emacs and ensure the binary is in your PATH.\n" >&2
+        return 2
+    fi
+
+    local dir
+    dir="$(emacsclient -e '(with-current-buffer
+                               (window-buffer (selected-window))
+                             default-directory) ' | tr -d '"')"
+
+    builtin cd "$dir"
+    #! The change in working directory will persist after the function has
+    #! completed.
 }
 #+end_src
 
 You need the ~emacs-server~ functionality enabled for this to work.
 
-#+begin_src shell :tangle .zshrc
-# Print current Emacs buffer.
-cate() {
-  () {
-    emacsclient -e '(with-current-buffer
-                        (window-buffer (selected-window))
-                      (write-region (point-min) (point-max) "'$1'" nil :quiet))
-                   ' >/dev/null &&
-    cat $1
-  } =(:)
-}
-#+end_src
+See also ~cate~ (to print the contents of the current buffer in Emacs to the
+terminal).
 
 # zombies - list all zombies and their parents to kill
 zombies() {
