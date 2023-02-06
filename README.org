@@ -2993,25 +2993,6 @@ console() {
 }
 #+end_src
 
-*** Alert
-
-Add an "alert" alias for *long running commands*.
-
-#+begin_src shell
-alert() {
-    $@
-    echo -e "\a"                        # Beep.
-}
-#+end_src
-
-#+begin_src shell :tangle no
-alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n 1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-#+end_src
-
-Use like so:
-
-: sleep 10; alert
-
 * Getting started
 
 ** Prerequisites for Windows
