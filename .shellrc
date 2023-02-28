@@ -268,6 +268,11 @@ has colordiff && alias diff='colordiff'
 
 alias g='git'
 
+# alias gitroot='cd $(git rev-parse --show-toplevel)' # Conflict with Oh My Zsh?
+
+# Good alias that will not blow up cd if you aren't in a Git directory.
+alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
+
 alias tigs='tig status'                 # Use it all of the time!
 alias tigb='tig blame'
 alias tigall='tig --all'
@@ -396,4 +401,9 @@ say-translation() {
    echo $trans
    mplayer -user-agent Mozilla \
    "http://translate.google.com/translate_tts?ie=UTF-8&tl=$lang&q=$trans" > /dev/null 2>&1 ;
+}
+
+alert() {
+    $@
+    echo -e "\a"                        # Beep.
 }
