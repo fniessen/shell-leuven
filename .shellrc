@@ -25,8 +25,8 @@ has() {
 # Cd to the directory of the current buffer in Emacs.
 cde() {
     if ! command -v emacsclient > /dev/null 2>&1; then
-        printf "Error: emacsclient not found.\n" >&2
-        printf "Please install Emacs and ensure the binary is in your PATH.\n" >&2
+        printf >&2 "Error: emacsclient not found.\n"
+        printf >&2 "Please install Emacs and ensure the binary is in your PATH.\n"
         return 2
     fi
 
@@ -34,6 +34,11 @@ cde() {
     dir="$(emacsclient -e '(with-current-buffer
                                (window-buffer (selected-window))
                              default-directory) ' | tr -d '"')"
+
+    if [ ! -d "$dir" ]; then
+        printf >&2 "Error: directory not found: %s\n" "$dir"
+        return 2
+    fi
 
     builtin cd "$dir"
     #! The change in working directory will persist after the function has
@@ -268,10 +273,13 @@ has colordiff && alias diff='colordiff'
 
 alias g='git'
 
-# alias gitroot='cd $(git rev-parse --show-toplevel)' # Conflict with Oh My Zsh?
-
-# Good alias that will not blow up cd if you aren't in a Git directory.
+# Go to the root directory of your Git repo.
 alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
+                                        # That will not blow up cd if you aren't
+                                        # in a Git directory.
+
+#! The change in working directory will persist after the function has
+#! completed.
 
 alias tigs='tig status'                 # Use it all of the time!
 alias tigb='tig blame'
@@ -401,9 +409,4 @@ say-translation() {
    echo $trans
    mplayer -user-agent Mozilla \
    "http://translate.google.com/translate_tts?ie=UTF-8&tl=$lang&q=$trans" > /dev/null 2>&1 ;
-}
-
-alert() {
-    $@
-    echo -e "\a"                        # Beep.
 }
