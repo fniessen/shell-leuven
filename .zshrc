@@ -351,25 +351,28 @@ up-directory() {
 zle -N up-directory
 bindkey '\e\C-u' up-directory
 
-alias -g 21="2>&1"
-alias -g A='| awk'
-alias -g BG='& exit'
-alias -g C='| cat'
-alias -g CA="| cat -A"
-alias -g F=' | fmt -' ##
-alias -g G='| grep --color=auto -E' ######
+alias -g 21="2>&1"                      # Redirect.
+alias -g A='| awk'                      # "awk pipe".
+alias -g BG='& exit'                    # "bgexit".
+alias -g CA="| cat -A"                  # "catA" (Display line endings and tab characters).
+alias -g F='| fmt -' ##                 # "Fmt" (Format the output to fit within a specified width).
+alias -g G='| grep --color=auto -E' ###### # "Grepe" (Search for pattern in the output).
 alias -g H='| head' ###
 alias -g J='| jq -C .'
 alias -g L="| less" #######
 alias -g L='| less'
-alias -g N='> /dev/null'
-alias -g NN='> /dev/null 2>&1'
+alias -g N='> /dev/null'                # "Null".
+alias -g NN='> /dev/null 2>&1'          # "Nullout".
 alias -g S='| sort' ###
 alias -g T='| tail' ###
-alias -g W='| wc -l' ####
+alias -g U='| uniq'
+alias -g W='| wc -l' ####               # "Wcl" (Count the number of lines in the output).
 alias -g X='| xargs'
 alias -g XL='| tr "\n" "\0" | xargs -0'
 alias -g X1='| xargs -n 1'
+
+# Count and sort
+alias -g CS='sort | uniq -c | sort -k1,1nr'
 
 alias -g Map="| tr '\n' '\0' | xargs -0 -n 1"
 
