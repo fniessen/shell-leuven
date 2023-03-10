@@ -64,34 +64,26 @@ if [[ -d "$HOME/winbin" ]]; then
 fi
 
 # Add the current directory to PATH if not running as root.
-if (( EUID != 0 )); then
-  PATH="$PATH:."
+if [[ "$UID" -ne 0 ]]; then
+    PATH="$PATH:."
 fi
 
-# Search current directory and home directory.
-export CDPATH=.:"$HOME"
+# Add the current directory and home directory to CDPATH.
+export CDPATH=".:$HOME"
 
-# set MANPATH so it includes user's private man if it exists
-# do the same with MANPATH
-# if [[ -d "$HOME"/man ]]; then
-#     export MANPATH="$HOME/man":"$MANPATH"
-# fi
+# If user's private man directory exists, add it to MANPATH.
+if [[ -d "$HOME/man" ]]; then
+    export MANPATH="$HOME/man:$MANPATH"
+fi
 
-# colon separated list of directories to search for manual pages
-#ifnset MANPATH "/usr/man"
-    # TODO don't define it like that: does not work under Ubuntu!
-    # See `/etc/manpath.config'
+# Add directories to INFOPATH.
+export INFOPATH="/usr/share/info:$INFOPATH"
 
-# Info readers (standalone + Emacs Info mode)
-INFOPATH=/usr/share/info:"$INFOPATH"
-# include a trailing colon on `INFOPATH' to concatenate the Emacs
-# `Info-default-directory-list' when searching for info files
-# INFOPATH="$HOME"/texlive/2014/texmf/doc/info:"$INFOPATH"
-
-# Permissions on newly created files.
+# Set umask based on the user's EUID.
 umask 022                               # Prevent new dirs and files from being
                                         # group and world writable.
-if [[ $EUID -eq 0 ]]; then
+
+if [[ "$UID" -eq 0 ]]; then
     umask 077                           # Stricter.
 fi
 
