@@ -286,8 +286,8 @@ setopt SHARE_HISTORY            # Share history between sessions.
 alias history="history -i 0"
 alias h="history -i 0"
 
-# Behave like Emacs when editing.
-bindkey -e
+# Use Emacs keybindings.
+bindkey -M emacs
 
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
@@ -300,9 +300,12 @@ bindkey '\e[B' history-beginning-search-forward  # <down>
 # Insert last word with Alt+. -- cool!  BY DEFAULT!???
 # bindkey '\e.' insert-last-word
 
+# # Insert last word with 'M-.'.
+# bindkey -s '\e.' ' $(!!:0)\n'
+
 bindkey "\e[3~" delete-char             # <delete>
 
-# Make Zsh beep like Bash when backspacing on an empty command line.
+# Make Zsh beep like Bash when backspacing on empty line.
 backward-delete-char-beep() {
     if (( CURSOR == 0 )); then
         zle beep
@@ -312,25 +315,28 @@ backward-delete-char-beep() {
 zle -N backward-delete-char-beep
 bindkey "^?" backward-delete-char-beep  # <backspace>
 
+# Display possible completions for the current word.
 bindkey '\e=' list-choices
 
+# Replace string.
 autoload -U replace-string
 zle -N replace-string
-bindkey "\e%"      replace-string
+bindkey "\e%" replace-string
 
+# Edit command line.
 autoload edit-command-line
 zle -N edit-command-line
 bindkey "\ee"      edit-command-line
 bindkey "\ev"      edit-command-line
 bindkey "\C-x\C-e" edit-command-line
 
-# M-p: append-less
+# Append " | less" to command
 append_less() {
     zle end-of-line
     zle -U " | less"
 }
 zle -N append-less append_less
-bindkey '\ep' append-less
+bindkey '\ep' append-less               # M-p.
 
 # From https://github.com/romkatv/zsh4humans
 # Widgets for changing current working directory.

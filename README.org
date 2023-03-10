@@ -1393,8 +1393,8 @@ key combination you want the escape code (the name) of, and put the output for
 each key combination in between the two quotes.
 
 #+begin_src shell
-# Behave like Emacs when editing.
-bindkey -e
+# Use Emacs keybindings.
+bindkey -M emacs
 #+end_src
 
 *** Commands For Moving
@@ -1422,6 +1422,9 @@ bindkey '\e[B' history-beginning-search-forward  # <down>
 #+begin_src shell
 # Insert last word with Alt+. -- cool!  BY DEFAULT!???
 # bindkey '\e.' insert-last-word
+
+# # Insert last word with 'M-.'.
+# bindkey -s '\e.' ' $(!!:0)\n'
 #+end_src
 
 | Key binding | Meaning                                                                            |
@@ -1444,7 +1447,7 @@ M-. to insert it in the current command.
 #+begin_src shell
 bindkey "\e[3~" delete-char             # <delete>
 
-# Make Zsh beep like Bash when backspacing on an empty command line.
+# Make Zsh beep like Bash when backspacing on empty line.
 backward-delete-char-beep() {
     if (( CURSOR == 0 )); then
         zle beep
@@ -1466,6 +1469,7 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 | ~M-=~         | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
 
 #+begin_src shell
+# Display possible completions for the current word.
 bindkey '\e=' list-choices
 #+end_src
 
@@ -1486,12 +1490,14 @@ From Dan Davison:
 bindkey '^W' kill-region
 
 #+begin_src shell
+# Replace string.
 autoload -U replace-string
 zle -N replace-string
-bindkey "\e%"      replace-string
+bindkey "\e%" replace-string
 #+end_src
 
 #+begin_src shell
+# Edit command line.
 autoload edit-command-line
 zle -N edit-command-line
 bindkey "\ee"      edit-command-line
@@ -1513,13 +1519,13 @@ M-p (see Fish) appends the string " | less" to the current command. The result
 is that the output of the command will be paged.
 
 #+begin_src shell
-# M-p: append-less
+# Append " | less" to command
 append_less() {
     zle end-of-line
     zle -U " | less"
 }
 zle -N append-less append_less
-bindkey '\ep' append-less
+bindkey '\ep' append-less               # M-p.
 #+end_src
 
 #+begin_src shell
