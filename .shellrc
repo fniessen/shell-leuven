@@ -33,7 +33,8 @@ cde() {
     local dir
     dir="$(emacsclient -e '(with-current-buffer
                                (window-buffer (selected-window))
-                             default-directory) ' | tr -d '"')"
+                             (replace-regexp-in-string "^~" (getenv "HOME")
+                                default-directory))' | tr -d '"')"
 
     if [ ! -d "$dir" ]; then
         printf >&2 "Error: directory not found: %s\n" "$dir"

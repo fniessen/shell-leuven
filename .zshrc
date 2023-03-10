@@ -360,7 +360,6 @@ alias -g G='| grep --color=auto -E' ###### # "Grepe" (Search for pattern in the 
 alias -g H='| head' ###
 alias -g J='| jq -C .'
 alias -g L="| less" #######
-alias -g L='| less'
 alias -g N='> /dev/null'                # "Null".
 alias -g NN='> /dev/null 2>&1'          # "Nullout".
 alias -g S='| sort' ###
