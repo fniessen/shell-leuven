@@ -1940,19 +1940,21 @@ These directories are searched in the order in which they appear.
 The global search ~PATH~ is defined in the file =/etc/environment=.
 
 #+begin_src shell
-# Extend the PATH var (where to look for executable files).
-for MAYBE_PATH in "$HOME"/bin \
-                  "$HOME"/expect \
-                  "$HOME"/R; do
-    # `-e' or `-x'?
-    if [[ -d "$MAYBE_PATH" ]]; then
-        PATH="$MAYBE_PATH":"$PATH"
-    fi
-done
+# Add a directory to PATH if it exists.
+add_to_path() {
+  if [[ -d "$1" ]]; then
+    PATH="$1:$PATH"
+  fi
+}
 
-# Add the winbin directory (if it exists).
-if [[ -d "$HOME"/winbin ]]; then
-    PATH="$PATH":"$HOME"/winbin
+# Add directories to PATH.
+add_to_path "$HOME/bin"
+add_to_path "$HOME/expect"
+add_to_path "$HOME/R"
+
+# Add $HOME/winbin to the end of PATH if it exists.
+if [[ -d "$HOME/winbin" ]]; then
+  PATH="$PATH:$HOME/winbin"
 fi
 #+end_src
 
@@ -1981,10 +1983,9 @@ If you add the ~CWD~ (~.~) to your PATH, just do it:
   resort).
 
 #+begin_src shell
-# Add the current directory as last component in the search path (not to include
-# for `root', for security reasons).
-if [[ $EUID -ne 0 ]]; then
-    PATH="$PATH":.
+# Add the current directory to PATH if not running as root.
+if (( EUID != 0 )); then
+  PATH="$PATH:."
 fi
 #+end_src
 
