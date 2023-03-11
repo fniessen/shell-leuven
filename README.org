@@ -883,7 +883,10 @@ same.
 Don't confuse TRAMP:
 
 #+begin_src shell
-[[ "$TERM" = "dumb" ]] && PROMPT="> " && RPROMPT=""
+if [[ "$TERM" = "dumb" ]]; then
+    PROMPT="> "
+    RPROMPT=""
+fi
 #+end_src
 
 #+begin_warning
@@ -2348,25 +2351,26 @@ alias which-shell='ps -p $$'
      Print the allocated *size* of each file, in blocks.
 
 #+begin_src shell
-LS_OPTIONS="$LS_OPTIONS --show-control-chars"
-
-# Make `ls' produce ISO 8601 format.
+# Set time style (ISO 8601 format) for `ls` command.
 export TIME_STYLE=long-iso
 
-# Colorize `ls' output.
+# Determine if the terminal supports colors.
 if [[ "$TERM" != "dumb" ]]; then
+    # Add `--show-control-chars` option.
+    LS_OPTIONS="${LS_OPTIONS} --show-control-chars"
 
-    # Add my coloration scheme to directory listings.
+    # Create aliases for `ls` and `ll` commands.
+    alias ls='ls --color=auto -F'
+    alias ll='ls --color=auto -a --group-directories-first -G -h -l'
+                                        # Long listing and hidden files.
+
+    # Set directory colors if `.dircolors` file exists in the home directory.
     if [[ -f "$HOME"/.dircolors ]]; then
         eval "$(dircolors -b $HOME/.dircolors)"
         # See https://github.com/seebi/dircolors-solarized.
     else
         eval "$(dircolors -b)"
     fi
-
-    alias ls='ls --color=auto -F'
-    alias ll='ls --color=auto -a --group-directories-first -G -h -l'
-                                        # Long listing and hidden files.
 else
     alias ls='ls -CF'
 fi

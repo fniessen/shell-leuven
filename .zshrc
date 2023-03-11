@@ -63,7 +63,10 @@ esac
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
 
-[[ "$TERM" = "dumb" ]] && PROMPT="> " && RPROMPT=""
+if [[ "$TERM" = "dumb" ]]; then
+    PROMPT="> "
+    RPROMPT=""
+fi
 
 FILE="$HOME"/.dotfiles/plugins/mintty-colors-solarized/mintty-solarized-dark.sh && test -f "$FILE" && . "$FILE"
 
