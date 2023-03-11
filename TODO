@@ -3,13 +3,6 @@
 
 * Tasks
 
-** Try to understand why RED messages (when error in Zsh) are sometimes multilined
-
-Try different commands, such as:
-
-- e
-- azer
-
 ** Shortcuts
 
 XXX (See Fish web_config for sorting things out)
@@ -114,10 +107,10 @@ When template processors run, they will be provided the following set of data.
 
 | Variable | Description       | Source                    |
 |----------+-------------------+---------------------------|
-| DISTRO   | Distribution      | lsb_release ‑si           |
+| DISTRO   | Distribution      | lsb_release -si           |
 | HOSTNAME | Hostname          | hostname (without domain) |
-| OS       | Operating system  | uname ‑s [1]              |
-| USER     | Current user      | id ‑u ‑n                  |
+| OS       | Operating system  | uname -s [1]              |
+| USER     | Current user      | id -u -n                  |
 | SOURCE   | Template filename | (fully qualified path)    |
 
 [1] The OS for “Windows Subsystem for Linux” is reported as "WSL", even though
