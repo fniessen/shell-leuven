@@ -8,28 +8,27 @@
 
 # Code:
 
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_before ]; then
-    . "$HOME"/.shellrc_local_before
-fi
+# Source local shell customizations.
+source_local_file() {
+    local file="$HOME/$1"
+    if [ -f "$file" ]; then
+        source "$file"
+    fi
+}
 
-# Allow local Zsh customizations.
-if [ -f "$HOME"/.zshrc_local_before ]; then
-    . "$HOME"/.zshrc_local_before
-fi
+source_local_file ".shellrc_local_before" # Source local shell customizations.
+source_local_file ".zshrc_local_before" # Source local Zsh customizations.
 
-# Coloring stderr.
-STDERRED_ESC_CODE=$'\e[37;1;41m'
-zmodload zsh/system
+# Color stderr.
 color_stderr_red() {
-    # Sysread & syswrite are part of `zsh/system'.
-    emulate -LR zsh
-    while sysread; do
-        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
+    local stderr_red_esc_code=$'\e[37;1;41m'
+    while IFS= read -r line; do
+        echo -e "${stderr_red_esc_code}${line}\e[0m" >&2
     done
 }
 
-exec 2> >( color_stderr_red )
+# Redirect stderr to color_stderr_red function.
+exec 2> >(color_stderr_red)
 
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
@@ -287,7 +286,7 @@ alias history="history -i 0"
 alias h="history -i 0"
 
 # Use Emacs keybindings.
-bindkey -M emacs
+bindkey -e
 
 # Move by whole words.
 bindkey '\e[1;5C' forward-word          # <C-right>
@@ -296,12 +295,6 @@ bindkey '\e[1;5D' backward-word         # <C-left>
 # Search matching commands from the history.
 bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
-
-# Insert last word with Alt+. -- cool!  BY DEFAULT!???
-# bindkey '\e.' insert-last-word
-
-# # Insert last word with 'M-.'.
-# bindkey -s '\e.' ' $(!!:0)\n'
 
 bindkey "\e[3~" delete-char             # <delete>
 
@@ -431,17 +424,6 @@ alias -g Gitthisweek=' --since=1.week.ago'
 alias -g Gitthismonth=' --since=1.month.ago'
 alias -g Gitthisyear=' --since=1.year.ago'
 
-# Common configuration.
-if [ -f "$HOME"/.shellrc ]; then
-    . "$HOME"/.shellrc
-fi
-
-# Allow local Zsh customizations.
-if [ -f "$HOME"/.zshrc_local_after ]; then
-    . "$HOME"/.zshrc_local_after
-fi
-
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_after ]; then
-    . "$HOME"/.shellrc_local_after
-fi
+source_local_file ".shellrc" # Source common customizations.
+source_local_file ".zshrc_local_after" # Source local Zsh customizations.
+source_local_file ".shellrc_local_after" # Source local shell customizations.

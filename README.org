@@ -255,15 +255,16 @@ To start directly Zsh when opening /Bash on Ubuntu on Windows/:
 ** Startup (Where are Local customizations?)
 
 #+begin_src shell
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_before ]; then
-    . "$HOME"/.shellrc_local_before
-fi
+# Source local shell customizations.
+source_local_file() {
+    local file="$HOME/$1"
+    if [ -f "$file" ]; then
+        source "$file"
+    fi
+}
 
-# Allow local Bash customizations.
-if [ -f "$HOME"/.bashrc_local_before ]; then
-    . "$HOME"/.bashrc_local_before
-fi
+source_local_file ".shellrc_local_before" # Source local shell customizations.
+source_local_file ".bashrc_local_before" # Source local Bash customizations.
 #+end_src
 
 ** Colors
@@ -726,20 +727,9 @@ bind '"\e\C-u": "cd ..\n"'
 ** Ready for more?
 
 #+begin_src shell
-# Common configuration.
-if [ -f "$HOME"/.shellrc ]; then
-    . "$HOME"/.shellrc
-fi
-
-# Allow local Bash customizations.
-if [ -f "$HOME"/.bashrc_local_after ]; then
-    . "$HOME"/.bashrc_local_after
-fi
-
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_after ]; then
-    . "$HOME"/.shellrc_local_after
-fi
+source_local_file ".shellrc" # Source common customizations.
+source_local_file ".bashrc_local_after" # Source local Bash customizations.
+source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 * Zsh Configuration
@@ -769,15 +759,16 @@ Examples:
 ** Startup (Where are Local customizations?)
 
 #+begin_src shell
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_before ]; then
-    . "$HOME"/.shellrc_local_before
-fi
+# Source local shell customizations.
+source_local_file() {
+    local file="$HOME/$1"
+    if [ -f "$file" ]; then
+        source "$file"
+    fi
+}
 
-# Allow local Zsh customizations.
-if [ -f "$HOME"/.zshrc_local_before ]; then
-    . "$HOME"/.zshrc_local_before
-fi
+source_local_file ".shellrc_local_before" # Source local shell customizations.
+source_local_file ".zshrc_local_before" # Source local Zsh customizations.
 #+end_src
 
 ** Colors
@@ -788,18 +779,16 @@ Wrap text that goes to file with descriptor ~2~ with proper ANSI escape codes,
 making text red.
 
 #+begin_src shell
-# Coloring stderr.
-STDERRED_ESC_CODE=$'\e[37;1;41m'
-zmodload zsh/system
+# Color stderr.
 color_stderr_red() {
-    # Sysread & syswrite are part of `zsh/system'.
-    emulate -LR zsh
-    while sysread; do
-        syswrite -o 2 "$STDERRED_ESC_CODE$REPLY$terminfo[sgr0]"
+    local stderr_red_esc_code=$'\e[37;1;41m'
+    while IFS= read -r line; do
+        echo -e "${stderr_red_esc_code}${line}\e[0m" >&2
     done
 }
 
-exec 2> >( color_stderr_red )
+# Redirect stderr to color_stderr_red function.
+exec 2> >(color_stderr_red)
 #+end_src
 
 ** Prompt
@@ -1394,7 +1383,7 @@ each key combination in between the two quotes.
 
 #+begin_src shell
 # Use Emacs keybindings.
-bindkey -M emacs
+bindkey -e
 #+end_src
 
 *** Commands For Moving
@@ -1417,14 +1406,6 @@ bindkey '\e[1;5D' backward-word         # <C-left>
 # Search matching commands from the history.
 bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
-#+end_src
-
-#+begin_src shell
-# Insert last word with Alt+. -- cool!  BY DEFAULT!???
-# bindkey '\e.' insert-last-word
-
-# # Insert last word with 'M-.'.
-# bindkey -s '\e.' ' $(!!:0)\n'
 #+end_src
 
 | Key binding | Meaning                                                                            |
@@ -1666,20 +1647,9 @@ alias -g Gitthisyear=' --since=1.year.ago'
 ** Ready for more?
 
 #+begin_src shell
-# Common configuration.
-if [ -f "$HOME"/.shellrc ]; then
-    . "$HOME"/.shellrc
-fi
-
-# Allow local Zsh customizations.
-if [ -f "$HOME"/.zshrc_local_after ]; then
-    . "$HOME"/.zshrc_local_after
-fi
-
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_after ]; then
-    . "$HOME"/.shellrc_local_after
-fi
+source_local_file ".shellrc" # Source common customizations.
+source_local_file ".zshrc_local_after" # Source local Zsh customizations.
+source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 * Shell agnostic Configuration

@@ -19,15 +19,16 @@
 #     exec zsh
 # fi
 
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_before ]; then
-    . "$HOME"/.shellrc_local_before
-fi
+# Source local shell customizations.
+source_local_file() {
+    local file="$HOME/$1"
+    if [ -f "$file" ]; then
+        source "$file"
+    fi
+}
 
-# Allow local Bash customizations.
-if [ -f "$HOME"/.bashrc_local_before ]; then
-    . "$HOME"/.bashrc_local_before
-fi
+source_local_file ".shellrc_local_before" # Source local shell customizations.
+source_local_file ".bashrc_local_before" # Source local Bash customizations.
 
 git_info_msg() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
@@ -222,17 +223,6 @@ bind '"\ev": edit-and-execute-command'
 # C-M-u: up-directory
 bind '"\e\C-u": "cd ..\n"'
 
-# Common configuration.
-if [ -f "$HOME"/.shellrc ]; then
-    . "$HOME"/.shellrc
-fi
-
-# Allow local Bash customizations.
-if [ -f "$HOME"/.bashrc_local_after ]; then
-    . "$HOME"/.bashrc_local_after
-fi
-
-# Allow local Shell customizations.
-if [ -f "$HOME"/.shellrc_local_after ]; then
-    . "$HOME"/.shellrc_local_after
-fi
+source_local_file ".shellrc" # Source common customizations.
+source_local_file ".bashrc_local_after" # Source local Bash customizations.
+source_local_file ".shellrc_local_after" # Source local shell customizations.
