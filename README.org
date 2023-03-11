@@ -2359,12 +2359,16 @@ if [[ "$TERM" != "dumb" ]]; then
     # Add `--show-control-chars` option.
     LS_OPTIONS="${LS_OPTIONS} --show-control-chars"
 
-    # Create aliases for `ls` and `ll` commands.
-    alias ls='ls --color=auto -F'
+    # Create `ls` and `ll` aliases with color options and other formatting
+    # options.
+    alias ls='ls --color=auto -F'       # Use colors and append file type
+                                        # indicators to file names.
     alias ll='ls --color=auto -a --group-directories-first -G -h -l'
-                                        # Long listing and hidden files.
+                                        # Use colors, list all files, group
+                                        # directories first, and use
+                                        # human-readable sizes.
 
-    # Set directory colors if `.dircolors` file exists in the home directory.
+    # Generate shell code for directory colors.
     if [[ -f "$HOME"/.dircolors ]]; then
         eval "$(dircolors -b $HOME/.dircolors)"
         # See https://github.com/seebi/dircolors-solarized.
@@ -2372,7 +2376,9 @@ if [[ "$TERM" != "dumb" ]]; then
         eval "$(dircolors -b)"
     fi
 else
-    alias ls='ls -CF'
+    alias ls='ls -CF'                   # Use basic listing format without
+                                        # colors, append file type indicators to
+                                        # file names.
 fi
 #+end_src
 
