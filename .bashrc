@@ -30,9 +30,13 @@ source_local_file() {
 source_local_file ".shellrc_local_before" # Source local shell customizations.
 source_local_file ".bashrc_local_before" # Source local Bash customizations.
 
-git_info_msg() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-     # git branch 2> /dev/null | grep '^*' | colrm 1 2
+# Get the current Git branch.
+git_branch() {
+    local branch
+    branch=$(git branch 2> /dev/null | sed -n '/^*/s/^* //p')
+    if [[ -n "$branch" ]]; then
+        printf " (%s)" "$branch"
+    fi
 }
 
 # Colors.
@@ -60,10 +64,10 @@ $(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[
 \[\033[0;34m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\
-\[\033[36m\]`git_info_msg`\
+\[\033[36m\]$(git_branch)\
 \[\033[1;32m\]>\[\033[0m\] '
 
-# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_info_msg`\[\033[0m\]\n$ '
+# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_branch`\[\033[0m\]\n$ '
 
 
         ;;

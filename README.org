@@ -310,9 +310,13 @@ See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
 - Change Bash prompt color based on exit code of last command
 
 #+begin_src shell
-git_info_msg() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-     # git branch 2> /dev/null | grep '^*' | colrm 1 2
+# Get the current Git branch.
+git_branch() {
+    local branch
+    branch=$(git branch 2> /dev/null | sed -n '/^*/s/^* //p')
+    if [[ -n "$branch" ]]; then
+        printf " (%s)" "$branch"
+    fi
 }
 #+end_src
 
@@ -342,10 +346,10 @@ $(st=$?; if [[ $st -eq 0 ]]; then printf "\[\033[01;32m\]"; else printf "\[\033[
 \[\033[0;34m\]\u@\h\
 \[\033[1;30m\]:\
 \[\033[0;33m\]\w\
-\[\033[36m\]`git_info_msg`\
+\[\033[36m\]$(git_branch)\
 \[\033[1;32m\]>\[\033[0m\] '
 
-# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_info_msg`\[\033[0m\]\n$ '
+# PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`git_branch`\[\033[0m\]\n$ '
 
 
         ;;
@@ -824,6 +828,7 @@ test passes, show ~true-string~; if it fails, show ~false-string~ after the seco
 dot.
 
 #+begin_src shell
+# Enable Git information in the command prompt.
 autoload -Uz vcs_info
 precmd_vcs_info() {
     vcs_info
@@ -835,6 +840,7 @@ zstyle ':vcs_info:*' enable git
 #+end_src
 
 #+begin_src shell
+# Set the command prompt with Git information.
 PROMPT="
 %B%(?.%F{green}.%F{red}$(tput bel)"$'\u00d7'" %? )%f%b%F{blue}%n@%m%F{black}%B:%b%F{yellow}%~%f\$vcs_info_msg_0_%B%F{green}%(!.#.>)%f%b "
                                         # ? - Exit code of the previous command.
@@ -844,21 +850,25 @@ PROMPT="
                                         # ! - su?
 #+end_src
 
-One of the hardest things is to set the xterm title "correctly", because most
-people do it wrong in some way, and then it will break when you have literal
-tabs or percent signs or tildes in your command line. Here is what I currently
-use:
+One of the hardest things is to set the terminal window title "correctly".  Here
+is what I currently use:
 
 #+begin_src shell
-case "$TERM" in
-    xterm*|rxvt*)
-        precmd()  {
+set_terminal_title_and_prompt() {
+    local term=${TERM:-dumb}
+    if [[ "$term" == "xterm"* || "$term" == "rxvt"* ]]; then
+        precmd() {
             print -Pn "\e]0;%m: %~\a"
         }
         preexec() {
-            print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a"
+            local match
+            match=${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}
+            print -n "\e]0;Zsh $HOST: $match\a"
         }
-esac
+    fi
+}
+
+set_terminal_title_and_prompt
 #+end_src
 
 Insert beep when last command has failed.

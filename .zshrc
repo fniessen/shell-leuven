@@ -33,6 +33,7 @@ exec 2> >(color_stderr_red)
 # # Don't inherit the value of PS1 from the previous shell (Zsh from Bash).
 # PS1=$'%{\e]0;%d\a%}\n%F{grn}%n@%m %F{yel}%d%f\n%# '
 
+# Enable Git information in the command prompt.
 autoload -Uz vcs_info
 precmd_vcs_info() {
     vcs_info
@@ -42,6 +43,7 @@ setopt PROMPT_SUBST                     # Allow parameter expansion in prompt.
 zstyle ':vcs_info:git:*' formats ' %F{cyan}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
+# Set the command prompt with Git information.
 PROMPT="
 %B%(?.%F{green}.%F{red}$(tput bel)"$'\u00d7'" %? )%f%b%F{blue}%n@%m%F{black}%B:%b%F{yellow}%~%f\$vcs_info_msg_0_%B%F{green}%(!.#.>)%f%b "
                                         # ? - Exit code of the previous command.
@@ -50,15 +52,21 @@ PROMPT="
                                         # . - Abbreviated pwd.
                                         # ! - su?
 
-case "$TERM" in
-    xterm*|rxvt*)
-        precmd()  {
+set_terminal_title_and_prompt() {
+    local term=${TERM:-dumb}
+    if [[ "$term" == "xterm"* || "$term" == "rxvt"* ]]; then
+        precmd() {
             print -Pn "\e]0;%m: %~\a"
         }
         preexec() {
-            print -n "\e]0;Zsh $HOST: ${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}\a"
+            local match
+            match=${(q)1//(#m)[$'\000-\037\177-']/${(q)MATCH}}
+            print -n "\e]0;Zsh $HOST: $match\a"
         }
-esac
+    fi
+}
+
+set_terminal_title_and_prompt
 
 BEL=$(tput bel)
 PROMPT+='%(?::$BEL)'
