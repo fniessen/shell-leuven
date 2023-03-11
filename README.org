@@ -276,21 +276,32 @@ Note ~\[...\]~ used by the shell to count proper length.
 #+begin_src shell :tangle no
 if tput setaf 1 &> /dev/null; then
     tput sgr0
-    if [[ $(tput colors) -ge 256 ]] 2> /dev/null; then
-        MAG=$(tput setaf 9)
-        ORANGE=$(tput setaf 172)
-        GREEN=$(tput setaf 190)
-        PURPLE=$(tput setaf 141)
-        WHITE=$(tput setaf 256)
+    if tput colors &> /dev/null; then
+        if [[ $(tput colors) -ge 256 ]]; then
+            MAG=$(tput setaf 9)
+            ORANGE=$(tput setaf 172)
+            GREEN=$(tput setaf 190)
+            PURPLE=$(tput setaf 141)
+            WHITE=$(tput setaf 256)
+        else
+            MAG=$(tput setaf 5)
+            ORANGE=$(tput setaf 4)
+            GREEN=$(tput setaf 2)
+            PURPLE=$(tput setaf 1)
+            WHITE=$(tput setaf 7)
+        fi
+        BOLD=$(tput bold)
+        RESET=$(tput sgr0)
     else
-        MAG=$(tput setaf 5)
-        ORANGE=$(tput setaf 4)
-        GREEN=$(tput setaf 2)
-        PURPLE=$(tput setaf 1)
-        WHITE=$(tput setaf 7)
+        MAG="\033[35m"
+        ORANGE="\033[33m"
+        GREEN="\033[32m"
+        PURPLE="\033[35m"
+        WHITE="\033[37m"
+        BOLD=""
+        RESET="\033[m"
     fi
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
+fi
 #+end_src
 
 See [[http://ezprompt.net/][Easy Bash PS1 Generator]]
