@@ -15,10 +15,10 @@ die() {
     exit 2                              # An error occurred.
 }
 
-has() {
+check_command_exists() {
     if ! command -v "$1" > /dev/null 2>&1; then
-        echo "$1 not found."
-        return 2                        # An error occurred.
+        printf >&2 "Error: '%s' command not found.\n" "$1"
+        return 2
     fi
 }
 
@@ -173,6 +173,7 @@ else
                                         # file names.
 fi
 
+# Print a directory tree using ASCII characters.
 alias dirtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'
 
 alias df='df -kTh'
@@ -225,16 +226,19 @@ alias exe='chmod +x'
 # Recursively change the owner of all files and directories to the current user.
 alias own='sudo chown -R $USER'
 
+# Define aliases for changing directory up levels.
+alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
 
+# Define an alias for changing to the previous directory.
 alias -- -='cd -'                       # Alias '-' to 'cd -'.
 
 # Print the current directory stack (list directory history).
 alias d='dirs -v | head -n 10'
 
+# Define aliases for changing to recently used directories.
 alias 1='cd -'
 alias 2='cd +2'
 alias 3='cd +3'
@@ -245,16 +249,23 @@ alias 7='cd +7'
 alias 8='cd +8'
 alias 9='cd +9'
 
-# For WSL.
-alias c:='cd /mnt/c'
-alias d:='cd /mnt/d'
+# Check if the script is being run from WSL.
+if [[ "$WSL_DISTRO_NAME" ]]; then
+    # Define aliases for changing to C: and D: drives.
+    alias c:='cd /mnt/c'
+    alias d:='cd /mnt/d'
 
-alias explorer='explorer.exe'
+    # Define alias for opening the Windows file explorer
+    alias explorer='explorer.exe'
+fi
 
-# For Cygwin.
+# Check if the current operating system is Cygwin.
 if [[ "$OSTYPE" = cygwin* ]]; then
+    # Define aliases for changing to C: and D: drives.
     alias c:='cd /cygdrive/c'
     alias d:='cd /cygdrive/d'
+
+    # Define aliases for opening files and URLs.
     alias open='cygstart'
     alias xdg-open='cygstart'
 fi
@@ -270,7 +281,7 @@ alias t='tail -f'
 # alias x='exit' # Conflict with extract (from Oh-my-Zsh?)
 
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
-has colordiff && alias diff='colordiff'
+check_command_exists colordiff && alias diff='colordiff'
 
 alias g='git'
 
