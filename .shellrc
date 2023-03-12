@@ -6,13 +6,17 @@
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
 
+# Print the kernel name, the hostname, the kernel release and the machine
+# hardware name.
 uname -s -n -r -m
 
-die() {
-    msg="${1:-"Unknown error"}"
-    logger "${msg}"
-    printf '%s: Fatal error: %s\n' "$(basename $0)" "${msg}" > /dev/stderr
-    exit 2                              # An error occurred.
+# Define a shell function to log an error message, print an error message to
+# stderr, and exit with a non-zero status code.
+function die() {
+    local message="${1:-Unknown error}"
+    logger "$message"
+    printf >&2 '%s: Fatal error: %s\n' "$(basename "$0")" "$message"
+    exit 2
 }
 
 check_command_exists() {
@@ -141,6 +145,7 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
 alias hgrep='history | grep -i'
 
+# Display information about the current shell process.
 alias which-shell='ps -p $$'
 
 # Set time style (ISO 8601 format) for `ls` command.
@@ -199,7 +204,7 @@ alias tbz2='tar -jxvf'
 # Display the contents of $PATH with each directory separated by a newline character.
 alias path='echo "$PATH" | tr ":" "\n"'
 
-# Path.
+# Display information about a command, function, or shell built-in.
 alias where='type -a'
 
 alias mkall='./configure && make && sudo make install'
@@ -298,29 +303,52 @@ alias tigb='tig blame'
 alias tigall='tig --all'
 alias tigreleases='tig --all --simplify-by-decoration'
 
-alias keylist='ssh-add -l'              # List all identities.
-alias keyon='ssh-add -t 4h'             # Add identity.
-alias keyoff='ssh-add -D'               # Remove all identities.
+alias ssh_list_keys='ssh-add -l'        # List all SSH identities.
+alias ssh_add_key='ssh-add -t 4h'       # Add a new SSH identity and set a timeout of 4 hours.
+alias ssh_remove_keys='ssh-add -D'      # Remove all SSH identities from the agent.
 
-org_test() {
+# Run org-mode tests using Emacs batch mode.
+function org_test {
+    local tmpdir="/tmp/tmp-orgtest"
     (
-        cd "$HOME"/Public/Repositories/org-mode
-        mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
-        TMPDIR=/tmp/tmp-orgtest \
-            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        cd "$HOME"/Public/Repositories/org-mode" \
+            || { echo "Error: Could not change directory to $HOME/Public/Repositories/org-mode"; return 1; }
+        mkdir "$tmpdir" 2> /dev/null \
+            || { echo "Error: Could not create temporary directory"; return 1; } # TMPDIR must exist!
+        TMPDIR="$tmpdir" \
+            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests || { echo "Error: Failed to run org-mode tests"; return 1; }
     )
 }
 
-# Display the matched pattern in color.
-alias grep='grep --color=auto'
-alias egrep='grep -E --color=auto'
-alias fgrep='grep -F --color=auto'
+# Define function to add color to grep output.
+function grep {
+    # Use the original grep command with the `--color=auto` option.
+    command grep --color=auto "$@"
+}
 
-# export GREP_COLOR='0;33;1;44'         # Bold Yellow on blue.
-export GREP_COLORS="sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36"
+# Define function to add color to egrep output.
+function egrep {
+    # Use the original grep command with the `-E` and `--color=auto` options.
+    command grep -E --color=auto "$@"
+}
 
-# Grep through the running processes.
+# Define function to add color to fgrep output.
+function fgrep {
+    # Use the original grep command with the `-F` and `--color=auto` options.
+    command grep -F --color=auto "$@"
+}
+
+# Define variable for GREP_COLORS.
+GREP_COLORS='sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36'
+
+# Export GREP_COLORS variable.
+export GREP_COLORS
+
+# Add -f option to pgrep to show full command line.
 alias pgrep='pgrep -fl'
+
+# Define alias for ps with grep.
+# Usage: ps? <process_name>
 alias 'ps?'='ps ax | grep '
 
 alias rg="rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:bold'"
@@ -333,40 +361,64 @@ alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
 alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
 alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
 
+# Resize images using GraphicsMagick.
 gmresize() {
-    FILES="$@"
-    SCALE="1024x768"
-  # for i in *.(gif|jpeg|jpg|png);
-    for i in $FILES; do
-        echo "Processing image $i ..."
-        gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
-        # Obscure but useful string operations.
-        # (See http://www.arachnoid.com/linux/shell_programming.html.)
+    local scale="1024x768"
+
+    for file in "$@"; do
+        if [[ ! -f "$file" ]]; then
+            echo "File '$file' not found. Skipping..."
+            continue
+        fi
+        echo "Processing image '$file'..."
+        gm convert -scale "$scale" "$file" "${file%.*}-$scale.${file##*.}"
+        # Use parameter expansion to remove file extension from filename.
     done
 }
 
-# find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
+# Batch convert PNG files to JPG format.
+png2jpg() {
+    find . -name "*.png" -print0 \
+        | xargs -0 -I {} basename -s ".png" {} \
+        | xargs -I {} -n 1 gm convert -quality 85% {}.png {}.jpg
+}
 
 export GS_OPTIONS='-sPAPERSIZE=a4'
 alias pdfmerge='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=./pdf-joined.pdf' # pdfjoin
 alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 # for Win32, choose gswin32c
 
-# clean [-r] - Remove useless files (recursively).
-clean() {
+# cleanup_files [-r] - Remove useless files (recursively).
+cleanup_files() {
     if [[ "$1" = "-r" ]]; then
-        find . \( -name "#*" -o -name "*~" -o -name ".*~" \
-             -o -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" \
-             -o -name "*.~BASE~" -o -name ".*.~BASE~" \) \
-             -ok rm "{}" ";"
+        find . \(
+            -name "#*" \
+            -o -name "*~" \
+            -o -name ".*~" \
+            -o -name "*.~[0-9]*~" \
+            -o -name ".*.~[0-9]*~" \
+            -o -name "*.~BASE~" \
+            -o -name ".*.~BASE~" \
+        \) -ok rm "{}" ";"
     else
-        rm -i \#* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
+        rm -i \
+            \#* \
+            *~ \
+            .*~ \
+            *.~[0-9]*~ \
+            .*.~[0-9]*~ \
+            *.~BASE~ \
+            .*.~BASE~
     fi
 }
 
-saneperms() {
-    find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod "${1:=644}"
+# Recursively set permissions for directories and files.
+set-sane-perm() {
+    # Set directories to 755.
+    find . -type d -exec chmod 755 {} +
+    # Set files to 644, or use custom permission mode if specified.
+    local mode="${1:-644}"
+    find . -type f -exec chmod "$mode" {} +
 }
 
 # # Search for various types or README file in dir and display them in $PAGER.

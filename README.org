@@ -39,17 +39,8 @@ anything:
 
 #+begin_src shell
 # Source .zshrc and .shellrc.
-. <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc)
-. <(curl -Ss https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc)
-#+end_src
-
-#+begin_src shell
 curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc | zsh
 curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc | zsh
-#+end_src
-
-#+begin_src shell
-curl -fsSL https://raw.githubusercontent.com/...
 #+end_src
 
 ** Manual Installation
@@ -154,10 +145,8 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 #+begin_src shell :tangle .bash_profile
 # User dependent .bash_profile file
 
-# Source the user's .bashrc if it exists.
-if [[ -f "$HOME"/.bashrc ]]; then
-    . "$HOME"/.bashrc
-fi
+# Source the .bashrc file if it exists;
+[[ -f "$HOME"/.bashrc ]] && . "$HOME"/.bashrc
 #+end_src
 
 - For Zsh, put stuff in =~/.zprofile=, which is always executed.
@@ -970,6 +959,8 @@ drag it straight to Windows Fonts folder
 Test if UTF-8 characters are correctly rendered:
 
 #+begin_src shell :tangle no
+# Print a sequence of UTF-8 characters to the console to test if they are
+# correctly rendered.
 echo "\ue0b0 \u00b1 \ue0a0 \u27a6 \u2718 \u26a1 \u2699"
 #+end_src
 
@@ -1695,6 +1686,8 @@ both shells.
 #+end_src
 
 #+begin_src shell
+# Print the kernel name, the hostname, the kernel release and the machine
+# hardware name.
 uname -s -n -r -m
 #+end_src
 
@@ -1706,11 +1699,13 @@ The exit status follows the conventions for programs such as ~grep~, ~cmp~, and
 ~diff~: it is 2 (or greater) if an error occurred.
 
 #+begin_src shell
-die() {
-    msg="${1:-"Unknown error"}"
-    logger "${msg}"
-    printf '%s: Fatal error: %s\n' "$(basename $0)" "${msg}" > /dev/stderr
-    exit 2                              # An error occurred.
+# Define a shell function to log an error message, print an error message to
+# stderr, and exit with a non-zero status code.
+function die() {
+    local message="${1:-Unknown error}"
+    logger "$message"
+    printf >&2 '%s: Fatal error: %s\n' "$(basename "$0")" "$message"
+    exit 2
 }
 #+end_src
 
@@ -1784,6 +1779,7 @@ You need the ~emacs-server~ functionality enabled for this to work.
 See also ~cate~ (to print the contents of the current buffer in Emacs to the
 terminal).
 
+#+begin_src shell :tangle no
 # zombies - list all zombies and their parents to kill
 zombies() {
   ps f -eo state,pid,ppid,comm | awk '
@@ -1861,13 +1857,6 @@ hman() {
     man -T utf8 "$@" | ul | aha
 }
 
-# myman - format manpage of own projects
-# 27jul2016  +chris+  mandoc doesnt like being called from xe
-#myman() { locate -0 -e $HOME/*/$1.[0-9] | xe -0RN0 man -l }
-myman() {
-    man -l $(locate -e $HOME/*/$1.[0-9])
-}
-
 # twoman - show inline "manpage"
 twoman() {
   for cmd; do
@@ -1887,6 +1876,21 @@ soak() {
 inp() {
     () { "$@[3,-1]" <$2 >$1 && [[ -s $1 ]] && mv $1 $2 } =(:) "$@"
 }
+
+
+# Define a shell function to run a command with input from a file and output to
+# another file.
+function run_command_with_input_and_output_files() {
+    local output_file="$1"
+    local input_file="$2"
+    shift 2
+    "$@" <"$input_file" >"$output_file" && [[ -s "$output_file" ]] && mv "$output_file" "$input_file"
+}
+
+
+
+
+
 
 # sslcat HOST:PORT - print SSL certificate and details
 sslcat() {
@@ -1911,6 +1915,8 @@ spot() {
                           substr(p, i, 1)==l ? "." : l))
          printf("\n"); p = $0; }'
 }
+#+end_src
+
 
 ** Variables
 
@@ -2329,6 +2335,7 @@ Agnoster theme (checking for the presence of the ~hg~ command).
 *** Common aliases
 
 #+begin_src shell
+# Display information about the current shell process.
 alias which-shell='ps -p $$'
 #+end_src
 
@@ -2471,7 +2478,7 @@ tar.{bz2,gz,xz,lzma}, bz2, rar, gz, tbz2, tgz, zip, Z, 7z.
 # Display the contents of $PATH with each directory separated by a newline character.
 alias path='echo "$PATH" | tr ":" "\n"'
 
-# Path.
+# Display information about a command, function, or shell built-in.
 alias where='type -a'
 #+end_src
 
@@ -2661,21 +2668,22 @@ zugzug() {
 While it's a function and not an alias, I find it invaluable.
 
 #+begin_src shell
-alias keylist='ssh-add -l'              # List all identities.
-alias keyon='ssh-add -t 4h'             # Add identity.
-alias keyoff='ssh-add -D'               # Remove all identities.
+alias ssh_list_keys='ssh-add -l'        # List all SSH identities.
+alias ssh_add_key='ssh-add -t 4h'       # Add a new SSH identity and set a timeout of 4 hours.
+alias ssh_remove_keys='ssh-add -D'      # Remove all SSH identities from the agent.
 #+end_src
 
 #+begin_src shell :tangle no
-# gpg.
-searchkey() {
+# Search for a GPG key on the pgp.mit.edu keyserver using its fingerprint or
+# email address.
+function gpg_search_key {
     gpg --keyserver pgp.mit.edu --fingerprint --search-key "$@"
 }
 #+end_src
 
 #+begin_src shell :tangle no
-# Get gpg-key from keyserver.
-alias getkey='gpg --keyserver keys.gnupg.net --recv-keys'
+# Receive GPG keys from the keys.gnupg.net keyserver.
+alias gpg_key='gpg --keyserver keys.gnupg.net --recv-keys'
 #+end_src
 
 *** System admin
@@ -2790,12 +2798,16 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
 *** Org
 
 #+begin_src shell
-org_test() {
+# Run org-mode tests using Emacs batch mode.
+function org_test {
+    local tmpdir="/tmp/tmp-orgtest"
     (
-        cd "$HOME"/Public/Repositories/org-mode
-        mkdir /tmp/tmp-orgtest 2> /dev/null # TMPDIR must exist!
-        TMPDIR=/tmp/tmp-orgtest \
-            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests
+        cd "$HOME"/Public/Repositories/org-mode" \
+            || { echo "Error: Could not change directory to $HOME/Public/Repositories/org-mode"; return 1; }
+        mkdir "$tmpdir" 2> /dev/null \
+            || { echo "Error: Could not create temporary directory"; return 1; } # TMPDIR must exist!
+        TMPDIR="$tmpdir" \
+            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests || { echo "Error: Failed to run org-mode tests"; return 1; }
     )
 }
 #+end_src
@@ -2810,10 +2822,23 @@ on the exact set of options that they pass to ~grep~; it's even officially
 #+end_note
 
 #+begin_src shell
-# Display the matched pattern in color.
-alias grep='grep --color=auto'
-alias egrep='grep -E --color=auto'
-alias fgrep='grep -F --color=auto'
+# Define function to add color to grep output.
+function grep {
+    # Use the original grep command with the `--color=auto` option.
+    command grep --color=auto "$@"
+}
+
+# Define function to add color to egrep output.
+function egrep {
+    # Use the original grep command with the `-E` and `--color=auto` options.
+    command grep -E --color=auto "$@"
+}
+
+# Define function to add color to fgrep output.
+function fgrep {
+    # Use the original grep command with the `-F` and `--color=auto` options.
+    command grep -F --color=auto "$@"
+}
 #+end_src
 
 #+begin_warning
@@ -2821,22 +2846,33 @@ If you use ~--color=always~, it'll use color even when piping, which confuses
 things.
 #+end_warning
 
-Change the color of ~grep~:
+Change the color of ~grep~ (bold yellow on blue):
 
 #+begin_src shell
-# export GREP_COLOR='0;33;1;44'         # Bold Yellow on blue.
-export GREP_COLORS="sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36"
+# Define variable for GREP_COLORS.
+GREP_COLORS='sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36'
+
+# Export GREP_COLORS variable.
+export GREP_COLORS
 #+end_src
 
-- sl :: *Matching Lines* ("selected" lines)
-- cx :: Context Lines
-- mt :: *Matching Text* in any matching line
-- ms :: Matching text in a Selected line
-- mc :: Matching text in a Context line
-- fn :: File Name
-- ln :: Line Number
-- bn :: Byte Number
-- se :: Separator
+- sl :: "selected", which is used for highlighting the currently *matching line*.
+- cx :: "context", which is used for highlighting context lines that are
+  adjacent to matching lines.
+- mt :: "match", which is used for highlighting the *matching pattern* itself. In
+  this case, it is a *yellow text on a blue background* with bold and underline
+  effects.
+- ms :: "matching selected", which is used for highlighting matching text on the
+  selected line.
+- mc :: "matching context", which is used for highlighting matching text on
+  context lines.
+- fn :: "file name", which is used for highlighting file names in the output.
+- ln :: "line number", which is used for highlighting line numbers in the
+  output.
+- bn :: "byte offset number", which is used for highlighting byte offset numbers
+  in the output.
+- se :: "separator", which is used for highlighting separator lines in the
+  output.
 
 Paste in a GREP_COLORS string to preview it.
 Tweak the style the way you want, with a live preview of how it'll look!
@@ -2852,9 +2888,14 @@ works?  (... That's when there is no mt specification in the GREP_COLORS env
 var...)
 #+end_note
 
+Grep through the running processes.
+
 #+begin_src shell
-# Grep through the running processes.
+# Add -f option to pgrep to show full command line.
 alias pgrep='pgrep -fl'
+
+# Define alias for ps with grep.
+# Usage: ps? <process_name>
 alias 'ps?'='ps ax | grep '
 #+end_src
 
@@ -2885,19 +2926,27 @@ alias region='sleep 3; gm import selection$(date "+%Y%m%d%H%M%S").jpg'
 alias screenshot='sleep 5; gm import -window root screen$(date "+%Y%m%d%H%M%S").jpg'
 alias window='sleep 3; gm import -frame window$(date "+%Y%m%d%H%M%S").jpg'
 
+# Resize images using GraphicsMagick.
 gmresize() {
-    FILES="$@"
-    SCALE="1024x768"
-  # for i in *.(gif|jpeg|jpg|png);
-    for i in $FILES; do
-        echo "Processing image $i ..."
-        gm convert -scale $SCALE "$i" $(basename "$i" .${i##*.})-$SCALE.${i##*.}
-        # Obscure but useful string operations.
-        # (See http://www.arachnoid.com/linux/shell_programming.html.)
+    local scale="1024x768"
+
+    for file in "$@"; do
+        if [[ ! -f "$file" ]]; then
+            echo "File '$file' not found. Skipping..."
+            continue
+        fi
+        echo "Processing image '$file'..."
+        gm convert -scale "$scale" "$file" "${file%.*}-$scale.${file##*.}"
+        # Use parameter expansion to remove file extension from filename.
     done
 }
 
-# find . -name "*png" | xargs -l -i basename -s ".png" "{}" | xargs -l -i  gm convert -quality 85% "{}.png" "{}.jpg"
+# Batch convert PNG files to JPG format.
+png2jpg() {
+    find . -name "*.png" -print0 \
+        | xargs -0 -I {} basename -s ".png" {} \
+        | xargs -I {} -n 1 gm convert -quality 85% {}.png {}.jpg
+}
 #+end_src
 
 *** Other things to sort
@@ -2910,23 +2959,39 @@ alias booklet="psbook | psnup -2 | pstops '2:0,1U(21cm,29.7cm)'"
 #+end_src
 
 #+begin_src shell
-# clean [-r] - Remove useless files (recursively).
-clean() {
+# cleanup_files [-r] - Remove useless files (recursively).
+cleanup_files() {
     if [[ "$1" = "-r" ]]; then
-        find . \( -name "#*" -o -name "*~" -o -name ".*~" \
-             -o -name "*.~[0-9]*~"\ -o -name ".*.~[0-9]*~" \
-             -o -name "*.~BASE~" -o -name ".*.~BASE~" \) \
-             -ok rm "{}" ";"
+        find . \(
+            -name "#*" \
+            -o -name "*~" \
+            -o -name ".*~" \
+            -o -name "*.~[0-9]*~" \
+            -o -name ".*.~[0-9]*~" \
+            -o -name "*.~BASE~" \
+            -o -name ".*.~BASE~" \
+        \) -ok rm "{}" ";"
     else
-        rm -i \#* *~ .*~ *.~[0-9]*~ .*.~[0-9]*~ *.~BASE~ .*.~BASE~
+        rm -i \
+            \#* \
+            *~ \
+            .*~ \
+            *.~[0-9]*~ \
+            .*.~[0-9]*~ \
+            *.~BASE~ \
+            .*.~BASE~
     fi
 }
 #+end_src
 
 #+begin_src shell
-saneperms() {
-    find . -type d -print0 | xargs -0 chmod 755
-    find . -type f -print0 | xargs -0 chmod "${1:=644}"
+# Recursively set permissions for directories and files.
+set-sane-perm() {
+    # Set directories to 755.
+    find . -type d -exec chmod 755 {} +
+    # Set files to 644, or use custom permission mode if specified.
+    local mode="${1:-644}"
+    find . -type f -exec chmod "$mode" {} +
 }
 #+end_src
 
@@ -3272,7 +3337,7 @@ variable ~TERM~ has been exported.
 Use the script ~colortest~ (on Linux distros) to output the default colors.
 #+end_seealso
 
-See what your color palet is for the terminal session:
+See the number of colors that the terminal supports:
 
 #+begin_src shell :tangle no
 tput colors
@@ -3346,6 +3411,8 @@ C:\cygwin64\bin\run.exe /usr/bin/emacs
 #+end_src
 
 ** Disable your local ~/.gitconfig by faking out $HOME
+
+Run ~git show~ command in a temporary ~HOME~ directory set to ~/dev/null~.
 
 #+begin_src shell
 HOME=/dev/null git show
