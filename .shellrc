@@ -307,19 +307,6 @@ alias ssh_list_keys='ssh-add -l'        # List all SSH identities.
 alias ssh_add_key='ssh-add -t 4h'       # Add a new SSH identity and set a timeout of 4 hours.
 alias ssh_remove_keys='ssh-add -D'      # Remove all SSH identities from the agent.
 
-# Run org-mode tests using Emacs batch mode.
-function org_test {
-    local tmpdir="/tmp/tmp-orgtest"
-    (
-        cd "$HOME"/Public/Repositories/org-mode" \
-            || { echo "Error: Could not change directory to $HOME/Public/Repositories/org-mode"; return 1; }
-        mkdir "$tmpdir" 2> /dev/null \
-            || { echo "Error: Could not create temporary directory"; return 1; } # TMPDIR must exist!
-        TMPDIR="$tmpdir" \
-            emacs -Q --batch -L lisp/ -L testing/ -l org-test.el --eval '(setq org-confirm-babel-evaluate nil)' -f org-test-run-batch-tests || { echo "Error: Failed to run org-mode tests"; return 1; }
-    )
-}
-
 # Define function to add color to grep output.
 function grep {
     # Use the original grep command with the `--color=auto` option.
@@ -456,21 +443,4 @@ cmdfu() {
 # Check if websites are down
 down4me() {
     curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';
-}
-
-## Google Translate Functions ##
-
-say() {
-   find ~/Downloads/en -name "$1.ogg" -exec ogg123 {} \;
-   # mplayer -user-agent Mozilla -prefer-ipv4 \
-   # "http://translate.google.md/translate_tts?ie=UTF-8&tl="$1"&q=$(echo "$@" \
-   # | cut -d ' ' -f2- | sed 's/ /\+/g')" > /dev/null 2>&1 ;
-}
-
-say-translation() {
-   lang=$1
-   trans=$(translate {=$lang} "$(echo "$@" | cut -d ' ' -f2- | sed 's/ /\+/g')" )
-   echo $trans
-   mplayer -user-agent Mozilla \
-   "http://translate.google.com/translate_tts?ie=UTF-8&tl=$lang&q=$trans" > /dev/null 2>&1 ;
 }

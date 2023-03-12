@@ -2797,7 +2797,7 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
 
 *** Org
 
-#+begin_src shell
+#+begin_src shell :tangle no
 # Run org-mode tests using Emacs batch mode.
 function org_test {
     local tmpdir="/tmp/tmp-orgtest"
@@ -3040,7 +3040,9 @@ cmdfu() {
 down4me() {
     curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';
 }
+#+end_src
 
+#+begin_src shell :tangle no
 ## Google Translate Functions ##
 
 say() {
