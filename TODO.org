@@ -3,7 +3,25 @@
 
 * Tasks
 
-** Shortcuts
+** TODO Erreur d'édition en command-line
+
+: f.niessen@XIPHIAS:~/.dotfiles/make-my-quarter/bin (master)> ssh -i ~/.ssh/pirilampo.pk ubuntu@makemyquarter.com
+:
+: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+: @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+: Permissions 0775 for '/cygdrive/d/Users/fni/.ssh/pirilampo.pk' are too open.
+: It is required that your private key files are NOT accessible by others.
+: This private key will be ignored.
+: Load key "/cygdrive/d/Users/fni/.ssh/pirilampo.pk": bad permissions
+: ubuntu@makemyquarter.com: Permission denied (publickey).
+:
+: x 255 f.niessen@XIPHIAS:~/.dotfiles/make-my-quarter/bin (master)> ss
+
+Pareil, après une erreur (tablog terminé en erreur 130), en faisant de la
+complétion (par exemple, sur "conn" pour "connect-to-mmq").
+
+** TODO Shortcuts
 
 XXX (See Fish web_config for sorting things out)
 
