@@ -1473,14 +1473,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                                    |
-|-------------+----------------------------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                  |
+|-------------+----------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| M-%         | Replace string                                                                                                             |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
-| M-s         | Prepend "sudo " to the current command line                                                                                |
+| M-v         | Same as ~M-e~                                                                                              |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                             |
+| M-%         | Replace string                                                                                           |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                  |
+| M-s         | Prepend "sudo " to the current command line                                                              |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -2640,20 +2640,6 @@ http://stackoverflow.com/questions/4267400/colour-highlighting-output-based-on-r
 
 highlight-lines-matching-regexp "ERROR"
 
-*** Screen
-
-Connect to a host in a new screen tab, with the device name as the tab title.
-
-#+begin_src shell :tangle no
-s() {
-    screen -t "$@" /usr/bin/ssh "$@"
-}
-
-alias screen='screen -U'
-alias resume='screen -D -R'
-alias sr='screen -r'
-#+end_src
-
 *** SSH-agent / GPG agent
 
 Most of our servers don't listen to SSH on a public VLAN. I can't be bothered to
@@ -2661,7 +2647,8 @@ keep a tunnel open on my laptop when away from the office:
 
 #+begin_src shell :tangle no
 zugzug() {
-    ssh -A -p NON_STANDARD_PORT -t PROXY_SERVER ssh "$1"
+    REMOTE_SERVER=$1
+    ssh -A -p NON_STANDARD_PORT -t PROXY_SERVER ssh "$REMOTE_SERVER"
 }
 #+end_src
 
@@ -2695,40 +2682,28 @@ alias gpg_key='gpg --keyserver keys.gnupg.net --recv-keys'
 # Use `pkill' (which is pgrep + kill in a single command).
 
 # Show only my processes.
-alias mytop='top -u $USERNAME'
+alias mytop='top -u $USER'
 #+end_src
 
 #+begin_src shell
 # My traceroute.
 have mtr && alias ping=mtr
 
-# hping[2] (run as root!)
-alias myping="hping2 -c 100 -2 -p 7 $1"
-alias myping2="hping2 -d 500 -c 100 -2 -p 7 $1"
+# My ping.
+have hping3 && alias myping="sudo hping3 -c 100 -2 -p 7 -d 500 $1"
+#+end_src
 
-# 030925 Compare /proc with ps (against rootkits).
-alias myps="sudo ls -d /proc/* | grep '[0-9]' | wc -l ; sudo ps ax | wc -l"
-
-# alias g='find . -type f -print0 | xargs -0 grep'
+#+begin_src shell
 alias rgrep="grep -r"
 #+end_src
 
 #+begin_src shell
-# Echo my current external IP address.
-have curl && alias whatismyip='curl -s http://whatismyip.org'
-#+end_src
+# Get my current external IP address.
+have curl && alias my-external-ip='curl https://ipinfo.io/ip'
+# 'dig +short myip.opendns.com @resolver1.opendns.com'
 
-#+begin_src shell
-alias externalip='wget http://ipinfo.io/ip -qO -'
-alias internalip='ipconfig getifaddr en0'
-
-# Get your external IP address.
-# curl ifconfig.me
-
-# Get internal IP address.
-alias ip='ipconfig getifaddr en0 || ipconfig getifaddr en1'
-
-alias wanip='dig +short myip.opendns.com @resolver1.opendns.com'
+# Get my current internal IP address.
+have ifconfig && alias my-internal-ip='ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | grep -Eo "([0-9]*\.){3}[0-9]*" | grep -v "127.0.0.1" | head -n 1'
 #+end_src
 
 #+begin_src shell
