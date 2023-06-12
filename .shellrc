@@ -19,7 +19,7 @@ function die() {
     exit 2
 }
 
-check_command_exists() {
+command_exists() {
     if ! command -v "$1" > /dev/null 2>&1; then
         printf >&2 "Error: '%s' command not found.\n" "$1"
         return 2
@@ -286,7 +286,7 @@ alias t='tail -f'
 # alias x='exit' # Conflict with extract (from Oh-my-Zsh?)
 
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
-check_command_exists colordiff && alias diff='colordiff'
+command_exists colordiff && alias diff='colordiff'
 
 alias g='git'
 

@@ -1473,14 +1473,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                  |
-|-------------+----------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                                    |
+|-------------+----------------------------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                              |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                             |
-| M-%         | Replace string                                                                                           |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                  |
-| M-s         | Prepend "sudo " to the current command line                                                              |
+| M-v         | Same as ~M-e~                                                                                                                |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
+| M-%         | Replace string                                                                                                             |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
+| M-s         | Prepend "sudo " to the current command line                                                                                |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1715,11 +1715,11 @@ function die() {
 command || die "Something happened"
 #+end_src
 
-*** Check if a command exists in the user's PATH
+*** Check if a command exists
 
-To find out if a given command exists, don't use ~which~ (because it is not in
-POSIX so its output format is unspecified, and it complains when nothing is
-found instead of being silent):
+To find out if a given command exists (in the user's PATH), don't use ~which~
+(because it is not in POSIX so its output format is unspecified, and it
+complains when nothing is found instead of being silent):
 
 #+begin_src shell :tangle no
 if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
@@ -1728,7 +1728,7 @@ if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
 Instead use:
 
 #+begin_src shell
-check_command_exists() {
+command_exists() {
     if ! command -v "$1" > /dev/null 2>&1; then
         printf >&2 "Error: '%s' command not found.\n" "$1"
         return 2
@@ -1737,7 +1737,7 @@ check_command_exists() {
 #+end_src
 
 #+begin_src shell :tangle no
-check_command_exists ag && alias grep='ag'
+command_exists ag && alias grep='ag'
 #+end_src
 
 See also
@@ -2604,7 +2604,7 @@ alias t='tail -f'
 
 #+begin_src shell
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
-check_command_exists colordiff && alias diff='colordiff'
+command_exists colordiff && alias diff='colordiff'
 #+end_src
 
 *** Git
