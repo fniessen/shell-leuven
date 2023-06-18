@@ -20,10 +20,13 @@ source_local_file ".shellrc_local_before" # Source local shell customizations.
 source_local_file ".zshrc_local_before" # Source local Zsh customizations.
 
 # Color stderr.
+zmodload zsh/system
 color_stderr_red() {
+    # Sysread & syswrite are part of `zsh/system'.
+    emulate -LR zsh
     local stderr_red_esc_code=$'\e[37;1;41m'
-    while IFS= read -r line; do
-        echo -e "${stderr_red_esc_code}${line}\e[0m" >&2
+    while sysread; do
+        syswrite -o 2 "${stderr_red_esc_code}${REPLY}$terminfo[sgr0]"
     done
 }
 
