@@ -103,7 +103,9 @@ C-x,(   : start-kbd-macro
 C-x,)   : end-kbd-macro
 C-x,e   : call-last-kbd-macro
 
-** TODO Do sort -u instead of sort | uniq
+** TODO Have a look at nushell
+
+ https://www.nushell.sh/
 
 * Notes
 
