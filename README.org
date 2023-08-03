@@ -1984,13 +1984,22 @@ fi
 
 **** CDPATH
 
-Much like the ~PATH~ environment variable defines a search order for the
-executable you want, ~CDPATH~ provides a selection of directories which will be
-checked for the folder you are trying to ~cd~ into.
+Much like the ~PATH~ environment variable sets a search order for executable
+commands, ~CDPATH~ allows you to define a selection of directories to be
+automatically checked when accessing folders. When referencing a directory name,
+the system will look for it in the directories specified in ~CDPATH~, streamlining
+navigation *without requiring you to* type the full path or *use the ~cd~ command
+explicitly*.
 
 #+begin_src shell
-# Add the current directory and home directory to CDPATH.
-export CDPATH=".:$HOME"
+# Check if the ~/.dotfiles directory exists.
+if [ -d "$HOME/.dotfiles" ]; then
+  # Set CDPATH to include the current directory, home directory, and ~/.dotfiles.
+  export CDPATH=".:$HOME:$HOME/.dotfiles"
+else
+  # Set CDPATH to include the current directory and home directory only.
+  export CDPATH=".:$HOME"
+fi
 #+end_src
 
 **** MANPATH

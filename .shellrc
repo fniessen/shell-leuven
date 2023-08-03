@@ -72,8 +72,14 @@ if [[ "$UID" -ne 0 ]]; then
     PATH="$PATH:."
 fi
 
-# Add the current directory and home directory to CDPATH.
-export CDPATH=".:$HOME"
+# Check if the ~/.dotfiles directory exists.
+if [ -d "$HOME/.dotfiles" ]; then
+  # Set CDPATH to include the current directory, home directory, and ~/.dotfiles.
+  export CDPATH=".:$HOME:$HOME/.dotfiles"
+else
+  # Set CDPATH to include the current directory and home directory only.
+  export CDPATH=".:$HOME"
+fi
 
 # If user's private man directory exists, add it to MANPATH.
 if [[ -d "$HOME/man" ]]; then
