@@ -1760,6 +1760,12 @@ cde() {
         return 2
     fi
 
+    if ! emacsclient -e '(server-running-p)' > /dev/null 2>&1; then
+        printf >&2 "Error: Emacs server is not running.\n"
+        printf >&2 "Please start the Emacs server first.\n"
+        return 2
+    fi
+
     local dir
     dir="$(emacsclient -e '(with-current-buffer
                                (window-buffer (selected-window))
