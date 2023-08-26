@@ -1476,14 +1476,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                                    |
-|-------------+----------------------------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                 |
+|-------------+---------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| M-%         | Replace string                                                                                                             |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
-| M-s         | Prepend "sudo " to the current command line                                                                                |
+| M-v         | Same as ~M-e~                                                                                             |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
+| M-%         | Replace string                                                                                          |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
+| M-s         | Prepend "sudo " to the current command line                                                             |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1757,6 +1757,12 @@ cde() {
     if ! command -v emacsclient > /dev/null 2>&1; then
         printf >&2 "Error: emacsclient not found.\n"
         printf >&2 "Please install Emacs and ensure the binary is in your PATH.\n"
+        return 2
+    fi
+
+    if ! emacsclient -e '(server-running-p)' > /dev/null 2>&1; then
+        printf >&2 "Error: Emacs server is not running.\n"
+        printf >&2 "Please start the Emacs server first.\n"
         return 2
     fi
 
