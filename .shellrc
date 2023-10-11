@@ -30,7 +30,7 @@ command_exists() {
 cde() {
     if ! command -v emacsclient > /dev/null 2>&1; then
         printf >&2 "Error: emacsclient not found.\n"
-        printf >&2 "Please install Emacs and ensure the binary is in your PATH.\n"
+        printf >&2 "Please install Emacsclient and ensure the binary is in your PATH.\n"
         return 2
     fi
 
