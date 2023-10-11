@@ -21,6 +21,16 @@
 Pareil, après une erreur (tablog terminé en erreur 130), en faisant de la
 complétion (par exemple, sur "conn" pour "connect-to-mmq").
 
+*** Autre cas de figure
+
+#+begin_src shell
+f.niessen@XIPHIAS:~/.dotfiles/git-config-enhancements-leuven/bin (master)> Rscript run-sql-cgpt.R --oracle --database=ORCL1252 --user=Consil_20230125_TEMP tests -v 2
+zsh: segmentation fault  Rscript run-sql-cgpt.R --oracle --database=ORCL1252  tests -v 2
+
+x 139 f.niessen@XIPHIAS:~/.dotfiles/git-config-enhancements-leuven/bin (master)> whwhere run-sql-cgpt.R
+run-sql-cgpt.R not found
+#+end_src
+
 ** TODO Shortcuts
 
 XXX (See Fish web_config for sorting things out)
