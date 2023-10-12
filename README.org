@@ -1476,14 +1476,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                 |
-|-------------+---------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                |
+|-------------+--------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                             |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
-| M-%         | Replace string                                                                                          |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
-| M-s         | Prepend "sudo " to the current command line                                                             |
+| M-v         | Same as ~M-e~                                                                                            |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                           |
+| M-%         | Replace string                                                                                         |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                |
+| M-s         | Prepend "sudo " to the current command line                                                            |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -2088,20 +2088,30 @@ These variables work as follows:
 
 ** EDITOR
 
+Find a suitable editor.
+
+#+begin_note
+~e .~ opens the current directory in Emacs.
+#+end_note
+
 #+begin_src shell
-# Find a suitable editor.
 if [ -z "$SSH_CONNECTION" ]; then
+    # Configuration for local mode.
     export EDITOR="emacsclient"
     export ALTERNATE_EDITOR=""
-    alias e="emacsclient -n" # 'e .' opens the current directory in Emacs.
+    alias e="emacsclient -n"
     alias ee="emacsclient -n --alternate-editor=emacs"
     alias bgemacs='emacs &'
 else
-    EDITOR=$(command -v emacs \
-                 || command -v subl \
-                 || command -v atom \
-                 || command -v nano)
-    alias e='$EDITOR'
+    # Configuration for remote mode.
+    for candidate_editor in emacs subl atom nano; do
+        if command -v "$candidate_editor" &> /dev/null; then
+            # Use the first available editor.
+            EDITOR="$candidate_editor"
+            break
+        fi
+    done
+    alias e="$EDITOR"                   # Alias 'e' uses the chosen editor.
 fi
 #+end_src
 
@@ -2111,7 +2121,7 @@ editor will think you exited it. In the case of our ~git commit~, we would end u
 with a blank commit message!
 
 #+begin_src shell
-# Use `$EDITOR' for programs wanting an editor.
+# Set VISUAL to the same value as EDITOR.
 export VISUAL="$EDITOR"
 #+end_src
 

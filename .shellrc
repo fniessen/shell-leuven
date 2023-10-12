@@ -115,22 +115,26 @@ export LANG=C.UTF-8
 # For Unicode ruler in diff-so-fancy.  See issue #364.
 unset LC_CTYPE
 
-# Find a suitable editor.
 if [ -z "$SSH_CONNECTION" ]; then
+    # Configuration for local mode.
     export EDITOR="emacsclient"
     export ALTERNATE_EDITOR=""
-    alias e="emacsclient -n" # 'e .' opens the current directory in Emacs.
+    alias e="emacsclient -n"
     alias ee="emacsclient -n --alternate-editor=emacs"
     alias bgemacs='emacs &'
 else
-    EDITOR=$(command -v emacs \
-                 || command -v subl \
-                 || command -v atom \
-                 || command -v nano)
-    alias e='$EDITOR'
+    # Configuration for remote mode.
+    for candidate_editor in emacs subl atom nano; do
+        if command -v "$candidate_editor" &> /dev/null; then
+            # Use the first available editor.
+            EDITOR="$candidate_editor"
+            break
+        fi
+    done
+    alias e="$EDITOR"                   # Alias 'e' uses the chosen editor.
 fi
 
-# Use `$EDITOR' for programs wanting an editor.
+# Set VISUAL to the same value as EDITOR.
 export VISUAL="$EDITOR"
 
 export PAGER="less"
