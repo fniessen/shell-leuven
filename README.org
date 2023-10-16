@@ -1476,14 +1476,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                 |
-|-------------+---------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                                    |
+|-------------+----------------------------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                             |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
-| M-%         | Replace string                                                                                          |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
-| M-s         | Prepend "sudo " to the current command line                                                             |
+| M-v         | Same as ~M-e~                                                                                                                |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
+| M-%         | Replace string                                                                                                             |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
+| M-s         | Prepend "sudo " to the current command line                                                                                |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1983,9 +1983,7 @@ If you add the ~CWD~ (~.~) to your PATH, just do it:
 
 #+begin_src shell
 # Add the current directory to PATH if not running as root.
-if [[ "$UID" -ne 0 ]]; then
-    PATH="$PATH:."
-fi
+[ "$UID" -ne 0 ] && PATH="$PATH:."
 #+end_src
 
 **** CDPATH
@@ -1998,14 +1996,13 @@ navigation *without requiring you to* type the full path or *use the ~cd~ comman
 explicitly*.
 
 #+begin_src shell
-# Check if the ~/.dotfiles directory exists.
+# Check if the ~/.dotfiles directory exists and set CDPATH accordingly.
 if [ -d "$HOME/.dotfiles" ]; then
-  # Set CDPATH to include the current directory, home directory, and ~/.dotfiles.
-  export CDPATH=".:$HOME:$HOME/.dotfiles"
+  CDPATH=".:$HOME:$HOME/.dotfiles"
 else
-  # Set CDPATH to include the current directory and home directory only.
-  export CDPATH=".:$HOME"
+  CDPATH=".:$HOME"
 fi
+export CDPATH
 #+end_src
 
 **** MANPATH
@@ -2315,7 +2312,7 @@ export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --
 
 #+begin_src shell :tangle no
 # Set DISPLAY environment variable (with the dynamic IP address of the WSL virtual machine).
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
+export DISPLAY=$(awk '/nameserver/ {print $2; exit}' /etc/resolv.conf):0
 #+end_src
 
 ** Abbreviations (aliases)
@@ -2508,10 +2505,6 @@ alias path='echo "$PATH" | tr ":" "\n"'
 
 # Display information about a command, function, or shell built-in.
 alias where='type -a'
-#+end_src
-
-#+begin_src shell
-alias mkall='./configure && make && sudo make install'
 #+end_src
 
 #+begin_src shell

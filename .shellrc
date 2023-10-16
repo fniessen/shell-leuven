@@ -74,18 +74,15 @@ if [[ -d "$HOME/winbin" ]]; then
 fi
 
 # Add the current directory to PATH if not running as root.
-if [[ "$UID" -ne 0 ]]; then
-    PATH="$PATH:."
-fi
+[ "$UID" -ne 0 ] && PATH="$PATH:."
 
-# Check if the ~/.dotfiles directory exists.
+# Check if the ~/.dotfiles directory exists and set CDPATH accordingly.
 if [ -d "$HOME/.dotfiles" ]; then
-  # Set CDPATH to include the current directory, home directory, and ~/.dotfiles.
-  export CDPATH=".:$HOME:$HOME/.dotfiles"
+  CDPATH=".:$HOME:$HOME/.dotfiles"
 else
-  # Set CDPATH to include the current directory and home directory only.
-  export CDPATH=".:$HOME"
+  CDPATH=".:$HOME"
 fi
+export CDPATH
 
 # If user's private man directory exists, add it to MANPATH.
 if [[ -d "$HOME/man" ]]; then
@@ -222,8 +219,6 @@ alias path='echo "$PATH" | tr ":" "\n"'
 
 # Display information about a command, function, or shell built-in.
 alias where='type -a'
-
-alias mkall='./configure && make && sudo make install'
 
 # Enable aliases to be sudo’ed.
 alias sudo='sudo '
