@@ -342,7 +342,7 @@ function fgrep {
 }
 
 # Define variable for GREP_COLORS.
-GREP_COLORS='sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36'
+GREP_COLORS='sl=:cx=:mt=01;37;1;44:ms=01;37;1;44:mc=01;37;1;44:fn=35:ln=32:bn=32:se=36'
 
 # Export GREP_COLORS variable.
 export GREP_COLORS

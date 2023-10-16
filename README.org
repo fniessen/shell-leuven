@@ -1476,14 +1476,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                |
-|-------------+--------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                 |
+|-------------+---------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                            |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                           |
-| M-%         | Replace string                                                                                         |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                |
-| M-s         | Prepend "sudo " to the current command line                                                            |
+| M-v         | Same as ~M-e~                                                                                             |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
+| M-%         | Replace string                                                                                          |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
+| M-s         | Prepend "sudo " to the current command line                                                             |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -2853,7 +2853,7 @@ Change the color of ~grep~ (bold yellow on blue):
 
 #+begin_src shell
 # Define variable for GREP_COLORS.
-GREP_COLORS='sl=:cx=:mt=01;33;1;44:ms=01;33;1;44:mc=01;33;1;44:fn=35:ln=32:bn=32:se=36'
+GREP_COLORS='sl=:cx=:mt=01;37;1;44:ms=01;37;1;44:mc=01;37;1;44:fn=35:ln=32:bn=32:se=36'
 
 # Export GREP_COLORS variable.
 export GREP_COLORS
