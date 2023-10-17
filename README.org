@@ -736,6 +736,13 @@ source_local_file ".bashrc_local_after" # Source local Bash customizations.
 source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
+#+begin_src shell
+# Load common-<something>-commands scripts for Bash and common use.
+for rcfile in ~/bin/bash-*-commands ~/bin/common-*-commands; do
+    source "$rcfile"
+done
+#+end_src
+
 * Zsh Configuration
 :PROPERTIES:
 :header-args+: :tangle .zshrc
@@ -1476,14 +1483,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                                    |
-|-------------+----------------------------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                 |
+|-------------+---------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| M-%         | Replace string                                                                                                             |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
-| M-s         | Prepend "sudo " to the current command line                                                                                |
+| M-v         | Same as ~M-e~                                                                                             |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
+| M-%         | Replace string                                                                                          |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
+| M-s         | Prepend "sudo " to the current command line                                                             |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1670,6 +1677,13 @@ source_local_file ".zshrc_local_after" # Source local Zsh customizations.
 source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
+#+begin_src shell
+# Load common-<something>-commands scripts for Zsh and common use.
+for rcfile in ~/bin/{zsh,common}-*-commands; do
+    source "$rcfile"
+done
+#+end_src
+
 * Shell agnostic Configuration
 :PROPERTIES:
 :header-args+: :tangle .shellrc
@@ -1745,48 +1759,6 @@ command_exists ag && alias grep='ag'
 
 See also
 https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
-
-*** Go to directory of the file currently active in Emacs
-
-If you are an avid Emacs user like me, you'll find this function useful.  It
-*enters the directory of the file currently active in Emacs* resides in:
-
-#+begin_src shell
-# Cd to the directory of the current buffer in Emacs.
-cde() {
-    if ! command -v emacsclient > /dev/null 2>&1; then
-        printf >&2 "Error: emacsclient not found.\n"
-        printf >&2 "Please install Emacsclient and ensure the binary is in your PATH.\n"
-        return 2
-    fi
-
-    if ! emacsclient -e '(server-running-p)' > /dev/null 2>&1; then
-        printf >&2 "Error: Emacs server is not running.\n"
-        printf >&2 "Please start the Emacs server first.\n"
-        return 2
-    fi
-
-    local dir
-    dir="$(emacsclient -e '(with-current-buffer
-                               (window-buffer (selected-window))
-                             (replace-regexp-in-string "^~" (getenv "HOME")
-                                default-directory))' | tr -d '"')"
-
-    if [ ! -d "$dir" ]; then
-        printf >&2 "Error: directory not found: %s\n" "$dir"
-        return 2
-    fi
-
-    builtin cd "$dir"
-    #! The change in working directory will persist after the function has
-    #! completed.
-}
-#+end_src
-
-You need the ~emacs-server~ functionality enabled for this to work.
-
-See also ~cate~ (to print the contents of the current buffer in Emacs to the
-terminal).
 
 #+begin_src shell :tangle no
 # zombies - list all zombies and their parents to kill
@@ -1925,7 +1897,6 @@ spot() {
          printf("\n"); p = $0; }'
 }
 #+end_src
-
 
 ** Variables
 
@@ -2082,45 +2053,6 @@ These variables work as follows:
 - The other LC_ variables set the specified aspect of the locale information.
 - LANG is a fallback value, it will be used if none of the LC_ variables are
   specified.
-
-** EDITOR
-
-Find a suitable editor.
-
-#+begin_note
-~e .~ opens the current directory in Emacs.
-#+end_note
-
-#+begin_src shell
-if [ -z "$SSH_CONNECTION" ]; then
-    # Configuration for local mode.
-    export EDITOR="emacsclient"
-    export ALTERNATE_EDITOR=""
-    alias e="emacsclient -n"
-    alias ee="emacsclient -n --alternate-editor=emacs"
-    alias bgemacs='emacs &'
-else
-    # Configuration for remote mode.
-    for candidate_editor in emacs subl atom nano; do
-        if command -v "$candidate_editor" &> /dev/null; then
-            # Use the first available editor.
-            EDITOR="$candidate_editor"
-            break
-        fi
-    done
-    alias e="$EDITOR"                   # Alias 'e' uses the chosen editor.
-fi
-#+end_src
-
-When setting the environment variables ~EDITOR~ and/or ~VISUAL~, you better omit the
-~--no-wait~ (~-n~) option: if ~emacsclient~ doesn't wait, the program that opens the
-editor will think you exited it. In the case of our ~git commit~, we would end up
-with a blank commit message!
-
-#+begin_src shell
-# Set VISUAL to the same value as EDITOR.
-export VISUAL="$EDITOR"
-#+end_src
 
 ** PAGER
 
