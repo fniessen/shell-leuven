@@ -231,7 +231,7 @@ source_local_file ".shellrc" # Source common customizations.
 source_local_file ".bashrc_local_after" # Source local Bash customizations.
 source_local_file ".shellrc_local_after" # Source local shell customizations.
 
-# Load common-<something>-commands scripts for Bash and common use.
-for rcfile in ~/bin/bash-*-commands ~/bin/common-*-commands; do
+# Load common-<something>-run-commands scripts for Bash and common use.
+for rcfile in ~/bin/bash-*-run-commands ~/bin/common-*-run-commands; do
     source "$rcfile"
 done

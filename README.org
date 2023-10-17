@@ -737,8 +737,8 @@ source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 #+begin_src shell
-# Load common-<something>-commands scripts for Bash and common use.
-for rcfile in ~/bin/bash-*-commands ~/bin/common-*-commands; do
+# Load common-<something>-run-commands scripts for Bash and common use.
+for rcfile in ~/bin/bash-*-run-commands ~/bin/common-*-run-commands; do
     source "$rcfile"
 done
 #+end_src
@@ -1678,8 +1678,8 @@ source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 #+begin_src shell
-# Load common-<something>-commands scripts for Zsh and common use.
-for rcfile in ~/bin/{zsh,common}-*-commands; do
+# Load common-<something>-run-commands scripts for Zsh and common use.
+for rcfile in ~/bin/{zsh,common}-*-run-commands; do
     source "$rcfile"
 done
 #+end_src

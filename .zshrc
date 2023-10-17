@@ -442,7 +442,7 @@ source_local_file ".shellrc" # Source common customizations.
 source_local_file ".zshrc_local_after" # Source local Zsh customizations.
 source_local_file ".shellrc_local_after" # Source local shell customizations.
 
-# Load common-<something>-commands scripts for Zsh and common use.
-for rcfile in ~/bin/{zsh,common}-*-commands; do
+# Load common-<something>-run-commands scripts for Zsh and common use.
+for rcfile in ~/bin/{zsh,common}-*-run-commands; do
     source "$rcfile"
 done
