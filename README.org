@@ -737,8 +737,8 @@ source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 #+begin_src shell
-# Load common-<something>-run-commands scripts for Bash and common use.
-for rcfile in ~/bin/bash-*-run-commands ~/bin/common-*-run-commands; do
+# Load run-commands-<something> scripts for Bash.
+for rcfile in ~/bin/run-commands-bash-* ~/bin/run-commands-common-*; do
     source "$rcfile"
 done
 #+end_src
@@ -1483,14 +1483,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                 |
-|-------------+---------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                                    |
+|-------------+----------------------------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                             |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                            |
-| M-%         | Replace string                                                                                          |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                 |
-| M-s         | Prepend "sudo " to the current command line                                                             |
+| M-v         | Same as ~M-e~                                                                                                                |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
+| M-%         | Replace string                                                                                                             |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
+| M-s         | Prepend "sudo " to the current command line                                                                                |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1678,8 +1678,8 @@ source_local_file ".shellrc_local_after" # Source local shell customizations.
 #+end_src
 
 #+begin_src shell
-# Load common-<something>-run-commands scripts for Zsh and common use.
-for rcfile in ~/bin/{zsh,common}-*-run-commands; do
+# Load run-commands-<something> scripts for Zsh.
+for rcfile in ~/bin/run-commands-{zsh,common}-*; do
     source "$rcfile"
 done
 #+end_src
