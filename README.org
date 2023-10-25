@@ -530,15 +530,21 @@ shopt -q -s cmdhist
 #+end_src
 
 #+begin_src shell
-# Store 10,000 commands in history.
-export HISTSIZE=10000
+# Set the in-memory history size.  This controls the number of commands
+# available for the current session.
+export HISTSIZE=5000
+
+# Set the on-disk history size.  This controls the number of commands stored in
+# the history file.
 export HISTFILESIZE=$HISTSIZE
+#+end_src
 
-# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
-export HISTTIMEFORMAT="%y-%m-%d %H:%M  "
+#+begin_src shell
+# Set the history timestamp format to ISO8601 (yyyy-mm-dd hh:mm).
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M  "
 
-# Blacklist - Avoid recording common commands (like ls, top and clear).
-export HISTIGNORE="ls*:top:clear"
+# Exclude common navigation and administrative commands from history.
+export HISTIGNORE="ls:cd:pwd:clear:history:exit:top:df"
 #+end_src
 
 Prefix a command with a space to hide it from history (suitable for sensitive
@@ -1483,14 +1489,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                                    |
-|-------------+----------------------------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                                                  |
+|-------------+----------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| M-%         | Replace string                                                                                                             |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                                    |
-| M-s         | Prepend "sudo " to the current command line                                                                                |
+| M-v         | Same as ~M-e~                                                                                              |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                             |
+| M-%         | Replace string                                                                                           |
+| C-M-u       | Go up one directory (automatic "cd ..")                                                                  |
+| M-s         | Prepend "sudo " to the current command line                                                              |
 
 From Dan Davison:
 bindkey '^W' kill-region

@@ -182,15 +182,19 @@ shopt -s histappend
 # Make multi-line commands 1 line in history.
 shopt -q -s cmdhist
 
-# Store 10,000 commands in history.
-export HISTSIZE=10000
+# Set the in-memory history size.  This controls the number of commands
+# available for the current session.
+export HISTSIZE=5000
+
+# Set the on-disk history size.  This controls the number of commands stored in
+# the history file.
 export HISTFILESIZE=$HISTSIZE
 
-# Print full time-date stamps in ISO8601 `yyyy-mm-dd hh:mm' format.
-export HISTTIMEFORMAT="%y-%m-%d %H:%M  "
+# Set the history timestamp format to ISO8601 (yyyy-mm-dd hh:mm).
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M  "
 
-# Blacklist - Avoid recording common commands (like ls, top and clear).
-export HISTIGNORE="ls*:top:clear"
+# Exclude common navigation and administrative commands from history.
+export HISTIGNORE="ls:cd:pwd:clear:history:exit:top:df"
 
 # Ignore duplicate commands and commands starting with spaces.
 HISTCONTROL=ignoreboth:erasedups
