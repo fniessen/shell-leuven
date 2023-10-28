@@ -8,17 +8,6 @@
 
 # Code:
 
-# Source local shell customizations.
-source_local_file() {
-    local file="$HOME/$1"
-    if [ -f "$file" ]; then
-        source "$file"
-    fi
-}
-
-source_local_file ".shellrc_local_before" # Source local shell customizations.
-source_local_file ".zshrc_local_before" # Source local Zsh customizations.
-
 # Color stderr.
 zmodload zsh/system
 color_stderr_red() {
@@ -437,12 +426,3 @@ alias -g T9="| awk -F $'\t' '{print \$9}'"
 alias -g Gitthisweek=' --since=1.week.ago'
 alias -g Gitthismonth=' --since=1.month.ago'
 alias -g Gitthisyear=' --since=1.year.ago'
-
-source_local_file ".shellrc" # Source common customizations.
-source_local_file ".zshrc_local_after" # Source local Zsh customizations.
-source_local_file ".shellrc_local_after" # Source local shell customizations.
-
-# Load run-commands-<something> scripts for Zsh.
-for rcfile in ~/bin/run-commands-{zsh,common}-*; do
-    source "$rcfile"
-done

@@ -19,17 +19,6 @@
 #     exec zsh
 # fi
 
-# Source local shell customizations.
-source_local_file() {
-    local file="$HOME/$1"
-    if [ -f "$file" ]; then
-        source "$file"
-    fi
-}
-
-source_local_file ".shellrc_local_before" # Source local shell customizations.
-source_local_file ".bashrc_local_before" # Source local Bash customizations.
-
 # Get the current Git branch.
 git_branch() {
     local branch
@@ -230,12 +219,3 @@ bind '"\ev": edit-and-execute-command'
 
 # C-M-u: up-directory
 bind '"\e\C-u": "cd ..\n"'
-
-source_local_file ".shellrc" # Source common customizations.
-source_local_file ".bashrc_local_after" # Source local Bash customizations.
-source_local_file ".shellrc_local_after" # Source local shell customizations.
-
-# Load run-commands-<something> scripts for Bash.
-for rcfile in ~/bin/run-commands-bash-* ~/bin/run-commands-common-*; do
-    source "$rcfile"
-done

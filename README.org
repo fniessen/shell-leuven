@@ -39,8 +39,8 @@ anything:
 
 #+begin_src shell
 # Source .zshrc and .shellrc.
-curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc | zsh
-curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc | zsh
+curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.zshrc_leuven | zsh
+curl -sSL https://raw.githubusercontent.com/fniessen/shell-leuven/master/.shellrc_leuven | zsh
 #+end_src
 
 ** Manual Installation
@@ -142,7 +142,7 @@ We just let =.profile= also read =.bashrc= and put everything in =.bashrc=.
 
 - For Bash, put stuff in =~/.bashrc=, and make =~/.bash_profile= source it.
 
-#+begin_src shell :tangle .bash_profile
+#+begin_src shell :tangle .bash_profile_leuven
 # User dependent .bash_profile file
 
 # Source the .bashrc file if it exists;
@@ -194,7 +194,7 @@ See http://zsh.sourceforge.net/Guide/zshguide02.html.
 
 * Bash Configuration
 :PROPERTIES:
-:header-args+: :tangle .bashrc
+:header-args+: :tangle .bashrc_leuven
 :END:
 
 #+name: current-year
@@ -241,9 +241,11 @@ To start directly Zsh when opening /Bash on Ubuntu on Windows/:
 # fi
 #+end_src
 
-** Startup (Where are Local customizations?)
+** Startup (Where are Leuven customizations?)
 
-#+begin_src shell
+Your =.bashrc= file might resemble the following configuration:
+
+#+begin_src shell :tangle no
 # Source local shell customizations.
 source_local_file() {
     local file="$HOME/$1"
@@ -252,8 +254,21 @@ source_local_file() {
     fi
 }
 
-source_local_file ".shellrc_local_before" # Source local shell customizations.
-source_local_file ".bashrc_local_before" # Source local Bash customizations.
+source_local_file ".shellrc_leuven" # Source Leuven shell customizations.
+source_local_file ".bashrc_leuven" # Source Leuven Bash customizations.
+#+end_src
+
+Ready for more (from other Leuven repositories)?
+
+#+begin_src shell :tangle no
+# Load rc-<something> scripts for Bash.
+shopt -s nullglob
+rcfiles=(~/bin/rx-bash-* ~/bin/rx-common-*)
+if [ ${#rcfiles[@]} -gt 0 ]; then
+    for rcfile in "${rcfiles[@]}"; do
+        source "$rcfile"
+    done
+fi
 #+end_src
 
 ** Colors
@@ -701,9 +716,9 @@ side (that is, to insert the text "> output" into the line)
 "\C-k": kill-whole-line
 
 
-| Key binding | Meaning                                                                                         |
-|-------------+-------------------------------------------------------------------------------------------------|
-| ~M-?~         | Execute the command ~which cmd~ where ~cmd~ is the current command; similar to ~which-command~ in Zsh |
+| Key binding | Meaning                                                                                               |
+|-------------+-------------------------------------------------------------------------------------------------------|
+| ~M-?~       | Execute the command ~which cmd~ where ~cmd~ is the current command; similar to ~which-command~ in Zsh |
 
 #+begin_src shell
 bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
@@ -734,24 +749,9 @@ bind '"\ev": edit-and-execute-command'
 bind '"\e\C-u": "cd ..\n"'
 #+end_src
 
-** Ready for more?
-
-#+begin_src shell
-source_local_file ".shellrc" # Source common customizations.
-source_local_file ".bashrc_local_after" # Source local Bash customizations.
-source_local_file ".shellrc_local_after" # Source local shell customizations.
-#+end_src
-
-#+begin_src shell
-# Load run-commands-<something> scripts for Bash.
-for rcfile in ~/bin/run-commands-bash-* ~/bin/run-commands-common-*; do
-    source "$rcfile"
-done
-#+end_src
-
 * Zsh Configuration
 :PROPERTIES:
-:header-args+: :tangle .zshrc
+:header-args+: :tangle .zshrc_leuven
 :END:
 
 Documentation: [[http://www.bash2zsh.com/zsh_refcard/refcard.pdf][Zsh Reference Card]].
@@ -773,9 +773,11 @@ Examples:
 # Code:
 #+end_src
 
-** Startup (Where are Local customizations?)
+** Startup (Where are Leuven customizations?)
 
-#+begin_src shell
+Your =.zshrc= file might resemble the following configuration:
+
+#+begin_src shell :tangle no
 # Source local shell customizations.
 source_local_file() {
     local file="$HOME/$1"
@@ -784,8 +786,21 @@ source_local_file() {
     fi
 }
 
-source_local_file ".shellrc_local_before" # Source local shell customizations.
-source_local_file ".zshrc_local_before" # Source local Zsh customizations.
+source_local_file ".shellrc_leuven" # Source Leuven shell customizations.
+source_local_file ".zshrc_leuven" # Source Leuven Zsh customizations.
+#+end_src
+
+Ready for more (from other Leuven repositories)?
+
+#+begin_src shell :tangle no
+# Load rc-<something> scripts for Zsh.
+setopt NULL_GLOB
+rcfiles=(~/bin/rc-{zsh,common}-*)
+if [ ${#rcfiles[@]} -gt 0 ]; then
+    for rcfile in "${rcfiles[@]}"; do
+        source "$rcfile"
+    done
+fi
 #+end_src
 
 ** Colors
@@ -1439,9 +1454,9 @@ bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 #+end_src
 
-| Key binding | Meaning                                                                            |
-|-------------+------------------------------------------------------------------------------------|
-| ~M-.~         | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
+| Key binding | Meaning                                                                              |
+|-------------+--------------------------------------------------------------------------------------|
+| ~M-.~       | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
 
 Bonus Tip
 
@@ -1476,9 +1491,9 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 
 *** Commands For Completion (Letting the Z-Shell Line Editor Type For You)
 
-| Key binding | Meaning                                                                                         |
-|-------------+-------------------------------------------------------------------------------------------------|
-| ~M-=~         | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
+| Key binding | Meaning                                                                                           |
+|-------------+---------------------------------------------------------------------------------------------------|
+| ~M-=~       | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
 
 #+begin_src shell
 # Display possible completions for the current word.
@@ -1492,8 +1507,8 @@ bindkey '\e=' list-choices
 | Key binding | Meaning                                                                                                  |
 |-------------+----------------------------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                              |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                             |
+| M-v         | Same as ~M-e~                                                                                            |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                                           |
 | M-%         | Replace string                                                                                           |
 | C-M-u       | Go up one directory (automatic "cd ..")                                                                  |
 | M-s         | Prepend "sudo " to the current command line                                                              |
@@ -1675,24 +1690,9 @@ alias -g Gitthismonth=' --since=1.month.ago'
 alias -g Gitthisyear=' --since=1.year.ago'
 #+end_src
 
-** Ready for more?
-
-#+begin_src shell
-source_local_file ".shellrc" # Source common customizations.
-source_local_file ".zshrc_local_after" # Source local Zsh customizations.
-source_local_file ".shellrc_local_after" # Source local shell customizations.
-#+end_src
-
-#+begin_src shell
-# Load run-commands-<something> scripts for Zsh.
-for rcfile in ~/bin/run-commands-{zsh,common}-*; do
-    source "$rcfile"
-done
-#+end_src
-
 * Shell agnostic Configuration
 :PROPERTIES:
-:header-args+: :tangle .shellrc
+:header-args+: :tangle .shellrc_leuven
 :END:
 
 =.shellrc= contains miscellaneous settings *common to Bash and Zsh* -- it is read by
