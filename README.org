@@ -256,11 +256,8 @@ source_local_file() {
 
 source_local_file ".shellrc_leuven" # Source Leuven shell customizations.
 source_local_file ".bashrc_leuven" # Source Leuven Bash customizations.
-#+end_src
 
-Ready for more (from other Leuven repositories)?
-
-#+begin_src shell :tangle no
+# Ready for more (from other Leuven repositories)?
 # Load rc-<something> scripts for Bash.
 shopt -s nullglob
 rcfiles=(~/bin/rc-bash-* ~/bin/rc-common-*)
@@ -788,11 +785,8 @@ source_local_file() {
 
 source_local_file ".shellrc_leuven" # Source Leuven shell customizations.
 source_local_file ".zshrc_leuven" # Source Leuven Zsh customizations.
-#+end_src
 
-Ready for more (from other Leuven repositories)?
-
-#+begin_src shell :tangle no
+# Ready for more (from other Leuven repositories)?
 # Load rc-<something> scripts for Zsh.
 setopt NULL_GLOB
 rcfiles=(~/bin/rc-{zsh,common}-*)
