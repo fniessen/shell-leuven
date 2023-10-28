@@ -263,7 +263,7 @@ Ready for more (from other Leuven repositories)?
 #+begin_src shell :tangle no
 # Load rc-<something> scripts for Bash.
 shopt -s nullglob
-rcfiles=(~/bin/rx-bash-* ~/bin/rx-common-*)
+rcfiles=(~/bin/rc-bash-* ~/bin/rc-common-*)
 if [ ${#rcfiles[@]} -gt 0 ]; then
     for rcfile in "${rcfiles[@]}"; do
         source "$rcfile"
@@ -716,9 +716,9 @@ side (that is, to insert the text "> output" into the line)
 "\C-k": kill-whole-line
 
 
-| Key binding | Meaning                                                                                               |
-|-------------+-------------------------------------------------------------------------------------------------------|
-| ~M-?~       | Execute the command ~which cmd~ where ~cmd~ is the current command; similar to ~which-command~ in Zsh |
+| Key binding | Meaning                                                                            |
+|-------------+------------------------------------------------------------------------------------|
+| ~M-?~         | Execute the command ~which cmd~ where ~cmd~ is the current command; similar to ~which-command~ in Zsh |
 
 #+begin_src shell
 bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
@@ -1454,9 +1454,9 @@ bindkey '\e[A' history-beginning-search-backward # <up>
 bindkey '\e[B' history-beginning-search-forward  # <down>
 #+end_src
 
-| Key binding | Meaning                                                                              |
-|-------------+--------------------------------------------------------------------------------------|
-| ~M-.~       | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
+| Key binding | Meaning                                                                            |
+|-------------+------------------------------------------------------------------------------------|
+| ~M-.~         | Insert the last argument of the previous command (and so on); similar to typing ~!$~ |
 
 Bonus Tip
 
@@ -1491,9 +1491,9 @@ bindkey "^?" backward-delete-char-beep  # <backspace>
 
 *** Commands For Completion (Letting the Z-Shell Line Editor Type For You)
 
-| Key binding | Meaning                                                                                           |
-|-------------+---------------------------------------------------------------------------------------------------|
-| ~M-=~       | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
+| Key binding | Meaning                                                                            |
+|-------------+------------------------------------------------------------------------------------|
+| ~M-=~         | List the possible completions of the text before point; similar to ~possible-completions~ in Bash |
 
 #+begin_src shell
 # Display possible completions for the current word.
@@ -1504,14 +1504,14 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                  |
-|-------------+----------------------------------------------------------------------------------------------------------|
+| Key binding | Meaning                                                                            |
+|-------------+------------------------------------------------------------------------------------|
 | M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                            |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                           |
-| M-%         | Replace string                                                                                           |
-| C-M-u       | Go up one directory (automatic "cd ..")                                                                  |
-| M-s         | Prepend "sudo " to the current command line                                                              |
+| M-v         | Same as ~M-e~                                                                        |
+| C-x C-e     | Same as ~M-e~; default in Bash                                                       |
+| M-%         | Replace string                                                                     |
+| C-M-u       | Go up one directory (automatic "cd ..")                                            |
+| M-s         | Prepend "sudo " to the current command line                                        |
 
 From Dan Davison:
 bindkey '^W' kill-region
