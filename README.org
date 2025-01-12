@@ -2411,66 +2411,6 @@ alias exe='chmod +x'
 alias own='sudo chown -R $USER'
 #+end_src
 
-*** Changing Working Directory
-
-#+begin_src shell
-# Define aliases for changing directory up levels.
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-
-# Define an alias for changing to the previous directory.
-alias -- -='cd -'                       # Alias '-' to 'cd -'.
-#+end_src
-
-#+begin_src shell
-# Print the current directory stack (list directory history).
-alias d='dirs -v | head -n 10'
-#+end_src
-
-Normally, you can use ~cd +1~ to go to the previous directory in the list, and so
-on.  Here, this even more straightforward; you can use just the number of the
-entry in the *directory history* you want to visit: ~1~.
-
-#+begin_src shell
-# Define aliases for changing to recently used directories.
-alias 1='cd -'
-alias 2='cd +2'
-alias 3='cd +3'
-alias 4='cd +4'
-alias 5='cd +5'
-alias 6='cd +6'
-alias 7='cd +7'
-alias 8='cd +8'
-alias 9='cd +9'
-#+end_src
-
-#+begin_src shell
-# Check if the script is being run from WSL.
-if [[ "$WSL_DISTRO_NAME" ]]; then
-    # Define aliases for changing to C: and D: drives.
-    alias c:='cd /mnt/c'
-    alias d:='cd /mnt/d'
-
-    # Define alias for opening the Windows file explorer
-    alias explorer='explorer.exe'
-fi
-#+end_src
-
-#+begin_src shell
-# Check if the current operating system is WSL.
-if [[ "$OSTYPE" = linux-gnu* ]]; then
-    # Define aliases for changing to C: and D: drives.
-    alias c:='cd /mnt/c'
-    alias d:='cd /mnt/d'
-
-    # Define aliases for opening files and URLs using Windows applications.
-    alias open='explorer.exe'
-    alias xdg-open='explorer.exe'
-fi
-#+end_src
-
 *** Shortcuts (single char for some commands)
 
 #+begin_src shell
