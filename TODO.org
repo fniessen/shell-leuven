@@ -3,6 +3,55 @@
 
 * Tasks
 
+** TODO Bash aliases
+
+http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+
+** TODO Follow coding conventions
+
+http://wiki.bash-hackers.org/scripting/style
+
+** TODO Remove Bashisms
+
+- https://wiki.ubuntu.com/DashAsBinSh
+- http://mywiki.wooledge.org/Bashism
+
+*** TODO Use printf instead of echo -e
+
+See http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html.
+
+** TODO Unset TZ (from Eli Zaretskii)
+[2015-03-30 Mon 16:51]
+
+#+begin_verse
+> Though, this morning, in the above configuration (Cygwin GDB + pretest
+> of Emacs 24.5), I had a problem with the Org timestamps: they were one
+> hour late, like if the computer clock hadn't been updated with the
+> "summer" times here in Europe (since this Saturday).
+>
+> I finally found that the problem does not come from Emacs itself, but
+> from the fact it's launched from Cygwin GDB!
+
+Probably because GDB sets TZ to something a native Windows program
+cannot grok.  Or something like that.
+
+> Any idea how this problem can be circumvented?
+
+You could unset TZ inside GDB before running Emacs (assuming my guess
+is correct; what does "M-x getenv RET TZ RET" show inside Emacs?).
+
+But the best way is to use a native port of GDB, of course.  Let me
+know if you need a pointer to a binary distribution ready to be
+installed.
+#+end_verse
+
+From [[gnus:INBOX#83zj6uy1vr.fsf@gnu.org][Email from Eli Zaretskii: Re: bug#20179: 24.4; Crash whe]]
+
+** TODO Look at color Bash prompt
+
+https://wiki.archlinux.org/index.php/Color_Bash_Prompt
+Very interesting settings!
+
 ** TODO Erreur d'édition en command-line
 
 : f.niessen@XIPHIAS:~/.dotfiles/make-my-quarter/bin (master)> ssh -i ~/.ssh/pirilampo.pk ubuntu@makemyquarter.com
