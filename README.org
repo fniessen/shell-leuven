@@ -12,7 +12,7 @@
 * How Shell-Leuven is different from the default configuration
 
 Shell-Leuven is a set of configuration files to customize your Bash and Zsh
-experience on Windows (with Cygwin or Git BASH), Linux and Mac OS.
+experience on Windows (with WSL or Git BASH), Linux and Mac OS.
 
 The features that differentiate Shell-Leuven from the default configuration
 include:
@@ -55,14 +55,7 @@ There are 3 *types of shells*:
 
 - (interactive) *login*
 
-  (for which =c:/cygwin/etc/profile= and =.profile= are read, which sources =.bashrc=
-  as well)
-
-  #+begin_note
-  Launching Cygwin Terminal (login shell) does not load =.bashrc= on its own, it
-  only loads =.bash_profile=. Hence, the need to have a =.bash_profile= sourcing
-  =.bashrc=...
-  #+end_note
+  (for which =.profile= is read, which sources =.bashrc= as well)
 
 - *interactive* (non-login)
 
@@ -2476,15 +2469,15 @@ fi
 #+end_src
 
 #+begin_src shell
-# Check if the current operating system is Cygwin.
-if [[ "$OSTYPE" = cygwin* ]]; then
+# Check if the current operating system is WSL.
+if [[ "$OSTYPE" = linux-gnu* ]]; then
     # Define aliases for changing to C: and D: drives.
-    alias c:='cd /cygdrive/c'
-    alias d:='cd /cygdrive/d'
+    alias c:='cd /mnt/c'
+    alias d:='cd /mnt/d'
 
-    # Define aliases for opening files and URLs.
-    alias open='cygstart'
-    alias xdg-open='cygstart'
+    # Define aliases for opening files and URLs using Windows applications.
+    alias open='explorer.exe'
+    alias xdg-open='explorer.exe'
 fi
 #+end_src
 
@@ -2955,28 +2948,7 @@ console() {
 
 ** Prerequisites for Windows
 
-Install [[https://www.cygwin.com/][Cygwin]] (http://mirrors.kernel.org).
-
-*** ~PATH~
-
-After Cygwin is installed, modify the System ~PATH~ variable: prepend it with
-=C:\cygwin64\bin= (before ~%SystemRoot%\system32~).
-
-#+begin_warning
-If you add other directories (such as =~/bin= or =~/winbin=) in the ~PATH~ before
-Cygwin, please check that those directories don't contain =cygwin1.dll= or
-such.  That was why I had troubles running ~git~ commands...
-#+end_warning
-
-In =c:/cygwin64/etc/profile=,
-
-- =/usr/local/bin= is appended to the ~PATH~!!
-
-  And, except when root, it is almost always wrong to have =/usr/local/bin= after
-  any system path.
-
-- ~TZ~ (time zone) is set... which gives wrong times (1 hour difference) in Emacs
-  when called from =c:/cygwin/Cygwin.bat=!!
+Use WSL.
 
 *** HOME, the user's home directory
 
@@ -2985,33 +2957,16 @@ Add an ~HOME~ environment variable (with no trailing backslash!).
 Programs like ~ssh~ don't rely on your environment variable ~HOME~ for the location
 of your *home directory*.
 
-Starting with Cygwin 1.7.34, the recommended way to do this is to add a custom
-~db_home~ setting (comment the example line) to =/etc/nsswitch.conf=.
+The recommended way to do this is to add a custom ~db_home~ setting (comment the
+example line) to =/etc/nsswitch.conf=.
 
 #+begin_note
-If you installed Cygwin prior to 1.7.34 or have run its ~mkpasswd~ utility so that
-you have an =/etc/passwd= file, you can change your Cygwin ~HOME~ directory by
-editing your user's entry in that file. Your ~HOME~ directory is the penultimate
-element on your user's line in =/etc/passwd= (the ~HOME~ environment variable is set
+Editing your user's entry in the =/etc/passwd= file. Your ~HOME~ directory is the
+penultimate element on your user's line (the ~HOME~ environment variable is set
 from that field).
 #+end_note
 
 *** Packages
-
-*************** TODO See http://www.4thinker.com/cygwin-setup.html
-*************** END
-
-[[http://cygwin.com/cgi-bin2/package-grep.cgi][Cygwin Package Search]]
-
-In order to *install Cygwin's packages* through the terminal instead of running
-the setup every single time you need one, you can install ~apt-cyg~.  As
-a requirement, you'll need to install ~wget~ through the Cygwin setup first.
-After that, just run the following commands:
-
-#+begin_src shell
-wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg
-install apt-cyg /bin
-#+end_src
 
 - Archive
   + [X] ~unzip~
@@ -3233,21 +3188,6 @@ When first running ~gpg~:
 - Keyring =~/.gnupg/secring.gpg= created (empty)
 - Keyring =~/.gnupg/pubring.gpg= created (empty)
 
-*** Suppress the Cygwin DOS path warning
-
-When first running ~M-x ediff-buffers~, I got this Cygwin warning:
-
-#+begin_example
-MS-DOS style path detected: c:/Users/...
-Preferred POSIX equivalent is: /cygdrive/c/Users/...
-CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-Consult the user's guide for more details about POSIX paths:
-  http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-#+end_example
-
-Though, setting it in =.bashrc= or something like that does not work. A good
-place to set it is in the global *Windows environment variables*.
-
 ** TODO Basic installation (OBSOLETE)
 
 Shell-Leuven is installed by doing the following:
@@ -3280,21 +3220,3 @@ either by running
 : export ZSH=/your/path
 
 before installing.
-
-* FAQ
-
-** How to run Windows Emacs without showing a terminal window?
-
-Use the ~run~ command:
-
-#+begin_src shell
-C:\cygwin64\bin\run.exe /usr/bin/emacs
-#+end_src
-
-** Disable your local ~/.gitconfig by faking out $HOME
-
-Run ~git show~ command in a temporary ~HOME~ directory set to ~/dev/null~.
-
-#+begin_src shell
-HOME=/dev/null git show
-#+end_src
