@@ -9,6 +9,15 @@
 #+PROPERTY:  header-args :eval no
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Important notice: repository obsolescence
+
+The ~shell-leuven~ repository is now obsolete. For the latest updates, features,
+and improvements, please refer to the new repository [[https://github.com/fniessen/shell-leuven-new][shell-leuven-new]].
+
+The new repository contains all the enhancements and configurations from
+~shell-leuven~ with added functionality and optimizations. Please migrate to this
+new repo for continued support and updates.
+
 * How Shell-Leuven is different from the default configuration
 
 Shell-Leuven is a set of configuration files to customize your Bash and Zsh
