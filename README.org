@@ -1609,25 +1609,6 @@ alias -g T8="| awk -F $'\t' '{print \$8}'"
 alias -g T9="| awk -F $'\t' '{print \$9}'"
 #+end_src
 
-*** Git with time-based filters
-
-These aliases use ~G~ (for Git) as the prefix, followed by ~D~ for day, ~W~ for week,
-~M~ for month, and ~Y~ for year.
-
-#+begin_src shell
-alias -g GD=' --since=1.day.ago'
-alias -g GW=' --since=1.week.ago'
-alias -g GM=' --since=1.month.ago'
-alias -g GY=' --since=1.year.ago'
-#+end_src
-
-You can use these aliases in Git commands to filter commits based on time, for
-example:
-
-: git log GW
-
-This will show Git logs for commits made within the last week.
-
 * Shell agnostic Configuration
 :PROPERTIES:
 :header-args+: :tangle .shellrc_leuven
@@ -2503,33 +2484,6 @@ alias t='tail -f'
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
 command_exists colordiff && alias diff='colordiff'
 #+end_src
-
-*** Git
-
-#+begin_src shell
-alias g='git'
-#+end_src
-
-#+begin_src shell
-# Go to the root directory of your Git repo.
-alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
-                                        # That will not blow up cd if you aren't
-                                        # in a Git directory.
-
-#! The change in working directory will persist after the function has
-#! completed.
-#+end_src
-
-http://jonas.nitro.dk/tig/manual.html
-
-#+begin_src shell
-alias tigs='tig status'                 # Use it all of the time!
-alias tigb='tig blame'
-alias tigall='tig --all'
-alias tigreleases='tig --all --simplify-by-decoration'
-#+end_src
-
-http://stackoverflow.com/tags/tig/hot
 
 *** TODO Color lines in shell (GRC, Supercat, Highlight, etc.)
 
