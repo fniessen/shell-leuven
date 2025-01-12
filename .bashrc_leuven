@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## bash_profile --- Bash configuration file (for interactive shells)
 
-# Copyright (C) 2003-2023 Fabrice Niessen
+# Copyright (C) 2003-2025 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, dotfile, config
@@ -216,6 +216,3 @@ bind '"\e?": "\C-awhich \C-m"' # TODO: Ré-écire cmd sur la ligne suivante
 bind '"\ee": edit-and-execute-command'
 bind '"\ev": edit-and-execute-command'
 # Same as C-x C-e.
-
-# C-M-u: up-directory
-bind '"\e\C-u": "cd ..\n"'
