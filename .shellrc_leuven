@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- sh -*- file
 ## .shellrc --- Shell agnostic configuration file
 
-# Copyright (C) 2009-2023 Fabrice Niessen
+# Copyright (C) 2009-2025 Fabrice Niessen
 
 # Author: Fabrice Niessen <(concat "fniessen" at-sign "pirilampo.org")>
 # Keywords: bash, zsh, dotfile, config
@@ -190,50 +190,6 @@ alias exe='chmod +x'
 # Recursively change the owner of all files and directories to the current user.
 alias own='sudo chown -R $USER'
 
-# Define aliases for changing directory up levels.
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-
-# Define an alias for changing to the previous directory.
-alias -- -='cd -'                       # Alias '-' to 'cd -'.
-
-# Print the current directory stack (list directory history).
-alias d='dirs -v | head -n 10'
-
-# Define aliases for changing to recently used directories.
-alias 1='cd -'
-alias 2='cd +2'
-alias 3='cd +3'
-alias 4='cd +4'
-alias 5='cd +5'
-alias 6='cd +6'
-alias 7='cd +7'
-alias 8='cd +8'
-alias 9='cd +9'
-
-# Check if the script is being run from WSL.
-if [[ "$WSL_DISTRO_NAME" ]]; then
-    # Define aliases for changing to C: and D: drives.
-    alias c:='cd /mnt/c'
-    alias d:='cd /mnt/d'
-
-    # Define alias for opening the Windows file explorer
-    alias explorer='explorer.exe'
-fi
-
-# Check if the current operating system is Cygwin.
-if [[ "$OSTYPE" = cygwin* ]]; then
-    # Define aliases for changing to C: and D: drives.
-    alias c:='cd /cygdrive/c'
-    alias d:='cd /cygdrive/d'
-
-    # Define aliases for opening files and URLs.
-    alias open='cygstart'
-    alias xdg-open='cygstart'
-fi
-
 alias c='clear'
 alias j='jobs -l'
 alias l='ls'                            # xx
@@ -246,21 +202,6 @@ alias t='tail -f'
 
 # Make `diff' automatically call `colordiff' (Install `colordiff' package...).
 command_exists colordiff && alias diff='colordiff'
-
-alias g='git'
-
-# Go to the root directory of your Git repo.
-alias cdroot='git rev-parse && cd "$(git rev-parse --show-toplevel)"'
-                                        # That will not blow up cd if you aren't
-                                        # in a Git directory.
-
-#! The change in working directory will persist after the function has
-#! completed.
-
-alias tigs='tig status'                 # Use it all of the time!
-alias tigb='tig blame'
-alias tigall='tig --all'
-alias tigreleases='tig --all --simplify-by-decoration'
 
 alias ssh_list_keys='ssh-add -l'        # List all SSH identities.
 alias ssh_add_key='ssh-add -t 4h'       # Add a new SSH identity and set a timeout of 4 hours.
