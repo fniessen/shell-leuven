@@ -1,24 +1,11 @@
 # Hey Emacs, this is a -*- org -*- file ...
-#+TITLE:     TODO
+#+TITLE:     TODO-shell-leuven
 
 * Tasks
 
 ** TODO Bash aliases
 
 http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
-
-** TODO Follow coding conventions
-
-http://wiki.bash-hackers.org/scripting/style
-
-** TODO Remove Bashisms
-
-- https://wiki.ubuntu.com/DashAsBinSh
-- http://mywiki.wooledge.org/Bashism
-
-*** TODO Use printf instead of echo -e
-
-See http://www.bashguru.com/2010/01/shell-colors-colorizing-shell-scripts.html.
 
 ** TODO Unset TZ (from Eli Zaretskii)
 [2015-03-30 Mon 16:51]
@@ -167,18 +154,6 @@ C-x,e   : call-last-kbd-macro
  https://www.nushell.sh/
 
 * Notes
-
-** Usual exit codes
-
-#+begin_src shell
-    case $exit_status in
-        -1)   sig_name=FATAL ;;
-        1)    sig_name=WARN ;; # Miscellaneous errors, such as "divide by zero"
-        2)    sig_name=BUILTINMISUSE ;; # misuse of shell builtins (pretty rare)
-        126)  sig_name=CCANNOTINVOKE ;; # cannot invoke requested command (ex : source script_with_syntax_error)
-        127)  sig_name=CNOTFOUND ;; # command not found (ex : source script_not_existing)
-    esac
-#+end_src
 
 ** Variables and built-in directives for dotfile templates
 
