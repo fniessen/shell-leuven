@@ -2864,16 +2864,6 @@ from that field).
 - Web
   + [ ] ~wget~
 
-Many Unix commands have already newer and more feature-rich
-replacements:
-
-- df :: pydf
-- less :: most
-- tail :: multitail
-- top :: htop
-- tracepath :: mtr
-- traceroute :: mtr
-
 *** Terminal emulators
 
 For a better Emacs experience than with the Cygwin console, use:
@@ -2960,36 +2950,3 @@ When first running ~gpg~:
 - New configuration file =~/.gnupg/gpg.conf= created
 - Keyring =~/.gnupg/secring.gpg= created (empty)
 - Keyring =~/.gnupg/pubring.gpg= created (empty)
-
-** TODO Basic installation (OBSOLETE)
-
-Shell-Leuven is installed by doing the following:
-
-1. *Clone the repository:*
-
-   #+begin_src shell
-   git clone https://github.com/fniessen/dotfiles ~/.dotfiles
-   ~/.dotfiles/install
-   #+end_src
-
-2. *Source Shell-Leuven configuration files*
-
-   #+begin_src shell
-   . ~/.bash_profile
-   #+end_src
-
-   #+begin_src shell
-   . ~/.zshrc
-   #+end_src
-
-Once you open up a new terminal window with Bash or Zsh, it should load with
-Shell-Leuven's configuration.
-
-** Custom directory
-
-If you'd like to change the install directory with the ~ZSH~ environment variable,
-either by running
-
-: export ZSH=/your/path
-
-before installing.
