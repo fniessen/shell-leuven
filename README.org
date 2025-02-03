@@ -1434,12 +1434,9 @@ bindkey '\e=' list-choices
 
 *** Miscellaneous Commands
 
-| Key binding | Meaning                                                                                                                    |
-|-------------+----------------------------------------------------------------------------------------------------------------------------|
-| M-e         | Edit the current command line in an external editor ($VISUAL or $EDITOR); similar to the ~fc~ ("fix command") shell built-in |
-| M-v         | Same as ~M-e~                                                                                                                |
-| C-x C-e     | Same as ~M-e~; default in Bash                                                                                               |
-| M-%         | Replace string                                                                                                             |
+| Key binding | Meaning        |
+|-------------+----------------|
+| M-%         | Replace string |
 
 From Dan Davison:
 bindkey '^W' kill-region
@@ -1449,15 +1446,6 @@ bindkey '^W' kill-region
 autoload -U replace-string
 zle -N replace-string
 bindkey "\e%" replace-string
-#+end_src
-
-#+begin_src shell
-# Edit command line.
-autoload edit-command-line
-zle -N edit-command-line
-bindkey "\ee"      edit-command-line
-bindkey "\ev"      edit-command-line
-bindkey "\C-x\C-e" edit-command-line
 #+end_src
 
 M-p (see Fish) appends the string " | less" to the current command. The result
